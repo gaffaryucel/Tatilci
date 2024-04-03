@@ -4,4 +4,22 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
+
+    <!-- Background Styles -->
+    <style name="ApplicationBackGroundStyle">
+        <item name="android:background">@color/app_bg_color</item>
+    </style>
+    <style name="TranslucentBackgroundStyle">
+        <item name="android:background">@drawable/half_transparent_black_bg</item>
+    </style>
+
+    <!-- Button Styles -->
+    <style name="MainButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/normal_text_color</item>
+        <item name="android:background">@drawable/main_button_gb</item>
+    </style>
+    <style name="SecondaryButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/normal_text_color</item>
+        <item name="android:background">@drawable/secondary_button_bg</item>
+    </style>
 </resources>

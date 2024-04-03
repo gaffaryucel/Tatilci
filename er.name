@@ -1,0 +1,38 @@
+[33mcommit 4801c07d95154c2327b9aba43e4b22dddd9460c0[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/master[m[33m)[m
+Merge: ee88653 8923bfa
+Author: Gaffar Yucel <101498366+gaffaryucel@users.noreply.github.com>
+Date:   Wed Apr 3 09:23:09 2024 +0300
+
+    Merge pull request #1 from FatihYigit35/master
+    
+    gitignore güncellemesi ve navigasyon
+
+[33mcommit 8923bfa35b0faaee6ce2885cc80db9cc4eb53692[m
+Author: FatihYigit35 <fatih.yigit.35@gmail.com>
+Date:   Tue Apr 2 23:27:17 2024 +0300
+
+    navigasyon ve sayfalar eklendi
+
+[33mcommit 1a855d09cb95661c81981bf71e4eb575d11c6489[m
+Author: FatihYigit35 <fatih.yigit.35@gmail.com>
+Date:   Tue Apr 2 23:26:16 2024 +0300
+
+    gradle güncellendi
+
+[33mcommit 6450a3b79f57116f0e7ba07db48ee0a07665794a[m
+Author: FatihYigit35 <fatih.yigit.35@gmail.com>
+Date:   Mon Apr 1 22:16:46 2024 +0300
+
+    gitignore güncellemsi
+
+[33mcommit ee886533a858f80aa99e11690128ab00e29ee094[m[33m ([m[1;32mmaster[m[33m)[m
+Author: gaffar <gaffaryucell@gmail.com>
+Date:   Sun Mar 31 23:41:38 2024 +0300
+
+    Eski projelerde kullandığımız kolardan birkısmını ekledim bildirimler için olanları giriş için viewmodel üzerindekilerden bir kısmını vs
+
+[33mcommit a1377cbcbdeb7d8d8ab67add2e161f9ce0d18e55[m
+Author: gaffar <gaffaryucell@gmail.com>
+Date:   Sun Mar 31 22:41:00 2024 +0300
+
+    First Commit

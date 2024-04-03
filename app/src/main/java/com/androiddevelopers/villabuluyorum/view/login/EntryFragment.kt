@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentEntryBinding
 import com.androiddevelopers.villabuluyorum.databinding.FragmentRegisterBinding
@@ -30,6 +31,18 @@ class EntryFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(EntryViewModel::class.java)
         val view = binding.root
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnSignIn.setOnClickListener{
+            val action = EntryFragmentDirections.actionEntryFragmentToSignInFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
+        binding.btnRegister.setOnClickListener{
+            val action = EntryFragmentDirections.actionEntryFragmentToRegisterFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
 

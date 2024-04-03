@@ -20,10 +20,10 @@
 
     <LinearLayout
         app:layout_constraintTop_toBottomOf="@+id/ivBack"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="80dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -32,12 +32,12 @@
         <TextView
             android:text="Giriş yap"
             android:textStyle="bold"
-            android:textSize="28sp"
+            android:textSize="30sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_marginTop="50dp"
+            android:layout_marginHorizontal="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="E-posta">
@@ -51,6 +51,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginHorizontal="5dp"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,6 +67,7 @@
 
 
         <TextView
+            android:id="@+id/tvForgotPassword"
             android:layout_marginTop="4dp"
             android:textSize="16dp"
             android:textColor="@color/normal_text_color"
@@ -74,25 +76,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSignIn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Giriş Yap"
-            style="@style/MainButtonStyle"
-            android:textColor="@color/black"
-            android:elevation="20sp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:paddingTop="8dp"
             android:paddingBottom="4dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            />
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Giriş Yap"
+                style="@style/MainButtonStyle"
+                android:textColor="@color/black"
+                android:elevation="20sp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                />
+            <ProgressBar
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/pbSignIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -120,6 +128,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/btnGoogle"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/secondary_button_bg"
                 android:src="@drawable/google"
@@ -128,6 +137,7 @@
                 android:layout_height="55dp"
                 app:tint="@color/normal_text_color" />
             <ImageView
+                android:id="@+id/btnPhone"
                 android:background="@drawable/secondary_button_bg"
                 android:src="@drawable/phone"
                 android:padding="12dp"

@@ -44,12 +44,13 @@ constructor(
     ) = viewModelScope.launch{
         _authState.value = Resource.loading(null)
         if (isInputValid(email,password,confirmPassword)){
-            firebaseAuth.createUserWithEmailAndPassword(email, password)
+            firebaseRepo.register(email, password)
                 .addOnCompleteListener{task->
                     if (task.isSuccessful){
                         val userId = firebaseAuth.currentUser?.uid ?: ""
                         createUser(userId,email)
                         _authState.value = Resource.success(null)
+                        verify()
                     }else{
                         _authState.value = Resource.error(task.exception?.localizedMessage ?: "error : try again",null)
                     }

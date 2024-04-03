@@ -9,8 +9,9 @@ import javax.inject.Inject
 
 class FirebaseRepoImpl @Inject constructor(
     private val auth: FirebaseAuth,
-    firestore: FirebaseFirestore,
+    database: FirebaseDatabase,
     storage: FirebaseStorage,
+    private val notificationAPI: NotificationAPI
 ) : FirebaseRepoInterFace {
 
 }

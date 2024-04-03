@@ -4,7 +4,7 @@ package com.androiddevelopers.villabuluyorum.util
 object Util {
 
 //Database
-    //const val DATABASE_URL = "https://freelance-app-48c7e-default-rtdb.europe-west1.firebasedatabase.app/"
+    const val DATABASE_URL = "https://freelance-app-48c7e-default-rtdb.europe-west1.firebasedatabase.app/"
 
     //Push Notification
     const val BASE_URL = "https://fcm.googleapis.com"

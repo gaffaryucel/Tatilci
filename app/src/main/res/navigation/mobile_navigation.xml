@@ -96,7 +96,15 @@
         android:id="@+id/homeDetailFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.home.HomeDetailFragment"
         android:label="fragment_home_detail"
-        tools:layout="@layout/fragment_home_detail" />
+        tools:layout="@layout/fragment_home_detail" >
+        <action
+            android:id="@+id/action_homeDetailFragment_to_homeDetailFacilitiesFragment2"
+            app:destination="@id/homeDetailFacilitiesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/messagesFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.chat.MessagesFragment"
@@ -134,4 +142,9 @@
         android:name="com.androiddevelopers.villabuluyorum.view.reservation.ReservationDetailsFragment"
         android:label="fragment_reservation_details"
         tools:layout="@layout/fragment_reservation_details" />
+    <fragment
+        android:id="@+id/homeDetailFacilitiesFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.home.HomeDetailFacilitiesFragment"
+        android:label="fragment_home_detail_facilities"
+        tools:layout="@layout/fragment_home_detail_facilities" />
 </navigation>

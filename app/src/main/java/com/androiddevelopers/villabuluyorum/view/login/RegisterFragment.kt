@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.viewmodel.login.RegisterViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterFragment : Fragment() {
 
     companion object {

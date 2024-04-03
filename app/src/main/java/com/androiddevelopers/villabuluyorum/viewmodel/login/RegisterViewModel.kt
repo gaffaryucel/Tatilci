@@ -13,7 +13,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(
+class RegisterViewModel
+@Inject
+constructor(
     private val firebaseRepo : FirebaseRepoInterFace,
     private val firebaseAuth: FirebaseAuth,
 ) : ViewModel() {

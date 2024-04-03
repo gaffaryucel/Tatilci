@@ -15,4 +15,5 @@
     <color name="secondary_button_gb_color">#FFFFFF</color>
     <color name="translucent_border_color">#80000000</color>
 
+    <color name="detail_page_transparent_icon">#80000000</color>
 </resources>

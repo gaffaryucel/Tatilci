@@ -17,6 +17,7 @@ class HomeDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //val args: HomeDetailsFragmentArgs by navArgs()
 
         // TODO: Use the ViewModel
     }

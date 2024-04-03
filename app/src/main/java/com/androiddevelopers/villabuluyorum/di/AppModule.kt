@@ -90,7 +90,7 @@ object AppModule {
         storage: FirebaseStorage,
         notificationAPI: NotificationAPI
     ): FirebaseRepoInterFace {
-        return FirebaseRepoImpl(auth, firestore, database, storage,notificationAPI)
+        return FirebaseRepoImpl(auth, database, storage,notificationAPI)
     }
 
     @Singleton

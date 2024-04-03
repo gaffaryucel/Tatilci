@@ -39,8 +39,8 @@ class BottomNavigationActivity : AppCompatActivity() {
             binding.navView.setOnItemReselectedListener {
                 when (it.itemId) {
                     R.id.navigation_home -> navControl.navigate(R.id.action_global_navigation_home)
-                    R.id.navigation_favorite -> navControl.navigate(R.id.action_global_navigation_favorite)
-                    R.id.navigation_notifications -> navControl.navigate(R.id.action_global_navigation_notifications)
+                    R.id.navigation_search -> navControl.navigate(R.id.action_global_navigation_search)
+                    R.id.navigation_reservation -> navControl.navigate(R.id.action_global_navigation_reservation)
                     R.id.navigation_profile -> navControl.navigate(R.id.action_global_navigation_profile)
                 }
             }

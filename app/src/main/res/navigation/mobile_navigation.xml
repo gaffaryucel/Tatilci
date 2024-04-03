@@ -24,34 +24,40 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_navigation_home_to_chatsFragment"
+            app:destination="@id/chatsFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_notifications"
+            app:destination="@id/notificationsFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_favorite"
-        android:name="com.androiddevelopers.villabuluyorum.view.favorite.FavoriteFragment"
+        android:id="@+id/FavoriteFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.FavoriteFragment"
         android:label="@string/title_favorite"
         tools:layout="@layout/fragment_favorite" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.androiddevelopers.villabuluyorum.view.notifications.NotificationsFragment"
+        android:id="@+id/notificationsFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.androiddevelopers.villabuluyorum.view.profile.ProfileFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 
     <action
-        android:id="@+id/action_global_navigation_favorite"
-        app:destination="@id/navigation_favorite"
+        android:id="@+id/action_global_navigation_reservation"
+        app:destination="@id/navigation_reservation"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim"
-        app:popUpTo="@id/navigation_favorite"
+        app:popUpTo="@id/navigation_reservation"
         app:popUpToInclusive="true" />
 
     <action
@@ -73,13 +79,13 @@
         app:popUpTo="@id/navigation_profile"
         app:popUpToInclusive="true" />
     <action
-        android:id="@+id/action_global_navigation_notifications"
-        app:destination="@id/navigation_notifications"
+        android:id="@+id/action_global_navigation_search"
+        app:destination="@id/navigation_search"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim"
-        app:popUpTo="@id/navigation_notifications"
+        app:popUpTo="@id/navigation_search"
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/homeCreateFragment"
@@ -91,4 +97,41 @@
         android:name="com.androiddevelopers.villabuluyorum.view.home.HomeDetailFragment"
         android:label="fragment_home_detail"
         tools:layout="@layout/fragment_home_detail" />
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.chat.MessagesFragment"
+        android:label="fragment_messages"
+        tools:layout="@layout/fragment_messages" />
+    <fragment
+        android:id="@+id/chatsFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.chat.ChatsFragment"
+        android:label="fragment_chats"
+        tools:layout="@layout/fragment_chats" >
+        <action
+            android:id="@+id/action_chatsFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_reservation"
+        android:name="com.androiddevelopers.villabuluyorum.view.reservation.ReservationFragment"
+        android:label="fragment_reservation"
+        tools:layout="@layout/fragment_reservation" >
+        <action
+            android:id="@+id/action_reservationFragment_to_reservationDetailsFragment"
+            app:destination="@id/reservationDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.androiddevelopers.villabuluyorum.view.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_homeDetailFragment"
+            app:destination="@id/homeDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reservationDetailsFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.reservation.ReservationDetailsFragment"
+        android:label="fragment_reservation_details"
+        tools:layout="@layout/fragment_reservation_details" />
 </navigation>

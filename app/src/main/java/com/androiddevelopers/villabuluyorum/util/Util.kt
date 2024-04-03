@@ -3,7 +3,7 @@ package com.androiddevelopers.villabuluyorum.util
 @Suppress("unused")
 object Util {
 
-//Database
+    //Database
     const val DATABASE_URL = "https://freelance-app-48c7e-default-rtdb.europe-west1.firebasedatabase.app/"
 
     //Push Notification

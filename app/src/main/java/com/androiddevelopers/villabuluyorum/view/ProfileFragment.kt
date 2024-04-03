@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.view.profile
+package com.androiddevelopers.villabuluyorum.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,9 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentProfileBinding
-import com.androiddevelopers.villabuluyorum.viewmodel.profile.ProfileViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

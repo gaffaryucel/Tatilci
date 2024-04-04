@@ -12,6 +12,7 @@ import com.androiddevelopers.villabuluyorum.databinding.FragmentEntryBinding
 import com.androiddevelopers.villabuluyorum.databinding.FragmentRegisterBinding
 import com.androiddevelopers.villabuluyorum.viewmodel.login.EntryViewModel
 import com.androiddevelopers.villabuluyorum.viewmodel.login.RegisterViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class EntryFragment : Fragment() {
 
@@ -35,6 +36,7 @@ class EntryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        FirebaseAuth.getInstance().signOut()
         binding.btnSignIn.setOnClickListener{
             val action = EntryFragmentDirections.actionEntryFragmentToSignInFragment()
             Navigation.findNavController(it).navigate(action)

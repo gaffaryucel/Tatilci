@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentSignInBinding
 import com.androiddevelopers.villabuluyorum.util.Status
@@ -88,6 +89,10 @@ class SignInFragment : Fragment() {
                 forgotPasswordDialog.show()
             }
         }
+        binding.btnPhone.setOnClickListener {
+            val action = SignInFragmentDirections.actionSignInFragmentToPhoneLoginFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     override fun onStart() {
@@ -105,7 +110,7 @@ class SignInFragment : Fragment() {
         viewModel.getUser()?.let {
             //kullanıcının email adresini onayladığını kontrol ediyoruz
             if (it.isEmailVerified) {
-                gotoHome()
+               gotoHome()
             } else {
                 //kullanıcı email adresi doğrulanmadıysa uyarı mesajı görüntüler
                 verifiedEmailDialog.show()
@@ -115,7 +120,6 @@ class SignInFragment : Fragment() {
 
     private fun gotoHome() {
         val intent = Intent(requireContext(), BottomNavigationActivity::class.java)
-        intent.putExtra("login","login")
         requireActivity().finish()
         requireActivity().startActivity(intent)
     }

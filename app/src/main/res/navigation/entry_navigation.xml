@@ -9,12 +9,20 @@
         android:id="@+id/signInFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.login.SignInFragment"
         android:label="fragment_sign_in"
-        tools:layout="@layout/fragment_sign_in" />
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_phoneLoginFragment"
+            app:destination="@id/phoneLoginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.login.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_phoneLoginFragment"
+            app:destination="@id/phoneLoginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/entryFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.login.EntryFragment"
@@ -27,4 +35,30 @@
             android:id="@+id/action_entryFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/phoneLoginFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.login.PhoneLoginFragment"
+        android:label="fragment_phone_login"
+        tools:layout="@layout/fragment_phone_login" >
+        <action
+            android:id="@+id/action_phoneLoginFragment_to_enterCodeFragment"
+            app:destination="@id/enterCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/enterCodeFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.login.EnterCodeFragment"
+        android:label="fragment_enter_code"
+        tools:layout="@layout/fragment_enter_code" >
+        <argument
+            android:name="code"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_enterCodeFragment_to_createUserNameFragment"
+            app:destination="@id/createUserNameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createUserNameFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.login.CreateUserNameFragment"
+        android:label="fragment_create_user_name"
+        tools:layout="@layout/fragment_create_user_name" />
 </navigation>

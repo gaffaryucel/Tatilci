@@ -55,6 +55,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    implementation ("mysql:mysql-connector-java:5.1.49",{
+        exclude group: 'com.google.protobuf',module: 'protobuf-javalite'
+        exclude group: 'com.google.protobuf',module: 'protobuf-java'
+    })
 
     //Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"

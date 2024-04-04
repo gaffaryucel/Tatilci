@@ -27,5 +27,8 @@
         <item name="android:background">@drawable/secondary_button_bg</item>
     </style>
 
-
+    <style name="circle">
+        <item name="cornerSize">50%</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
 </resources>

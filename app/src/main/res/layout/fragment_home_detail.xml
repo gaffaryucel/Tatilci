@@ -1,13 +1,330 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.home.HomeDetailFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        tools:context=".view.home.HomeDetailFragment">
 
-</FrameLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardImage"
+                            android:layout_width="0dp"
+                            android:layout_height="300dp"
+                            android:layout_margin="20dp"
+                            app:cardCornerRadius="30dp"
+                            app:cardElevation="20dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/imageTitle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:scaleType="centerCrop"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:srcCompat="@drawable/placeholder" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:background="@drawable/home_row_text_bg"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="@id/guideLineCenterHorizontal" />
+
+                                <androidx.constraintlayout.widget.Guideline
+                                    android:id="@+id/guideLineCenterHorizontal"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    app:layout_constraintGuide_percent="0.65" />
+
+                                <androidx.constraintlayout.widget.Guideline
+                                    android:id="@+id/guideLineCenterVertical"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    app:layout_constraintGuide_percent="0.5" />
+
+                                <TextView
+                                    android:id="@+id/textDetailTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:text="Başlık"
+                                    android:textColor="@color/white"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintBottom_toTopOf="@id/textDetailAddress"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/guideLineCenterHorizontal" />
+
+                                <TextView
+                                    android:id="@+id/textDetailAddress"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:text="Adres"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp"
+                                    app:layout_constraintBottom_toTopOf="@id/imageBedRoom"
+                                    app:layout_constraintStart_toStartOf="@+id/textDetailTitle"
+                                    app:layout_constraintTop_toBottomOf="@id/textDetailTitle" />
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/imageBedRoom"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/detail_page_transparent_icon"
+                                    android:scaleType="centerInside"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="@+id/textDetailTitle"
+                                    app:layout_constraintTop_toBottomOf="@+id/textDetailAddress"
+                                    app:shapeAppearanceOverlay="@style/circle"
+                                    app:srcCompat="@drawable/bed_vector" />
+
+                                <TextView
+                                    android:id="@+id/textDetailBedRoom"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="4dp"
+                                    android:text="5 Yatak Odası"
+                                    android:textColor="@color/white"
+                                    app:layout_constraintBottom_toBottomOf="@id/imageBedRoom"
+                                    app:layout_constraintEnd_toStartOf="@id/guideLineCenterVertical"
+                                    app:layout_constraintStart_toEndOf="@id/imageBedRoom"
+                                    app:layout_constraintTop_toTopOf="@id/imageBedRoom"
+                                    tools:ignore="HardcodedText" />
+
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/imageBathRoom"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginStart="10dp"
+                                    android:background="@color/detail_page_transparent_icon"
+                                    android:scaleType="centerInside"
+                                    app:layout_constraintStart_toStartOf="@+id/guideLineCenterVertical"
+                                    app:layout_constraintTop_toTopOf="@id/imageBedRoom"
+                                    app:shapeAppearanceOverlay="@style/circle"
+                                    app:srcCompat="@drawable/bath_vector" />
+
+                                <TextView
+                                    android:id="@+id/textDetailBathRoom"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="4dp"
+                                    android:text="5 Yatak Odası"
+                                    android:textColor="@color/white"
+                                    app:layout_constraintBottom_toBottomOf="@id/imageBathRoom"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@id/imageBathRoom"
+                                    app:layout_constraintTop_toTopOf="@id/imageBathRoom"
+                                    tools:ignore="HardcodedText" />
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/imageBackNavigation"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_margin="10dp"
+                                    android:background="@color/detail_page_transparent_icon"
+                                    android:scaleType="centerInside"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:shapeAppearanceOverlay="@style/circle"
+                                    app:srcCompat="@drawable/baseline_arrow_back" />
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/imageBookmark"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_margin="10dp"
+                                    android:background="@color/detail_page_transparent_icon"
+                                    android:scaleType="centerInside"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:shapeAppearanceOverlay="@style/circle"
+                                    app:srcCompat="@drawable/baseline_bookmark_border" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/textDetailDescriptionTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="Açıklama"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="@id/cardImage"
+                            app:layout_constraintTop_toBottomOf="@id/cardImage"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/textDetailDescription"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Açıklama"
+                            android:textSize="18sp"
+                            app:layout_constraintEnd_toEndOf="@id/cardImage"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@id/cardImage"
+                            app:layout_constraintTop_toBottomOf="@id/textDetailDescriptionTitle"
+                            tools:ignore="HardcodedText" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imageProfile"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/avatar_boy"
+                            app:layout_constraintStart_toStartOf="@id/cardImage"
+                            app:layout_constraintTop_toBottomOf="@id/textDetailDescription" />
+
+                        <TextView
+                            android:id="@+id/textDetailProfileTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="Walter Bishop"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/textDetailProfile"
+                            app:layout_constraintStart_toEndOf="@id/imageProfile"
+                            app:layout_constraintTop_toTopOf="@id/imageProfile"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/textDetailProfile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Emlakçı"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@id/imageProfile"
+                            app:layout_constraintStart_toStartOf="@id/textDetailProfileTitle"
+                            app:layout_constraintTop_toBottomOf="@id/textDetailProfileTitle"
+                            tools:ignore="HardcodedText" />
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/buttonDetailChat"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:background="@drawable/rounded_button_background"
+                            android:src="@drawable/baseline_chat_bubble_24"
+                            app:layout_constraintBottom_toBottomOf="@id/imageProfile"
+                            app:layout_constraintEnd_toEndOf="@id/cardImage"
+                            app:layout_constraintTop_toTopOf="@id/imageProfile" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/carouselRecyclerView"
+                            android:layout_width="0dp"
+                            android:layout_height="150dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginVertical="16dp"
+                            android:clipChildren="false"
+                            android:clipToPadding="false"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/imageProfile" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="0dp"
+                            android:layout_height="300dp"
+                            android:layout_margin="16dp"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/carouselRecyclerView"
+                            app:srcCompat="@drawable/maps" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </ScrollView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="4dp">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonDetailRent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/rounded_button_background"
+                        android:src="@drawable/baseline_call_24"
+                        android:text="Kirala"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textDetailPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="2.000 TL / Aylık"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/buttonDetailRent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/buttonDetailRent"
+                        tools:ignore="HardcodedText" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

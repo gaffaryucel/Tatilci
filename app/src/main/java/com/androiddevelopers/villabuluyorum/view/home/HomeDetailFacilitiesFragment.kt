@@ -6,18 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.androiddevelopers.villabuluyorum.databinding.FragmentHomeDetailBinding
-import com.androiddevelopers.villabuluyorum.viewmodel.home.HomeDetailViewModel
+import com.androiddevelopers.villabuluyorum.databinding.FragmentHomeDetailFacilitiesBinding
+import com.androiddevelopers.villabuluyorum.viewmodel.home.HomeDetailFacilitiesViewModel
 
-class HomeDetailFragment : Fragment() {
-    private var _binding: FragmentHomeDetailBinding? = null
+class HomeDetailFacilitiesFragment : Fragment() {
+    private val viewModel: HomeDetailFacilitiesViewModel by viewModels()
+    private var _binding: FragmentHomeDetailFacilitiesBinding? = null
     private val binding get() = _binding!!
-
-    private val viewModel: HomeDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //val args: HomeDetailsFragmentArgs by navArgs()
 
         // TODO: Use the ViewModel
     }
@@ -26,7 +24,7 @@ class HomeDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeDetailFacilitiesBinding.inflate(inflater, container, false)
         return binding.root
     }
 

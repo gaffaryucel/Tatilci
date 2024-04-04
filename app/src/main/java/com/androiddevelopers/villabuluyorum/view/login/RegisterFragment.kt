@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentRegisterBinding
@@ -54,6 +55,10 @@ class RegisterFragment : Fragment() {
 
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
+        }
+        binding.btnPhone.setOnClickListener {
+            val action = RegisterFragmentDirections.actionRegisterFragmentToPhoneLoginFragment()
+            Navigation.findNavController(it).navigate(action)
         }
         setupDialogs()
         observeLiveData()
@@ -122,7 +127,9 @@ class RegisterFragment : Fragment() {
         errorDialog?.setButton(AlertDialog.BUTTON_POSITIVE, "Tekrar gönder") { _, _ ->
 
         }
+
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

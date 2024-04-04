@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/app_bg_color"
+    tools:context=".view.login.PhoneLoginFragment">
+
+    <LinearLayout
+        android:id="@+id/layout_numbers"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ivNum1"
+            android:layout_margin="10dp"
+            android:src="@drawable/number_1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+        <ImageView
+            android:id="@+id/ivNum2"
+            android:layout_margin="10dp"
+            android:src="@drawable/num_2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+        <ImageView
+            android:id="@+id/ivNum3"
+            android:layout_margin="10dp"
+            android:src="@drawable/num_3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+    <ImageView
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/layout_phone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/ivPhone"
+        android:src="@drawable/smart_phone"
+        android:scaleType="centerInside"
+        android:layout_width="150dp"
+        android:layout_height="180dp"
+        app:tint="@color/main_button_gb_color" />
+    <ImageView
+        android:id="@+id/ivBack"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="20dp"
+        android:padding="5dp"
+        android:src="@drawable/baseline_arrow_back_ios_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:tint="@color/normal_text_color" />
+
+    <LinearLayout
+        android:id="@+id/layout_phone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="@color/normal_text_color"
+            android:layout_marginBottom="5dp"
+            android:text="Telefon onayı"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlPhoneConfirm"
+            android:layout_marginHorizontal="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(+90) Telefon">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:inputType="number"
+                android:background="@drawable/edit_text_bg"
+                android:textColor="@color/normal_text_color"
+                android:id="@+id/etPhoneConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:textColor="@color/normal_text_color"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:text="Numaranı doğrulamak için sana SMS yoluyla bir kod göndereceğiz"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSendCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="gönder"
+                style="@style/MainButtonStyle"
+                android:textColor="@color/black"
+                android:elevation="20sp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                tools:ignore="MissingConstraints" />
+
+            <ProgressBar
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/pbPhoneConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,6 +47,8 @@ class ProfileFragment : Fragment() {
                         list.add(firstName)
                         list.add(lastName)
                     }
+
+                    it.close()
                 }
             } catch (e: Exception) {
                 e.localizedMessage?.let { message ->

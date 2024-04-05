@@ -70,6 +70,11 @@ object AppModule {
     fun provideRealtimeDatabase() = Firebase.database(DATABASE_URL)
 
     @Provides
+    @Singleton
+    fun provideFirebaseFireStore() = Firebase.firestore
+
+
+    @Provides
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -86,11 +91,12 @@ object AppModule {
     @Provides
     fun provideFirebaseRepo(
         auth: FirebaseAuth,
+        firestore: FirebaseFirestore,
         database: FirebaseDatabase,
         storage: FirebaseStorage,
         notificationAPI: NotificationAPI
     ): FirebaseRepoInterFace {
-        return FirebaseRepoImpl(auth, database, storage,notificationAPI)
+        return FirebaseRepoImpl(auth, firestore ,database, storage,notificationAPI)
     }
 
     @Singleton

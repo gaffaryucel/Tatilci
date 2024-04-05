@@ -21,7 +21,6 @@ class EntryFragment : Fragment() {
     private val binding get() = _binding!!
 
 
-    private lateinit var viewModel: EntryViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +28,6 @@ class EntryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(EntryViewModel::class.java)
         val view = binding.root
         return view
     }

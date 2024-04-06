@@ -83,7 +83,6 @@
             android:hint="Bir kullanıcı adı girin">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:inputType="number"
                 android:background="@drawable/edit_text_bg"
                 android:textColor="@color/normal_text_color"
                 android:id="@+id/etUserName"

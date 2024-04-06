@@ -101,7 +101,7 @@ class SignInViewModel @Inject constructor(
             val tokenMap = hashMapOf<String, Any?>(
                 "token" to userToken.value?.data
             )
-            //firebaseRepo.updateUserData(currentUserId, tokenMap)
+            firebaseRepo.updateUserData(currentUserId, tokenMap)
         }
     }
 }

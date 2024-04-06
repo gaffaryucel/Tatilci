@@ -27,6 +27,7 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.auth
 import java.util.concurrent.TimeUnit
 
+
 class PhoneLoginFragment : Fragment() {
 
 
@@ -55,7 +56,7 @@ class PhoneLoginFragment : Fragment() {
         errorDialog = AlertDialog.Builder(requireContext()).create()
 
         binding.btnSendCode.setOnClickListener {
-            val phone = "+1${binding.etPhoneConfirm.text.toString()}"
+            val phone = "+90${binding.etPhoneConfirm.text.toString()}"
             it.isEnabled = false
             binding.pbPhoneConfirm.visibility = View.VISIBLE
             if (phone.isNotEmpty()){

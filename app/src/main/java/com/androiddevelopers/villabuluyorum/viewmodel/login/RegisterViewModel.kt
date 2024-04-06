@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.util.Resource
 import com.google.firebase.auth.FirebaseAuth
@@ -65,7 +66,6 @@ constructor(
         email: String,
     ) = viewModelScope.launch{
         val tempUsername = email.substringBefore("@")
-        /*
          val user = makeUser(userId,tempUsername,email,userToken.value?.data.toString())
           firebaseRepo.addUserToFirestore(user)
              .addOnSuccessListener {
@@ -73,7 +73,7 @@ constructor(
              }.addOnFailureListener { e ->
                  _authState.value = Resource.error(e.localizedMessage ?: "error : try again later",null)
              }
-         */
+
 
     }
 
@@ -90,11 +90,16 @@ constructor(
             _isVerificationEmailSent.value = Resource.error( it.localizedMessage ?: "error",null)
         }
     }
-/*
+
     private fun makeUser(userId : String,userName: String,email: String,token: String) : UserModel {
-        return UserModel(userId = userId, username = userName,email = email, token =token )
+        return UserModel(
+            userId = userId,
+            username = userName,
+            email = email,
+            token = token
+        )
     }
-*/
+
     private fun isPasswordConfirmed(password: String,confirmPassword : String): Boolean {
         return if (password == confirmPassword){
             true

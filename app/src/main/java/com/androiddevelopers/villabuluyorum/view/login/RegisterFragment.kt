@@ -1,6 +1,7 @@
 package com.androiddevelopers.villabuluyorum.view.login
 
 import android.app.AlertDialog
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,7 +15,16 @@ import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentRegisterBinding
 import com.androiddevelopers.villabuluyorum.util.Status
+import com.androiddevelopers.villabuluyorum.view.BottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.login.RegisterViewModel
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +37,9 @@ class RegisterFragment : Fragment() {
 
     private var verificationDialog: AlertDialog? = null
     private var errorDialog: AlertDialog? = null
+    val RC_SIGN_IN = 20
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,13 +57,33 @@ class RegisterFragment : Fragment() {
         errorDialog = AlertDialog.Builder(requireContext()).create()
         verificationDialog = AlertDialog.Builder(requireContext()).create()
 
+        BeginSignInRequest.builder()
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    // Your server's client ID, not your Android client ID.
+                    .setServerClientId(getString(R.string.web_client_id))
+                    // Only show accounts previously used to sign in.
+                    .setFilterByAuthorizedAccounts(true)
+                    .build())
+            .build()
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.web_client_id))
+            .requestEmail().build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(),gso)
+
+
+        binding.btnGoogle.setOnClickListener {
+            googleSignIn()
+        }
 
         binding.btnRegister.setOnClickListener {
             val email = binding.etEmail.text.toString()
             val password = binding.etPassworad.text.toString()
             val confirmPassword = binding.etConfirmPassword.text.toString()
 
-            viewModel.signUp(email,password,confirmPassword)
+            viewModel.signUp(email, password, confirmPassword)
         }
 
         binding.ivBack.setOnClickListener {
@@ -63,19 +96,23 @@ class RegisterFragment : Fragment() {
         setupDialogs()
         observeLiveData()
     }
-    private fun observeLiveData(){
+
+
+    private fun observeLiveData() {
         viewModel.authState.observe(viewLifecycleOwner, Observer {
-            when(it.status){
-                Status.ERROR->{
+            when (it.status) {
+                Status.ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     binding.pbRegister.visibility = View.INVISIBLE
                     binding.btnRegister.isEnabled = true
                 }
-                Status.LOADING->{
+
+                Status.LOADING -> {
                     binding.pbRegister.visibility = View.VISIBLE
                     binding.btnRegister.isEnabled = false
                 }
-                Status.SUCCESS->{
+
+                Status.SUCCESS -> {
                     binding.pbRegister.visibility = View.INVISIBLE
                     binding.btnRegister.isEnabled = true
                 }
@@ -85,12 +122,13 @@ class RegisterFragment : Fragment() {
         viewModel.registrationError.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.ERROR -> {
-                    if (it.data == true){
+                    if (it.data == true) {
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    }else{
+                    } else {
                         binding.etConfirmPassword.error = it.message
                     }
                 }
+
                 else -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
@@ -102,15 +140,18 @@ class RegisterFragment : Fragment() {
                 Status.SUCCESS -> {
                     verificationDialog?.show()
                 }
+
                 Status.ERROR -> {
                     errorDialog?.show()
                 }
-                else->{
+
+                else -> {
                     errorDialog?.show()
                 }
             }
         })
     }
+
     private fun setupDialogs() {
         verificationDialog?.setTitle("Email Doğrulama")
         verificationDialog?.setMessage("Doğrulama e-postası gönderildi. Lütfen e-posta kutunuzu kontrol edin.")
@@ -134,6 +175,38 @@ class RegisterFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun googleSignIn() {
+        val intent = mGoogleSignInClient.signInIntent
+        startActivityForResult(intent, RC_SIGN_IN)
+    }
+
+    private fun firebaseAuth(idToken: String?) {
+        println("firebaseAuth")
+        val cridential = GoogleAuthProvider.getCredential(idToken, null)
+        FirebaseAuth.getInstance().signInWithCredential(cridential).addOnCompleteListener {
+            if (it.isSuccessful) {
+                println("isSuccessful")
+                val intent = Intent(requireContext(), BottomNavigationActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+         if (requestCode == RC_SIGN_IN) {
+            println("RC_SIGN_IN")
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                println("try")
+                val account = task.getResult(ApiException::class.java)
+                firebaseAuth(account.idToken)
+            } catch (e: Exception) {
+                println("error : " + e)
+            }
+        }
     }
 
 }

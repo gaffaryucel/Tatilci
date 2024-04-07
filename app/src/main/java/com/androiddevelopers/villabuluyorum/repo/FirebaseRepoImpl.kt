@@ -1,6 +1,7 @@
 package com.androiddevelopers.villabuluyorum.repo
 
 import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.Villa
 import com.androiddevelopers.villabuluyorum.service.NotificationAPI
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -24,6 +25,7 @@ class FirebaseRepoImpl @Inject constructor(
     private val userCollection = firestore.collection("users")
     private val notificationCollection = firestore.collection("notifications")
     private val homeCollection = firestore.collection("homes")
+    private val villaCollection = firestore.collection("villas")
     private val reservationCollection = firestore.collection("reservations")
 
     //StorageRef
@@ -33,7 +35,7 @@ class FirebaseRepoImpl @Inject constructor(
     private val messagesReference = database.getReference("messages")
 
 
-//Auth
+    //Auth
     override fun login(email: String, password: String): Task<AuthResult> {
         return auth.signInWithEmailAndPassword(email, password)
     }
@@ -47,7 +49,7 @@ class FirebaseRepoImpl @Inject constructor(
     }
 
 
-// Firestore - User
+    // Firestore - User
     override fun addUserToFirestore(data: UserModel): Task<Void> {
         return userCollection.document(data.userId.toString()).set(data)
     }
@@ -59,6 +61,7 @@ class FirebaseRepoImpl @Inject constructor(
     override fun getUserDataByDocumentId(documentId: String): Task<DocumentSnapshot> {
         return userCollection.document(documentId).get()
     }
+
     override fun getUsersFromFirestore(): Task<QuerySnapshot> {
         return userCollection.get()
     }
@@ -67,13 +70,20 @@ class FirebaseRepoImpl @Inject constructor(
         return userCollection.document(userId).update(updateData)
     }
 
-// Firestore - Home
+    // Firestore - Vila
+    override fun addVillaToFirestore(villaId: String, villa: Villa): Task<Void> {
+        return villaCollection.document(villaId).set(villa)
+    }
 
+    override fun deleteVillaFromFirestore(villaId: String): Task<Void> {
+        return villaCollection.document(villaId).delete()
+    }
 
+    override fun getAllVillasFromFirestore(): Task<QuerySnapshot> {
+        return villaCollection.get()
+    }
 
-
-
-
-
-
+    override fun getVillaByIdFromFirestore(villaId: String): Task<DocumentSnapshot> {
+        return villaCollection.document(villaId).get()
+    }
 }

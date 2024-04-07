@@ -96,7 +96,7 @@
         android:id="@+id/homeDetailFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.home.HomeDetailFragment"
         android:label="fragment_home_detail"
-        tools:layout="@layout/fragment_home_detail" >
+        tools:layout="@layout/fragment_home_detail">
         <action
             android:id="@+id/action_homeDetailFragment_to_homeDetailFacilitiesFragment2"
             app:destination="@id/homeDetailFacilitiesFragment"
@@ -104,6 +104,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="villa_id"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/messagesFragment"
@@ -114,7 +117,7 @@
         android:id="@+id/chatsFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.chat.ChatsFragment"
         android:label="fragment_chats"
-        tools:layout="@layout/fragment_chats" >
+        tools:layout="@layout/fragment_chats">
         <action
             android:id="@+id/action_chatsFragment_to_messagesFragment"
             app:destination="@id/messagesFragment" />
@@ -123,7 +126,7 @@
         android:id="@+id/navigation_reservation"
         android:name="com.androiddevelopers.villabuluyorum.view.reservation.ReservationFragment"
         android:label="fragment_reservation"
-        tools:layout="@layout/fragment_reservation" >
+        tools:layout="@layout/fragment_reservation">
         <action
             android:id="@+id/action_reservationFragment_to_reservationDetailsFragment"
             app:destination="@id/reservationDetailsFragment" />
@@ -132,7 +135,7 @@
         android:id="@+id/navigation_search"
         android:name="com.androiddevelopers.villabuluyorum.view.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_homeDetailFragment"
             app:destination="@id/homeDetailFragment" />

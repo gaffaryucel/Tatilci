@@ -2,14 +2,14 @@ package com.androiddevelopers.villabuluyorum.view.login
 
 import android.app.AlertDialog
 import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.R
@@ -19,10 +19,8 @@ import com.androiddevelopers.villabuluyorum.view.BottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.login.RegisterViewModel
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,13 +63,14 @@ class RegisterFragment : Fragment() {
                     .setServerClientId(getString(R.string.web_client_id))
                     // Only show accounts previously used to sign in.
                     .setFilterByAuthorizedAccounts(true)
-                    .build())
+                    .build()
+            )
             .build()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.web_client_id))
             .requestEmail().build()
 
-        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(),gso)
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
 
         binding.btnGoogle.setOnClickListener {
@@ -196,13 +195,24 @@ class RegisterFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-         if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN) {
             println("RC_SIGN_IN")
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 println("try")
-                val account = task.getResult(ApiException::class.java)
-                firebaseAuth(account.idToken)
+
+                task.addOnSuccessListener {
+                    val account = it.requestExtraScopes()
+                    firebaseAuth(account.idToken)
+                }.addOnFailureListener {
+                    Toast.makeText(
+                        requireContext(),
+                        "Google Sing-in Error:${it.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+//                val account = task.getResult(ApiException::class.java)
+//                firebaseAuth(account.idToken)
             } catch (e: Exception) {
                 println("error : " + e)
             }

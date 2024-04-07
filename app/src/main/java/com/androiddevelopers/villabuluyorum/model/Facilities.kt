@@ -1,16 +1,16 @@
 package com.androiddevelopers.villabuluyorum.model
 
 data class Facilities(
-    var id: Int,
-    var landscape: Landscape,
-    var bath: Bath,
-    var bedroom: Bedroom,
-    var entertainment: Entertainment,
-    var heatingCooling: HeatingCooling,
-    var kitchenFood: KitchenFood,
-    var locationFeatures: LocationFeatures,
-    var outdoor: Outdoor,
-    var services: Services
+    var id: Int? = null,
+    var landscape: Landscape? = null,
+    var bath: Bath? = null,
+    var bedroom: Bedroom? = null,
+    var entertainment: Entertainment? = null,
+    var heatingCooling: HeatingCooling? = null,
+    var kitchenFood: KitchenFood? = null,
+    var locationFeatures: LocationFeatures? = null,
+    var outdoor: Outdoor? = null,
+    var services: Services? = null
 )
 
 data class Landscape(
@@ -57,7 +57,6 @@ data class Services(
     var id: Int,
     var features: Map<String, String>
 )
-
 
 
 /*

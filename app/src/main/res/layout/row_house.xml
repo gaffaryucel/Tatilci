@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="20dp"
+        android:layout_marginHorizontal="15dp"
+        android:id="@+id/cardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="250dp"
+            android:layout_height="300dp">
+
+            <ImageView
+                android:id="@+id/imageHouse"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_background"
+                />
+
+          <LinearLayout
+              android:background="@drawable/home_row_text_bg"
+              android:paddingStart="10dp"
+              android:paddingBottom="10dp"
+              android:orientation="vertical"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+              <TextView
+                  android:visibility="invisible"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Evin İsmi"
+                  android:textSize="18sp"
+                  android:textStyle="bold"
+                  />
+
+              <TextView
+                  android:visibility="invisible"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Evin Adresi"
+                  android:textSize="14sp"
+                  />
+              <TextView
+                  android:maxLines="1"
+                  android:id="@+id/textTitle"
+                  android:textColor="@color/white"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/imageHouse"
+                  android:text="Evin İsmi"
+                  android:textSize="18sp"
+                  android:textStyle="bold"
+                />
+
+              <TextView
+                  android:maxLines="1"
+                  android:textColor="#f0f0f0"
+                  android:id="@+id/textAddress"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/textTitle"
+                  android:text="Evin Adresi"
+                  android:textSize="14sp"
+                  />
+          </LinearLayout>
+
+          <androidx.constraintlayout.widget.ConstraintLayout
+              android:background="@drawable/distance_bg"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              android:paddingHorizontal="8dp"
+              android:paddingVertical="4dp"
+              android:layout_margin="15dp"
+            >
+              <ImageView
+                  app:layout_constraintEnd_toStartOf="@+id/textDistance"
+                  app:layout_constraintTop_toTopOf="@id/textDistance"
+                  app:layout_constraintBottom_toBottomOf="@id/textDistance"
+                  android:layout_marginEnd="5dp"
+                  android:src="@drawable/location"
+                  android:layout_width="15dp"
+                  android:layout_height="15dp"/>
+              <TextView
+                  app:layout_constraintTop_toTopOf="parent"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  android:id="@+id/textDistance"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="500 m"
+                  android:textColor="@color/white"
+                  android:textSize="14sp"
+                  android:textStyle="italic"
+                  />
+          </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

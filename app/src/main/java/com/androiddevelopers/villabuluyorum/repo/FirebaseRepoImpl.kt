@@ -1,6 +1,7 @@
 package com.androiddevelopers.villabuluyorum.repo
 
 import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.VillaModel
 import com.androiddevelopers.villabuluyorum.service.NotificationAPI
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -68,6 +69,15 @@ class FirebaseRepoImpl @Inject constructor(
     }
 
 // Firestore - Home
+
+
+    override fun addVillaToFirestore(home: VillaModel): Task<Void> {
+        return homeCollection.document(home.id.toString()).set(home)
+    }
+
+    override fun getAllVillas(): Task<QuerySnapshot> {
+        return homeCollection.get()
+    }
 
 
 

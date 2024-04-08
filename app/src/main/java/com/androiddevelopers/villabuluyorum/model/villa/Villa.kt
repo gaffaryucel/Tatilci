@@ -1,19 +1,21 @@
-package com.androiddevelopers.villabuluyorum.model
+package com.androiddevelopers.villabuluyorum.model.villa
 
-class Villa(
-    var id: String? = null,
+data class Villa(
+    var villaId: String? = null,
+    var hostId: String? = null,
     var villaName: String? = null,
+    var description: String? = null,
     var location: String? = null,
     var nightlyRate: Double? = null,
     var capacity: Int? = null,
     var bedroomCount: Int? = null,
-    var bedCount: Int,
+    var bedCount: Int? = null,
     var bathroomCount: Int? = null,
+    var restroom: Int? = null,
     var hasPool: Boolean? = null,
     var gardenArea: Double? = null,
     var interiorDesign: String? = null,
     var isQuietArea: Boolean? = null,
-    var host: Host? = null,
     var amenities: List<String>? = null,
     var minStayDuration: Int? = null,
     var reservationFee: Double? = null,
@@ -22,11 +24,6 @@ class Villa(
     var region: String? = null,
     var attractions: List<String>? = null,
     var facilities: Facilities? = null,
-)
-
-data class Host(
-    var name: String? = null,
-    var experience: Int? = null,
-    var languages: List<String>? = null,
-    var description: String? = null,
+    var price: Double? = null,
+    var currency: String? = null,
 )

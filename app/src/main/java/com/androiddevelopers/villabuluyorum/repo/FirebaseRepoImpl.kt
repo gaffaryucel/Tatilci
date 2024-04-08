@@ -1,7 +1,7 @@
 package com.androiddevelopers.villabuluyorum.repo
 
 import com.androiddevelopers.villabuluyorum.model.UserModel
-import com.androiddevelopers.villabuluyorum.model.Villa
+import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.service.NotificationAPI
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHomeDetailFacilitiesBinding
+import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.home.HomeDetailFacilitiesViewModel
 
 class HomeDetailFacilitiesFragment : Fragment() {
@@ -26,6 +27,11 @@ class HomeDetailFacilitiesFragment : Fragment() {
     ): View {
         _binding = FragmentHomeDetailFacilitiesBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hideBottomNavigation(requireActivity())
     }
 
     override fun onDestroy() {

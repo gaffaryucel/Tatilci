@@ -5,12 +5,35 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="setProgressBar"
+            type="Boolean" />
+
+        <variable
+            name="villa"
+            type="com.androiddevelopers.villabuluyorum.model.villa.Villa" />
+
+        <variable
+            name="user"
+            type="com.androiddevelopers.villabuluyorum.model.UserModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.home.HomeDetailFragment">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/detailProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{setProgressBar == true ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
@@ -21,7 +44,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/detailProgressBar">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -95,25 +118,27 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="20dp"
-                                    android:text="Başlık"
+                                    android:text="@{villa.villaName}"
                                     android:textColor="@color/white"
                                     android:textSize="20sp"
                                     android:textStyle="bold"
                                     app:layout_constraintBottom_toTopOf="@id/textDetailAddress"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@id/guideLineCenterHorizontal" />
+                                    app:layout_constraintTop_toBottomOf="@id/guideLineCenterHorizontal"
+                                    tools:text="Başlık" />
 
                                 <TextView
                                     android:id="@+id/textDetailAddress"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:maxLines="1"
-                                    android:text="Adres"
+                                    android:text="@{villa.location}"
                                     android:textColor="@color/white"
                                     android:textSize="18sp"
                                     app:layout_constraintBottom_toTopOf="@id/imageBedRoom"
                                     app:layout_constraintStart_toStartOf="@+id/textDetailTitle"
-                                    app:layout_constraintTop_toBottomOf="@id/textDetailTitle" />
+                                    app:layout_constraintTop_toBottomOf="@id/textDetailTitle"
+                                    tools:text="Adres" />
 
                                 <com.google.android.material.imageview.ShapeableImageView
                                     android:id="@+id/imageBedRoom"
@@ -132,13 +157,14 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="4dp"
-                                    android:text="5 Yatak Odası"
+                                    android:text="@{villa.bedroomCount + ` Yatak Odası`}"
                                     android:textColor="@color/white"
                                     app:layout_constraintBottom_toBottomOf="@id/imageBedRoom"
                                     app:layout_constraintEnd_toStartOf="@id/guideLineCenterVertical"
                                     app:layout_constraintStart_toEndOf="@id/imageBedRoom"
                                     app:layout_constraintTop_toTopOf="@id/imageBedRoom"
-                                    tools:ignore="HardcodedText" />
+                                    tools:ignore="HardcodedText"
+                                    tools:text="5 Yatak Odası" />
 
 
                                 <com.google.android.material.imageview.ShapeableImageView
@@ -158,13 +184,14 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginHorizontal="4dp"
-                                    android:text="5 Yatak Odası"
+                                    android:text="@{villa.bathroomCount + ` Banyo`}"
                                     android:textColor="@color/white"
                                     app:layout_constraintBottom_toBottomOf="@id/imageBathRoom"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@id/imageBathRoom"
                                     app:layout_constraintTop_toTopOf="@id/imageBathRoom"
-                                    tools:ignore="HardcodedText" />
+                                    tools:ignore="HardcodedText"
+                                    tools:text="5 Banyo" />
 
                                 <com.google.android.material.imageview.ShapeableImageView
                                     android:id="@+id/imageBackNavigation"
@@ -210,16 +237,17 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Açıklama"
+                            android:text="@{villa.description}"
                             android:textSize="18sp"
                             app:layout_constraintEnd_toEndOf="@id/cardImage"
-                            app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="@id/cardImage"
                             app:layout_constraintTop_toBottomOf="@id/textDetailDescriptionTitle"
-                            tools:ignore="HardcodedText" />
+                            tools:ignore="HardcodedText"
+                            tools:text="Açıklama" />
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/imageProfile"
+                            downloadImage="@{user.profileImageUrl}"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_marginTop="8dp"
@@ -232,24 +260,26 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:text="Walter Bishop"
+                            android:text="@{user.username}"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@id/textDetailProfile"
                             app:layout_constraintStart_toEndOf="@id/imageProfile"
                             app:layout_constraintTop_toTopOf="@id/imageProfile"
-                            tools:ignore="HardcodedText" />
+                            tools:ignore="HardcodedText"
+                            tools:text="Villa Sahibi Adı" />
 
                         <TextView
                             android:id="@+id/textDetailProfile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Emlakçı"
+                            android:text="@{user.host.role}"
                             android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="@id/imageProfile"
                             app:layout_constraintStart_toStartOf="@id/textDetailProfileTitle"
                             app:layout_constraintTop_toBottomOf="@id/textDetailProfileTitle"
-                            tools:ignore="HardcodedText" />
+                            tools:ignore="HardcodedText"
+                            tools:text="Emlakçı" />
 
                         <androidx.appcompat.widget.AppCompatImageButton
                             android:id="@+id/buttonDetailChat"
@@ -321,10 +351,7 @@
                         app:layout_constraintTop_toTopOf="@id/buttonDetailRent"
                         tools:ignore="HardcodedText" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </LinearLayout>
-
-
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

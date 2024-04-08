@@ -93,6 +93,10 @@ class SignInFragment : Fragment() {
             val action = SignInFragmentDirections.actionSignInFragmentToPhoneLoginFragment()
             Navigation.findNavController(it).navigate(action)
         }
+        binding.tvGotoRegister.setOnClickListener {
+            val action = SignInFragmentDirections.actionSignInFragmentToRegisterFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     override fun onStart() {

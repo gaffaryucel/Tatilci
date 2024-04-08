@@ -20,7 +20,7 @@
 
     <LinearLayout
         app:layout_constraintTop_toBottomOf="@+id/ivBack"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
@@ -30,9 +30,27 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="Giriş yap"
+            android:text="Giriş"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textColor="@color/main_button_gb_color"
+            android:textSize="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:text="Yap"
+            android:textStyle="bold"
+            android:textColor="@color/normal_text_color"
+            android:textSize="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_marginBottom="5dp"
+            android:text="Tatil maceranızı başlatmak için giriş yapın ve Villabuluyorum'un eşsiz villa seçeneklerini keşfedin"
+            android:textColor="@color/normal_text_color"
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -71,13 +89,14 @@
             android:layout_marginTop="4dp"
             android:textSize="16dp"
             android:textColor="@color/normal_text_color"
-            android:text="Şifreni mi unuttun?"
+            android:text="Şifremi unuttum?"
             android:layout_gravity="end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:paddingTop="8dp"
+            android:layout_marginHorizontal="20dp"
             android:paddingBottom="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -101,50 +120,120 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_marginBottom="8dp"
-            android:text="Farklı bir yöntem ile Giriş yap"
-            android:layout_gravity="center"
-            android:textColor="@color/normal_text_color"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
         <LinearLayout
-            android:layout_gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Farklı bir yöntem ile Giriş yap"
+                android:layout_gravity="center"
+                android:textColor="@color/normal_text_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/btnGoogle"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/secondary_button_bg"
-                android:src="@drawable/google"
-                android:padding="12dp"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                app:tint="@color/normal_text_color" />
-            <ImageView
-                android:id="@+id/btnPhone"
-                android:background="@drawable/secondary_button_bg"
-                android:src="@drawable/phone"
-                android:padding="12dp"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                app:tint="@color/normal_text_color" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:background="@drawable/secondary_button_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
+                    <LinearLayout
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/btnGoogle"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/google"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp" />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_gravity="center"
+                            android:text="Google ile Giriş yap"
+                            android:textSize="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/secondary_button_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
+                    <LinearLayout
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/btnPhone"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/phone"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            app:tint="@color/normal_text_color" />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_gravity="center"
+                            android:text="Telefon ile Giriş yap"
+                            android:textSize="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 
+<LinearLayout
+    android:layout_marginBottom="8dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:text="Hesabın yok mu? "
+        android:textColor="@color/normal_text_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tvGotoRegister"
+        android:textStyle="bold"
+        android:text=" Kaydol"
+        android:textColor="@color/main_button_gb_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -50,7 +50,7 @@ constructor(
                 }
         }
     }
-    fun saveUserToFirestore() = viewModelScope.launch{
+    private fun saveUserToFirestore() = viewModelScope.launch{
         _authState.value = Resource.loading(null)
         firebaseAuth.currentUser?.let {
             // Kullanıcı oturum açmışsa
@@ -97,6 +97,7 @@ constructor(
                     val user = task.result?.user
                     if (user?.displayName.isNullOrEmpty()) {
                         _authState.value = Resource.success(false)
+                        saveUserToFirestore()
                     } else {
                         _authState.value = Resource.success(true)
                     }

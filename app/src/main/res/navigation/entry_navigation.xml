@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_signInFragment_to_phoneLoginFragment"
             app:destination="@id/phoneLoginFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -22,6 +25,9 @@
         <action
             android:id="@+id/action_registerFragment_to_phoneLoginFragment"
             app:destination="@id/phoneLoginFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/entryFragment"

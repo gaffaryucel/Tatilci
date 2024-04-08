@@ -55,17 +55,7 @@ class RegisterFragment : Fragment() {
         errorDialog = AlertDialog.Builder(requireContext()).create()
         verificationDialog = AlertDialog.Builder(requireContext()).create()
 
-        BeginSignInRequest.builder()
-            .setGoogleIdTokenRequestOptions(
-                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                    .setSupported(true)
-                    // Your server's client ID, not your Android client ID.
-                    .setServerClientId(getString(R.string.web_client_id))
-                    // Only show accounts previously used to sign in.
-                    .setFilterByAuthorizedAccounts(true)
-                    .build()
-            )
-            .build()
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.web_client_id))
             .requestEmail().build()
@@ -75,6 +65,10 @@ class RegisterFragment : Fragment() {
 
         binding.btnGoogle.setOnClickListener {
             googleSignIn()
+        }
+        binding.tvGoToLogin.setOnClickListener {
+            val action = RegisterFragmentDirections.actionRegisterFragmentToSignInFragment()
+            Navigation.findNavController(it).navigate(action)
         }
 
         binding.btnRegister.setOnClickListener {
@@ -114,6 +108,9 @@ class RegisterFragment : Fragment() {
                 Status.SUCCESS -> {
                     binding.pbRegister.visibility = View.INVISIBLE
                     binding.btnRegister.isEnabled = true
+                    if (it.data == true){
+                        enter()
+                    }
                 }
             }
         })
@@ -149,6 +146,11 @@ class RegisterFragment : Fragment() {
                 }
             }
         })
+
+    }
+    private fun enter(){
+        val intent = Intent(requireContext(), BottomNavigationActivity::class.java)
+        startActivity(intent)
     }
 
     private fun setupDialogs() {
@@ -181,41 +183,28 @@ class RegisterFragment : Fragment() {
         startActivityForResult(intent, RC_SIGN_IN)
     }
 
-    private fun firebaseAuth(idToken: String?) {
-        println("firebaseAuth")
-        val cridential = GoogleAuthProvider.getCredential(idToken, null)
-        FirebaseAuth.getInstance().signInWithCredential(cridential).addOnCompleteListener {
-            if (it.isSuccessful) {
-                println("isSuccessful")
-                val intent = Intent(requireContext(), BottomNavigationActivity::class.java)
-                startActivity(intent)
-            }
-        }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
-            println("RC_SIGN_IN")
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
-                println("try")
-
                 task.addOnSuccessListener {
                     val account = it.requestExtraScopes()
-                    firebaseAuth(account.idToken)
+                    viewModel.signInWithGoogle(account.idToken)
                 }.addOnFailureListener {
                     Toast.makeText(
                         requireContext(),
-                        "Google Sing-in Error:${it.message}",
+                        "Giriş Yapılamadı",
                         Toast.LENGTH_LONG
                     ).show()
                 }
-//                val account = task.getResult(ApiException::class.java)
-//                firebaseAuth(account.idToken)
             } catch (e: Exception) {
-                println("error : " + e)
-            }
+                Toast.makeText(
+                    requireContext(),
+                    "Giriş Yapılamadı : "+e.localizedMessage,
+                    Toast.LENGTH_LONG
+                ).show()            }
         }
     }
 

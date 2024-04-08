@@ -18,9 +18,10 @@
         android:layout_height="40dp"
         app:tint="@color/normal_text_color" />
 
+
     <LinearLayout
         app:layout_constraintTop_toBottomOf="@+id/ivBack"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
@@ -32,9 +33,20 @@
         <TextView
             android:text="Kaydol"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textColor="@color/main_button_gb_color"
+            android:textSize="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <TextView
+            android:layout_marginBottom="5dp"
+            android:text="Hemen kaydolun ve Villabuluyorum'un ayrıcalıklı dünyasına adım atın! Tatil hayallerinizi gerçeğe dönüştürmek için ilk adımı şimdi atın"
+            android:textColor="@color/normal_text_color"
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_marginHorizontal="5dp"
@@ -83,10 +95,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:paddingTop="15dp"
-            android:paddingBottom="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <androidx.appcompat.widget.AppCompatButton
+                android:layout_marginHorizontal="20dp"
                 android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,51 +119,122 @@
                 android:layout_height="wrap_content"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginBottom="15dp"
+                android:text="Farklı bir yöntem ile Kaydol"
+                android:layout_gravity="center"
+                android:textColor="@color/normal_text_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/btnGoogle"
+                    android:background="@drawable/secondary_button_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
+                    <LinearLayout
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/google"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp" />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_gravity="center"
+                            android:text="Google ile Kaydol"
+                            android:textSize="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/btnPhone"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/secondary_button_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
+                    <LinearLayout
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/phone"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            app:tint="@color/normal_text_color" />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_gravity="center"
+                            android:text="Telefon ile Kaydol"
+                            android:textSize="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+
 
     </LinearLayout>
-
     <LinearLayout
-        android:orientation="vertical"
+        android:layout_marginBottom="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
-            android:layout_marginBottom="8dp"
-            android:text="Farklı bir yöntem ile Kaydol"
-            android:layout_gravity="center"
+            android:text="Zaten bir hesabın var mı?"
             android:textColor="@color/normal_text_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-    <LinearLayout
-        android:layout_gravity="center"
-       android:orientation="horizontal"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintBottom_toBottomOf="parent"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvGoToLogin"
+            android:textStyle="bold"
+            android:text="  Giriş Yap"
+            android:textColor="@color/main_button_gb_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-       <ImageView
-           android:id="@+id/btnGoogle"
-           android:layout_marginEnd="10dp"
-           android:background="@drawable/secondary_button_bg"
-           android:src="@drawable/google"
-           android:padding="12dp"
-           android:layout_width="55dp"
-           android:layout_height="55dp"
-           app:tint="@color/normal_text_color" />
-       <ImageView
-           android:id="@+id/btnPhone"
-           android:background="@drawable/secondary_button_bg"
-           android:src="@drawable/phone"
-           android:padding="12dp"
-           android:layout_width="55dp"
-           android:layout_height="55dp"
-           app:tint="@color/normal_text_color" />
-   </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

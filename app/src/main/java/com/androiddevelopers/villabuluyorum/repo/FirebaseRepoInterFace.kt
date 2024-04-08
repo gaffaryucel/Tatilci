@@ -21,7 +21,6 @@ interface FirebaseRepoInterFace {
     fun getUsersFromFirestore(): Task<QuerySnapshot>
     fun updateUserData(userId: String, updateData: HashMap<String, Any?>): Task<Void>
 
-
     //Firestore - Villa
     fun addVillaToFirestore(villaId: String, villa: Villa): Task<Void>
     fun deleteVillaFromFirestore(villaId: String): Task<Void>

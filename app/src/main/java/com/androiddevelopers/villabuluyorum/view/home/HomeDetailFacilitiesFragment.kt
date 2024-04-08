@@ -13,7 +13,7 @@ import com.androiddevelopers.villabuluyorum.viewmodel.home.HomeDetailFacilitiesV
 class HomeDetailFacilitiesFragment : Fragment() {
     private val viewModel: HomeDetailFacilitiesViewModel by viewModels()
     private var _binding: FragmentHomeDetailFacilitiesBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding!!  
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

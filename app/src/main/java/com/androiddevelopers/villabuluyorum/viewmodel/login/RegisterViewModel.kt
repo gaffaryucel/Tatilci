@@ -1,5 +1,6 @@
 package com.androiddevelopers.villabuluyorum.viewmodel.login
 
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.util.Resource
+import com.androiddevelopers.villabuluyorum.view.BottomNavigationActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -66,8 +69,8 @@ constructor(
         email: String,
     ) = viewModelScope.launch{
         val tempUsername = email.substringBefore("@")
-         val user = makeUser(userId,tempUsername,email,userToken.value?.data.toString())
-          firebaseRepo.addUserToFirestore(user)
+        val user = makeUser(userId,tempUsername,email,userToken.value?.data.toString())
+        firebaseRepo.addUserToFirestore(user)
              .addOnSuccessListener {
                  verify()
              }.addOnFailureListener { e ->
@@ -128,4 +131,21 @@ constructor(
             userToken.value = Resource.success(token)
         }
     }
+
+    fun signInWithGoogle(idToken: String?) {
+        _authState.value = Resource.loading(null)
+        val cridential = GoogleAuthProvider.getCredential(idToken, null)
+        FirebaseAuth.getInstance().signInWithCredential(cridential).addOnCompleteListener {
+            if (it.isSuccessful) {
+                _authState.value = Resource.success(true)
+                val user = it.result.user
+                if (user != null){
+                    createUser(user.uid,user.email.toString())
+                }
+            }else{
+                _authState.value = Resource.error("Hata : Tekrar deneyin",null)
+            }
+        }
+    }
+
 }

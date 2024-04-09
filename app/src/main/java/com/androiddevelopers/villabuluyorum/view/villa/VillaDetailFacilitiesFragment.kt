@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.view.home
+package com.androiddevelopers.villabuluyorum.view.villa
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,14 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.androiddevelopers.villabuluyorum.databinding.FragmentHomeDetailFacilitiesBinding
+import com.androiddevelopers.villabuluyorum.databinding.FragmentVillaDetailFacilitiesBinding
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
-import com.androiddevelopers.villabuluyorum.viewmodel.home.HomeDetailFacilitiesViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.villa.VillaDetailFacilitiesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class HomeDetailFacilitiesFragment : Fragment() {
-    private val viewModel: HomeDetailFacilitiesViewModel by viewModels()
-    private var _binding: FragmentHomeDetailFacilitiesBinding? = null
-    private val binding get() = _binding!!  
+@AndroidEntryPoint
+class VillaDetailFacilitiesFragment : Fragment() {
+    private val viewModel: VillaDetailFacilitiesViewModel by viewModels()
+    private var _binding: FragmentVillaDetailFacilitiesBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +27,7 @@ class HomeDetailFacilitiesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeDetailFacilitiesBinding.inflate(inflater, container, false)
+        _binding = FragmentVillaDetailFacilitiesBinding.inflate(inflater, container, false)
         return binding.root
     }
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.home.HomeCreateFacilitiesFragment">
+    tools:context=".view.villa.VillaCreateFacilitiesFragment">
 
     <ScrollView
         android:layout_width="0dp"
@@ -228,15 +228,6 @@
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/bathChip6"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Bide"
-                    tools:ignore="HardcodedText" />
-
-                <com.google.android.material.chip.Chip
                     android:id="@+id/bathChip7"
                     style="@style/Widget.Material3.Chip.Filter"
                     android:layout_width="wrap_content"
@@ -293,16 +284,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="Havlu"
-                    tools:ignore="HardcodedText" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/bedroomChip2"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Nevresim"
+                    android:text="Havlu ve nevresim"
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.chip.Chip
@@ -366,6 +348,15 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:text="Ütü"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/bedroomChip10"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Kurutma makinesi"
                     tools:ignore="HardcodedText" />
 
             </com.google.android.material.chip.ChipGroup>
@@ -435,24 +426,6 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:text="Oyun konsulu"
-                    tools:ignore="HardcodedText" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/entertainmentChip5"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Karaoke"
-                    tools:ignore="HardcodedText" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/entertainmentChip6"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Kutu oyunları"
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.chip.Chip
@@ -590,7 +563,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="Chip1"
+                    android:text="Misafirlerin kendi yemeklerini pişirebileceği alan"
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.chip.Chip
@@ -599,7 +572,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="Chip2"
+                    android:text="Buzdolabı"
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.chip.Chip
@@ -608,7 +581,61 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="Chip3"
+                    android:text="Mikrodalga fırın"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/kitchenFoodChip4"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Yemek pişirmek için temel malzemeler"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/kitchenFoodChip5"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Tencere ve tava"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/kitchenFoodChip6"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Yemek ve çatal bıçak takımı"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/kitchenFoodChip7"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Bulaşık makinesi"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/kitchenFoodChip8"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Kahve makinesi"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/kitchenFoodChip9"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Su ısıtıcı"
                     tools:ignore="HardcodedText" />
 
             </com.google.android.material.chip.ChipGroup>
@@ -650,7 +677,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="Chip1"
+                    android:text="Ayrı giriş"
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.chip.Chip
@@ -659,7 +686,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="Chip2"
+                    android:text="Ortak giriş"
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.chip.Chip
@@ -668,7 +695,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="Chip3"
+                    android:text="Göle erişim"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/locationFeaturesChip4"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Plaja erişim"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/locationFeaturesChip5"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Su kenarı"
                     tools:ignore="HardcodedText" />
 
             </com.google.android.material.chip.ChipGroup>
@@ -710,7 +755,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="Chip1"
+                    android:text="Arka bahçe"
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.chip.Chip
@@ -719,7 +764,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="Chip2"
+                    android:text="Açık havada yemek alanı"
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.chip.Chip
@@ -728,7 +773,79 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="Chip3"
+                    android:text="Bahçe mobilyaları"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/outdoorChip4"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Bahçe şöminesi"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/outdoorChip5"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Bisiklet"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/outdoorChip6"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Hamak"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/outdoorChip7"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Kano"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/outdoorChip8"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Plaj malzemeleri"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/outdoorChip9"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Şezlong"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/outdoorChip10"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Mangal"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/outdoorChip11"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Teras veya balkon"
                     tools:ignore="HardcodedText" />
 
             </com.google.android.material.chip.ChipGroup>
@@ -770,7 +887,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="Chip1"
+                    android:text="Kahvaltı"
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.chip.Chip
@@ -779,7 +896,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="Chip2"
+                    android:text="Konaklama sırasında temizlik"
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.chip.Chip
@@ -788,11 +905,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="Chip3"
+                    android:text="Valiz bırakılabilir"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/servicesChip4"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Uzun süreli konaklama imkanı"
                     tools:ignore="HardcodedText" />
 
             </com.google.android.material.chip.ChipGroup>
-
 
             <Button
                 android:id="@+id/facilitiesSave"

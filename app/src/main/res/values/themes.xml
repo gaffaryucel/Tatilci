@@ -47,11 +47,7 @@
         <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
-        <item name="android:statusBarColor">@color/app_bg_color</item>
-        <item name="android:windowLightStatusBar">true</item>
     </style>
-
-    <style name="Theme.VillaBuluyorum" parent="Base.Theme.VillaBuluyorum" />
 
     <!-- Background Styles -->
     <style name="ApplicationBackGroundStyle">
@@ -75,5 +71,12 @@
     <style name="circle">
         <item name="cornerSize">50%</item>
         <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="IndicatorStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="ci_drawable">@drawable/indicator_drawable</item>
+        <item name="ci_drawable_unselected">@drawable/indicator_drawable</item>
     </style>
 </resources>

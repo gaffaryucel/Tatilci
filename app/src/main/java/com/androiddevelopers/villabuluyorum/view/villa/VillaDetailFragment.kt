@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.view.home
+package com.androiddevelopers.villabuluyorum.view.villa
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -9,23 +9,25 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.navArgs
-import com.androiddevelopers.villabuluyorum.databinding.FragmentHomeDetailBinding
+import com.androiddevelopers.villabuluyorum.databinding.FragmentVillaDetailBinding
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
-import com.androiddevelopers.villabuluyorum.viewmodel.home.HomeDetailViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.villa.VillaDetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class HomeDetailFragment : Fragment() {
-    private var _binding: FragmentHomeDetailBinding? = null
+@AndroidEntryPoint
+class VillaDetailFragment : Fragment() {
+    private var _binding: FragmentVillaDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: HomeDetailViewModel by viewModels()
+    private val viewModel: VillaDetailViewModel by viewModels()
 
     private lateinit var errorDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val args: HomeDetailFragmentArgs by navArgs()
+        val args: VillaDetailFragmentArgs by navArgs()
         val id = args.villaId
 
         viewModel.getVillaByIdFromFirestore(id)
@@ -35,7 +37,7 @@ class HomeDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentVillaDetailBinding.inflate(inflater, container, false)
 
         binding.setProgressBar = false
         errorDialog = AlertDialog.Builder(requireContext()).create()

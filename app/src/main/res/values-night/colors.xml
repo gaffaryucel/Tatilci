@@ -157,4 +157,6 @@
     <color name="secondary_button_gb_color">#2d2d2d</color>
     <color name="translucent_border_color">#80FFFFFF</color>
 
+    <color name="indicator_drawable_color">@color/md_theme_onSurface</color>
+
 </resources>

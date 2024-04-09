@@ -158,4 +158,6 @@
     <color name="translucent_border_color">#80000000</color>
 
     <color name="detail_page_transparent_icon">#80000000</color>
+
+    <color name="indicator_drawable_color">@color/md_theme_onSurface</color>
 </resources>

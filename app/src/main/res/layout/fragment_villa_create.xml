@@ -81,7 +81,7 @@
                         android:id="@+id/editTextTitleVillaCreate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="İlan başlığını girin"
+                        android:hint="İlan başlığı"
                         tools:ignore="HardcodedText" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,50 +100,98 @@
                         android:id="@+id/editTextDescriptionVillaCreate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="İlan açıklamasını girin girin"
+                        android:hint="İlan açıklaması"
                         tools:ignore="HardcodedText" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!--
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/imagePlaceHolderHomeCreate"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:src="@drawable/placeholder"
-                    app:layout_constraintBottom_toBottomOf="@id/layoutImageViewsHomeCreate"
-                    app:layout_constraintEnd_toEndOf="@id/layoutImageViewsHomeCreate"
-                    app:layout_constraintStart_toStartOf="@id/layoutImageViewsHomeCreate"
-                    app:layout_constraintTop_toTopOf="@id/layoutImageViewsHomeCreate" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutImageViewsHomeCreate"
-                    android:layout_width="0dp"
-                    android:layout_height="300dp"
-                    android:layout_margin="10dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editTextNightlyRateVillaCreateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imageCoverVillaCreate">
+                    app:layout_constraintTop_toBottomOf="@id/editTextDescriptionVillaCreateLayout"
+                    app:prefixText="₺">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextNightlyRateVillaCreate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Gecelik fiyat"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editTextCapacityVillaCreateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editTextNightlyRateVillaCreateLayout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextCapacityVillaCreate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Kaç kişi kalabilir"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textAddMoreImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="İlanınıza daha fazla resim\neklemek için tıklayın."
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editTextCapacityVillaCreateLayout"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutImageViewsVillaCreate"
+                    android:layout_width="0dp"
+                    android:layout_height="300dp"
+                    android:layout_margin="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textAddMoreImage">
 
                     <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/viewPagerCreateJobPost"
+                        android:id="@+id/viewPagerVillaCreate"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:orientation="horizontal"
-                        app:layout_constraintBottom_toTopOf="@id/indicatorCreateJobPost"
+                        app:layout_constraintBottom_toTopOf="@id/indicatorVillaCreate"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <me.relex.circleindicator.CircleIndicator3
-                        android:id="@+id/indicatorCreateJobPost"
-                        style="@style/IndicatorStyle"
+                        android:id="@+id/indicatorVillaCreate"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        app:ci_drawable="@drawable/indicator_drawable"
+                        app:ci_drawable_unselected="@drawable/indicator_drawable"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/viewPagerCreateJobPost"
-                        app:layout_constraintStart_toStartOf="@id/viewPagerCreateJobPost"
-                        app:layout_constraintTop_toBottomOf="@id/viewPagerCreateJobPost" />
+                        app:layout_constraintEnd_toEndOf="@id/viewPagerVillaCreate"
+                        app:layout_constraintStart_toStartOf="@id/viewPagerVillaCreate"
+                        app:layout_constraintTop_toBottomOf="@id/viewPagerVillaCreate" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                -->
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!--

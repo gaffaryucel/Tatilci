@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.viewmodel.home
+package com.androiddevelopers.villabuluyorum.viewmodel.villa
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeDetailViewModel
+class VillaDetailViewModel
 @Inject
 constructor(
     private val firebaseRepo: FirebaseRepoInterFace

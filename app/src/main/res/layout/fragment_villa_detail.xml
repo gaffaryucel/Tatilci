@@ -23,7 +23,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.home.HomeDetailFragment">
+        tools:context=".view.villa.VillaDetailFragment">
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/detailProgressBar"

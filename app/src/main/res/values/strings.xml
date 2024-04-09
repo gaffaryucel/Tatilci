@@ -1,12 +1,9 @@
 <resources>
-    <string name="app_name">VillaBuluyorum</string>
+    <string name="app_name">Villa Buluyorum</string>
     <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
     <string name="title_home">Home</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_notifications">Notifications</string>
-    <string name="title_profile">Profile</string>
     <string name="entry_description">Uygun fiyatlarla harika bir Villa bulun ve hayallerinizdeki tatili yaşamanın keyfini çıkarın!</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="web_client_id">131421807500-vd1uv5mlk9ap6kg2nt27ec46i7b852ds.apps.googleusercontent.com</string>
 </resources>

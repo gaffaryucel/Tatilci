@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".di.HiltApp"
@@ -13,12 +13,11 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.VillaBuluyorum"
+        android:theme="@style/Base.Theme.VillaBuluyorum"
         tools:targetApi="31">
         <activity
             android:name=".view.BottomNavigationActivity"
-            android:exported="false"
-            android:label="@string/title_activity_bottom_navigation" />
+            android:exported="false" />
         <activity
             android:name=".view.MainActivity"
             android:exported="true">
@@ -28,9 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".di.HiltApp"
-            android:exported="false" />
     </application>
 
 </manifest>

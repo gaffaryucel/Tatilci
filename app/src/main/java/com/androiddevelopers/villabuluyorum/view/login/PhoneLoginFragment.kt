@@ -91,7 +91,7 @@ class PhoneLoginFragment : Fragment() {
                         override fun onVerificationFailed(e: FirebaseException) {
                             // This callback is invoked in an invalid request for verification is made,
                             // for instance if the the phone number format is not valid.
-                            println("onVerificationFailed")
+                            println("onVerificationFailed : "+e)
                             setupDialog(e.localizedMessage)
                             binding.btnSendCode.isEnabled = true
                             binding.pbPhoneConfirm.visibility = View.INVISIBLE

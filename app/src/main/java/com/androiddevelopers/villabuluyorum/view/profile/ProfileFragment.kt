@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.view
+package com.androiddevelopers.villabuluyorum.view.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentProfileBinding
-import com.androiddevelopers.villabuluyorum.viewmodel.ProfileViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +24,14 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.ivSettings.setOnClickListener {
+            val action = ProfileFragmentDirections.actionNavigationProfileToEditProfileDetailsFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     override fun onDestroy() {

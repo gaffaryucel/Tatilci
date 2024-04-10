@@ -169,7 +169,9 @@
                             android:text="Google ile Giriş yap"
                             android:textSize="20dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            app:tint="@color/normal_text_color" />
+
                     </LinearLayout>
 
 
@@ -201,7 +203,9 @@
                             android:text="Telefon ile Giriş yap"
                             android:textSize="20dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            app:tint="@color/normal_text_color" />
+
                     </LinearLayout>
 
 

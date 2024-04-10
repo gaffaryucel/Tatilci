@@ -46,9 +46,13 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.androiddevelopers.villabuluyorum.view.ProfileFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_editProfileDetailsFragment"
+            app:destination="@id/editProfileDetailsFragment" />
+    </fragment>
 
     <action
         android:id="@+id/action_global_navigation_reservation"
@@ -147,4 +151,9 @@
         android:name="com.androiddevelopers.villabuluyorum.view.home.HomeDetailFacilitiesFragment"
         android:label="fragment_home_detail_facilities"
         tools:layout="@layout/fragment_home_detail_facilities" />
+    <fragment
+        android:id="@+id/editProfileDetailsFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.profile.EditProfileDetailsFragment"
+        android:label="fragment_edit_profile_details"
+        tools:layout="@layout/fragment_edit_profile_details" />
 </navigation>

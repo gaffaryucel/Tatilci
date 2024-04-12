@@ -147,7 +147,8 @@
 
     <!-- Background Colors-->
     <color name="app_bg_color">#000000</color>
-    <color name="translucent_background">#80000000</color>
+    <color name="translucent_background_color">#80000000</color>
+    <color name="translucent_bg_color_two">#4DFFFFFF</color>
 
     <!-- TextColors Colors-->
     <color name="normal_text_color">#FFFFFF</color>

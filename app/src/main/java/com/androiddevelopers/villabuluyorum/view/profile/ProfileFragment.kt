@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.view
+package com.androiddevelopers.villabuluyorum.view.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentProfileBinding
-import com.androiddevelopers.villabuluyorum.viewmodel.ProfileViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,7 +17,6 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     val viewModel: ProfileViewModel by viewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,11 +28,10 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        //FIXME: Create sayfasını denemek için eklendi
-        //FIXME:  Create sayfası için buton eklendiğinde kaldırılacak
-        val directions = ProfileFragmentDirections.actionNavigationProfileToVillaCreateFragment()
-        Navigation.findNavController(view).navigate(directions)
+        binding.ivSettings.setOnClickListener {
+            val action = ProfileFragmentDirections.actionNavigationProfileToEditProfileDetailsFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     override fun onDestroy() {

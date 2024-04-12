@@ -23,6 +23,7 @@ class BottomNavigationActivity : AppCompatActivity() {
 
         binding = ActivityBottomNavigationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         //host navigation fragmente erişiyoruz
         val navHostFragment =

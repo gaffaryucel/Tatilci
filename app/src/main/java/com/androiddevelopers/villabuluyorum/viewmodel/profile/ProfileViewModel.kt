@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.viewmodel
+package com.androiddevelopers.villabuluyorum.viewmodel.profile
 
 import android.view.View
 import androidx.lifecycle.ViewModel

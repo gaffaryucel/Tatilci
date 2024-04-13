@@ -27,7 +27,8 @@ class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
         get() = recyclerListDiffer.currentList
         set(value) = recyclerListDiffer.submitList(value)
 
-    inner class HouseViewHolder(val binding: RowHouseBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class HouseViewHolder(val binding: RowHouseBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HouseViewHolder {
         val binding = RowHouseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -53,7 +54,7 @@ class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
             }
         } catch (e: Exception) {
             // Hata durumunda bir işlem yapabilirsiniz
-            println("error : "+e)
+            println("error : " + e)
         }
     }
 

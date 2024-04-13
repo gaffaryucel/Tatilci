@@ -32,6 +32,10 @@ class ProfileFragment : Fragment() {
             val action = ProfileFragmentDirections.actionNavigationProfileToEditProfileDetailsFragment()
             Navigation.findNavController(it).navigate(action)
         }
+        binding.btnMessage.setOnClickListener {
+            val action = ProfileFragmentDirections.actionNavigationProfileToVillaCreateFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     override fun onDestroy() {

@@ -10,7 +10,23 @@
         <import type="android.view.View" />
 
         <variable
-            name="setProgressBar"
+            name="setProgressBarVisibility"
+            type="Boolean" />
+
+        <variable
+            name="setTextAddImageCoverVisibility"
+            type="Boolean" />
+
+        <variable
+            name="setImageCoverVisibility"
+            type="Boolean" />
+
+        <variable
+            name="setTextAddMoreImageVisibility"
+            type="Boolean" />
+
+        <variable
+            name="setViewPagerVisibility"
             type="Boolean" />
     </data>
 
@@ -38,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:visibility="@{setProgressBar == true ? View.VISIBLE : View.GONE}"
+            android:visibility="@{setProgressBarVisibility == true ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbarVillaCreate" />
@@ -55,16 +71,85 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textAddImageCover"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="İlanınıza kapak resimi\neklemek için tıklayın."
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:visibility="@{setTextAddImageCoverVisibility == true ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageCoverVillaCreate"
                     android:layout_width="0dp"
                     android:layout_height="300dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/add_image_cover"
+                    android:src="@drawable/placeholder"
+                    android:visibility="@{setImageCoverVisibility == true ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/textAddImageCover" />
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textAddMoreImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="İlanınıza daha fazla resim\neklemek için tıklayın."
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:visibility="@{setTextAddMoreImageVisibility == true ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imageCoverVillaCreate"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutImageViewsVillaCreate"
+                    android:layout_width="0dp"
+                    android:layout_height="300dp"
+                    android:layout_margin="8dp"
+                    android:visibility="@{setViewPagerVisibility == true ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textAddMoreImage">
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/viewPagerVillaCreate"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toTopOf="@id/indicatorVillaCreate"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <me.relex.circleindicator.CircleIndicator3
+                        android:id="@+id/indicatorVillaCreate"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        app:ci_drawable="@drawable/indicator_drawable"
+                        app:ci_drawable_unselected="@drawable/indicator_drawable"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/viewPagerVillaCreate"
+                        app:layout_constraintStart_toStartOf="@id/viewPagerVillaCreate"
+                        app:layout_constraintTop_toBottomOf="@id/viewPagerVillaCreate" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/editTextTitleVillaCreateLayout"
@@ -75,7 +160,7 @@
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imageCoverVillaCreate">
+                    app:layout_constraintTop_toBottomOf="@id/layoutImageViewsVillaCreate">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextTitleVillaCreate"
@@ -142,55 +227,6 @@
                         android:hint="Kaç kişi kalabilir"
                         tools:ignore="HardcodedText" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/textAddMoreImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/textview_border"
-                    android:gravity="center"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="4dp"
-                    android:text="İlanınıza daha fazla resim\neklemek için tıklayın."
-                    android:textAlignment="center"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/editTextCapacityVillaCreateLayout"
-                    tools:ignore="HardcodedText" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutImageViewsVillaCreate"
-                    android:layout_width="0dp"
-                    android:layout_height="300dp"
-                    android:layout_margin="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textAddMoreImage">
-
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/viewPagerVillaCreate"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintBottom_toTopOf="@id/indicatorVillaCreate"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <me.relex.circleindicator.CircleIndicator3
-                        android:id="@+id/indicatorVillaCreate"
-                        android:layout_width="0dp"
-                        android:layout_height="20dp"
-                        app:ci_drawable="@drawable/indicator_drawable"
-                        app:ci_drawable_unselected="@drawable/indicator_drawable"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/viewPagerVillaCreate"
-                        app:layout_constraintStart_toStartOf="@id/viewPagerVillaCreate"
-                        app:layout_constraintTop_toBottomOf="@id/viewPagerVillaCreate" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

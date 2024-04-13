@@ -39,6 +39,14 @@ class VillaCreateFragment : Fragment() {
             facilities = Facilities()
         }
 
+        with(binding) {
+            setProgressBarVisibility = false
+            setTextAddImageCoverVisibility = true
+            setImageCoverVisibility = false
+            setTextAddMoreImageVisibility = true
+            setViewPagerVisibility = false
+        }
+
         // addVillaToFirestore()
     }
 

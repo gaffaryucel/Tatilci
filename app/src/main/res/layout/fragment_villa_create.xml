@@ -228,7 +228,87 @@
                         tools:ignore="HardcodedText" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editTextBedroomCountVillaCreateLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toStartOf="@id/editTextBedCountVillaCreateLayout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editTextCapacityVillaCreateLayout">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextBedroomCountVillaCreate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Yatak odası"
+                        android:inputType="number"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editTextBedCountVillaCreateLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="40dp"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/editTextBedroomCountVillaCreateLayout"
+                    app:layout_constraintTop_toBottomOf="@id/editTextCapacityVillaCreateLayout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextBedCountVillaCreate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Yatak"
+                        android:inputType="number"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editTextBathroomCountVillaCreateLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toStartOf="@id/editTextRestroomCountVillaCreateLayout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editTextBedCountVillaCreateLayout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextBathroomCountVillaCreate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Banyo"
+                        android:inputType="number"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editTextRestroomCountVillaCreateLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="40dp"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/editTextBathroomCountVillaCreateLayout"
+                    app:layout_constraintTop_toBottomOf="@id/editTextBedCountVillaCreateLayout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextRestroomCountVillaCreate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Tuvalet"
+                        android:inputType="number"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!--
                         <LinearLayout

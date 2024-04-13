@@ -1,25 +1,70 @@
 package com.androiddevelopers.villabuluyorum.viewmodel.villa
 
-import android.net.Uri
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.androiddevelopers.villabuluyorum.model.VillaModel
+import androidx.lifecycle.viewModelScope
+import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.provinces.District
+import com.androiddevelopers.villabuluyorum.model.provinces.Neighborhood
+import com.androiddevelopers.villabuluyorum.model.provinces.Province
+import com.androiddevelopers.villabuluyorum.model.provinces.Village
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
-import com.google.android.gms.tasks.Task
+import com.androiddevelopers.villabuluyorum.repo.RoomProvinceRepo
+import com.androiddevelopers.villabuluyorum.util.Resource
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class VillaCreateViewModel
-@Inject
-constructor(
+@Inject constructor(
+    private val firebaseRepo: FirebaseRepoInterFace,
     private val firebaseAuth: FirebaseAuth,
-    private val repo : FirebaseRepoInterFace
+    private val roomProvinceRepo: RoomProvinceRepo
 ) : ViewModel() {
 
+    private var _liveDataFirebaseStatus = MutableLiveData<Resource<Boolean>>()
+    val liveDataFirebaseStatus: LiveData<Resource<Boolean>>
+        get() = _liveDataFirebaseStatus
+
+    private var _liveDataFirebaseProvince = MutableLiveData<List<Province>>()
+    val liveDataFirebaseProvince: LiveData<List<Province>>
+        get() = _liveDataFirebaseProvince
+
+    private var _liveDataFirebaseDistrict = MutableLiveData<List<District>>()
+    val liveDataFirebaseDistrict: LiveData<List<District>>
+        get() = _liveDataFirebaseDistrict
+
+    private var _liveDataFirebaseNeighborhood = MutableLiveData<List<Neighborhood>>()
+    val liveDataFirebaseNeighborhood: LiveData<List<Neighborhood>>
+        get() = _liveDataFirebaseNeighborhood
+
+    private var _liveDataFirebaseVillage = MutableLiveData<List<Village>>()
+    val liveDataFirebaseVillage: LiveData<List<Village>>
+        get() = _liveDataFirebaseVillage
+
+    private var _liveDataFirebaseUser = MutableLiveData<UserModel>()
+    val liveDataFirebaseUser: LiveData<UserModel>
+        get() = _liveDataFirebaseUser
+
+
+    fun getAllProvince() = viewModelScope.launch(Dispatchers.IO) {
+        _liveDataFirebaseProvince.value = roomProvinceRepo.getAllProvince()
+    }
+
+    fun getAllDistrictById(provinceId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        _liveDataFirebaseDistrict.value = roomProvinceRepo.getAllDistrictById(provinceId)
+    }
+
+    fun getAllNeighborhoodAndVillageById(districtId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        _liveDataFirebaseNeighborhood.value = roomProvinceRepo.getAllNeighborhoodById(districtId)
+        _liveDataFirebaseVillage.value = roomProvinceRepo.getAllVillageById(districtId)
+    }
+
+    /*
 
         private val userId = firebaseAuth.currentUser?.uid.toString()
 
@@ -49,4 +94,5 @@ constructor(
                 addVillaToFirestore(home)
             }
         }
+     */
 }

@@ -8,6 +8,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoImpl
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
+import com.androiddevelopers.villabuluyorum.repo.RoomProvinceRepo
 import com.androiddevelopers.villabuluyorum.room.dao.ProvinceDao
 import com.androiddevelopers.villabuluyorum.room.database.AppRoomDatabase
 import com.androiddevelopers.villabuluyorum.service.NotificationAPI
@@ -120,6 +121,12 @@ object AppModule {
     @Provides
     fun provideProvinceDao(database: AppRoomDatabase): ProvinceDao {
         return database.provinceDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRoomProvinceRepo(provinceDao: ProvinceDao): RoomProvinceRepo {
+        return RoomProvinceRepo(provinceDao)
     }
 
 }

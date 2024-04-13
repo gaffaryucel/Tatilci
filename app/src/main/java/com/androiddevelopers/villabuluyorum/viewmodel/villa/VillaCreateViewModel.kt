@@ -1,6 +1,14 @@
 package com.androiddevelopers.villabuluyorum.viewmodel.villa
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
+import com.androiddevelopers.villabuluyorum.model.VillaModel
+import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -8,9 +16,10 @@ import javax.inject.Inject
 class VillaCreateViewModel
 @Inject
 constructor(
-
+    private val firebaseAuth: FirebaseAuth,
+    private val repo : FirebaseRepoInterFace
 ) : ViewModel() {
-    /*
+
 
         private val userId = firebaseAuth.currentUser?.uid.toString()
 
@@ -40,5 +49,4 @@ constructor(
                 addVillaToFirestore(home)
             }
         }
-     */
 }

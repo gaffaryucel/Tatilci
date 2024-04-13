@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.R
@@ -15,6 +16,9 @@ import com.androiddevelopers.villabuluyorum.databinding.FragmentSignInBinding
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.view.BottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.login.SignInViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,6 +35,9 @@ class SignInFragment : Fragment() {
     private lateinit var forgotPasswordSuccessDialog: AlertDialog
     private lateinit var verificationEmailSentDialog: AlertDialog
     private lateinit var verificationEmailSentErrorDialog: AlertDialog
+
+    val RC_SIGN_IN = 20
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +64,18 @@ class SignInFragment : Fragment() {
         setProgressBar(false)
         setupDialogs()
         observeLiveData(viewLifecycleOwner)
+
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.web_client_id))
+            .requestEmail().build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+
+
+        binding.btnGoogle.setOnClickListener {
+            googleSignIn()
+        }
 
         with(binding) {
             btnSignIn.setOnClickListener {
@@ -269,4 +288,33 @@ class SignInFragment : Fragment() {
         }
     }
 
+    private fun googleSignIn() {
+        val intent = mGoogleSignInClient.signInIntent
+        startActivityForResult(intent, RC_SIGN_IN)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                task.addOnSuccessListener {
+                    val account = it.requestExtraScopes()
+                    viewModel.signInWithGoogle(account.idToken)
+                }.addOnFailureListener {
+                    Toast.makeText(
+                        requireContext(),
+                        "Giriş Yapılamadı",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(
+                    requireContext(),
+                    "Giriş Yapılamadı : "+e.localizedMessage,
+                    Toast.LENGTH_LONG
+                ).show()            }
+        }
+    }
 }

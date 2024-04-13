@@ -67,17 +67,21 @@ constructor(
     private fun createUser(
         userId : String,
         email: String,
+        google : Boolean? = false
     ) = viewModelScope.launch{
         val tempUsername = email.substringBefore("@")
         val user = makeUser(userId,tempUsername,email,userToken.value?.data.toString())
         firebaseRepo.addUserToFirestore(user)
              .addOnSuccessListener {
-                 verify()
+                 if (google == false){
+                     verify()
+                 }else{
+                     _authState.value = Resource.success(true)
+
+                 }
              }.addOnFailureListener { e ->
                  _authState.value = Resource.error(e.localizedMessage ?: "error : try again later",null)
              }
-
-
     }
 
     private fun verify() = viewModelScope.launch{
@@ -137,10 +141,13 @@ constructor(
         val cridential = GoogleAuthProvider.getCredential(idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(cridential).addOnCompleteListener {
             if (it.isSuccessful) {
-                _authState.value = Resource.success(true)
                 val user = it.result.user
                 if (user != null){
-                    createUser(user.uid,user.email.toString())
+                    if (user.displayName == null){
+                        createUser(user.uid,user.email.toString(),true)
+                    }else{
+                        _authState.value = Resource.success(true)
+                    }
                 }
             }else{
                 _authState.value = Resource.error("Hata : Tekrar deneyin",null)

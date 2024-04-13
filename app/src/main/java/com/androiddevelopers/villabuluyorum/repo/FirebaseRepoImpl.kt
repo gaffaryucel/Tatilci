@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
@@ -33,7 +34,6 @@ class FirebaseRepoImpl @Inject constructor(
 
     //RealtimeRef
     private val messagesReference = database.getReference("messages")
-
 
     //Auth
     override fun login(email: String, password: String): Task<AuthResult> {
@@ -79,11 +79,18 @@ class FirebaseRepoImpl @Inject constructor(
         return villaCollection.document(villaId).delete()
     }
 
-    override fun getAllVillasFromFirestore(): Task<QuerySnapshot> {
-        return villaCollection.get()
+    override fun getAllVillasFromFirestore(limit : Long): Task<QuerySnapshot> {
+        return villaCollection.limit(limit).get()
     }
 
     override fun getVillaByIdFromFirestore(villaId: String): Task<DocumentSnapshot> {
         return villaCollection.document(villaId).get()
     }
+    override fun getVillasByStarRatingFromFirestore(limit : Long): Task<QuerySnapshot> {
+        return villaCollection.orderBy("star", Query.Direction.DESCENDING).limit(limit).get()
+    }
+    override fun getVillasByCity(city : String,limit : Long): Task<QuerySnapshot> {
+        return villaCollection.whereEqualTo("city",city).orderBy("star", Query.Direction.DESCENDING).limit(limit).get()
+    }
+
 }

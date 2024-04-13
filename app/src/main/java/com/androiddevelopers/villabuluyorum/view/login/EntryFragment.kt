@@ -36,12 +36,16 @@ class EntryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+      /*
         FirebaseAuth.getInstance().signOut()
         val googleSignInClient = GoogleSignIn.getClient(requireContext(), GoogleSignInOptions.DEFAULT_SIGN_IN)
         googleSignInClient.signOut().addOnCompleteListener {
             // Kullanıcıyı başka bir aktiviteye yönlendir veya ek işlemler yap
             // Örneğin, giriş ekranına geri dönme gibi
         }
+
+       */
+
         binding.btnSignIn.setOnClickListener{
             val action = EntryFragmentDirections.actionEntryFragmentToSignInFragment()
             Navigation.findNavController(it).navigate(action)

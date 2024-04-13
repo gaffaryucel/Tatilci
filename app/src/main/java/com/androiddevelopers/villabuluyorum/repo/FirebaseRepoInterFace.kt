@@ -24,8 +24,10 @@ interface FirebaseRepoInterFace {
     //Firestore - Villa
     fun addVillaToFirestore(villaId: String, villa: Villa): Task<Void>
     fun deleteVillaFromFirestore(villaId: String): Task<Void>
-    fun getAllVillasFromFirestore(): Task<QuerySnapshot>
+    fun getAllVillasFromFirestore(limit : Long): Task<QuerySnapshot>
     fun getVillaByIdFromFirestore(villaId: String): Task<DocumentSnapshot>
+    fun getVillasByStarRatingFromFirestore(limit : Long): Task<QuerySnapshot>
+    fun getVillasByCity(city : String,limit : Long): Task<QuerySnapshot>
     /*
     fun updateViewCountOfVilla(
         postId: String,

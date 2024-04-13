@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -27,8 +26,8 @@ class HomeFragment : Fragment() {
 
     val viewModel: HomeViewModel by viewModels()
 
-    private lateinit var closeVillasAdapter : HouseAdapter
-    private lateinit var bestHouseAdapter: BestHouseAdapter
+    private val closeVillasAdapter: HouseAdapter = HouseAdapter()
+    private val bestHouseAdapter: BestHouseAdapter = BestHouseAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,25 +41,22 @@ class HomeFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        closeVillasAdapter = HouseAdapter()
-        binding.rvCloseHomes.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL,false)
+
+        binding.rvCloseHomes.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvCloseHomes.adapter = closeVillasAdapter
 
-        bestHouseAdapter = BestHouseAdapter()
         binding.rvBest.layoutManager = LinearLayoutManager(requireContext())
         binding.rvBest.adapter = bestHouseAdapter
 
 
-        binding.searchView.setOnClickListener {
-            search?.invoke("Home")
-            println("click")
-        }
         binding.sv.isClickable = false
         binding.sv.isFocusable = false
         binding.sv.isFocusableInTouchMode = false
-        observeLiveData()
 
-        val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_bottom_navigation) as NavHostFragment?
+
+        val navHostFragment =
+            requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_bottom_navigation) as NavHostFragment?
         val navControl = navHostFragment?.navController
 
         binding.searchView.setOnClickListener {
@@ -69,6 +65,13 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        binding.pbHome.visibility = View.VISIBLE
+        observeLiveData()
+    }
+
     private fun observeLiveData() {
         viewModel.firebaseMessage.observe(viewLifecycleOwner, Observer {
             when (it.status) {
@@ -76,10 +79,12 @@ class HomeFragment : Fragment() {
                     binding.pbHome.visibility = View.GONE
                     binding.tvError.visibility = View.GONE
                 }
+
                 Status.LOADING -> {
                     binding.pbHome.visibility = View.VISIBLE
                     binding.tvError.visibility = View.GONE
                 }
+
                 Status.ERROR -> {
                     binding.pbHome.visibility = View.GONE
                     binding.tvError.visibility = View.VISIBLE
@@ -89,20 +94,26 @@ class HomeFragment : Fragment() {
         viewModel.bestVillas.observe(viewLifecycleOwner, Observer { villas ->
             if (villas != null) {
                 bestHouseAdapter.villaList = villas
+                binding.pbHome.visibility = View.GONE
             }
         })
         viewModel.closeVillas.observe(viewLifecycleOwner, Observer { villas ->
             if (villas != null) {
                 closeVillasAdapter.housesList = villas
+                binding.pbHome.visibility = View.GONE
             }
         })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        closeVillasAdapter.housesList = listOf()
+        bestHouseAdapter.villaList = listOf()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-    var search: ((String) -> Unit)? = null
 
 }

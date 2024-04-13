@@ -3,12 +3,14 @@ package com.androiddevelopers.villabuluyorum.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.util.Resource
 import com.androiddevelopers.villabuluyorum.util.toVilla
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,7 +40,7 @@ constructor(
         getBestVillas(20)
     }
 
-    fun getCloseVillas(city : String, limit : Long){
+    fun getCloseVillas(city : String, limit : Long) = viewModelScope.launch{
         _firebaseMessage.value = Resource.loading(null)
         repo.getAllVillasFromFirestore(limit)
             .addOnSuccessListener {
@@ -54,7 +56,7 @@ constructor(
                 _firebaseMessage.value = Resource.error("Belge alınamadı. Hata: $exception", null)
             }
     }
-    fun getBestVillas(limit : Long){
+    fun getBestVillas(limit : Long) = viewModelScope.launch{
         _firebaseMessage.value = Resource.loading(null)
         repo.getAllVillasFromFirestore(limit)
             .addOnSuccessListener {

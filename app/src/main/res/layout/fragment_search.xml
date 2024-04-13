@@ -1,13 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.SearchFragment">
-
-    <TextView
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="9dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                app:layout_constraintTop_toTopOf="@+id/ivFilter"
+                app:layout_constraintBottom_toBottomOf="@+id/ivFilter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ivFilter"
+                android:layout_width="0dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/search_view_bg"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/ivFilter"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/rounded_button_background"
+                android:src="@drawable/filter"
+                android:padding="10dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/layoutSearch"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/etMinPrice"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="8dp"
+                    android:layout_weight="1"
+                    android:hint="En Düşük"
+                    android:background="@drawable/search_view_bg"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"/>
+                <EditText
+                    android:inputType="numberDecimal"
+                    android:id="@+id/etMaxPrice"
+                    android:paddingStart="8dp"
+                    android:layout_weight="1"
+                    android:hint="En Yüksek"
+                    android:background="@drawable/search_view_bg"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSearch"
+                    android:background="@drawable/rounded_button_background"
+                    android:textColor="@color/white"
+                    android:text="Ara"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"/>
+
+
+            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:visibility="gone"
+                android:id="@+id/btnCancel"
+                android:background="@drawable/refresh_button_bg"
+                android:textColor="@color/white"
+                android:text="Sıfırla"
+                android:layout_width="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="30dp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/layoutEmptyList"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginTop="15dp"
+                android:src="@drawable/close"
+                android:layout_gravity="center"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <TextView
+                android:layout_marginTop="15dp"
+                android:text="Bu kriterlere uygun ev bulunamadı"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="25sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="10dp"
+            android:id="@+id/rvCloseHomes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

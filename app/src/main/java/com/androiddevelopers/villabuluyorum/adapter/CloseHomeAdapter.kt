@@ -5,19 +5,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowHouseBinding
-import com.androiddevelopers.villabuluyorum.model.Villa
+import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.bumptech.glide.Glide
 
 class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
 
     private val diffUtil = object : DiffUtil.ItemCallback<Villa>() {
         override fun areItemsTheSame(oldItem: Villa, newItem: Villa): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.villaId == newItem.villaId
         }
 
         override fun areContentsTheSame(oldItem: Villa, newItem: Villa): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.villaId == newItem.villaId
         }
     }
     private val recyclerListDiffer = AsyncListDiffer(this, diffUtil)
@@ -37,13 +38,15 @@ class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
         val house = housesList[position]
 
         try {
-            println("try")
+            holder.binding.imageHouse.setImageResource(R.drawable.ic_launcher_background)
+            /*
             Glide.with(holder.itemView.context).load("")
                 .into(holder.binding.imageHouse)
+            */
 
-            holder.binding.textTitle.text = house.villaName
-            holder.binding.textAddress.text = house.location
-            holder.binding.textDistance.text = "Mesafe"
+            holder.binding.textTitle.text = house.villaName ?: "Deniz kenarı villa"
+            holder.binding.textAddress.text = house.location ?: "İstanbul, Kadıköy"
+            holder.binding.textDistance.text = "5KM"
 
             holder.itemView.setOnClickListener {
 

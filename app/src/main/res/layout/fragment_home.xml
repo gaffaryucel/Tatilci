@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/ApplicationBackGroundStyle"
-    tools:context="view.home.HomeFragment" >
+    tools:context=".view.HomeFragment" >
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -24,6 +24,7 @@
                 android:layout_marginStart="5dp"
                 android:id="@+id/tvLocation"
                 android:text="konum"
+                android:textColor="@color/normal_text_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <TextView
@@ -35,12 +36,13 @@
                 android:text="İstanbul"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/normal_text_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
 
             <ImageView
+                android:tint="@color/normal_text_color"
                 app:layout_constraintStart_toEndOf="@+id/tvTitle"
                 app:layout_constraintTop_toTopOf="@+id/tvTitle"
                 app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
@@ -83,13 +85,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView"
+                android:id="@+id/sv"
+                android:clickable="false"
+                android:focusable="false"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="0dp"
                 android:layout_marginEnd="5dp"
                 android:background="@drawable/search_view_bg"
                 android:layout_height="wrap_content"/>
+
+            <ImageView
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/searchView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -243,6 +256,21 @@
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+        <ProgressBar
+            android:id="@+id/pbHome"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Hata : Tekrar deneyin"
+            android:id="@+id/tvError"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

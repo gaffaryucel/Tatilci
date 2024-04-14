@@ -15,10 +15,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class EditProfileDetailsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = EditProfileDetailsFragment()
-    }
-
     private lateinit var viewModel: EditProfileDetailsViewModel
 
     override fun onCreateView(
@@ -31,17 +27,16 @@ class EditProfileDetailsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(EditProfileDetailsViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
     override fun onResume() {
         super.onResume()
-        hideBottomNavigation(activity)
+        hideBottomNavigation(requireActivity())
     }
 
     override fun onPause() {
         super.onPause()
-        showBottomNavigation(activity)
+        showBottomNavigation(requireActivity())
     }
 
 }

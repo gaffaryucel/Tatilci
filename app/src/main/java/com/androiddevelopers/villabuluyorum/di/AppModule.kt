@@ -3,10 +3,14 @@ package com.androiddevelopers.villabuluyorum.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.room.Room
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoImpl
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
+import com.androiddevelopers.villabuluyorum.repo.RoomProvinceRepo
+import com.androiddevelopers.villabuluyorum.room.dao.ProvinceDao
+import com.androiddevelopers.villabuluyorum.room.database.AppRoomDatabase
 import com.androiddevelopers.villabuluyorum.service.NotificationAPI
 import com.androiddevelopers.villabuluyorum.util.Util.BASE_URL
 import com.androiddevelopers.villabuluyorum.util.Util.DATABASE_URL
@@ -96,12 +100,33 @@ object AppModule {
         storage: FirebaseStorage,
         notificationAPI: NotificationAPI
     ): FirebaseRepoInterFace {
-        return FirebaseRepoImpl(auth, firestore ,database, storage,notificationAPI)
+        return FirebaseRepoImpl(auth, firestore, database, storage, notificationAPI)
     }
 
     @Singleton
     @Provides
     fun provideSharedPreferences(context: Context): SharedPreferences {
-        return context.getSharedPreferences("app_shared_preferences",Context.MODE_PRIVATE)
+        return context.getSharedPreferences("app_shared_preferences", Context.MODE_PRIVATE)
     }
+
+    @Singleton
+    @Provides
+    fun provideAppRoomDatabase(context: Context): AppRoomDatabase {
+        return Room.databaseBuilder(context, AppRoomDatabase::class.java, "room-database.sqlite")
+            .createFromAsset("room-database.sqlite")
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideProvinceDao(database: AppRoomDatabase): ProvinceDao {
+        return database.provinceDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRoomProvinceRepo(provinceDao: ProvinceDao): RoomProvinceRepo {
+        return RoomProvinceRepo(provinceDao)
+    }
+
 }

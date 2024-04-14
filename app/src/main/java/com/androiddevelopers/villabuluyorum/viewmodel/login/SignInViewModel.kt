@@ -5,9 +5,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.util.Resource
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -104,4 +107,62 @@ class SignInViewModel @Inject constructor(
             firebaseRepo.updateUserData(currentUserId, tokenMap)
         }
     }
+    fun signInWithGoogle(idToken: String?) {
+        _authState.value = Resource.loading(null)
+        val cridential = GoogleAuthProvider.getCredential(idToken, null)
+        FirebaseAuth.getInstance().signInWithCredential(cridential).addOnCompleteListener {
+            if (it.isSuccessful) {
+                _authState.value = Resource.success(true)
+                val user = it.result.user
+                if (user != null){
+                    if (user.displayName == null){
+                        createUser(user.uid,user.email.toString())
+                    }else{
+                        _authState.value = Resource.success(true)
+                    }
+                    updateUserToken(user.uid)
+                }
+            }else{
+                _authState.value = Resource.error("Hata : Tekrar deneyin",null)
+            }
+        }
+    }
+    private fun createUser(
+        userId : String,
+        email: String,
+    ) = viewModelScope.launch{
+        val tempUsername = email.substringBefore("@")
+        val user = makeUser(userId,tempUsername,email,userToken.value?.data.toString())
+        firebaseRepo.addUserToFirestore(user)
+            .addOnSuccessListener {
+                updateDisplayName(user.email.toString())
+            }.addOnFailureListener { e ->
+                _authState.value = Resource.error(e.localizedMessage ?: "error : try again later",null)
+            }
+    }
+    private fun makeUser(userId : String,userName: String,email: String,token: String) : UserModel {
+        return UserModel(
+            userId = userId,
+            username = userName,
+            email = email,
+            token = token
+        )
+    }
+    private fun updateDisplayName(newDisplayName : String){
+        val profileUpdates = UserProfileChangeRequest.Builder()
+            .setDisplayName(newDisplayName)
+            .build()
+
+        firebaseAuth.currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                _authState.value = Resource.success(true)
+            } else {
+                _authState.value = Resource.error(task.exception?.localizedMessage ?: "error : try again later",null)
+            }
+        }
+    }
+    /*
+    Kullanıcının gösterilen adı güncellendi. Giriş kısmına kullanıcı oluşturmak komuta eklendi.
+    Ve kaydolma kısmında kullanıcının görünen adını güncellemek için. Işlem yapıldı. Aynısı giriş yapma kısmında Yapılmalı.
+     */
 }

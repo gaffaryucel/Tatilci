@@ -10,8 +10,28 @@
         <import type="android.view.View" />
 
         <variable
-            name="setProgressBar"
+            name="setProgressBarVisibility"
             type="Boolean" />
+
+        <variable
+            name="setTextAddImageCoverVisibility"
+            type="Boolean" />
+
+        <variable
+            name="setImageCoverVisibility"
+            type="Boolean" />
+
+        <variable
+            name="setTextAddMoreImageVisibility"
+            type="Boolean" />
+
+        <variable
+            name="setViewPagerVisibility"
+            type="Boolean" />
+
+        <variable
+            name="numberAdapter"
+            type="android.widget.ArrayAdapter&lt;String>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:visibility="@{setProgressBar == true ? View.VISIBLE : View.GONE}"
+            android:visibility="@{setProgressBarVisibility == true ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbarVillaCreate" />
@@ -55,16 +75,85 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textAddImageCover"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="İlanınıza kapak resimi\neklemek için tıklayın."
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:visibility="@{setTextAddImageCoverVisibility == true ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageCoverVillaCreate"
                     android:layout_width="0dp"
                     android:layout_height="300dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/add_image_cover"
+                    android:src="@drawable/placeholder"
+                    android:visibility="@{setImageCoverVisibility == true ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/textAddImageCover" />
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textAddMoreImage"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="İlanınıza daha fazla resim\neklemek için tıklayın."
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:visibility="@{setTextAddMoreImageVisibility == true ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imageCoverVillaCreate"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutImageViewsVillaCreate"
+                    android:layout_width="0dp"
+                    android:layout_height="300dp"
+                    android:layout_margin="8dp"
+                    android:visibility="@{setViewPagerVisibility == true ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textAddMoreImage">
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/viewPagerVillaCreate"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toTopOf="@id/indicatorVillaCreate"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <me.relex.circleindicator.CircleIndicator3
+                        android:id="@+id/indicatorVillaCreate"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        app:ci_drawable="@drawable/indicator_drawable"
+                        app:ci_drawable_unselected="@drawable/indicator_drawable"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/viewPagerVillaCreate"
+                        app:layout_constraintStart_toStartOf="@id/viewPagerVillaCreate"
+                        app:layout_constraintTop_toBottomOf="@id/viewPagerVillaCreate" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/editTextTitleVillaCreateLayout"
@@ -75,7 +164,7 @@
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imageCoverVillaCreate">
+                    app:layout_constraintTop_toBottomOf="@id/layoutImageViewsVillaCreate">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextTitleVillaCreate"
@@ -121,11 +210,237 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Gecelik fiyat"
+                        android:inputType="numberDecimal"
                         tools:ignore="HardcodedText" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/editTextCapacityVillaCreateLayout"
+                    android:id="@+id/dropdownCapacityVillaCreateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editTextNightlyRateVillaCreateLayout">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownCapacityVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{numberAdapter}"
+                        android:hint="Kaç kişi kalabilir"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownBedroomCountVillaCreateLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toStartOf="@id/dropdownBedCountVillaCreateLayout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownCapacityVillaCreateLayout">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownBedroomCountVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{numberAdapter}"
+                        android:hint="Yatak odası"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownBedCountVillaCreateLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="40dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/dropdownBedroomCountVillaCreateLayout"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownCapacityVillaCreateLayout">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownBedCountVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{numberAdapter}"
+                        android:hint="Yatak"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownBathroomCountVillaCreateLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toStartOf="@id/dropdownRestroomCountVillaCreateLayout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownBedCountVillaCreateLayout">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownBathroomCountVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{numberAdapter}"
+                        android:hint="Banyo"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownRestroomCountVillaCreateLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="40dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/dropdownBathroomCountVillaCreateLayout"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownBedCountVillaCreateLayout">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownRestroomCountVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{numberAdapter}"
+                        android:hint="Tuvalet"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textAddMoreFacility"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="İlanınıza daha fazla olanak\neklemek için tıklayın."
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:visibility="@{setTextAddMoreImageVisibility == true ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownRestroomCountVillaCreateLayout"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/dividerAddressVillaCreate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textAddMoreFacility" />
+
+                <TextView
+                    android:id="@+id/textAddressVillaCreate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Villa adresi"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dividerAddressVillaCreate"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownProvinceVillaCreateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textAddressVillaCreate">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownProvinceVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="İl seçin"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownDistrictVillaCreateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownProvinceVillaCreateLayout">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownDistrictVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="İlçe seçin"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownNeighborhoodAndVillageVillaCreateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownDistrictVillaCreateLayout">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownNeighborhoodAndVillageVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Mahalle/Köy seçin"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editTextAddressVillaCreateLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="40dp"
@@ -133,313 +448,31 @@
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/editTextNightlyRateVillaCreateLayout">
+                    app:layout_constraintTop_toBottomOf="@id/dropdownNeighborhoodAndVillageVillaCreateLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextCapacityVillaCreate"
+                        android:id="@+id/editTextAddressVillaCreate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Kaç kişi kalabilir"
+                        android:hint="Adres"
                         tools:ignore="HardcodedText" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/textAddMoreImage"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/buttonSaveVillaCreate"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/textview_border"
-                    android:gravity="center"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="4dp"
-                    android:text="İlanınıza daha fazla resim\neklemek için tıklayın."
-                    android:textAlignment="center"
+                    android:layout_marginVertical="40dp"
+                    android:text="Kaydet"
+                    android:textSize="16sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/editTextCapacityVillaCreateLayout"
+                    app:layout_constraintTop_toBottomOf="@id/editTextAddressVillaCreateLayout"
                     tools:ignore="HardcodedText" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutImageViewsVillaCreate"
-                    android:layout_width="0dp"
-                    android:layout_height="300dp"
-                    android:layout_margin="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textAddMoreImage">
-
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/viewPagerVillaCreate"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintBottom_toTopOf="@id/indicatorVillaCreate"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <me.relex.circleindicator.CircleIndicator3
-                        android:id="@+id/indicatorVillaCreate"
-                        android:layout_width="0dp"
-                        android:layout_height="20dp"
-                        app:ci_drawable="@drawable/indicator_drawable"
-                        app:ci_drawable_unselected="@drawable/indicator_drawable"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/viewPagerVillaCreate"
-                        app:layout_constraintStart_toStartOf="@id/viewPagerVillaCreate"
-                        app:layout_constraintTop_toBottomOf="@id/viewPagerVillaCreate" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <!--
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:orientation="vertical"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/toolbarVillaCreate">
-
-                            &lt;!&ndash; Villa Adı &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilVillaName"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Başlık">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etTitle"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="text" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Konum &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilLocation"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Adres">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etAddress"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="text" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Geceleyin Ücreti &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilNightlyRate"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Geceleyin Ücreti">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etNightlyRate"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="numberDecimal" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Kapasite &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilCapacity"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Kapasite">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etCapacity"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="number" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Yatak Odası Sayısı &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilBedroomCount"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Yatak Odası Sayısı">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etBedroomCount"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="number" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Yatak Sayısı &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilBedCount"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Yatak Sayısı">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etBedCount"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="number" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Banyo Sayısı &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilBathroomCount"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Banyo Sayısı">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etBathroomCount"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="number" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Havuz &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilHasPool"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Havuz Var mı?">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etHasPool"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="text" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Bahçe Alanı &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilGardenArea"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Bahçe Alanı">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etGardenArea"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="numberDecimal" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Olanaklar &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilAmenities"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Olanaklar (virgülle ayırın)">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etAmenities"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="text" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Minimum Kalış Süresi &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilMinStayDuration"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Minimum Kalış Süresi">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etMinStayDuration"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="number" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Rezervasyon Ücreti &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilReservationFee"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Rezervasyon Ücreti">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etReservationFee"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="numberDecimal" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Airbnb Hizmet Ücreti &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilAirbnbServiceFee"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Airbnb Hizmet Ücreti">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etAirbnbServiceFee"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="numberDecimal" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Vergiler Hariç Toplam &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilTotalExcludingTaxes"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Vergiler Hariç Toplam">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etTotalExcludingTaxes"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="numberDecimal" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Bölge &ndash;&gt;
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tilRegion"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Bölge">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etRegion"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="text" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            &lt;!&ndash; Kaydet Butonu &ndash;&gt;
-                            <Button
-                                android:id="@+id/btnSave"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="Kaydet" />
-
-                        </LinearLayout>
-                        -->
         </ScrollView>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.viewmodel
+package com.androiddevelopers.villabuluyorum.viewmodel.serch
 
 import androidx.lifecycle.ViewModel
 

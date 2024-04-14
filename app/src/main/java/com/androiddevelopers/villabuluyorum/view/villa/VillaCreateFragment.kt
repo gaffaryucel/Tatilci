@@ -71,6 +71,7 @@ class VillaCreateFragment : Fragment() {
     }
 
     private fun createVilla(id: String): Villa {
+        //TODO: Resim ekleme için gerekli işlemleri tamamla
         val newVilla = Villa()
         with(binding) {
             with(newVilla) {
@@ -227,6 +228,8 @@ class VillaCreateFragment : Fragment() {
             }
 
             textAddMoreFacility.setOnClickListener {
+                //TODO: Create ekranında yapılan değişiklikeri kaybetmemek için giderken mevcut verileride gönder
+                //TODO: Dönüşte bilgileri tekrar ekrana yazdır
                 Navigation.findNavController(it)
                     .navigate(actionVillaCreateFragmentToVillaCreateFacilitiesFragment())
             }

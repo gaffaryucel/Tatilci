@@ -5,6 +5,7 @@ import com.androiddevelopers.villabuluyorum.model.provinces.Neighborhood
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.model.provinces.Village
 import com.androiddevelopers.villabuluyorum.room.dao.ProvinceDao
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RoomProvinceRepo
@@ -12,15 +13,15 @@ class RoomProvinceRepo
 constructor(
     private val provinceDao: ProvinceDao
 ) {
-    suspend fun getAllProvince(): List<Province> =
+    fun getAllProvince(): Flow<List<Province>> =
         provinceDao.getAllProvince()
 
-    suspend fun getAllDistrictById(provinceId: Int): List<District> =
+    fun getAllDistrictById(provinceId: Int): Flow<List<District>> =
         provinceDao.getAllDistrictById(provinceId)
 
-    suspend fun getAllNeighborhoodById(districtId: Int): List<Neighborhood> =
+    fun getAllNeighborhoodById(districtId: Int): Flow<List<Neighborhood>> =
         provinceDao.getAllNeighborhoodById(districtId)
 
-    suspend fun getAllVillageById(districtId: Int): List<Village> =
+    fun getAllVillageById(districtId: Int): Flow<List<Village>> =
         provinceDao.getAllVillageById(districtId)
 }

@@ -1,18 +1,18 @@
 package com.androiddevelopers.villabuluyorum.model.villa
 
 data class Villa(
-    var villaId: String? = null,
-    var hostId: String? = null,
-    var villaName: String? = null,
-    var description: String? = null,
-    var location: String? = null,
-    var nightlyRate: Double? = null,
-    var capacity: Int? = null,
-    var bedroomCount: Int? = null,
-    var bedCount: Int? = null,
-    var bathroomCount: Int? = null,
-    var restroom: Int? = null,
-    var hasPool: Boolean? = null,
+    var villaId: String? = null, // villanın database id si
+    var hostId: String? = null, // ilanı oluşturtan kullanıcı database id si
+    var villaName: String? = null, // ilan başlığı
+    var description: String? = null, // ilan açıklaması
+    var location: Location? = null, // ilan adresi
+    var nightlyRate: Double? = null, // gecelik ücret
+    var capacity: Int? = null,  // konaklayabilecek kişi sayısı
+    var bedroomCount: Int? = null, // yatak odası  sayısı
+    var bedCount: Int? = null, // yatak sayısı
+    var bathroomCount: Int? = null, // banyo sayısı
+    var restroom: Int? = null, // tuvalet sayısı
+    var hasPool: Boolean? = null, // havyz var mı?
     var gardenArea: Double? = null,
     var interiorDesign: String? = null,
     var isQuietArea: Boolean? = null,
@@ -24,6 +24,7 @@ data class Villa(
     var region: String? = null,
     var attractions: List<String>? = null,
     var facilities: Facilities? = null,
-    var price: Double? = null,
-    var currency: String? = null,
+    var currency: String? = null, // ilan para birimi
+    var coverImage: String? = null, // kapak resmi
+    var otherImages: List<String>? = null, // ilan için eklenen diğer resimler
 )

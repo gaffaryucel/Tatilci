@@ -6,6 +6,7 @@ buildscript {
         lifecycle_version = '2.6.2'
         coroutine_version = '1.7.3'
         retrofit_version = '2.6.2'
+        room_version = "2.6.1"
     }
     repositories {
         google()

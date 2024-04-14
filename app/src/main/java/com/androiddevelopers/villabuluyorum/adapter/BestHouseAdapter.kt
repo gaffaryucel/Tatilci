@@ -27,10 +27,12 @@ class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>(
         get() = recyclerListDiffer.currentList
         set(value) = recyclerListDiffer.submitList(value)
 
-    inner class HouseViewHolder(val binding: RowBestHouseBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class HouseViewHolder(val binding: RowBestHouseBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HouseViewHolder {
-        val binding = RowBestHouseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            RowBestHouseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HouseViewHolder(binding)
     }
 
@@ -61,5 +63,4 @@ class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>(
     override fun getItemCount(): Int {
         return villaList.size
     }
-
 }

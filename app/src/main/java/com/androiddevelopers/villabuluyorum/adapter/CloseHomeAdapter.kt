@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
-import com.bumptech.glide.Glide
 
 class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
 
@@ -46,7 +45,7 @@ class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
             */
 
             holder.binding.textTitle.text = house.villaName ?: "Deniz kenarı villa"
-            holder.binding.textAddress.text = house.location ?: "İstanbul, Kadıköy"
+            holder.binding.textAddress.text = house.location?.address ?: "İstanbul, Kadıköy"
             holder.binding.textDistance.text = "5KM"
 
             holder.itemView.setOnClickListener {

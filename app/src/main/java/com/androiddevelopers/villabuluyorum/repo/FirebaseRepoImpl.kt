@@ -1,5 +1,6 @@
 package com.androiddevelopers.villabuluyorum.repo
 
+import android.net.Uri
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.service.NotificationAPI
@@ -12,6 +13,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
+import java.util.*
 import javax.inject.Inject
 
 class FirebaseRepoImpl @Inject constructor(
@@ -79,18 +82,36 @@ class FirebaseRepoImpl @Inject constructor(
         return villaCollection.document(villaId).delete()
     }
 
-    override fun getAllVillasFromFirestore(limit : Long): Task<QuerySnapshot> {
+    override fun getAllVillasFromFirestore(limit: Long): Task<QuerySnapshot> {
         return villaCollection.limit(limit).get()
     }
 
     override fun getVillaByIdFromFirestore(villaId: String): Task<DocumentSnapshot> {
         return villaCollection.document(villaId).get()
     }
-    override fun getVillasByStarRatingFromFirestore(limit : Long): Task<QuerySnapshot> {
+
+    override fun getVillasByStarRatingFromFirestore(limit: Long): Task<QuerySnapshot> {
         return villaCollection.orderBy("star", Query.Direction.DESCENDING).limit(limit).get()
     }
-    override fun getVillasByCity(city : String,limit : Long): Task<QuerySnapshot> {
-        return villaCollection.whereEqualTo("city",city).orderBy("star", Query.Direction.DESCENDING).limit(limit).get()
+
+    override fun getVillasByCity(city: String, limit: Long): Task<QuerySnapshot> {
+        return villaCollection.whereEqualTo("city", city)
+            .orderBy("star", Query.Direction.DESCENDING).limit(limit).get()
+    }
+
+    // Storage - Villa
+    override fun addVillaImage(
+        uri: Uri,
+        userId: String,
+        villaId: String,
+    ): UploadTask {
+        return imagesParentRef
+            .child("userId_$userId")
+            .child("images")
+            .child("employerPost")
+            .child("postId_$villaId")
+            .child("${UUID.randomUUID()}.jpg")
+            .putFile(uri)
     }
 
 }

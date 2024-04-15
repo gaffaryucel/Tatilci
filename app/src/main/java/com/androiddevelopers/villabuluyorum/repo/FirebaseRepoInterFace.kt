@@ -1,11 +1,13 @@
 package com.androiddevelopers.villabuluyorum.repo
 
+import android.net.Uri
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.storage.UploadTask
 
 interface FirebaseRepoInterFace {
     // Auth
@@ -24,10 +26,11 @@ interface FirebaseRepoInterFace {
     //Firestore - Villa
     fun addVillaToFirestore(villaId: String, villa: Villa): Task<Void>
     fun deleteVillaFromFirestore(villaId: String): Task<Void>
-    fun getAllVillasFromFirestore(limit : Long): Task<QuerySnapshot>
+    fun getAllVillasFromFirestore(limit: Long): Task<QuerySnapshot>
     fun getVillaByIdFromFirestore(villaId: String): Task<DocumentSnapshot>
-    fun getVillasByStarRatingFromFirestore(limit : Long): Task<QuerySnapshot>
-    fun getVillasByCity(city : String,limit : Long): Task<QuerySnapshot>
+    fun getVillasByStarRatingFromFirestore(limit: Long): Task<QuerySnapshot>
+    fun getVillasByCity(city: String, limit: Long): Task<QuerySnapshot>
+
     /*
     fun updateViewCountOfVilla(
         postId: String,
@@ -87,24 +90,25 @@ interface FirebaseRepoInterFace {
     ): Task<Void>
 
 
-
-//Firebase Storage
-    fun addHomeImage(
-        image: ByteArray,
-        uId: String,
-        postId: String,
-    ): UploadTask
-
-    fun changeProfilePhoto(
-        image: ByteArray,
-        uId: String,
-    ): UploadTask
-
-
-
-//Notification
-    suspend fun postNotification(notification: PushNotification): Response<ResponseBody>
-    fun saveNotification(notification: InAppNotificationModel): Task<Void>
-    fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot>
 */
+    //Firebase Storage
+    fun addVillaImage(
+        uri: Uri,
+        userId: String,
+        villaId: String,
+    ): UploadTask
+
+    /*
+        fun changeProfilePhoto(
+            image: ByteArray,
+            uId: String,
+        ): UploadTask
+
+
+
+    //Notification
+        suspend fun postNotification(notification: PushNotification): Response<ResponseBody>
+        fun saveNotification(notification: InAppNotificationModel): Task<Void>
+        fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot>
+    */
 }

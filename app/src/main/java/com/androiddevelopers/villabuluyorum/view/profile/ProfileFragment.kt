@@ -29,12 +29,19 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.ivSettings.setOnClickListener {
-            val action = ProfileFragmentDirections.actionNavigationProfileToEditProfileDetailsFragment()
+            val action =
+                ProfileFragmentDirections.actionNavigationProfileToEditProfileDetailsFragment()
             Navigation.findNavController(it).navigate(action)
         }
         binding.btnMessage.setOnClickListener {
             val action = ProfileFragmentDirections.actionNavigationProfileToVillaCreateFragment()
             Navigation.findNavController(it).navigate(action)
+        }
+
+        binding.buttonCreateVilla.setOnClickListener {
+            Navigation.findNavController(it).navigate(
+                ProfileFragmentDirections.actionNavigationProfileToVillaCreateFragment()
+            )
         }
     }
 

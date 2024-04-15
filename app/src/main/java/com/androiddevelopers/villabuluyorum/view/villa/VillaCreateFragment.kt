@@ -1,6 +1,7 @@
 package com.androiddevelopers.villabuluyorum.view.villa
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -55,6 +56,8 @@ class VillaCreateFragment : Fragment() {
     private val selectedOtherImages = mutableListOf<Uri>()
     private lateinit var otherImageLauncher: ActivityResultLauncher<Intent>
 
+    private lateinit var errorDialog: AlertDialog
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,11 +67,14 @@ class VillaCreateFragment : Fragment() {
         setClickItems()
         viewModel.getAllProvince()
 
+        errorDialog = AlertDialog.Builder(requireContext()).create()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupDialogs()
 
         val args: VillaCreateFragmentArgs by navArgs()
         args.facilities?.let {
@@ -111,12 +117,12 @@ class VillaCreateFragment : Fragment() {
                 locationNeighborhoodOrVillage =
                     dropdownNeighborhoodAndVillageVillaCreate.text.toString()
                 locationAddress = editTextAddressVillaCreate.text.toString()
-                nightlyRate = editTextNightlyRateVillaCreate.text.toString().toDoubleOrNull()
-                capacity = dropdownCapacityVillaCreate.text.toString().toIntOrNull()
-                bedroomCount = dropdownBedroomCountVillaCreate.toString().toIntOrNull()
-                bedCount = dropdownBedCountVillaCreate.toString().toIntOrNull()
-                bathroomCount = dropdownBathroomCountVillaCreate.toString().toIntOrNull()
-                restroom = dropdownRestroomCountVillaCreate.toString().toIntOrNull()
+                nightlyRate = editTextNightlyRateVillaCreate.text.toString().toDoubleOrNull() ?: 0.0
+                capacity = dropdownCapacityVillaCreate.text.toString().toIntOrNull() ?: 0
+                bedroomCount = dropdownBedroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
+                bedCount = dropdownBedCountVillaCreate.text.toString().toIntOrNull() ?: 0
+                bathroomCount = dropdownBathroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
+                restroom = dropdownRestroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
                 facilities = facilitiesArg
             }
         }
@@ -135,12 +141,13 @@ class VillaCreateFragment : Fragment() {
                             )
                         }
 
-                        Status.LOADING -> {
-                            setProgressBarVisibility = it.data
+                        Status.LOADING -> it.data?.let { status ->
+                            setProgressBarVisibility = status
                         }
 
                         Status.ERROR -> {
-
+                            errorDialog.setMessage("Hata mesajı:\n${it.message}")
+                            errorDialog.show()
                         }
                     }
 
@@ -212,11 +219,7 @@ class VillaCreateFragment : Fragment() {
                     //seçilen resim olmadığında viewpager 'ı gizleyip boş bir resim gösteriyoruz
                     //resim seçildiğinde işlemi tersine alıyoruz
                     with(binding) {
-                        if (it == 0 || it == null) {
-                            setViewPagerVisibility = false
-                        } else {
-                            setViewPagerVisibility = true
-                        }
+                        setViewPagerVisibility = !(it == 0 || it == null)
                     }
                 }
             }
@@ -346,6 +349,18 @@ class VillaCreateFragment : Fragment() {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             )
         otherImageLauncher.launch(imageIntent)
+    }
+
+    private fun setupDialogs() {
+        with(errorDialog) {
+            setTitle("Veriler alınırken hata oluştu.")
+            setCancelable(false)
+            setButton(
+                android.app.AlertDialog.BUTTON_POSITIVE, "Tamam"
+            ) { dialog, _ ->
+                dialog.cancel()
+            }
+        }
     }
 
     override fun onResume() {

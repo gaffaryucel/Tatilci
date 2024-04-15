@@ -2,11 +2,13 @@ package com.androiddevelopers.villabuluyorum.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.androiddevelopers.villabuluyorum.databinding.RowHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
+import com.androiddevelopers.villabuluyorum.view.HomeFragmentDirections
 
 class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
 
@@ -35,19 +37,25 @@ class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
 
     override fun onBindViewHolder(holder: HouseViewHolder, position: Int) {
         val house = housesList[position]
+        val binding = holder.binding
 
         try {
-            downloadImage(holder.binding.imageHouse, house.coverImage)
+            downloadImage(binding.imageHouse, house.coverImage)
 
-            holder.binding.textTitle.text = house.villaName ?: "Deniz kenarı villa"
+            binding.textTitle.text = house.villaName ?: "Deniz kenarı villa"
             (house.locationAddress + house.locationNeighborhoodOrVillage + house.locationDistrict + house.locationProvince).also { address ->
-                holder.binding.textAddress.text = address
+                binding.textAddress.text = address
             }
-            holder.binding.textDistance.text = "5KM"
+            binding.textDistance.text = "5KM"
 
-            holder.itemView.setOnClickListener {
-
+            house.villaId?.let { id ->
+                holder.itemView.setOnClickListener {
+                    val directions =
+                        HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(id)
+                    Navigation.findNavController(it).navigate(directions)
+                }
             }
+
         } catch (e: Exception) {
             // Hata durumunda bir işlem yapabilirsiniz
             println("error : " + e)

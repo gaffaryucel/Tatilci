@@ -1,5 +1,6 @@
 package com.androiddevelopers.villabuluyorum.viewmodel.villa
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,6 +19,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,6 +54,14 @@ class VillaCreateViewModel
     val liveDataFirebaseUser: LiveData<UserModel>
         get() = _liveDataFirebaseUser
 
+    private var _imageUriList = MutableLiveData<List<Uri>>()
+    val imageUriList: LiveData<List<Uri>>
+        get() = _imageUriList
+
+    private var _imageSize = MutableLiveData<Int>()
+    val imageSize: LiveData<Int>
+        get() = _imageSize
+
 
     fun getAllProvince() = viewModelScope.launch {
         roomProvinceRepo.getAllProvince().flowOn(Dispatchers.IO).collect {
@@ -78,7 +88,102 @@ class VillaCreateViewModel
         }
     }
 
-    fun addVillaToFirestore(
+    fun addImagesAndVillaToFirebase(
+        coverImage: Uri?,
+        images: MutableList<Uri>,
+        villa: Villa,
+        uploadedCoverImage: String? = null,
+        uploadedOtherImages: MutableList<String> = mutableListOf()
+    ) {
+
+        if (villa.villaId.isNullOrBlank()) {
+            villa.villaId = UUID.randomUUID().toString()
+        }
+
+        val villaId = villa.villaId.toString()
+        val userId = villa.hostId.toString()
+
+        coverImage?.let { // kapak resmi varsa önce onu yüklüyoruz
+            _liveDataFirebaseStatus.value = Resource.loading(true)
+            if (it.toString()
+                    .contains("firebasestorage")
+            ) { // kapak resmi daha önce yüklendiyse yüklemeden pas geçiyoruz
+                addImagesAndVillaToFirebase(null, images, villa, it.toString(), uploadedOtherImages)
+            } else {
+                firebaseRepo.addVillaImage(it, userId, villaId) // kapak resmini yüklüyoruz
+                    .addOnSuccessListener { task ->
+                        task.storage.downloadUrl
+                            .addOnSuccessListener { uri ->
+                                addImagesAndVillaToFirebase( // kapak resmi yüklenince kapak resmini null yapıp diğer resimlere geçiyoruz
+                                    null,
+                                    images,
+                                    villa,
+                                    uri.toString(),
+                                    uploadedOtherImages
+                                )
+                            }.addOnFailureListener { error ->
+                                error.message?.let { message ->
+                                    _liveDataFirebaseStatus.value = Resource.error(message)
+                                    _liveDataFirebaseStatus.value = Resource.loading(false)
+                                }
+                            }
+                    }.addOnFailureListener { error ->
+                        error.message?.let { message ->
+                            _liveDataFirebaseStatus.value = Resource.error(message)
+                            _liveDataFirebaseStatus.value = Resource.loading(false)
+                        }
+                    }
+            }
+        } ?: run {
+            if (images.size > 0) {
+                val uri = images[0]
+                if (uri.toString().contains("firebasestorage")) {
+                    images.removeAt(0)
+                    uploadedOtherImages.add(uri.toString())
+                    addImagesAndVillaToFirebase(
+                        null,
+                        images,
+                        villa,
+                        uploadedCoverImage,
+                        uploadedOtherImages
+                    )
+                } else {
+                    _liveDataFirebaseStatus.value = Resource.loading(true)
+                    firebaseRepo.addVillaImage(uri, userId, villaId) // kapak resmini yüklüyoruz
+                        .addOnSuccessListener { task ->
+                            task.storage.downloadUrl
+                                .addOnSuccessListener { uri ->
+                                    images.removeAt(0)
+                                    uploadedOtherImages.add(uri.toString())
+                                    addImagesAndVillaToFirebase( // kapak resmi yüklenince kapak resmini null yapıp diğer resimlere geçiyoruz
+                                        null,
+                                        images,
+                                        villa,
+                                        uploadedCoverImage,
+                                        uploadedOtherImages
+                                    )
+                                }.addOnFailureListener { error ->
+                                    error.message?.let { message ->
+                                        _liveDataFirebaseStatus.value = Resource.error(message)
+                                        _liveDataFirebaseStatus.value = Resource.loading(false)
+                                    }
+                                }
+                        }.addOnFailureListener { error ->
+                            error.message?.let { message ->
+                                _liveDataFirebaseStatus.value = Resource.error(message)
+                                _liveDataFirebaseStatus.value = Resource.loading(false)
+                            }
+                        }
+                }
+            } else {
+                villa.coverImage = uploadedCoverImage
+                villa.otherImages = uploadedOtherImages.toList()
+                addVillaToFirestore(villaId, villa)
+            }
+        }
+    }
+
+    private fun addVillaToFirestore(
         villaId: String,
         villa: Villa
     ) = viewModelScope.launch {
@@ -94,6 +199,11 @@ class VillaCreateViewModel
                     _liveDataFirebaseStatus.value = Resource.error(message)
                 }
             }
+    }
+
+    fun setImageUriList(newList: List<Uri>) = viewModelScope.launch {
+        _imageUriList.value = newList
+        _imageSize.value = newList.size
     }
 
 

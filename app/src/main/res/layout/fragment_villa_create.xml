@@ -104,6 +104,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textAddImageCover" />
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/buttonImageCoverEditVillaCreate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_edit_24"
+                    android:visibility="@{setImageCoverVisibility == true ? View.VISIBLE : View.GONE}"
+                    app:fabCustomSize="35dp"
+                    app:layout_constraintEnd_toEndOf="@id/imageCoverVillaCreate"
+                    app:layout_constraintTop_toTopOf="@id/imageCoverVillaCreate"
+                    tools:ignore="ContentDescription" />
+
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textAddMoreImage"
                     android:layout_width="250dp"

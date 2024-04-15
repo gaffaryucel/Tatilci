@@ -1,16 +1,24 @@
 package com.androiddevelopers.villabuluyorum.view.villa
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
+import com.androiddevelopers.villabuluyorum.adapter.ViewPagerAdapterForVillaCreate
+import com.androiddevelopers.villabuluyorum.adapter.downloadImage
 import com.androiddevelopers.villabuluyorum.databinding.FragmentVillaCreateBinding
 import com.androiddevelopers.villabuluyorum.model.provinces.District
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
@@ -18,6 +26,7 @@ import com.androiddevelopers.villabuluyorum.model.villa.Facilities
 import com.androiddevelopers.villabuluyorum.model.villa.Location
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.Status
+import com.androiddevelopers.villabuluyorum.util.checkPermissionImageGallery
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.view.villa.VillaCreateFragmentDirections.Companion.actionGlobalNavigationProfile
@@ -27,6 +36,7 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+@Suppress("UNUSED_ANONYMOUS_PARAMETER")
 @AndroidEntryPoint
 class VillaCreateFragment : Fragment() {
     private val viewModel: VillaCreateViewModel by viewModels()
@@ -40,6 +50,12 @@ class VillaCreateFragment : Fragment() {
 
     private val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
 
+    private var viewPagerAdapter = ViewPagerAdapterForVillaCreate()
+    private var selectedCoverImage: Uri? = null
+    private lateinit var coverImageLauncher: ActivityResultLauncher<Intent>
+    private val selectedOtherImages = mutableListOf<Uri>()
+    private lateinit var otherImageLauncher: ActivityResultLauncher<Intent>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,6 +64,7 @@ class VillaCreateFragment : Fragment() {
         setDropdownItems()
         setClickItems()
         viewModel.getAllProvince()
+
         return binding.root
     }
 
@@ -67,11 +84,22 @@ class VillaCreateFragment : Fragment() {
             setImageCoverVisibility = false
             setTextAddMoreImageVisibility = true
             setViewPagerVisibility = false
+
+            //viewpager adapter ve indicatoru set ediyoruz
+            viewPagerVillaCreate.adapter = viewPagerAdapter
+            indicatorVillaCreate.setViewPager(viewPagerVillaCreate)
         }
+
+        viewModel.setImageUriList(selectedOtherImages.toList())
+
+        setupLaunchers()
+        viewPagerAdapter.listenerImages = { images ->
+            viewModel.setImageUriList(images.toList())
+        }
+
     }
 
     private fun createVilla(id: String): Villa {
-        //TODO: Resim ekleme için gerekli işlemleri tamamla
         val newVilla = Villa()
         with(binding) {
             with(newVilla) {
@@ -135,6 +163,7 @@ class VillaCreateFragment : Fragment() {
                         )
                     )
                 }
+
                 liveDataDistrictFromRoom.observe(owner) {
 
                     districtList.clear()
@@ -152,6 +181,7 @@ class VillaCreateFragment : Fragment() {
                     )
 
                 }
+
                 liveDataNeighborhoodFromRoom.observe(owner) { neighborhoods ->
                     val listName: MutableList<String> = mutableListOf()
                     listName.addAll(neighborhoods.map { neighborhood -> neighborhood.name.toString() })
@@ -168,8 +198,28 @@ class VillaCreateFragment : Fragment() {
                             )
                         )
                     }
+                }
 
+                imageUriList.observe(owner) { images ->
+                    selectedOtherImages.clear()
+                    selectedOtherImages.addAll(images.toList())
+                    viewPagerAdapter.refreshList(images.toList())
+                    with(binding) {
+                        //indicatoru viewpager yeni liste ile set ediyoruz
+                        indicatorVillaCreate.setViewPager(viewPagerVillaCreate)
+                    }
+                }
 
+                imageSize.observe(owner) {
+                    //seçilen resim olmadığında viewpager 'ı gizleyip boş bir resim gösteriyoruz
+                    //resim seçildiğinde işlemi tersine alıyoruz
+                    with(binding) {
+                        if (it == 0 || it == null) {
+                            setViewPagerVisibility = false
+                        } else {
+                            setViewPagerVisibility = true
+                        }
+                    }
                 }
             }
         }
@@ -222,8 +272,10 @@ class VillaCreateFragment : Fragment() {
         with(binding) {
             buttonSaveVillaCreate.setOnClickListener {
                 val villaId = UUID.randomUUID().toString()
-                viewModel.addVillaToFirestore(
-                    villaId, createVilla(villaId)
+                viewModel.addImagesAndVillaToFirebase(
+                    selectedCoverImage,
+                    selectedOtherImages,
+                    createVilla(villaId)
                 )
             }
 
@@ -233,7 +285,69 @@ class VillaCreateFragment : Fragment() {
                 Navigation.findNavController(it)
                     .navigate(actionVillaCreateFragmentToVillaCreateFacilitiesFragment())
             }
+
+            textAddImageCover.setOnClickListener {
+                if (checkPermissionImageGallery(requireActivity(), 800)) {
+                    openCoverImagePicker()
+                }
+            }
+
+            buttonImageCoverEditVillaCreate.setOnClickListener {
+                if (checkPermissionImageGallery(requireActivity(), 800)) {
+                    openCoverImagePicker()
+                }
+            }
+
+            textAddMoreImage.setOnClickListener {
+                if (checkPermissionImageGallery(requireActivity(), 800)) {
+                    openOtherImagePicker()
+                }
+            }
         }
+    }
+
+    private fun setupLaunchers() {
+        coverImageLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    result.data?.data?.let { image ->
+                        selectedCoverImage = image
+                        selectedCoverImage?.let {
+                            binding.setTextAddImageCoverVisibility = false
+                            binding.setImageCoverVisibility = true
+                            downloadImage(binding.imageCoverVillaCreate, image.toString())
+                        }
+                    }
+                }
+            }
+
+        otherImageLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    result.data?.data?.let { image ->
+                        selectedOtherImages.add(image)
+                        viewModel.setImageUriList(selectedOtherImages.toList())
+                    }
+                }
+            }
+    }
+
+    private fun openCoverImagePicker() {
+        val imageIntent =
+            Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+        coverImageLauncher.launch(imageIntent)
+    }
+
+    private fun openOtherImagePicker() {
+        val imageIntent =
+            Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+        otherImageLauncher.launch(imageIntent)
     }
 
     override fun onResume() {

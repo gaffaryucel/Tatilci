@@ -2,13 +2,14 @@ package com.androiddevelopers.villabuluyorum.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowBestHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
-import com.bumptech.glide.Glide
+import com.androiddevelopers.villabuluyorum.view.HomeFragmentDirections
 
 class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>() {
 
@@ -41,19 +42,24 @@ class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>(
 
         try {
             holder.binding.ivBestHouse.setImageResource(R.drawable.ic_launcher_background)
-           /*
-            Glide.with(holder.itemView.context).load("")
-                .into(holder.binding.ivBestHouse)
-            */
+            /*
+             Glide.with(holder.itemView.context).load("")
+                 .into(holder.binding.ivBestHouse)
+             */
 
             holder.binding.tvTitle.text = house.villaName ?: "Güzel Bir Villa"
             holder.binding.tvPrice.text = "₺${house.nightlyRate ?: 4000}/Ay"
             holder.binding.tvBedroom.text = "${house.bathroomCount ?: 3} Yatak odası"
-            holder.binding.tvBathroom.text ="${house.bathroomCount ?: 2} Banyo"
+            holder.binding.tvBathroom.text = "${house.bathroomCount ?: 2} Banyo"
 
-            holder.itemView.setOnClickListener {
-
+            house.villaId?.let { id ->
+                holder.itemView.setOnClickListener {
+                    val directions =
+                        HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(id)
+                    Navigation.findNavController(it).navigate(directions)
+                }
             }
+
         } catch (e: Exception) {
             // Hata durumunda bir işlem yapabilirsiniz
             println("error : $e")

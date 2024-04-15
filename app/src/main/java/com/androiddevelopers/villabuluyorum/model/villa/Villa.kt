@@ -5,7 +5,10 @@ data class Villa(
     var hostId: String? = null, // ilanı oluşturtan kullanıcı database id si
     var villaName: String? = null, // ilan başlığı
     var description: String? = null, // ilan açıklaması
-    var location: Location? = null, // ilan adresi
+    var locationProvince: String? = null, // ilan ili
+    var locationDistrict: String? = null, // ilan ilçesi
+    var locationNeighborhoodOrVillage: String? = null, // ilan mahalle/köy
+    var locationAddress: String? = null, // ilan adresi
     var nightlyRate: Double? = null, // gecelik ücret
     var capacity: Int? = null,  // konaklayabilecek kişi sayısı
     var bedroomCount: Int? = null, // yatak odası  sayısı
@@ -27,4 +30,6 @@ data class Villa(
     var currency: String? = null, // ilan para birimi
     var coverImage: String? = null, // kapak resmi
     var otherImages: List<String>? = null, // ilan için eklenen diğer resimler
-)
+    var rating: Double? = null,
+
+    )

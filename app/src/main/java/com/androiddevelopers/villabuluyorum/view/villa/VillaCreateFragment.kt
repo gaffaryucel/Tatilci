@@ -23,7 +23,6 @@ import com.androiddevelopers.villabuluyorum.databinding.FragmentVillaCreateBindi
 import com.androiddevelopers.villabuluyorum.model.provinces.District
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.model.villa.Facilities
-import com.androiddevelopers.villabuluyorum.model.villa.Location
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.checkPermissionImageGallery
@@ -107,12 +106,11 @@ class VillaCreateFragment : Fragment() {
                 hostId = userId
                 villaName = editTextTitleVillaCreate.text.toString()
                 description = editTextDescriptionVillaCreate.text.toString()
-                location = Location(
-                    province = dropdownProvinceVillaCreate.text.toString(),
-                    district = dropdownDistrictVillaCreate.text.toString(),
-                    neighborhoodOrVillage = dropdownNeighborhoodAndVillageVillaCreate.text.toString(),
-                    address = editTextAddressVillaCreate.text.toString()
-                )
+                locationProvince = dropdownProvinceVillaCreate.text.toString()
+                locationDistrict = dropdownDistrictVillaCreate.text.toString()
+                locationNeighborhoodOrVillage =
+                    dropdownNeighborhoodAndVillageVillaCreate.text.toString()
+                locationAddress = editTextAddressVillaCreate.text.toString()
                 nightlyRate = editTextNightlyRateVillaCreate.text.toString().toDoubleOrNull()
                 capacity = dropdownCapacityVillaCreate.text.toString().toIntOrNull()
                 bedroomCount = dropdownBedroomCountVillaCreate.toString().toIntOrNull()

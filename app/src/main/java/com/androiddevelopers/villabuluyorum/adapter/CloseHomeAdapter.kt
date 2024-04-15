@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 
@@ -38,14 +37,12 @@ class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
         val house = housesList[position]
 
         try {
-            holder.binding.imageHouse.setImageResource(R.drawable.ic_launcher_background)
-            /*
-            Glide.with(holder.itemView.context).load("")
-                .into(holder.binding.imageHouse)
-            */
+            downloadImage(holder.binding.imageHouse, house.coverImage)
 
             holder.binding.textTitle.text = house.villaName ?: "Deniz kenarı villa"
-            holder.binding.textAddress.text = house.location?.address ?: "İstanbul, Kadıköy"
+            (house.locationAddress + house.locationNeighborhoodOrVillage + house.locationDistrict + house.locationProvince).also { address ->
+                holder.binding.textAddress.text = address
+            }
             holder.binding.textDistance.text = "5KM"
 
             holder.itemView.setOnClickListener {

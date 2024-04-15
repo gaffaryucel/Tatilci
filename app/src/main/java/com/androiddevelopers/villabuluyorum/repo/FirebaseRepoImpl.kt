@@ -95,7 +95,7 @@ class FirebaseRepoImpl @Inject constructor(
     }
 
     override fun getVillasByCity(city: String, limit: Long): Task<QuerySnapshot> {
-        return villaCollection.whereEqualTo("city", city)
+        return villaCollection.whereEqualTo("locationProvince", city)
             .orderBy("star", Query.Direction.DESCENDING).limit(limit).get()
     }
 

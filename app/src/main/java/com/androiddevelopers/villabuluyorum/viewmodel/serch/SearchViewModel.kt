@@ -1,10 +1,9 @@
-package com.androiddevelopers.villabuluyorum.viewmodel
+package com.androiddevelopers.villabuluyorum.viewmodel.serch
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.util.Resource
@@ -15,20 +14,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject
+class SearchViewModel @Inject
 constructor(
     val repo : FirebaseRepoInterFace,
     val auth : FirebaseAuth
 ): ViewModel() {
-    private var _bestVillas = MutableLiveData<List<Villa>>()
-    val bestVillas : LiveData<List<Villa>>
-        get() = _bestVillas
-
-    private var _closeVillas = MutableLiveData<List<Villa>>()
-    val closeVillas : LiveData<List<Villa>>
-        get() = _closeVillas
-
-    private var userToken = MutableLiveData<Resource<String>>()
+    private var _searchResult = MutableLiveData<List<Villa>>()
+    val searchResult : LiveData<List<Villa>>
+        get() = _searchResult
 
     private var _firebaseMessage = MutableLiveData<Resource<Boolean>>()
     val firebaseMessage : LiveData<Resource<Boolean>>
@@ -36,23 +29,28 @@ constructor(
 
 
     init {
-        getCloseVillas("toket",20)
-        getBestVillas(20)
+        searchVilla("izmir","",20)
     }
 
-    fun getCloseVillas(city : String, limit : Long) = viewModelScope.launch{
+    fun searchVilla(city : String,price : String,limit : Long) = viewModelScope.launch{
+        println("searchVilla")
         _firebaseMessage.value = Resource.loading(null)
-        repo.getAllVillasFromFirestore(limit)
+        repo.getVillasByCity(city,limit)
             .addOnSuccessListener {
                 val villaList = mutableListOf<Villa>()
+                println("addOnSuccessListener")
                 for (document in it.documents) {
                     // Belgeden her bir videoyu çek
-                    document.toVilla()?.let { villa -> villaList.add(villa) }
+                    document.toVilla()?.let {
+                        villa -> villaList.add(villa)
+                    }
+                    println("document")
                 }
-                _bestVillas.value = villaList
+                _searchResult.value = villaList
                 _firebaseMessage.value = Resource.success( null)
             }.addOnFailureListener { exception ->
                 // Hata durzumunda işlemleri buraya ekleyebilirsiniz
+                println("error : "+exception)
                 _firebaseMessage.value = Resource.error("Belge alınamadı. Hata: $exception", null)
             }
     }
@@ -65,7 +63,7 @@ constructor(
                     // Belgeden her bir videoyu çek
                     document.toVilla()?.let { villa -> villaList.add(villa) }
                 }
-                _closeVillas.value = villaList
+                _searchResult.value = villaList
                 _firebaseMessage.value = Resource.success( null)
             }.addOnFailureListener { exception ->
                 // Hata durzumunda işlemleri buraya ekleyebilirsiniz

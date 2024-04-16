@@ -2,14 +2,16 @@ package com.androiddevelopers.villabuluyorum.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowBestHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.view.HomeFragmentDirections
+import com.bumptech.glide.Glide
+
 
 class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>() {
 
@@ -32,8 +34,7 @@ class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>(
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HouseViewHolder {
-        val binding =
-            RowBestHouseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = RowBestHouseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HouseViewHolder(binding)
     }
 
@@ -41,6 +42,7 @@ class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>(
         val house = villaList[position]
 
         try {
+
             holder.binding.ivBestHouse.setImageResource(R.drawable.ic_launcher_background)
             /*
              Glide.with(holder.itemView.context).load("")
@@ -58,11 +60,11 @@ class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>(
                         HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(id)
                     Navigation.findNavController(it).navigate(directions)
                 }
+
             }
 
         } catch (e: Exception) {
-            // Hata durumunda bir işlem yapabilirsiniz
-            println("error : $e")
+            Toast.makeText(holder.itemView.context, e.localizedMessage, Toast.LENGTH_SHORT).show()
         }
     }
 

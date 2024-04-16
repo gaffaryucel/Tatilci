@@ -157,12 +157,15 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.androiddevelopers.villabuluyorum.view.SearchFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_villaDetailFragment"
             app:destination="@id/villaDetailFragment" />
+        <action
+            android:id="@+id/action_navigation_search_to_filterFragment"
+            app:destination="@id/filterFragment" />
     </fragment>
     <fragment
         android:id="@+id/reservationDetailsFragment"
@@ -193,4 +196,8 @@
         android:name="com.androiddevelopers.villabuluyorum.view.profile.EditProfileDetailsFragment"
         android:label="fragment_edit_profile_details"
         tools:layout="@layout/fragment_edit_profile_details" />
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.search.FilterFragment"
+        tools:layout="@layout/fragment_filter" />
 </navigation>

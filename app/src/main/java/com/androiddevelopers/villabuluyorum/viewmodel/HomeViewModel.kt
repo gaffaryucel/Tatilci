@@ -15,8 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel
-@Inject
+class HomeViewModel @Inject
 constructor(
     val repo : FirebaseRepoInterFace,
     val auth : FirebaseAuth

@@ -27,12 +27,12 @@ class VillaDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-      /*
+
         val args: VillaDetailFragmentArgs by navArgs()
         val id = args.villaId
 
         viewModel.getVillaByIdFromFirestore(id)
-       */
+
 
     }
 

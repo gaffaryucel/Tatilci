@@ -2,12 +2,16 @@ package com.androiddevelopers.villabuluyorum.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
+import com.androiddevelopers.villabuluyorum.view.HomeFragmentDirections
+import com.bumptech.glide.Glide
 
 class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
 
@@ -38,22 +42,19 @@ class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
         val house = housesList[position]
 
         try {
-            holder.binding.imageHouse.setImageResource(R.drawable.ic_launcher_background)
-            /*
-            Glide.with(holder.itemView.context).load("")
+            Glide.with(holder.itemView.context).load(holder.binding.imageHouse)
                 .into(holder.binding.imageHouse)
-            */
 
             holder.binding.textTitle.text = house.villaName ?: "Deniz kenarı villa"
             holder.binding.textAddress.text = house.location?.address ?: "İstanbul, Kadıköy"
             holder.binding.textDistance.text = "5KM"
 
             holder.itemView.setOnClickListener {
-
+                val action = HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(house.villaId.toString())
+                Navigation.findNavController(it).navigate(action)
             }
         } catch (e: Exception) {
-            // Hata durumunda bir işlem yapabilirsiniz
-            println("error : " + e)
+            Toast.makeText(holder.itemView.context, e.localizedMessage, Toast.LENGTH_SHORT).show()
         }
     }
 

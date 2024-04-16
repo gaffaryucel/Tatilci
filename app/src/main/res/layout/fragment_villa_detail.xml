@@ -7,8 +7,14 @@
 
         <import type="android.view.View" />
 
+        <import type="androidx.navigation.Navigation" />
+
         <variable
-            name="setProgressBar"
+            name="setProgressBarVisibility"
+            type="Boolean" />
+
+        <variable
+            name="setViewPagerVisibility"
             type="Boolean" />
 
         <variable
@@ -30,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:visibility="@{setProgressBar == true ? View.VISIBLE : View.GONE}"
+            android:visibility="@{setProgressBarVisibility == true ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -65,7 +71,7 @@
                         android:layout_height="wrap_content">
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/cardImage"
+                            android:id="@+id/cardImageCoverVillaDetail"
                             android:layout_width="0dp"
                             android:layout_height="300dp"
                             android:layout_margin="20dp"
@@ -81,14 +87,15 @@
 
                                 <androidx.appcompat.widget.AppCompatImageView
                                     android:id="@+id/imageTitle"
+                                    downloadImage="@{villa.coverImage}"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:scaleType="centerCrop"
+                                    android:src="@drawable/placeholder"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:srcCompat="@drawable/placeholder" />
+                                    app:layout_constraintTop_toTopOf="parent" />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -131,7 +138,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:maxLines="1"
-                                    android:text="@{villa.location.address +`, `+ villa.location.neighborhoodOrVillage +`, `+ villa.location.district + `, `+ villa.location.province}"
+                                    android:text="@{villa.locationNeighborhoodOrVillage +`, `+ villa.locationDistrict + `, `+ villa.locationProvince}"
                                     android:textColor="@color/white"
                                     android:textSize="18sp"
                                     app:layout_constraintBottom_toTopOf="@id/imageBedRoom"
@@ -198,6 +205,7 @@
                                     android:layout_height="30dp"
                                     android:layout_margin="10dp"
                                     android:background="@color/detail_page_transparent_icon"
+                                    android:onClick="@{() -> Navigation.findNavController(imageBackNavigation).popBackStack()}"
                                     android:scaleType="centerInside"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
@@ -219,40 +227,16 @@
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.cardview.widget.CardView>
 
-                        <TextView
-                            android:id="@+id/textDetailDescriptionTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:text="Açıklama"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="@id/cardImage"
-                            app:layout_constraintTop_toBottomOf="@id/cardImage"
-                            tools:ignore="HardcodedText" />
-
-                        <TextView
-                            android:id="@+id/textDetailDescription"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@{villa.description}"
-                            android:textSize="18sp"
-                            app:layout_constraintEnd_toEndOf="@id/cardImage"
-                            app:layout_constraintStart_toStartOf="@id/cardImage"
-                            app:layout_constraintTop_toBottomOf="@id/textDetailDescriptionTitle"
-                            tools:ignore="HardcodedText"
-                            tools:text="Açıklama" />
-
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/imageProfile"
                             downloadImage="@{user.profileImageUrl}"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
+                            android:layout_marginStart="20dp"
                             android:layout_marginTop="8dp"
                             android:src="@drawable/avatar_boy"
-                            app:layout_constraintStart_toStartOf="@id/cardImage"
-                            app:layout_constraintTop_toBottomOf="@id/textDetailDescription" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/cardImageCoverVillaDetail" />
 
                         <TextView
                             android:id="@+id/textDetailProfileTitle"
@@ -278,29 +262,101 @@
                             app:layout_constraintStart_toStartOf="@id/textDetailProfileTitle"
                             app:layout_constraintTop_toBottomOf="@id/textDetailProfileTitle"
                             tools:ignore="HardcodedText"
-                            tools:text="Emlakçı" />
+                            tools:text="Villayı kiralayan ünvanı" />
 
                         <androidx.appcompat.widget.AppCompatImageButton
                             android:id="@+id/buttonDetailChat"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
+                            android:layout_marginEnd="20dp"
                             android:background="@drawable/rounded_button_background"
                             android:src="@drawable/baseline_chat_bubble_24"
                             app:layout_constraintBottom_toBottomOf="@id/imageProfile"
-                            app:layout_constraintEnd_toEndOf="@id/cardImage"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/imageProfile" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/carouselRecyclerView"
+                        <TextView
+                            android:id="@+id/textDetailDescriptionTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="Açıklama"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="@id/cardImageCoverVillaDetail"
+                            app:layout_constraintTop_toBottomOf="@id/imageProfile"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/textDetailDescription"
                             android:layout_width="0dp"
-                            android:layout_height="150dp"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginVertical="16dp"
-                            android:clipChildren="false"
-                            android:clipToPadding="false"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@{villa.description}"
+                            android:textSize="18sp"
+                            app:layout_constraintEnd_toEndOf="@id/cardImageCoverVillaDetail"
+                            app:layout_constraintStart_toStartOf="@id/cardImageCoverVillaDetail"
+                            app:layout_constraintTop_toBottomOf="@id/textDetailDescriptionTitle"
+                            tools:ignore="HardcodedText"
+                            tools:text="Açıklama" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/layoutImageViewsVillaDetail"
+                            android:layout_width="0dp"
+                            android:layout_height="300dp"
+                            android:layout_margin="16dp"
+                            android:visibility="@{setViewPagerVisibility == true ? View.VISIBLE : View.GONE}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/imageProfile" />
+                            app:layout_constraintTop_toBottomOf="@id/textDetailDescription">
+
+                            <androidx.viewpager2.widget.ViewPager2
+                                android:id="@+id/viewPagerVillaDetail"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:orientation="horizontal"
+                                app:layout_constraintBottom_toTopOf="@id/indicatorVillaDetail"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <me.relex.circleindicator.CircleIndicator3
+                                android:id="@+id/indicatorVillaDetail"
+                                android:layout_width="0dp"
+                                android:layout_height="20dp"
+                                app:ci_drawable="@drawable/indicator_drawable"
+                                app:ci_drawable_unselected="@drawable/indicator_drawable"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@id/viewPagerVillaDetail"
+                                app:layout_constraintStart_toStartOf="@id/viewPagerVillaDetail"
+                                app:layout_constraintTop_toBottomOf="@id/viewPagerVillaDetail" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <TextView
+                            android:id="@+id/textVillaMoreDetailTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="İlan Detayları"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="@id/cardImageCoverVillaDetail"
+                            app:layout_constraintTop_toBottomOf="@id/layoutImageViewsVillaDetail"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/textVillaMoreDetail"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@{`- ` + villa.capacity + ` kişi konaklayabilir.\n- ` + villa.restroom + ` tuvalet var.`}"
+                            android:textSize="18sp"
+                            app:layout_constraintEnd_toEndOf="@id/cardImageCoverVillaDetail"
+                            app:layout_constraintStart_toStartOf="@id/cardImageCoverVillaDetail"
+                            app:layout_constraintTop_toBottomOf="@id/textVillaMoreDetailTitle"
+                            tools:ignore="HardcodedText"
+                            tools:text="Daha Fazla Açıklama" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="0dp"
@@ -310,7 +366,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/carouselRecyclerView"
+                            app:layout_constraintTop_toBottomOf="@id/textVillaMoreDetail"
                             app:srcCompat="@drawable/maps" />
 
 
@@ -335,20 +391,22 @@
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:id="@+id/textDetailPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
-                        android:text="2.000 TL / Aylık"
+                        android:text="@{villa.nightlyRate + `₺ /Aylık`}"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@id/buttonDetailRent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/buttonDetailRent"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText"
+                        tools:text="5000₺ /Aylık" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

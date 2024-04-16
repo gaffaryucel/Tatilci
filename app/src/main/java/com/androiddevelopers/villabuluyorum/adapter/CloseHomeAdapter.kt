@@ -7,7 +7,6 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.view.HomeFragmentDirections
@@ -40,19 +39,27 @@ class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
 
     override fun onBindViewHolder(holder: HouseViewHolder, position: Int) {
         val house = housesList[position]
+        val binding = holder.binding
 
         try {
-            Glide.with(holder.itemView.context).load(holder.binding.imageHouse)
-                .into(holder.binding.imageHouse)
 
-            holder.binding.textTitle.text = house.villaName ?: "Deniz kenarı villa"
-            holder.binding.textAddress.text = house.location?.address ?: "İstanbul, Kadıköy"
-            holder.binding.textDistance.text = "5KM"
+            downloadImage(binding.imageHouse, house.coverImage)
 
-            holder.itemView.setOnClickListener {
-                val action = HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(house.villaId.toString())
-                Navigation.findNavController(it).navigate(action)
+            binding.textTitle.text = house.villaName ?: "Deniz kenarı villa"
+            (house.locationAddress + house.locationNeighborhoodOrVillage + house.locationDistrict + house.locationProvince).also { address ->
+                binding.textAddress.text = address
             }
+            binding.textDistance.text = "5KM"
+
+            house.villaId?.let { id ->
+                holder.itemView.setOnClickListener {
+                    val directions =
+                        HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(id)
+                    Navigation.findNavController(it).navigate(directions)
+                }
+
+            }
+
         } catch (e: Exception) {
             Toast.makeText(holder.itemView.context, e.localizedMessage, Toast.LENGTH_SHORT).show()
         }

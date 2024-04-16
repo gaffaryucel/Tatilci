@@ -12,6 +12,7 @@ import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.view.HomeFragmentDirections
 import com.bumptech.glide.Glide
 
+
 class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>() {
 
     private val diffUtil = object : DiffUtil.ItemCallback<Villa>() {
@@ -41,17 +42,27 @@ class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>(
         val house = villaList[position]
 
         try {
-            Glide.with(holder.itemView.context).load("").into(holder.binding.ivBestHouse)
 
-            holder.binding.tvTitle.text = house.villaName
-            holder.binding.tvPrice.text = "₺${house.nightlyRate}/Ay"
-            holder.binding.tvBedroom.text = "${house.bathroomCount} Yatak odası"
-            holder.binding.tvBathroom.text = "${house.bathroomCount} Banyo"
+            holder.binding.ivBestHouse.setImageResource(R.drawable.ic_launcher_background)
+            /*
+             Glide.with(holder.itemView.context).load("")
+                 .into(holder.binding.ivBestHouse)
+             */
 
-            holder.itemView.setOnClickListener {
-                val action = HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(house.villaId.toString())
-                Navigation.findNavController(it).navigate(action)
+            holder.binding.tvTitle.text = house.villaName ?: "Güzel Bir Villa"
+            holder.binding.tvPrice.text = "₺${house.nightlyRate ?: 4000}/Ay"
+            holder.binding.tvBedroom.text = "${house.bathroomCount ?: 3} Yatak odası"
+            holder.binding.tvBathroom.text = "${house.bathroomCount ?: 2} Banyo"
+
+            house.villaId?.let { id ->
+                holder.itemView.setOnClickListener {
+                    val directions =
+                        HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(id)
+                    Navigation.findNavController(it).navigate(directions)
+                }
+
             }
+
         } catch (e: Exception) {
             Toast.makeText(holder.itemView.context, e.localizedMessage, Toast.LENGTH_SHORT).show()
         }

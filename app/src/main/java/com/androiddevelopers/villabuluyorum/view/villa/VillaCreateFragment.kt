@@ -1,23 +1,32 @@
 package com.androiddevelopers.villabuluyorum.view.villa
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
+import com.androiddevelopers.villabuluyorum.adapter.ViewPagerAdapterForVillaCreate
+import com.androiddevelopers.villabuluyorum.adapter.downloadImage
 import com.androiddevelopers.villabuluyorum.databinding.FragmentVillaCreateBinding
 import com.androiddevelopers.villabuluyorum.model.provinces.District
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.model.villa.Facilities
-import com.androiddevelopers.villabuluyorum.model.villa.Location
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.Status
+import com.androiddevelopers.villabuluyorum.util.checkPermissionImageGallery
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.view.villa.VillaCreateFragmentDirections.Companion.actionGlobalNavigationProfile
@@ -27,6 +36,7 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+@Suppress("UNUSED_ANONYMOUS_PARAMETER")
 @AndroidEntryPoint
 class VillaCreateFragment : Fragment() {
     private val viewModel: VillaCreateViewModel by viewModels()
@@ -40,6 +50,14 @@ class VillaCreateFragment : Fragment() {
 
     private val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
 
+    private var viewPagerAdapter = ViewPagerAdapterForVillaCreate()
+    private var selectedCoverImage: Uri? = null
+    private lateinit var coverImageLauncher: ActivityResultLauncher<Intent>
+    private val selectedOtherImages = mutableListOf<Uri>()
+    private lateinit var otherImageLauncher: ActivityResultLauncher<Intent>
+
+    private lateinit var errorDialog: AlertDialog
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,11 +66,15 @@ class VillaCreateFragment : Fragment() {
         setDropdownItems()
         setClickItems()
         viewModel.getAllProvince()
+
+        errorDialog = AlertDialog.Builder(requireContext()).create()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupDialogs()
 
         val args: VillaCreateFragmentArgs by navArgs()
         args.facilities?.let {
@@ -67,11 +89,22 @@ class VillaCreateFragment : Fragment() {
             setImageCoverVisibility = false
             setTextAddMoreImageVisibility = true
             setViewPagerVisibility = false
+
+            //viewpager adapter ve indicatoru set ediyoruz
+            viewPagerVillaCreate.adapter = viewPagerAdapter
+            indicatorVillaCreate.setViewPager(viewPagerVillaCreate)
         }
+
+        viewModel.setImageUriList(selectedOtherImages.toList())
+
+        setupLaunchers()
+        viewPagerAdapter.listenerImages = { images ->
+            viewModel.setImageUriList(images.toList())
+        }
+
     }
 
     private fun createVilla(id: String): Villa {
-        //TODO: Resim ekleme için gerekli işlemleri tamamla
         val newVilla = Villa()
         with(binding) {
             with(newVilla) {
@@ -79,18 +112,17 @@ class VillaCreateFragment : Fragment() {
                 hostId = userId
                 villaName = editTextTitleVillaCreate.text.toString()
                 description = editTextDescriptionVillaCreate.text.toString()
-                location = Location(
-                    province = dropdownProvinceVillaCreate.text.toString(),
-                    district = dropdownDistrictVillaCreate.text.toString(),
-                    neighborhoodOrVillage = dropdownNeighborhoodAndVillageVillaCreate.text.toString(),
-                    address = editTextAddressVillaCreate.text.toString()
-                )
-                nightlyRate = editTextNightlyRateVillaCreate.text.toString().toDoubleOrNull()
-                capacity = dropdownCapacityVillaCreate.text.toString().toIntOrNull()
-                bedroomCount = dropdownBedroomCountVillaCreate.toString().toIntOrNull()
-                bedCount = dropdownBedCountVillaCreate.toString().toIntOrNull()
-                bathroomCount = dropdownBathroomCountVillaCreate.toString().toIntOrNull()
-                restroom = dropdownRestroomCountVillaCreate.toString().toIntOrNull()
+                locationProvince = dropdownProvinceVillaCreate.text.toString()
+                locationDistrict = dropdownDistrictVillaCreate.text.toString()
+                locationNeighborhoodOrVillage =
+                    dropdownNeighborhoodAndVillageVillaCreate.text.toString()
+                locationAddress = editTextAddressVillaCreate.text.toString()
+                nightlyRate = editTextNightlyRateVillaCreate.text.toString().toDoubleOrNull() ?: 0.0
+                capacity = dropdownCapacityVillaCreate.text.toString().toIntOrNull() ?: 0
+                bedroomCount = dropdownBedroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
+                bedCount = dropdownBedCountVillaCreate.text.toString().toIntOrNull() ?: 0
+                bathroomCount = dropdownBathroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
+                restroom = dropdownRestroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
                 facilities = facilitiesArg
             }
         }
@@ -109,12 +141,13 @@ class VillaCreateFragment : Fragment() {
                             )
                         }
 
-                        Status.LOADING -> {
-                            setProgressBarVisibility = it.data
+                        Status.LOADING -> it.data?.let { status ->
+                            setProgressBarVisibility = status
                         }
 
                         Status.ERROR -> {
-
+                            errorDialog.setMessage("Hata mesajı:\n${it.message}")
+                            errorDialog.show()
                         }
                     }
 
@@ -135,6 +168,7 @@ class VillaCreateFragment : Fragment() {
                         )
                     )
                 }
+
                 liveDataDistrictFromRoom.observe(owner) {
 
                     districtList.clear()
@@ -152,6 +186,7 @@ class VillaCreateFragment : Fragment() {
                     )
 
                 }
+
                 liveDataNeighborhoodFromRoom.observe(owner) { neighborhoods ->
                     val listName: MutableList<String> = mutableListOf()
                     listName.addAll(neighborhoods.map { neighborhood -> neighborhood.name.toString() })
@@ -168,8 +203,24 @@ class VillaCreateFragment : Fragment() {
                             )
                         )
                     }
+                }
 
+                imageUriList.observe(owner) { images ->
+                    selectedOtherImages.clear()
+                    selectedOtherImages.addAll(images.toList())
+                    viewPagerAdapter.refreshList(images.toList())
+                    with(binding) {
+                        //indicatoru viewpager yeni liste ile set ediyoruz
+                        indicatorVillaCreate.setViewPager(viewPagerVillaCreate)
+                    }
+                }
 
+                imageSize.observe(owner) {
+                    //seçilen resim olmadığında viewpager 'ı gizleyip boş bir resim gösteriyoruz
+                    //resim seçildiğinde işlemi tersine alıyoruz
+                    with(binding) {
+                        setViewPagerVisibility = !(it == 0 || it == null)
+                    }
                 }
             }
         }
@@ -222,8 +273,10 @@ class VillaCreateFragment : Fragment() {
         with(binding) {
             buttonSaveVillaCreate.setOnClickListener {
                 val villaId = UUID.randomUUID().toString()
-                viewModel.addVillaToFirestore(
-                    villaId, createVilla(villaId)
+                viewModel.addImagesAndVillaToFirebase(
+                    selectedCoverImage,
+                    selectedOtherImages,
+                    createVilla(villaId)
                 )
             }
 
@@ -232,6 +285,80 @@ class VillaCreateFragment : Fragment() {
                 //TODO: Dönüşte bilgileri tekrar ekrana yazdır
                 Navigation.findNavController(it)
                     .navigate(actionVillaCreateFragmentToVillaCreateFacilitiesFragment())
+            }
+
+            textAddImageCover.setOnClickListener {
+                if (checkPermissionImageGallery(requireActivity(), 800)) {
+                    openCoverImagePicker()
+                }
+            }
+
+            buttonImageCoverEditVillaCreate.setOnClickListener {
+                if (checkPermissionImageGallery(requireActivity(), 800)) {
+                    openCoverImagePicker()
+                }
+            }
+
+            textAddMoreImage.setOnClickListener {
+                if (checkPermissionImageGallery(requireActivity(), 800)) {
+                    openOtherImagePicker()
+                }
+            }
+        }
+    }
+
+    private fun setupLaunchers() {
+        coverImageLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    result.data?.data?.let { image ->
+                        selectedCoverImage = image
+                        selectedCoverImage?.let {
+                            binding.setTextAddImageCoverVisibility = false
+                            binding.setImageCoverVisibility = true
+                            downloadImage(binding.imageCoverVillaCreate, image.toString())
+                        }
+                    }
+                }
+            }
+
+        otherImageLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    result.data?.data?.let { image ->
+                        selectedOtherImages.add(image)
+                        viewModel.setImageUriList(selectedOtherImages.toList())
+                    }
+                }
+            }
+    }
+
+    private fun openCoverImagePicker() {
+        val imageIntent =
+            Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+        coverImageLauncher.launch(imageIntent)
+    }
+
+    private fun openOtherImagePicker() {
+        val imageIntent =
+            Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+        otherImageLauncher.launch(imageIntent)
+    }
+
+    private fun setupDialogs() {
+        with(errorDialog) {
+            setTitle("Veriler alınırken hata oluştu.")
+            setCancelable(false)
+            setButton(
+                android.app.AlertDialog.BUTTON_POSITIVE, "Tamam"
+            ) { dialog, _ ->
+                dialog.cancel()
             }
         }
     }

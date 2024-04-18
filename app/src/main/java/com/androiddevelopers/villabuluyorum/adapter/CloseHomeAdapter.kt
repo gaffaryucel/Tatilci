@@ -46,7 +46,7 @@ class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
             downloadImage(binding.imageHouse, house.coverImage)
 
             binding.textTitle.text = house.villaName ?: "Deniz kenarı villa"
-            (house.locationAddress + house.locationNeighborhoodOrVillage + house.locationDistrict + house.locationProvince).also { address ->
+            (house.locationNeighborhoodOrVillage + ", " + house.locationDistrict + ", " + house.locationProvince).also { address ->
                 binding.textAddress.text = address
             }
             val randomValue = (1..10).random()

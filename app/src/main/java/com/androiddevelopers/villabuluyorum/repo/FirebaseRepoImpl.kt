@@ -95,8 +95,7 @@ class FirebaseRepoImpl @Inject constructor(
     }
 
     override fun getVillasByCity(city: String, limit: Long): Task<QuerySnapshot> {
-        return villaCollection.whereEqualTo("locationProvince", city)
-            .orderBy("star", Query.Direction.DESCENDING).limit(limit).get()
+        return villaCollection.whereEqualTo("locationProvince", city).limit(limit).get()
     }
 
     // Storage - Villa
@@ -112,6 +111,7 @@ class FirebaseRepoImpl @Inject constructor(
             .child("postId_$villaId")
             .child("${UUID.randomUUID()}.jpg")
             .putFile(uri)
+
     }
 
 }

@@ -148,8 +148,9 @@
             android:layout_height="55dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/rounded_button_background"
-            android:text="Mesaj"
-            android:textColor="@color/black"
+            android:text="Çıkış Yap"
+            android:textColor="@color/normal_text_color"
+            android:layout_marginBottom="20dp"
             android:textSize="16sp" />
 
         <androidx.appcompat.widget.AppCompatButton

@@ -2,6 +2,7 @@ package com.androiddevelopers.villabuluyorum.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -9,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androiddevelopers.villabuluyorum.databinding.RowHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.view.HomeFragmentDirections
+import com.bumptech.glide.Glide
+import kotlin.random.Random
 
 class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
 
@@ -46,7 +49,8 @@ class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
             (house.locationAddress + house.locationNeighborhoodOrVillage + house.locationDistrict + house.locationProvince).also { address ->
                 binding.textAddress.text = address
             }
-            binding.textDistance.text = "5KM"
+            val randomValue = (1..10).random()
+            binding.textDistance.text = "${randomValue}KM"
 
             house.villaId?.let { id ->
                 holder.itemView.setOnClickListener {
@@ -54,11 +58,11 @@ class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
                         HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(id)
                     Navigation.findNavController(it).navigate(directions)
                 }
+
             }
 
         } catch (e: Exception) {
-            // Hata durumunda bir işlem yapabilirsiniz
-            println("error : " + e)
+            Toast.makeText(holder.itemView.context, e.localizedMessage, Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -1,15 +1,18 @@
 package com.androiddevelopers.villabuluyorum.view.login
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentEntryBinding
 import com.androiddevelopers.villabuluyorum.databinding.FragmentRegisterBinding
+import com.androiddevelopers.villabuluyorum.view.BottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.login.EntryViewModel
 import com.androiddevelopers.villabuluyorum.viewmodel.login.RegisterViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -21,8 +24,6 @@ class EntryFragment : Fragment() {
 
     private var _binding: FragmentEntryBinding? = null
     private val binding get() = _binding!!
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +55,21 @@ class EntryFragment : Fragment() {
             val action = EntryFragmentDirections.actionEntryFragmentToRegisterFragment()
             Navigation.findNavController(it).navigate(action)
         }
+        val auth = FirebaseAuth.getInstance()
+        val user = auth.currentUser
+        if (user != null){
+            if (user.isEmailVerified){
+                gotoHome()
+            }else{
+                Toast.makeText(requireContext(), "E-postanızı doğrulayın", Toast.LENGTH_SHORT).show()
+                auth.signOut()
+            }
+        }
+    }
+    private fun gotoHome() {
+        val intent = Intent(requireContext(), BottomNavigationActivity::class.java)
+        requireActivity().finish()
+        requireActivity().startActivity(intent)
     }
 
 

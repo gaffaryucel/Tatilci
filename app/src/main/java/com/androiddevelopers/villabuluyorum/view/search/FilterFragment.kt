@@ -1,0 +1,276 @@
+package com.androiddevelopers.villabuluyorum.view.search
+
+import android.content.Context
+import androidx.lifecycle.ViewModelProvider
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.androiddevelopers.villabuluyorum.R
+import com.androiddevelopers.villabuluyorum.databinding.FragmentFilterBinding
+import com.androiddevelopers.villabuluyorum.model.FilterModel
+import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
+import com.androiddevelopers.villabuluyorum.viewmodel.serch.FilterViewModel
+
+class FilterFragment  : Fragment() {
+
+    private var filter = FilterModel()
+
+    private lateinit var viewModel: FilterViewModel
+    private lateinit var _binding: FragmentFilterBinding
+    private val binding get() = _binding
+
+    private var isFavoriteSelected = false
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        viewModel = ViewModelProvider(this)[FilterViewModel::class.java]
+        _binding = FragmentFilterBinding.inflate(inflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupBindingItems()
+    }
+    private fun setupBindingItems(){
+        setupLocationSelection()
+        setupSlider()
+        setBedRoomSelection()
+        setupBadSelection()
+        setupBathSelection()
+        isFavoriteHousesSelected()
+        changeSelectedHouseType()
+        amenitiesSelection()
+        binding.btnFilterAndSearch.setOnClickListener {
+            saveAAndExit()
+        }
+    }
+    //Konum
+    private fun setupLocationSelection(){
+        filter.city = "Tokat"
+
+        binding.tvLocation.setOnClickListener {
+            it.setBackgroundResource(R.drawable.selected_text_bg)
+            binding.tvNewLocation.setBackgroundResource(R.drawable.selectable_text_bg)
+            filter.city = "Tokat"
+        }
+        binding.tvNewLocation.setOnClickListener {
+            it.setBackgroundResource(R.drawable.selected_text_bg)
+            binding.tvLocation.setBackgroundResource(R.drawable.selectable_text_bg)
+            filter.city = "İstanbul"
+        }
+    }
+    //Fiyat Aralığı
+    private fun setupSlider(){
+        filter.maxPrice = 10000F
+        filter.minPrice = 0F
+        binding.slider.addOnChangeListener { rangeSlider, value, fromUser ->
+            filter.maxPrice = rangeSlider.values[1]
+            filter.minPrice =  rangeSlider.values[0]
+        }
+    }
+    //Odalar
+    private fun setBedRoomSelection(){
+        val allViews = listOf(
+            binding.bedRoomAll,
+            binding.bedRoom1,
+            binding.bedRoom2,
+            binding.bedRoom3,
+            binding.bedRoom4,
+            binding.bedRoom5
+        )
+
+        allViews.forEachIndexed { index, view ->
+            view.setOnClickListener {
+                changeBackgrounds(allViews,it)
+
+                //Seçilen elemanın değerini gerekli değişkene atama
+                filter.bedrooms = when (index) {
+                    0 -> 99
+                    else ->  index
+                }
+            }
+        }
+
+
+    }
+    private fun setupBadSelection(){
+        val allViews = listOf(
+            binding.bedAll,
+            binding.bed1,
+            binding.bed2,
+            binding.bed3,
+            binding.bed4,
+            binding.bed5
+        )
+
+        allViews.forEachIndexed { index, view ->
+            view.setOnClickListener {
+                //Arka plan değiştirme
+                changeBackgrounds(allViews,it)
+                //Seçilen elemanın değerini g3erekli değişkene atama
+                filter.beds = when (index) {
+                    0 -> 99
+                    else ->  index
+                }
+            }
+        }
+    }
+    private fun setupBathSelection(){
+        val allViews = listOf(
+            binding.bathAll,
+            binding.bath1,
+            binding.bath2,
+            binding.bath3,
+            binding.bath4,
+            binding.bath5
+        )
+
+        allViews.forEachIndexed { index, view ->
+            view.setOnClickListener {
+                changeBackgrounds(allViews,it)
+                //Seçilen elemanın değerini gerekli değişkene atama
+                filter.bathrooms = when (index) {
+                    0 -> 99
+                    else ->  index
+                }
+            }
+        }
+    }
+    private fun changeBackgrounds(allViews : List<View>,view : View){
+        // Tüm elemanların arka planını seçilebilir olarak ayarla
+        allViews.forEach {
+            it.setBackgroundResource(R.drawable.selectable_text_bg)
+        }
+        // Seçilen elemanın arka planını seçili olarak ayarla
+        view.setBackgroundResource(R.drawable.selected_text_bg)
+    }
+    private fun isFavoriteHousesSelected(){
+        binding.layoutFavoriteHouse.setOnClickListener {
+            if (isFavoriteSelected){
+                it.setBackgroundResource(R.drawable.secondary_button_bg)
+                isFavoriteSelected = false
+                filter.isFavorite = false
+            }else{
+                it.setBackgroundResource(R.drawable.main_button_gb)
+                isFavoriteSelected = true
+                filter.isFavorite = true
+            }
+        }
+    }
+    //Konaklama Türü
+    private fun changeSelectedHouseType(){
+        val itemGuestHouse = binding.itemGuestHouse
+        val itemHotel = binding.itemHotel
+        val itemHouse = binding.house
+        val itemApartment = binding.itemApartment
+
+        val allViews = listOf(itemHouse, itemApartment, itemGuestHouse, itemHotel)
+
+        allViews.forEachIndexed { index, view ->
+            view.setOnClickListener {
+                allViews.forEach { it.setBackgroundResource(R.drawable.secondary_button_bg) }
+                // Seçilen elemanın arka planını seçili olarak ayarla
+                view.setBackgroundResource(R.drawable.main_button_gb)
+                // Seçilen elemanın adını ekrana yazdır
+                filter.propertyType = when (index) {
+                    0 -> "HOUSE"
+                    1 -> "APARTMENT"
+                    2 -> "GUEST_HOUSE"
+                    3 -> "HOTEL"
+                    else -> "HOTEL"
+                }
+            }
+        }
+
+    }
+
+    //Olanakların seçilmesi
+    private fun amenitiesSelection(){
+        val layoutWifi = binding.layoutCbWifi
+        val layoutKitchen = binding.layoutCbKitchen
+        val layoutWashingMachine = binding.layoutCbWashingMachine
+        val layoutCbAir = binding.layoutCbAir
+        val list = ArrayList<String>()
+        layoutWifi.setOnClickListener {
+            val cbWifi = binding.cbWifi
+            cbWifi.isChecked = !cbWifi.isChecked.also {
+                changeAmenities(list,it,"wifi")
+            }
+        }
+
+        layoutKitchen.setOnClickListener {
+            val cbKitchen = binding.cbKitchen
+            cbKitchen.isChecked = !cbKitchen.isChecked.also {
+                changeAmenities(list,it,"Mutfak")
+            }
+        }
+        layoutWashingMachine.setOnClickListener {
+            val cbWashingMachine = binding.cbWashingMachine
+            cbWashingMachine.isChecked = !cbWashingMachine.isChecked.also {
+                changeAmenities(list,it,"Çamaşır makinesi")
+            }
+
+        }
+        layoutCbAir.setOnClickListener {
+            val cbAir = binding.cbAir
+            cbAir.isChecked = !cbAir.isChecked.also {
+                changeAmenities(list,it,"Klima")
+            }
+        }
+
+    }
+
+    private fun changeAmenities(list : ArrayList<String>,isChecked : Boolean,amenities : String) {
+        if (!isChecked){
+            list.add(amenities)
+        }else{
+            list.remove(amenities)
+        }
+        filter.amenities = list
+    }
+
+    private fun setDefaultValues(){
+
+    }
+
+    private fun saveAAndExit(){
+        try {
+            val sharedPreferences = requireContext().getSharedPreferences("FilterPref", Context.MODE_PRIVATE)
+
+            // FilterModel'deki tüm değişkenleri kaydet
+            val editor = sharedPreferences.edit()
+            editor.putString("city", filter.city)
+            editor.putFloat("minPrice", filter.maxPrice ?: 0F)
+            editor.putFloat("maxPrice", filter.minPrice ?: 10000F)
+            editor.putInt("bedrooms", filter.bedrooms ?: 0)
+            editor.putInt("beds", filter.beds ?: 0)
+            editor.putInt("bathrooms", filter.bathrooms ?: 0)
+            editor.putBoolean("isFavorite", filter.isFavorite ?: false)
+            editor.putString("propertyType", filter.propertyType)
+            editor.putStringSet("amenities", filter.amenities?.toSet() ?: setOf())
+            editor.apply().also {
+                findNavController().popBackStack()
+            }
+        }
+        catch (e :Exception){
+            println("error : "+e.localizedMessage)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        showBottomNavigation(requireActivity())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hideBottomNavigation(requireActivity())
+    }
+}

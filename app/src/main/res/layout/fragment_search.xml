@@ -22,6 +22,7 @@
                 android:id="@+id/searchView"
                 app:layout_constraintTop_toTopOf="@+id/ivFilter"
                 app:layout_constraintBottom_toBottomOf="@+id/ivFilter"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivFilter"
                 android:layout_width="0dp"
@@ -62,11 +63,13 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/ivRefresh"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/close"
+                android:src="@drawable/baseline_autorenew_24"
                 android:layout_gravity="center"
                 android:layout_width="50dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                app:tint="@color/main_button_gb_color" />
             <TextView
                 android:layout_marginTop="15dp"
                 android:text="Bu kriterlere uygun ev bulunamadı"
@@ -75,6 +78,7 @@
                 android:textSize="25sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
 
 
         </LinearLayout>

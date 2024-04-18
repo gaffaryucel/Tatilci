@@ -1,5 +1,6 @@
 package com.androiddevelopers.villabuluyorum.view.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentProfileBinding
+import com.androiddevelopers.villabuluyorum.view.MainActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.profile.ProfileViewModel
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,13 +32,16 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.ivSettings.setOnClickListener {
-            val action =
-                ProfileFragmentDirections.actionNavigationProfileToEditProfileDetailsFragment()
+            val action = ProfileFragmentDirections.actionNavigationProfileToEditProfileDetailsFragment()
             Navigation.findNavController(it).navigate(action)
         }
         binding.btnMessage.setOnClickListener {
-            val action = ProfileFragmentDirections.actionNavigationProfileToVillaCreateFragment()
-            Navigation.findNavController(it).navigate(action)
+            FirebaseAuth.getInstance().signOut().also {
+                val intent = Intent(requireActivity(),MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                requireActivity().finish()
+                requireActivity().startActivity(intent)
+            }
         }
 
         binding.buttonCreateVilla.setOnClickListener {

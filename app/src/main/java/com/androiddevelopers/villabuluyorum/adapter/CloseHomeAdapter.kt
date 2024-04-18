@@ -11,6 +11,7 @@ import com.androiddevelopers.villabuluyorum.databinding.RowHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.view.HomeFragmentDirections
 import com.bumptech.glide.Glide
+import kotlin.random.Random
 
 class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
 
@@ -42,14 +43,14 @@ class HouseAdapter : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
         val binding = holder.binding
 
         try {
-
             downloadImage(binding.imageHouse, house.coverImage)
 
             binding.textTitle.text = house.villaName ?: "Deniz kenarı villa"
             (house.locationAddress + house.locationNeighborhoodOrVillage + house.locationDistrict + house.locationProvince).also { address ->
                 binding.textAddress.text = address
             }
-            binding.textDistance.text = "5KM"
+            val randomValue = (1..10).random()
+            binding.textDistance.text = "${randomValue}KM"
 
             house.villaId?.let { id ->
                 holder.itemView.setOnClickListener {

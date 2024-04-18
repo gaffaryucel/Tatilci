@@ -11,11 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowBestHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
-import com.androiddevelopers.villabuluyorum.view.HomeFragmentDirections
+import com.androiddevelopers.villabuluyorum.view.search.SearchFragmentDirections
 import com.bumptech.glide.Glide
 
-
-class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>() {
+class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     private val diffUtil = object : DiffUtil.ItemCallback<Villa>() {
         override fun areItemsTheSame(oldItem: Villa, newItem: Villa): Boolean {
@@ -32,25 +31,23 @@ class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>(
         get() = recyclerListDiffer.currentList
         set(value) = recyclerListDiffer.submitList(value)
 
-    inner class HouseViewHolder(val binding: RowBestHouseBinding) :
+    inner class SearchViewHolder(val binding: RowBestHouseBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HouseViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val binding = RowBestHouseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return HouseViewHolder(binding)
+        return SearchViewHolder(binding)
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder: HouseViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         val house = villaList[position]
 
         try {
-
-             Glide.with(holder.itemView.context).load(house.coverImage)
-                 .placeholder(R.drawable.app_logo)
-                 .error(R.drawable.app_logo)
-                 .into(holder.binding.ivBestHouse)
-
+            Glide.with(holder.itemView.context).load(house.coverImage)
+                .placeholder(R.drawable.app_logo)
+                .error(R.drawable.app_logo)
+                .into(holder.binding.ivBestHouse)
 
             holder.binding.tvTitle.text = house.villaName ?: "Güzel Bir Villa"
             holder.binding.tvPrice.text = "₺${house.nightlyRate ?: 4000}/Gece"
@@ -59,7 +56,7 @@ class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>(
 
             house.villaId?.let { id ->
                 holder.itemView.setOnClickListener {
-                    val directions = HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(id)
+                    val directions = SearchFragmentDirections.actionSearchFragmentToVillaDetailFragment(id)
                     Navigation.findNavController(it).navigate(directions)
                 }
             }

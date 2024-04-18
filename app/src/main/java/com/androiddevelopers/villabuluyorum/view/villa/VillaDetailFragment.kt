@@ -95,11 +95,15 @@ class VillaDetailFragment : Fragment() {
                     villa = it
 
                     it.otherImages?.toList()?.let { images ->
-                        viewPagerAdapter.refreshList(images)
-                        //indicatoru viewpager yeni liste ile set ediyoruz
-                        binding.indicatorVillaDetail.setViewPager(binding.viewPagerVillaDetail)
+                        if (images.isNotEmpty()) {
+                            viewPagerAdapter.refreshList(images)
+                            //indicatoru viewpager yeni liste ile set ediyoruz
+                            binding.indicatorVillaDetail.setViewPager(binding.viewPagerVillaDetail)
 
-                        binding.setViewPagerVisibility = true
+                            binding.setViewPagerVisibility = true
+                        } else {
+                            binding.setViewPagerVisibility = false
+                        }
                     } ?: run {
                         binding.setViewPagerVisibility = false
                     }

@@ -161,5 +161,9 @@
 
     <color name="detail_page_transparent_icon">#80000000</color>
 
+
     <color name="indicator_drawable_color">@color/md_theme_onSurface</color>
+
+    <color name="search_view_bg">#f0f0f0</color>
+
 </resources>

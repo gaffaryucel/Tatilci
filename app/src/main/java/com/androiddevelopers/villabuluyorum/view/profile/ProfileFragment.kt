@@ -11,6 +11,8 @@ import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentProfileBinding
 import com.androiddevelopers.villabuluyorum.view.MainActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.profile.ProfileViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,6 +38,11 @@ class ProfileFragment : Fragment() {
             Navigation.findNavController(it).navigate(action)
         }
         binding.btnMessage.setOnClickListener {
+            val googleSignInClient = GoogleSignIn.getClient(requireContext(), GoogleSignInOptions.DEFAULT_SIGN_IN)
+            googleSignInClient.signOut().addOnCompleteListener {
+                // Kullanıcıyı başka bir aktiviteye yönlendir veya ek işlemler yap
+                // Örneğin, giriş ekranına geri dönme gibi
+            }
             FirebaseAuth.getInstance().signOut().also {
                 val intent = Intent(requireActivity(),MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

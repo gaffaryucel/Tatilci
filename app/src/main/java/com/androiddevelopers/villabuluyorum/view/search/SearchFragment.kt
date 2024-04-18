@@ -49,7 +49,8 @@ class SearchFragment : Fragment() {
         binding.rvSearch.layoutManager = LinearLayoutManager(requireContext())
         binding.rvSearch.adapter = searchAdapter
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
                     viewModel.searchInLİst(it)

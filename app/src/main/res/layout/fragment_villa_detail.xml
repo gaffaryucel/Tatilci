@@ -350,7 +350,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="@{`- ` + villa.capacity + ` kişi konaklayabilir.\n- ` + villa.restroom + ` tuvalet var.`}"
+                            android:text="@{`- ` + villa.capacity + ` kişi konaklayabilir.\n- ` + villa.restroom + ` banyo var.`}"
                             android:textSize="18sp"
                             app:layout_constraintEnd_toEndOf="@id/cardImageCoverVillaDetail"
                             app:layout_constraintStart_toStartOf="@id/cardImageCoverVillaDetail"

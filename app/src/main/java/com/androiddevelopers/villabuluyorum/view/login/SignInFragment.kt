@@ -73,7 +73,7 @@ class SignInFragment : Fragment() {
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
 
-        binding.btnGoogle.setOnClickListener {
+        binding.layoutGoogle.setOnClickListener {
             googleSignIn()
         }
 
@@ -108,7 +108,7 @@ class SignInFragment : Fragment() {
                 forgotPasswordDialog.show()
             }
         }
-        binding.btnPhone.setOnClickListener {
+        binding.layoutPhone.setOnClickListener {
             val action = SignInFragmentDirections.actionSignInFragmentToPhoneLoginFragment()
             Navigation.findNavController(it).navigate(action)
         }

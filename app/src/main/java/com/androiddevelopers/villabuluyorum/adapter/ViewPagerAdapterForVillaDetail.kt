@@ -2,21 +2,22 @@ package com.androiddevelopers.villabuluyorum.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.androiddevelopers.villabuluyorum.databinding.ColumnViewpagerForVillaDetailBinding
+import com.androiddevelopers.villabuluyorum.databinding.ColumnViewpagerForVillaCreateBinding
 
 class ViewPagerAdapterForVillaDetail :
     RecyclerView.Adapter<ViewPagerAdapterForVillaDetail.ViewPagerHolder>() {
 
     private var images: ArrayList<String> = arrayListOf()
 
-    inner class ViewPagerHolder(val binding: ColumnViewpagerForVillaDetailBinding) :
+    inner class ViewPagerHolder(val binding: ColumnViewpagerForVillaCreateBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewPagerHolder =
         ViewPagerHolder(
-            ColumnViewpagerForVillaDetailBinding.inflate(
+            ColumnViewpagerForVillaCreateBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -26,6 +27,7 @@ class ViewPagerAdapterForVillaDetail :
     override fun getItemCount(): Int = images.size
 
     override fun onBindViewHolder(holder: ViewPagerHolder, position: Int) {
+        holder.binding.buttonDeleteViewPagerVillaCreate.visibility = View.GONE
         holder.binding.imageUrl = images[position]
     }
 

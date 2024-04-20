@@ -96,7 +96,6 @@
                     android:id="@+id/textDistance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="500 m"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="italic"

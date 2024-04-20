@@ -11,6 +11,8 @@ data class UserModel(
     var token: String? = null,
     var userRating: Double? = null,
     var host: Host? = null,
+    var latitude: Double? = null,
+    var longitude: Double? = null,
 )
 
 data class Host(

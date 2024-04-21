@@ -8,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androiddevelopers.villabuluyorum.adapter.BestHouseAdapter
+import com.androiddevelopers.villabuluyorum.adapter.SearchAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentSearchBinding
 import com.androiddevelopers.villabuluyorum.model.FilterModel
 import com.androiddevelopers.villabuluyorum.util.Status
@@ -19,15 +21,13 @@ import com.androiddevelopers.villabuluyorum.viewmodel.serch.SearchViewModel
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
-@Suppress("UNCHECKED_CAST")
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: SearchViewModel
-    private val searchAdapter = BestHouseAdapter()
-
+    private val searchAdapter = SearchAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +53,7 @@ class SearchFragment : Fragment() {
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
-                    viewModel.searchInLİst(it)
+                    viewModel.searchInList(it)
                 }
                 return false
             }
@@ -61,12 +61,15 @@ class SearchFragment : Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 // Kullanıcı adına göre arama yap
                 newText?.let {
-                    viewModel.searchInLİst(it)
+                    viewModel.searchInList(it)
                 }
                 return true
             }
         })
         binding.ivRefresh.setOnClickListener {
+            viewModel.getVillas(20)
+        }
+        binding.ivRefreshLayout.setOnClickListener {
             viewModel.getVillas(20)
         }
         getSharedPref()
@@ -99,16 +102,23 @@ class SearchFragment : Fragment() {
                 propertyType,
                 amenities?.toList(),
             )
+            println( city)
+            println( minPrice)
+            println( maxPrice)
+            println( bedrooms)
+            println( beds)
+            println( bathrooms)
+            println( isFavorite)
+            println( propertyType)
+            println( amenities?.toList())
             if (filter.city.isNullOrEmpty()){
                 return
             }else{
-                println("if (!filter.city.isNullOrEmpty()){")
-                viewModel.searchVillasByCity(filter,40).also {
-                    sharedPreferences.edit().clear().apply()
-                }
+                viewModel.searchVillasByCity(filter,40)
+                sharedPreferences.edit().clear().apply()
             }
         }catch (e : Exception){
-            println("hata : "+e.localizedMessage)
+            Toast.makeText(requireContext(), "Hata", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -141,8 +151,8 @@ class SearchFragment : Fragment() {
         viewModel.firebaseMessage.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
-                    binding.pbSearch.visibility = View.GONE
                     binding.rvSearch.visibility = View.VISIBLE
+                    binding.pbSearch.visibility = View.GONE
                     binding.layoutEmptyList.visibility = View.GONE
                 }
 
@@ -152,9 +162,11 @@ class SearchFragment : Fragment() {
                 }
 
                 Status.ERROR -> {
+                    println("error : "+it.message)
                     binding.pbSearch.visibility = View.GONE
                     binding.rvSearch.visibility = View.GONE
                     binding.layoutEmptyList.visibility = View.VISIBLE
+                    binding.layoutRefresh.visibility = View.GONE
                 }
             }
         })
@@ -162,19 +174,20 @@ class SearchFragment : Fragment() {
             if (villas != null) {
                 searchAdapter.villaList = villas
                 binding.pbSearch.visibility = View.GONE
+                binding.layoutRefresh.visibility = View.GONE
             }
         })
         viewModel.filterResult.observe(viewLifecycleOwner, Observer { villas ->
             if (!villas.isNullOrEmpty()) {
                 searchAdapter.villaList = villas
                 binding.pbSearch.visibility = View.GONE
+                binding.layoutRefresh.visibility = View.VISIBLE
             }
         })
 
     }
     override fun onResume() {
         super.onResume()
-        binding.pbSearch.visibility = View.VISIBLE
         observeLiveData()
     }
 }

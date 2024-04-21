@@ -1,10 +1,11 @@
 package com.androiddevelopers.villabuluyorum.viewmodel
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class HomeViewModel @Inject
 constructor(
@@ -27,6 +29,11 @@ constructor(
     private val auth : FirebaseAuth,
     private val roomProvinceRepo: RoomProvinceRepo
 ): ViewModel() {
+
+    private var _isPermissionRequested = MutableLiveData<Boolean>()
+    val isPermissionRequested : LiveData<Boolean>
+        get() = _isPermissionRequested
+
     private var _bestVillas = MutableLiveData<List<Villa>>()
     val bestVillas : LiveData<List<Villa>>
         get() = _bestVillas
@@ -50,6 +57,7 @@ constructor(
     private val currentUserId = auth.currentUser?.uid.toString()
 
     init {
+        _isPermissionRequested.value = false
         getUserDataFromFirebase()
         getCloseVillas("İzmir",20)
         getBestVillas(20)
@@ -106,5 +114,27 @@ constructor(
                     }
                 }
         }
+    }
+    fun updateUserLocation(
+        latitude : Double?,
+        longitude : Double?,
+        context : Context,
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        if (latitude == null || longitude == null){
+            return@launch
+        }
+        val updateMap: HashMap<String, Any?> = HashMap()
+        updateMap["latitude"] = latitude
+        updateMap["longitude"] = longitude
+
+        repo.updateUserData(currentUserId,updateMap)
+            .addOnSuccessListener {
+                Toast.makeText(context, "Konum güncellendi", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+    fun setPermissionRequest(isFirst: Boolean) {
+        _isPermissionRequested.value = isFirst
     }
 }

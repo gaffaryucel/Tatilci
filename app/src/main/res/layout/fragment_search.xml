@@ -88,6 +88,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/layoutRefresh"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivRefreshLayout"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/baseline_autorenew_24"
+                android:layout_gravity="center"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:tint="@color/main_button_gb_color" />
+            <TextView
+                android:layout_marginTop="15dp"
+                android:text="Filtreyi kaldır"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="25sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

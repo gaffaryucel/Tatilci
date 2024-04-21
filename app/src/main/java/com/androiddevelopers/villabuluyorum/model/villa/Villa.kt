@@ -30,5 +30,8 @@ data class Villa(
     var currency: String? = null, // ilan para birimi
     var coverImage: String? = null, // kapak resmi
     var otherImages: List<String>? = null, // ilan için eklenen diğer resimler
-    var rating: Double? = 0.0
+    var rating: Double? = 0.0,
+    var latitude: Double? = 39.9334,
+    var longitude: Double? = 32.8597,
+
 )

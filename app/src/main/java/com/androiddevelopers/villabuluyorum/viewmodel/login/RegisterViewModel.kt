@@ -44,7 +44,9 @@ constructor(
     fun signUp(
         email: String,
         password: String,
-        confirmPassword : String
+        confirmPassword : String,
+        lat : Double,
+        long : Double
     ) = viewModelScope.launch{
         _authState.value = Resource.loading(null)
         if (isInputValid(email,password,confirmPassword)){
@@ -52,7 +54,12 @@ constructor(
                 .addOnCompleteListener{task->
                     if (task.isSuccessful){
                         val userId = firebaseAuth.currentUser?.uid ?: ""
-                        createUser(userId,email)
+                        createUser(
+                            userId = userId,
+                            email = email,
+                            latitude = lat,
+                            longitude = long
+                        )
                         _authState.value = Resource.success(null)
                         verify()
                     }else{
@@ -67,17 +74,18 @@ constructor(
     private fun createUser(
         userId : String,
         email: String,
-        google : Boolean? = false
+        google : Boolean? = false,
+        latitude : Double,
+        longitude: Double
     ) = viewModelScope.launch{
         val tempUsername = email.substringBefore("@")
-        val user = makeUser(userId,tempUsername,email,userToken.value?.data.toString())
+        val user = makeUser(userId,tempUsername,email,userToken.value?.data.toString(),latitude,longitude)
         firebaseRepo.addUserToFirestore(user)
              .addOnSuccessListener {
                  if (google == false){
                      verify()
                  }else{
                      _authState.value = Resource.success(true)
-
                  }
              }.addOnFailureListener { e ->
                  _authState.value = Resource.error(e.localizedMessage ?: "error : try again later",null)
@@ -98,12 +106,14 @@ constructor(
         }
     }
 
-    private fun makeUser(userId : String,userName: String,email: String,token: String) : UserModel {
+    private fun makeUser(userId : String,userName: String,email: String,token: String,latitude : Double,longitude : Double) : UserModel {
         return UserModel(
             userId = userId,
             username = userName,
             email = email,
-            token = token
+            token = token,
+            latitude = latitude,
+            longitude = longitude,
         )
     }
 
@@ -136,7 +146,7 @@ constructor(
         }
     }
 
-    fun signInWithGoogle(idToken: String?) {
+    fun signInWithGoogle(idToken: String?,lat : Double,long : Double) {
         _authState.value = Resource.loading(null)
         val cridential = GoogleAuthProvider.getCredential(idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(cridential).addOnCompleteListener {
@@ -144,7 +154,13 @@ constructor(
                 val user = it.result.user
                 if (user != null){
                     if (user.displayName == null){
-                        createUser(user.uid,user.email.toString(),true)
+                        createUser(
+                            userId = user.uid,
+                            email = user.email.toString(),
+                            google = true,
+                            latitude = lat,
+                            longitude = long
+                        )
                     }else{
                         _authState.value = Resource.success(true)
                     }

@@ -90,13 +90,12 @@
                     app:layout_constraintBottom_toBottomOf="@id/textDistance"
                     app:layout_constraintEnd_toStartOf="@+id/textDistance"
                     app:layout_constraintTop_toTopOf="@id/textDistance"
-                    app:tint="@color/normal_text_color" />
+                    app:tint="@color/white" />
 
                 <TextView
                     android:id="@+id/textDistance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="500 m"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="italic"

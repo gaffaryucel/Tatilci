@@ -159,9 +159,7 @@ class HomeFragment : Fragment() {
                     listName.toList()
                 )
             )
-            val selectedItem = "İzmir"
-            val selectedIndex = listName.toList().indexOf(selectedItem)
-            binding.dropDownCity.setSelection(selectedIndex)
+
         }
     }
 

@@ -60,7 +60,7 @@ class HouseAdapter(val myLocation :MyLocation) : RecyclerView.Adapter<HouseAdapt
 
             if (myLocation != null){
                 val distanceInKm = calculateDistance(myLocation.latitude, myLocation.longitude, house.latitude ?: 0.0, house.longitude ?: 0.0)
-                holder.binding.textDistance.text = "${distanceInKm.toInt()}KM"
+                holder.binding.textDistance.text = "${distanceInKm.toInt()}km"
             }
 
 

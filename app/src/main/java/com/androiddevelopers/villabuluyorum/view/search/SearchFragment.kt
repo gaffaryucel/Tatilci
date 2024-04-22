@@ -102,15 +102,15 @@ class SearchFragment : Fragment() {
                 propertyType,
                 amenities?.toList(),
             )
-            println( city)
-            println( minPrice)
-            println( maxPrice)
-            println( bedrooms)
-            println( beds)
-            println( bathrooms)
-            println( isFavorite)
-            println( propertyType)
-            println( amenities?.toList())
+            println(city)
+            println(minPrice)
+            println(maxPrice)
+            println(bedrooms)
+            println(beds)
+            println(bathrooms)
+            println(isFavorite)
+            println(propertyType)
+            println(amenities?.toList())
             if (filter.city.isNullOrEmpty()){
                 return
             }else{

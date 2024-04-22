@@ -67,11 +67,15 @@ class FilterFragment  : Fragment() {
 
         binding.tvLocation.setOnClickListener {
             it.setBackgroundResource(R.drawable.selected_text_bg)
-            binding.tvNewLocation.setBackgroundResource(R.drawable.selectable_text_bg)
+            binding.tvAllCities.setBackgroundResource(R.drawable.selectable_text_bg)
             filter.city = "İzmir"
         }
+        binding.tvAllCities.setOnClickListener {
+            it.setBackgroundResource(R.drawable.selected_text_bg)
+            binding.tvLocation.setBackgroundResource(R.drawable.selectable_text_bg)
+            filter.city = "Hepsi"
+        }
         binding.tvNewLocation.setOnClickListener {
-            filter.city = "İstanbul"
             binding.layoutCitySelection.visibility = View.GONE
             binding.layoutCity.visibility = View.VISIBLE
         }
@@ -80,6 +84,8 @@ class FilterFragment  : Fragment() {
             filter.city = selectedCity
             binding.layoutCitySelection.visibility = View.VISIBLE
             binding.layoutCity.visibility = View.GONE
+            binding.tvLocation.setBackgroundResource(R.drawable.selected_text_bg)
+            binding.tvAllCities.setBackgroundResource(R.drawable.selectable_text_bg)
             binding.tvLocation.text = selectedCity
         }
     }

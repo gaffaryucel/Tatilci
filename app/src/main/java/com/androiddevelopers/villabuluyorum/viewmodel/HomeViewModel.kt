@@ -30,10 +30,6 @@ constructor(
     private val roomProvinceRepo: RoomProvinceRepo
 ): ViewModel() {
 
-    private var _isPermissionRequested = MutableLiveData<Boolean>()
-    val isPermissionRequested : LiveData<Boolean>
-        get() = _isPermissionRequested
-
     private var _bestVillas = MutableLiveData<List<Villa>>()
     val bestVillas : LiveData<List<Villa>>
         get() = _bestVillas
@@ -54,10 +50,13 @@ constructor(
     val userData: LiveData<UserModel>
         get() = _userData
 
+    private var _notifyUser = MutableLiveData<String>()
+    val notifyUser: LiveData<String>
+        get() = _notifyUser
+
     private val currentUserId = auth.currentUser?.uid.toString()
 
     init {
-        _isPermissionRequested.value = false
         getUserDataFromFirebase()
         getCloseVillas("İzmir",20)
         getBestVillas(20)
@@ -118,23 +117,25 @@ constructor(
     fun updateUserLocation(
         latitude : Double?,
         longitude : Double?,
-        context : Context,
-    ) = viewModelScope.launch(Dispatchers.IO) {
+    ) = viewModelScope.launch{
+        println("updateUserLocation")
         if (latitude == null || longitude == null){
             return@launch
         }
         val updateMap: HashMap<String, Any?> = HashMap()
         updateMap["latitude"] = latitude
         updateMap["longitude"] = longitude
-
         repo.updateUserData(currentUserId,updateMap)
             .addOnSuccessListener {
-                Toast.makeText(context, "Konum güncellendi", Toast.LENGTH_SHORT).show()
+                _notifyUser.value = "Konum Güncellendi"
+            }.addOnFailureListener{
+                _notifyUser.value = "Konum Güncellenirken bir hata oluştu"
             }
     }
 
 
-    fun setPermissionRequest(isFirst: Boolean) {
-        _isPermissionRequested.value = isFirst
+    fun resetNotifyMessage(){
+        _notifyUser.value = ""
     }
+
 }

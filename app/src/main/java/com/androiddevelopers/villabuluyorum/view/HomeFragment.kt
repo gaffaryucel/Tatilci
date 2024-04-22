@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
@@ -32,6 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import android.provider.Settings
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.androiddevelopers.villabuluyorum.adapter.MyLocation
 
@@ -53,6 +55,10 @@ class HomeFragment : Fragment() {
     private var latitude : Double? = null
     private var longitude : Double? = null
 
+    private val PREFS_FILENAME = "permission"
+
+    private val KEY_VALUE = "location"
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -65,6 +71,7 @@ class HomeFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         binding.rvCloseHomes.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
@@ -75,7 +82,6 @@ class HomeFragment : Fragment() {
         binding.sv.isClickable = false
         binding.sv.isFocusable = false
         binding.sv.isFocusableInTouchMode = false
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
 
         val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_bottom_navigation) as NavHostFragment?
@@ -90,6 +96,10 @@ class HomeFragment : Fragment() {
         binding.dropDownCity.setOnItemClickListener { _, _, position, _ ->
             val selectedCity = binding.dropDownCity.adapter.getItem(position).toString()
             viewModel.getCloseVillas(selectedCity,20)
+        }
+
+        if (!isPermissionRequested()){
+            requestGPSPermission(requireContext())
         }
     }
 
@@ -159,8 +169,13 @@ class HomeFragment : Fragment() {
                     listName.toList()
                 )
             )
-
         }
+        viewModel.notifyUser.observe(viewLifecycleOwner,Observer{
+            if (it.isNotEmpty()){
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                viewModel.resetNotifyMessage()
+            }
+        })
     }
 
     override fun onPause() {
@@ -173,7 +188,8 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun checkAndRequestGPSPermission(context: Context) {
+    private fun requestGPSPermission(context: Context) {
+        //İzin istendiğini belirtiyoruz
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
@@ -190,16 +206,15 @@ class HomeFragment : Fragment() {
             alertDialogBuilder.setNegativeButton("Hayır") { dialog, _ ->
                 // Kullanıcı Hayır'ı seçti, işlemi iptal et
                 dialog.dismiss()
+                setPermissionRequestValue(true)
             }
             val dialog = alertDialogBuilder.create()
             dialog.show()
         } else {
             getLastKnownLocation()
         }
-        viewModel.setPermissionRequest(true)
     }
     private fun getLastKnownLocation() = lifecycleScope.launch{
-        println("getLastKnownLocation")
         delay(500)
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -218,18 +233,36 @@ class HomeFragment : Fragment() {
             )
             return@launch
         }
-        fusedLocationClient.lastLocation.addOnSuccessListener {myLocation->
-            myLocation?.let {
+        fusedLocationClient.lastLocation.addOnSuccessListener {
+            println("addOnSuccessListener")
+            it?.let {
                 latitude = it.latitude
                 longitude = it.longitude
+                println("notNull")
                 viewModel.updateUserLocation(
                     latitude,
-                    longitude,
-                    requireContext()
+                    longitude
                 )
             }
+            println("finish")
+
+        }.addOnFailureListener{
+            println("addOnFailureListener : "+it.localizedMessage)
         }
+        setPermissionRequestValue(true)
     }
+
+    private fun setPermissionRequestValue(value : Boolean) {
+        val sharedPrefs: SharedPreferences = requireContext().getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPrefs.edit()
+        editor.putBoolean(KEY_VALUE, value)
+        editor.apply()
+    }
+    private fun isPermissionRequested(): Boolean {
+        val sharedPrefs: SharedPreferences = requireContext().getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
+        return sharedPrefs.getBoolean(KEY_VALUE,false)
+    }
+
     /*
     getLastKnownLocation
         val tokatCoordinates = findCityCoordinates("istanbul")

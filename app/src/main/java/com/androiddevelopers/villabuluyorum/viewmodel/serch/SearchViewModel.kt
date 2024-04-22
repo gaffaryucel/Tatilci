@@ -59,28 +59,34 @@ constructor(
                 _firebaseMessage.value = Resource.error("Belge alınamadı. Hata: $exception", null)
             }
     }
-    fun searchVillasByCity(filter : FilterModel, limit : Long) = viewModelScope.launch{
+    fun searchVillasByCity(filter : FilterModel, limit : Long) = viewModelScope.launch {
         _firebaseMessage.value = Resource.loading(null)
-        println("city : "+filter.city)
-        repo.getVillasByCity(filter.city ?: "Ankara",limit)
-            .addOnSuccessListener {
-                println("searchVillasByCity")
-                val villaList = mutableListOf<Villa>()
-                for (document in it.documents) {
-                    // Belgeden her bir videoyu çek
-                    document.toVilla()?.let { villa ->
-                        villaList.add(villa)
-                    }
-                }
-                filterVillas(villaList,filter)
-            }.addOnFailureListener { exception ->
-                // Hata durzumunda işlemleri buraya ekleyebilirsiniz
-                _firebaseMessage.value = Resource.error("Belge alınamadı. Hata: $exception", null)
+        if (filter.city.equals("Hepsi")) {
+            if (searchResult.value != null){
+                filterVillas(searchResult.value!!,filter)
             }
+        }else{
+            repo.getVillasByCity(filter.city ?: "Ankara",limit)
+                .addOnSuccessListener {
+                    println("searchVillasByCity")
+                    val villaList = mutableListOf<Villa>()
+                    for (document in it.documents) {
+                        // Belgeden her bir videoyu çek
+                        document.toVilla()?.let { villa ->
+                            villaList.add(villa)
+                        }
+                    }
+                    filterVillas(villaList,filter)
+                }.addOnFailureListener { exception ->
+                    // Hata durzumunda işlemleri buraya ekleyebilirsiniz
+                    _firebaseMessage.value = Resource.error("Belge alınamadı. Hata: $exception", null)
+                }
+        }
 
     }
-    fun filterVillas(villaList : List<Villa>,filters : FilterModel)= viewModelScope.launch{
+    private fun filterVillas(villaList : List<Villa>,filters : FilterModel)= viewModelScope.launch{
         try {
+            println("filterVillas")
             val villas = ArrayList<Villa>()
             if (villaList.isNotEmpty()) {
                 for (villa in villaList) {
@@ -100,7 +106,7 @@ constructor(
                 _firebaseMessage.value = Resource.error("Hata : Sonuç bulunamadı",null )
             }
         }catch (e :Exception){
-            _firebaseMessage.value = Resource.error("Hata : Sonuç bulunamadı",null )
+            _firebaseMessage.value = Resource.error("Hata : "+e.localizedMessage,null )
         }
     }
     fun searchInList(query : String?){

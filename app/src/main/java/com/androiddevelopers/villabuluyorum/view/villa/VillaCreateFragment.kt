@@ -6,6 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +23,7 @@ import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.adapter.ViewPagerAdapterForVillaCreate
 import com.androiddevelopers.villabuluyorum.adapter.downloadImage
 import com.androiddevelopers.villabuluyorum.databinding.FragmentVillaCreateBinding
+import com.androiddevelopers.villabuluyorum.databinding.MergeItemCoverImageBinding
 import com.androiddevelopers.villabuluyorum.model.provinces.District
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.model.villa.Facilities
@@ -43,6 +46,9 @@ class VillaCreateFragment : Fragment() {
     private var _binding: FragmentVillaCreateBinding? = null
     private val binding get() = _binding!!
 
+    private var _mergeBinding: MergeItemCoverImageBinding? = null
+    private val mergeBinding get() = _mergeBinding!!
+
     private lateinit var facilitiesArg: Facilities
 
     private val provinceList = mutableListOf<Province>()
@@ -63,6 +69,7 @@ class VillaCreateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentVillaCreateBinding.inflate(inflater, container, false)
+        _mergeBinding = MergeItemCoverImageBinding.bind(binding.root)
         setDropdownItems()
         setClickItems()
         viewModel.getAllProvince()
@@ -75,6 +82,7 @@ class VillaCreateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupDialogs()
+        setEdittextListener()
 
         val args: VillaCreateFragmentArgs by navArgs()
         args.facilities?.let {
@@ -85,9 +93,7 @@ class VillaCreateFragment : Fragment() {
 
         with(binding) {
             setProgressBarVisibility = false
-            setTextAddImageCoverVisibility = true
             setImageCoverVisibility = false
-            setTextAddMoreImageVisibility = true
             setViewPagerVisibility = false
 
             //viewpager adapter ve indicatoru set ediyoruz
@@ -304,6 +310,12 @@ class VillaCreateFragment : Fragment() {
                     openOtherImagePicker()
                 }
             }
+
+            fabButtonMoreAddImageVillaCreate.setOnClickListener {
+                if (checkPermissionImageGallery(requireActivity(), 800)) {
+                    openOtherImagePicker()
+                }
+            }
         }
     }
 
@@ -314,9 +326,8 @@ class VillaCreateFragment : Fragment() {
                     result.data?.data?.let { image ->
                         selectedCoverImage = image
                         selectedCoverImage?.let {
-                            binding.setTextAddImageCoverVisibility = false
                             binding.setImageCoverVisibility = true
-                            downloadImage(binding.imageCoverVillaCreate, image.toString())
+                            downloadImage(mergeBinding.imageTitle, image.toString())
                         }
                     }
                 }
@@ -325,8 +336,12 @@ class VillaCreateFragment : Fragment() {
         otherImageLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    result.data?.data?.let { image ->
-                        selectedOtherImages.add(image)
+                    result.data?.clipData?.let { data ->
+                        val size = data.itemCount
+                        for (i in 0..<size) {
+                            val image = data.getItemAt(i).uri
+                            selectedOtherImages.add(image)
+                        }
                         viewModel.setImageUriList(selectedOtherImages.toList())
                     }
                 }
@@ -343,12 +358,17 @@ class VillaCreateFragment : Fragment() {
     }
 
     private fun openOtherImagePicker() {
-        val imageIntent =
-            Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val imageIntent = Intent()
+        imageIntent.setType("image/*")
+        imageIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        imageIntent.setAction(Intent.ACTION_GET_CONTENT)
+
+        otherImageLauncher.launch(
+            Intent.createChooser(
+                imageIntent,
+                "Resimleri seçin"
             )
-        otherImageLauncher.launch(imageIntent)
+        )
     }
 
     private fun setupDialogs() {
@@ -356,11 +376,158 @@ class VillaCreateFragment : Fragment() {
             setTitle("Veriler alınırken hata oluştu.")
             setCancelable(false)
             setButton(
-                android.app.AlertDialog.BUTTON_POSITIVE, "Tamam"
+                AlertDialog.BUTTON_POSITIVE, "Tamam"
             ) { dialog, _ ->
                 dialog.cancel()
             }
         }
+    }
+
+    private fun setEdittextListener() {
+        var province = ""
+        var district = ""
+        var neighborhoodOrVillage = ""
+
+        with(binding) {
+            editTextTitleVillaCreate.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    mergeBinding.textDetailTitle.text = s
+                    //mergeBinding.villa = villa
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+            })
+
+            dropdownProvinceVillaCreate.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    province = s.toString()
+                    mergeBinding.textDetailAddress.text = s
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+            })
+
+            dropdownDistrictVillaCreate.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    district = s.toString()
+                    if (!s.isNullOrBlank()) {
+                        mergeBinding.textDetailAddress.text = buildString {
+                            append(district)
+                            append(", ")
+                            append(province)
+                        }
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+            })
+
+            dropdownNeighborhoodAndVillageVillaCreate.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    neighborhoodOrVillage = s.toString()
+                    if (!s.isNullOrBlank()) {
+                        mergeBinding.textDetailAddress.text = buildString {
+                            append(neighborhoodOrVillage)
+                            append(", ")
+                            append(district)
+                            append(", ")
+                            append(province)
+                        }
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+            })
+
+            dropdownBathroomCountVillaCreate.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    mergeBinding.textDetailBathRoom.text = buildString {
+                        append(s)
+                        append(" Banyo")
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+            })
+
+            dropdownBedroomCountVillaCreate.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    mergeBinding.textDetailBedRoom.text = buildString {
+                        append(s)
+                        append(" Yatak Odası")
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+            })
+        }
+
     }
 
     override fun onResume() {
@@ -377,5 +544,6 @@ class VillaCreateFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        _mergeBinding = null
     }
 }

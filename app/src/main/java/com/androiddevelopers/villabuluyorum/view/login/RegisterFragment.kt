@@ -30,6 +30,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,6 +70,7 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         errorDialog = AlertDialog.Builder(requireContext()).create()
         verificationDialog = AlertDialog.Builder(requireContext()).create()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

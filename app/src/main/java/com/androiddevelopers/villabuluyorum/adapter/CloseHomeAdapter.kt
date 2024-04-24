@@ -20,7 +20,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
-class HouseAdapter(val myLocation :MyLocation) : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
+class HouseAdapter(val myLocation :MyLocation? = null) : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
 
     private val diffUtil = object : DiffUtil.ItemCallback<Villa>() {
         override fun areItemsTheSame(oldItem: Villa, newItem: Villa): Boolean {
@@ -50,7 +50,6 @@ class HouseAdapter(val myLocation :MyLocation) : RecyclerView.Adapter<HouseAdapt
         val binding = holder.binding
 
         try {
-            val owner = holder.itemView.findViewTreeLifecycleOwner()
             downloadImage(binding.imageHouse, house.coverImage)
 
             binding.textTitle.text = house.villaName ?: "Deniz kenarı villa"
@@ -61,6 +60,8 @@ class HouseAdapter(val myLocation :MyLocation) : RecyclerView.Adapter<HouseAdapt
             if (myLocation != null){
                 val distanceInKm = calculateDistance(myLocation.latitude, myLocation.longitude, house.latitude ?: 0.0, house.longitude ?: 0.0)
                 holder.binding.textDistance.text = "${distanceInKm.toInt()}km"
+            }else{
+                holder.binding.layoutDistance.visibility = ViewGroup.INVISIBLE
             }
 
 

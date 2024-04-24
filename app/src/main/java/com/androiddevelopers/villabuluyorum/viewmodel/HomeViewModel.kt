@@ -118,7 +118,6 @@ constructor(
         latitude : Double?,
         longitude : Double?,
     ) = viewModelScope.launch{
-        println("updateUserLocation")
         if (latitude == null || longitude == null){
             return@launch
         }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.adapter.ViewPagerAdapterForVillaDetail
 import com.androiddevelopers.villabuluyorum.databinding.FragmentVillaDetailBinding
@@ -16,6 +17,7 @@ import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
+import com.androiddevelopers.villabuluyorum.view.profile.ProfileFragmentDirections
 import com.androiddevelopers.villabuluyorum.viewmodel.villa.VillaDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,6 +32,8 @@ class VillaDetailFragment : Fragment() {
 
     private var viewPagerAdapter = ViewPagerAdapterForVillaDetail()
 
+    private var villaId : String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,7 +41,6 @@ class VillaDetailFragment : Fragment() {
         val id = args.villaId
 
         viewModel.getVillaByIdFromFirestore(id)
-
     }
 
     override fun onCreateView(
@@ -67,6 +70,11 @@ class VillaDetailFragment : Fragment() {
             //viewpager adapter ve indicatoru set ediyoruz
             viewPagerVillaDetail.adapter = viewPagerAdapter
             indicatorVillaDetail.setViewPager(viewPagerVillaDetail)
+            buttonDetailRent.setOnClickListener {
+                if (!villaId.isNullOrEmpty()){
+                    gotoReservation(villaId!!,it)
+                }
+            }
         }
 
     }
@@ -93,7 +101,8 @@ class VillaDetailFragment : Fragment() {
 
                 liveDataFirebaseVilla.observe(owner) {
                     villa = it
-
+                    val hostId = it.hostId
+                    villaId = it.villaId
                     it.otherImages?.toList()?.let { images ->
                         if (images.isNotEmpty()) {
                             viewPagerAdapter.refreshList(images)
@@ -104,6 +113,10 @@ class VillaDetailFragment : Fragment() {
                         } else {
                             binding.setViewPagerVisibility = false
                         }
+                        userInfoLayout.setOnClickListener {view->
+                            goToOwnerProfile(hostId,view)
+                        }
+
                     } ?: run {
                         binding.setViewPagerVisibility = false
                     }
@@ -129,6 +142,11 @@ class VillaDetailFragment : Fragment() {
                 dialog.cancel()
             }
         }
+    }
+
+    private fun gotoReservation(id : String,view : View){
+        val action = VillaDetailFragmentDirections.actionVillaDetailFragmentToCreateReservationFragment(id)
+        Navigation.findNavController(view).navigate(action)
     }
 
     override fun onResume() {
@@ -180,5 +198,11 @@ class VillaDetailFragment : Fragment() {
         )
 
         return listOf(user1, user2, user3, user4)
+    }
+    private fun goToOwnerProfile(id : String?,view : View){
+        if (!id.isNullOrEmpty()){
+            val action = VillaDetailFragmentDirections.actionVillaDetailFragmentToUserProfileFragment(id)
+            Navigation.findNavController(view).navigate(action)
+        }
     }
 }

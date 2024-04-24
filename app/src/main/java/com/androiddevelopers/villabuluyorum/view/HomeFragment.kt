@@ -234,20 +234,16 @@ class HomeFragment : Fragment() {
             return@launch
         }
         fusedLocationClient.lastLocation.addOnSuccessListener {
-            println("addOnSuccessListener")
             it?.let {
                 latitude = it.latitude
                 longitude = it.longitude
-                println("notNull")
                 viewModel.updateUserLocation(
                     latitude,
                     longitude
                 )
             }
-            println("finish")
-
         }.addOnFailureListener{
-            println("addOnFailureListener : "+it.localizedMessage)
+            println("error : "+fusedLocationClient)
         }
         setPermissionRequestValue(true)
     }

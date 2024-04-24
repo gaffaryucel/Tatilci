@@ -16,16 +16,16 @@ data class Villa(
     var bathroomCount: Int? = null, // banyo sayısı
     var restroom: Int? = null, // tuvalet sayısı
     var hasPool: Boolean? = null, // havyz var mı?
-    var gardenArea: Double? = null,
-    var interiorDesign: String? = null,
-    var isQuietArea: Boolean? = null,
+    var gardenArea: Double? = null, //bahçe alanı
+    var interiorDesign: String? = null, // villa iç tasarım
+    var isQuietArea: Boolean? = null, // sessiz alan
     var amenities: List<String>? = null,
-    var minStayDuration: Int? = null,
+    var minStayDuration: Int? = null, // en az kiralama
     var reservationFee: Double? = null,
     var airbnbServiceFee: Double? = null,
     var totalExcludingTaxes: Double? = null,
     var region: String? = null,
-    var attractions: List<String>? = null,
+    var attractions: List<String>? = null, // turistik yerler
     var facilities: Facilities? = null,
     var currency: String? = null, // ilan para birimi
     var coverImage: String? = null, // kapak resmi
@@ -33,5 +33,5 @@ data class Villa(
     var rating: Double? = 0.0,
     var latitude: Double? = 39.9334,
     var longitude: Double? = 32.8597,
-
+    var hasWifi: Boolean? = null, // wifi hizmeti
 )

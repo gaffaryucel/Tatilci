@@ -23,4 +23,9 @@
         <item>19</item>
         <item>20</item>
     </string-array>
+    
+    <string-array name="choose">
+        <item>Var</item>
+        <item>Yok</item>
+    </string-array>
 </resources>

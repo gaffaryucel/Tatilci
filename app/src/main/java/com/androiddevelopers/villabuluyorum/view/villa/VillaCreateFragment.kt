@@ -64,6 +64,13 @@ class VillaCreateFragment : Fragment() {
 
     private lateinit var errorDialog: AlertDialog
 
+    private var selectedHasPool: Boolean? = null
+    private var selectedHasWifi: Boolean? = null
+    private var selectedHasQuietArea: Boolean? = null
+
+    private var selectedLongitude: Double? = null
+    private var selectedLatitude: Double? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -129,7 +136,16 @@ class VillaCreateFragment : Fragment() {
                 bedCount = dropdownBedCountVillaCreate.text.toString().toIntOrNull() ?: 0
                 bathroomCount = dropdownBathroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
                 restroom = dropdownRestroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
+                minStayDuration =
+                    dropdownMinStayDurationVillaCreate.text.toString().toIntOrNull() ?: 0
+                hasWifi = selectedHasWifi
+                hasPool = selectedHasPool
+                isQuietArea = selectedHasQuietArea
+                interiorDesign = editTextInteriorDesignVillaCreate.text.toString()
+                gardenArea = editTextGardenAreaVillaCreate.text.toString().toDoubleOrNull() ?: 0.0
                 facilities = facilitiesArg
+                longitude = selectedLongitude
+                latitude = selectedLatitude
             }
         }
 
@@ -228,6 +244,12 @@ class VillaCreateFragment : Fragment() {
                         setViewPagerVisibility = !(it == 0 || it == null)
                     }
                 }
+
+                // seçilen adres bilgisinden koordinat bilgisini almak için
+                liveDataAddress.observe(owner) {
+                    selectedLatitude = it.latitude
+                    selectedLongitude = it.longitude
+                }
             }
         }
 
@@ -242,6 +264,25 @@ class VillaCreateFragment : Fragment() {
                 android.R.id.text1,
                 resources.getStringArray(R.array.numbers)
             )
+
+            chooseAdapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                resources.getStringArray(R.array.choose)
+            )
+
+            dropdownHasWifiVillaCreate.setOnItemClickListener { parent, view, position, id ->
+                selectedHasWifi = position == 0
+            }
+
+            dropdownHasPoolVillaCreate.setOnItemClickListener { parent, view, position, id ->
+                selectedHasPool = position == 0
+            }
+
+            dropdownQuietAreaVillaCreate.setOnItemClickListener { parent, view, position, id ->
+                selectedHasQuietArea = position == 0
+            }
 
             // seçtiğimiz illeri yakalıyoruz
             dropdownProvinceVillaCreate.setOnItemClickListener { parent, view, position, id ->
@@ -420,6 +461,9 @@ class VillaCreateFragment : Fragment() {
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     province = s.toString()
+
+                    viewModel.getGeocoderLocation(province, binding.root)
+
                     mergeBinding.textDetailAddress.text = s
                 }
 
@@ -441,11 +485,15 @@ class VillaCreateFragment : Fragment() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     district = s.toString()
                     if (!s.isNullOrBlank()) {
-                        mergeBinding.textDetailAddress.text = buildString {
+                        val address = buildString {
                             append(district)
                             append(", ")
                             append(province)
                         }
+
+                        mergeBinding.textDetailAddress.text = address
+
+                        viewModel.getGeocoderLocation(address, binding.root)
                     }
                 }
 
@@ -467,13 +515,17 @@ class VillaCreateFragment : Fragment() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     neighborhoodOrVillage = s.toString()
                     if (!s.isNullOrBlank()) {
-                        mergeBinding.textDetailAddress.text = buildString {
+                        val address = buildString {
                             append(neighborhoodOrVillage)
                             append(", ")
                             append(district)
                             append(", ")
                             append(province)
                         }
+
+                        mergeBinding.textDetailAddress.text = address
+
+                        viewModel.getGeocoderLocation(address, binding.root)
                     }
                 }
 

@@ -227,54 +227,61 @@
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.cardview.widget.CardView>
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/imageProfile"
-                            downloadImage="@{user.profileImageUrl}"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="8dp"
-                            android:src="@drawable/avatar_boy"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/userInfoLayout"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/cardImageCoverVillaDetail" />
-
-                        <TextView
-                            android:id="@+id/textDetailProfileTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:text="@{user.username}"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@id/textDetailProfile"
-                            app:layout_constraintStart_toEndOf="@id/imageProfile"
-                            app:layout_constraintTop_toTopOf="@id/imageProfile"
-                            tools:ignore="HardcodedText"
-                            tools:text="Villa Sahibi Adı" />
-
-                        <TextView
-                            android:id="@+id/textDetailProfile"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{user.host.role}"
-                            android:textSize="16sp"
-                            app:layout_constraintBottom_toBottomOf="@id/imageProfile"
-                            app:layout_constraintStart_toStartOf="@id/textDetailProfileTitle"
-                            app:layout_constraintTop_toBottomOf="@id/textDetailProfileTitle"
-                            tools:ignore="HardcodedText"
-                            tools:text="Villayı kiralayan ünvanı" />
-
-                        <androidx.appcompat.widget.AppCompatImageButton
-                            android:id="@+id/buttonDetailChat"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            app:layout_constraintTop_toBottomOf="@id/cardImageCoverVillaDetail"
+                            android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                            android:background="@drawable/rounded_button_background"
-                            android:src="@drawable/baseline_chat_bubble_24"
-                            app:layout_constraintBottom_toBottomOf="@id/imageProfile"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/imageProfile" />
+                            android:layout_marginTop="8dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/imageProfile"
+                                downloadImage="@{user.profileImageUrl}"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:src="@drawable/avatar_boy"
+                                />
+                            <TextView
+                                android:id="@+id/textDetailProfileTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:text="@{user.username}"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toTopOf="@id/textDetailProfile"
+                                app:layout_constraintStart_toEndOf="@id/imageProfile"
+                                app:layout_constraintTop_toTopOf="@id/imageProfile"
+                                tools:ignore="HardcodedText"
+                                tools:text="Villa Sahibi Adı" />
+
+                            <TextView
+                                android:id="@+id/textDetailProfile"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{user.host.role}"
+                                android:textSize="16sp"
+                                app:layout_constraintBottom_toBottomOf="@id/imageProfile"
+                                app:layout_constraintStart_toStartOf="@id/textDetailProfileTitle"
+                                app:layout_constraintTop_toBottomOf="@id/textDetailProfileTitle"
+                                tools:ignore="HardcodedText"
+                                tools:text="Villayı kiralayan ünvanı" />
+
+                            <androidx.appcompat.widget.AppCompatImageButton
+                                android:id="@+id/buttonDetailChat"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_marginEnd="20dp"
+                                android:background="@drawable/rounded_button_background"
+                                android:src="@drawable/baseline_chat_bubble_24"
+                                app:layout_constraintBottom_toBottomOf="@id/imageProfile"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/imageProfile" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                         <TextView
                             android:id="@+id/textDetailDescriptionTitle"
@@ -285,7 +292,7 @@
                             android:textSize="20sp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="@id/cardImageCoverVillaDetail"
-                            app:layout_constraintTop_toBottomOf="@id/imageProfile"
+                            app:layout_constraintTop_toBottomOf="@+id/userInfoLayout"
                             tools:ignore="HardcodedText" />
 
                         <TextView

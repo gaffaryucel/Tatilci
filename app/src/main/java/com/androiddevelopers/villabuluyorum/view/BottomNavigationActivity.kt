@@ -1,5 +1,7 @@
 package com.androiddevelopers.villabuluyorum.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -10,6 +12,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BottomNavigationActivity : AppCompatActivity() {
+
+    private val PREFS_FILENAME = "permission"
+
+    private val KEY_VALUE = "location"
+
 
     private lateinit var binding: ActivityBottomNavigationBinding
 
@@ -41,5 +48,12 @@ class BottomNavigationActivity : AppCompatActivity() {
                 }
             }
         }
+        setPermissionRequestValue(false)
+    }
+    private fun setPermissionRequestValue(value : Boolean) {
+        val sharedPrefs: SharedPreferences = baseContext.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPrefs.edit()
+        editor.putBoolean(KEY_VALUE, value)
+        editor.apply()
     }
 }

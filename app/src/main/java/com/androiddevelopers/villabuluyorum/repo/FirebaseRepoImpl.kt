@@ -97,6 +97,9 @@ class FirebaseRepoImpl @Inject constructor(
     override fun getVillasByCity(city: String, limit: Long): Task<QuerySnapshot> {
         return villaCollection.whereEqualTo("locationProvince", city).limit(limit).get()
     }
+    override fun getVillasByUserId(id: String, limit: Long): Task<QuerySnapshot> {
+        return villaCollection.whereEqualTo("hostId", id).limit(limit).get()
+    }
 
     // Storage - Villa
     override fun addVillaImage(

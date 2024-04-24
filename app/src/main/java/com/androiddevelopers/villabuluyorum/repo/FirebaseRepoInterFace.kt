@@ -30,6 +30,7 @@ interface FirebaseRepoInterFace {
     fun getVillaByIdFromFirestore(villaId: String): Task<DocumentSnapshot>
     fun getVillasByStarRatingFromFirestore(limit: Long): Task<QuerySnapshot>
     fun getVillasByCity(city: String, limit: Long): Task<QuerySnapshot>
+    fun getVillasByUserId(id: String, limit: Long): Task<QuerySnapshot>
 
     /*
     fun updateViewCountOfVilla(

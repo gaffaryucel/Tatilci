@@ -50,3 +50,4 @@ private fun chooseImageMediaPermission(): String {
         Manifest.permission.READ_EXTERNAL_STORAGE
     }
 }
+

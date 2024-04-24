@@ -7,14 +7,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentFilterBinding
 import com.androiddevelopers.villabuluyorum.model.FilterModel
+import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.serch.FilterViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FilterFragment  : Fragment() {
 
     private var filter = FilterModel()
@@ -24,6 +28,8 @@ class FilterFragment  : Fragment() {
     private val binding get() = _binding
 
     private var isFavoriteSelected = false
+
+    private val provinceList = mutableListOf<Province>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,20 +56,37 @@ class FilterFragment  : Fragment() {
         binding.btnFilterAndSearch.setOnClickListener {
             saveAAndExit()
         }
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        observeLiveData()
     }
     //Konum
     private fun setupLocationSelection(){
-        filter.city = "Tokat"
+        filter.city = "İzmir"
 
         binding.tvLocation.setOnClickListener {
             it.setBackgroundResource(R.drawable.selected_text_bg)
-            binding.tvNewLocation.setBackgroundResource(R.drawable.selectable_text_bg)
-            filter.city = "Tokat"
+            binding.tvAllCities.setBackgroundResource(R.drawable.selectable_text_bg)
+            filter.city = "İzmir"
         }
-        binding.tvNewLocation.setOnClickListener {
+        binding.tvAllCities.setOnClickListener {
             it.setBackgroundResource(R.drawable.selected_text_bg)
             binding.tvLocation.setBackgroundResource(R.drawable.selectable_text_bg)
-            filter.city = "İstanbul"
+            filter.city = "Hepsi"
+        }
+        binding.tvNewLocation.setOnClickListener {
+            binding.layoutCitySelection.visibility = View.GONE
+            binding.layoutCity.visibility = View.VISIBLE
+        }
+        binding.dropDownCity.setOnItemClickListener { _, _, position, _ ->
+            val selectedCity = binding.dropDownCity.adapter.getItem(position).toString()
+            filter.city = selectedCity
+            binding.layoutCitySelection.visibility = View.VISIBLE
+            binding.layoutCity.visibility = View.GONE
+            binding.tvLocation.setBackgroundResource(R.drawable.selected_text_bg)
+            binding.tvAllCities.setBackgroundResource(R.drawable.selectable_text_bg)
+            binding.tvLocation.text = selectedCity
         }
     }
     //Fiyat Aralığı
@@ -236,10 +259,6 @@ class FilterFragment  : Fragment() {
         filter.amenities = list
     }
 
-    private fun setDefaultValues(){
-
-    }
-
     private fun saveAAndExit(){
         try {
             val sharedPreferences = requireContext().getSharedPreferences("FilterPref", Context.MODE_PRIVATE)
@@ -264,6 +283,23 @@ class FilterFragment  : Fragment() {
         }
     }
 
+    private fun observeLiveData(){
+        viewModel.liveDataProvinceFromRoom.observe(viewLifecycleOwner) {
+            provinceList.clear()
+            provinceList.addAll(it.toList())
+
+            val listName = it.map { province -> province.name.toString() }
+
+            binding.dropDownCity.setAdapter(
+                ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_list_item_1,
+                    android.R.id.text1,
+                    listName.toList()
+                )
+            )
+        }
+    }
     override fun onStop() {
         super.onStop()
         showBottomNavigation(requireActivity())

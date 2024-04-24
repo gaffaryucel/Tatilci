@@ -386,7 +386,7 @@ class VillaCreateFragment : Fragment() {
     private fun setEdittextListener() {
         var province = ""
         var district = ""
-        var neighborhoodOrVillage = ""
+        var neighborhoodOrVillage: String
 
         with(binding) {
             editTextTitleVillaCreate.addTextChangedListener(object : TextWatcher {
@@ -401,7 +401,6 @@ class VillaCreateFragment : Fragment() {
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     mergeBinding.textDetailTitle.text = s
-                    //mergeBinding.villa = villa
                 }
 
                 override fun afterTextChanged(s: Editable?) {

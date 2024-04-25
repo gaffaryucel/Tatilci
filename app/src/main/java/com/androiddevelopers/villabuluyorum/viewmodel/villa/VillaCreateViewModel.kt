@@ -1,6 +1,11 @@
 package com.androiddevelopers.villabuluyorum.viewmodel.villa
 
+import android.location.Address
+import android.location.Geocoder
 import android.net.Uri
+import android.os.Build
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -53,6 +58,10 @@ class VillaCreateViewModel
     private var _liveDataFirebaseUser = MutableLiveData<UserModel>()
     val liveDataFirebaseUser: LiveData<UserModel>
         get() = _liveDataFirebaseUser
+
+    private var _liveDataAddress = MutableLiveData<Address>()
+    val liveDataAddress: LiveData<Address>
+        get() = _liveDataAddress
 
     private var _imageUriList = MutableLiveData<List<Uri>>()
     val imageUriList: LiveData<List<Uri>>
@@ -204,5 +213,32 @@ class VillaCreateViewModel
     fun setImageUriList(newList: List<Uri>) = viewModelScope.launch {
         _imageUriList.value = newList
         _imageSize.value = newList.size
+    }
+
+
+    fun getGeocoderLocation(
+        address: String,
+        view: View,
+    ) = viewModelScope.launch {
+        val geocoder = Geocoder(view.context, Locale.getDefault())
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                geocoder.getFromLocationName(address, 1) {
+                    _liveDataAddress.value = it[0]
+                }
+            } else {
+
+                viewModelScope.launch {
+                    @Suppress("DEPRECATION")
+                    geocoder.getFromLocationName(address, 1)?.let {
+                        _liveDataAddress.value = it[0]
+                    }
+                }
+            }
+
+        } catch (e: Exception) {
+            Toast.makeText(view.context, e.message, Toast.LENGTH_SHORT).show()
+        }
     }
 }

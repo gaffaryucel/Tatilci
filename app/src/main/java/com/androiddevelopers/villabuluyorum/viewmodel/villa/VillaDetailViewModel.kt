@@ -7,6 +7,7 @@ import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.util.Resource
+import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.util.toVilla
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -34,6 +35,21 @@ constructor(
         firebaseRepo.getVillaByIdFromFirestore(villaId)
             .addOnSuccessListener { documentSnapshot ->
                 _liveDataFirebaseVilla.value = documentSnapshot.toVilla()
+                _liveDataFirebaseStatus.value = Resource.success(true)
+                _liveDataFirebaseStatus.value = Resource.loading(false)
+            }.addOnFailureListener {
+                _liveDataFirebaseStatus.value = it.message?.let { message ->
+                    Resource.error(message, null)
+                }
+                _liveDataFirebaseStatus.value = Resource.loading(false)
+            }
+    }
+
+    fun getUserByIdFromFirestore(userId: String) {
+        _liveDataFirebaseStatus.value = Resource.loading(true)
+        firebaseRepo.getUserDataByDocumentId(userId)
+            .addOnSuccessListener { documentSnapshot ->
+                _liveDataFirebaseUser.value = documentSnapshot.toUserModel()
                 _liveDataFirebaseStatus.value = Resource.success(true)
                 _liveDataFirebaseStatus.value = Resource.loading(false)
             }.addOnFailureListener {

@@ -9,4 +9,6 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="api_key">AIzaSyA1A3oCuG_dJYhBvky2HI0XqGFRE7neLsA</string>
+    <string name="i_accept_reservation">Rezervasyon Yap butonuna basarak, ev sahibinin ev kurallarını, misafirler için temel kuralları, Villabuluyorum uygulamasının yeniden rezervasyon ve iade politikasını kabul ediyorum. Ayrıca, eğer bir hasar olursa Villabuluyorum uygulamasının ödeme tahsil edebileceğini kabul ediyorum</string>
+    <string name="i_accept_privacy_policy">Güncellenmiş Hizmet Şartları ve Ödeme Hizmetleri Şartlarına da onay veriyorum ve Gizlilik Politikasını kabul ediyorum</string>
 </resources>

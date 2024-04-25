@@ -68,6 +68,14 @@
         <item name="android:background">@drawable/secondary_button_bg</item>
     </style>
 
+    <style name="ReservationCardStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cardCornerRadius">15dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardBackgroundColor">@android:color/white</item>
+    </style>
+
     <style name="circle">
         <item name="cornerSize">50%</item>
         <item name="cornerFamily">rounded</item>
@@ -88,6 +96,7 @@
     <style name="Widget.App.Tooltip" parent="Widget.Material3.Tooltip">
         <item name="backgroundTint">@color/main_button_gb_color</item>
     </style>
+
 
 
 </resources>

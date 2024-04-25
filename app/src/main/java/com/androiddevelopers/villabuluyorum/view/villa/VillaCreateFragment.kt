@@ -3,7 +3,9 @@ package com.androiddevelopers.villabuluyorum.view.villa
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.location.Geocoder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
@@ -12,11 +14,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
@@ -37,7 +41,9 @@ import com.androiddevelopers.villabuluyorum.view.villa.VillaCreateFragmentDirect
 import com.androiddevelopers.villabuluyorum.viewmodel.villa.VillaCreateViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
+import kotlinx.coroutines.launch
+import java.util.Locale
+import java.util.UUID
 
 @Suppress("UNUSED_ANONYMOUS_PARAMETER")
 @AndroidEntryPoint
@@ -243,12 +249,6 @@ class VillaCreateFragment : Fragment() {
                     with(binding) {
                         setViewPagerVisibility = !(it == 0 || it == null)
                     }
-                }
-
-                // seçilen adres bilgisinden koordinat bilgisini almak için
-                liveDataAddress.observe(owner) {
-                    selectedLatitude = it.latitude
-                    selectedLongitude = it.longitude
                 }
             }
         }
@@ -462,7 +462,7 @@ class VillaCreateFragment : Fragment() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     province = s.toString()
 
-                    viewModel.getGeocoderLocation(province, binding.root)
+                    getGeocoderLocation(province, binding.root)
 
                     mergeBinding.textDetailAddress.text = s
                 }
@@ -493,7 +493,7 @@ class VillaCreateFragment : Fragment() {
 
                         mergeBinding.textDetailAddress.text = address
 
-                        viewModel.getGeocoderLocation(address, binding.root)
+                        getGeocoderLocation(address, binding.root)
                     }
                 }
 
@@ -525,7 +525,7 @@ class VillaCreateFragment : Fragment() {
 
                         mergeBinding.textDetailAddress.text = address
 
-                        viewModel.getGeocoderLocation(address, binding.root)
+                        getGeocoderLocation(address, binding.root)
                     }
                 }
 
@@ -579,6 +579,35 @@ class VillaCreateFragment : Fragment() {
             })
         }
 
+    }
+
+    // seçilen adres bilgisinden koordinat bilgisini almak için kullanılan metod
+    private fun getGeocoderLocation(
+        address: String,
+        view: View,
+    ) {
+        val geocoder = Geocoder(view.context, Locale.getDefault())
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                geocoder.getFromLocationName(address, 1) {
+                    val data = it[0]
+                    selectedLatitude = data.latitude
+                    selectedLongitude = data.longitude
+                }
+            } else {
+                lifecycleScope.launch {
+                    @Suppress("DEPRECATION")
+                    geocoder.getFromLocationName(address, 1)?.let {
+                        val data = it[0]
+                        selectedLatitude = data.latitude
+                        selectedLongitude = data.longitude
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Toast.makeText(view.context, e.message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onResume() {

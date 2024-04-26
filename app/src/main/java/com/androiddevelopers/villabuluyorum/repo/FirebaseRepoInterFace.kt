@@ -99,17 +99,16 @@ interface FirebaseRepoInterFace {
         villaId: String,
     ): UploadTask
 
+   fun uploadUserProfilePhoto(
+        uri: Uri,
+        userId: String,
+        key: String,
+    ): UploadTask
+
     /*
-        fun changeProfilePhoto(
-            image: ByteArray,
-            uId: String,
-        ): UploadTask
-
-
-
-    //Notification
-        suspend fun postNotification(notification: PushNotification): Response<ResponseBody>
-        fun saveNotification(notification: InAppNotificationModel): Task<Void>
-        fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot>
-    */
+      //Notification
+          suspend fun postNotification(notification: PushNotification): Response<ResponseBody>
+          fun saveNotification(notification: InAppNotificationModel): Task<Void>
+          fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot>
+      */
 }

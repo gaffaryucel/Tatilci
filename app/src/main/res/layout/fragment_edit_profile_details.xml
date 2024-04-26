@@ -78,7 +78,7 @@
 
 
                         <ImageView
-                            android:id="@+id/ivSettings"
+                            android:id="@+id/ivEditProfileBanner"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_margin="10dp"
@@ -100,6 +100,7 @@
                             android:layout_height="120dp"/>
 
                         <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/ivEditProfilePhoto"
                             android:src="@drawable/edit"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="@+id/ivUserProfilePhoto"

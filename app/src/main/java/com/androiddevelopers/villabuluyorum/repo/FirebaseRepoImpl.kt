@@ -116,5 +116,14 @@ class FirebaseRepoImpl @Inject constructor(
             .putFile(uri)
 
     }
+    // Storage - User
+    override fun uploadUserProfilePhoto(uri: Uri, userId: String,key : String): UploadTask {
+        return imagesParentRef
+            .child("userId_$userId")
+            .child("images")
+            .child(key)
+            .child("${UUID.randomUUID()}.jpg")
+            .putFile(uri)
+    }
 
 }

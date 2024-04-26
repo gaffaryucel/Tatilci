@@ -28,6 +28,7 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
+                        android:id="@+id/ivProfileBanner"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
                         android:scaleType="centerCrop"
@@ -114,7 +115,7 @@
                     android:layout_marginStart="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5.0"
+                    android:text="0.0"
                     android:textColor="#FFD700"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -218,7 +219,7 @@
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnMessage"
+                    android:id="@+id/btnBecomeHomeowner"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="16dp"
@@ -284,12 +285,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <TextView
-                                android:text="Size yapılan yorumlar"
+                                android:text="Sizin için yapılan yorumlar"
                                 android:textSize="20sp"
                                 android:textColor="@color/normal_text_color"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
-
+                            <ProgressBar
+                                android:visibility="gone"
+                                android:id="@+id/pbComments"
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
                             <androidx.recyclerview.widget.RecyclerView
                                 android:visibility="gone"
                                 android:id="@+id/rvComments"
@@ -336,15 +342,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-
                             <TextView
-                                tools:text="İlanlarınız"
+                                android:text="İlanlarınız"
                                 android:textSize="20sp"
                                 android:textColor="@color/normal_text_color"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
+                            <ProgressBar
+                                android:id="@+id/pbVillas"
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
                             <androidx.recyclerview.widget.RecyclerView
-                                android:visibility="gone"
                                 android:id="@+id/rvUserVillas"
                                 android:orientation="horizontal"
                                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -356,13 +365,14 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:visibility="gone"
                             android:id="@+id/layoutEmptyVillas"
                             android:layout_width="match_parent"
                             android:orientation="vertical"
                             android:layout_height="wrap_content">
                             <TextView
                                 android:textAlignment="center"
-                                android:text="Henüz Bir İlan Paylaşmadı"
+                                android:text="Henüz Bir İlan Paylaşmadın"
                                 android:textColor="@color/main_button_gb_color"
                                 android:textStyle="bold"
                                 android:layout_gravity="center"

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentVillaCreateFacilitiesBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Facilities
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
@@ -32,6 +33,7 @@ class VillaCreateFacilitiesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //TODO: Chip'leri listeden dinamik olarak oluştur
+        setViewChips()
 
         binding.facilitiesSave.setOnClickListener {
             val directions =
@@ -42,6 +44,64 @@ class VillaCreateFacilitiesFragment : Fragment() {
 
             Navigation.findNavController(view).navigate(directions)
         }
+    }
+
+    private fun setViewChips() {
+        with(binding) {
+            with(resources) {
+                getStringArray(R.array.landscape)
+                    .forEach {
+                        chipGroupLandscape.addView(setChip(it))
+                    }
+
+                getStringArray(R.array.bath)
+                    .forEach {
+                        chipGroupBath.addView(setChip(it))
+                    }
+
+                getStringArray(R.array.bedroom)
+                    .forEach {
+                        chipGroupBedroom.addView(setChip(it))
+                    }
+
+                getStringArray(R.array.entertainment)
+                    .forEach {
+                        chipGroupEntertainment.addView(setChip(it))
+                    }
+
+                getStringArray(R.array.heating_cooling)
+                    .forEach {
+                        chipGroupHeatingCooling.addView(setChip(it))
+                    }
+
+                getStringArray(R.array.kitchen_food)
+                    .forEach {
+                        chipGroupKitchenFood.addView(setChip(it))
+                    }
+
+                getStringArray(R.array.location_features)
+                    .forEach {
+                        chipGroupLocationFeatures.addView(setChip(it))
+                    }
+
+                getStringArray(R.array.outdoor)
+                    .forEach {
+                        chipGroupOutdoor.addView(setChip(it))
+                    }
+
+                getStringArray(R.array.services)
+                    .forEach {
+                        chipGroupServices.addView(setChip(it))
+                    }
+            }
+        }
+    }
+
+    private fun setChip(text: String): Chip {
+        val chip = Chip(binding.root.context)
+        chip.text = text
+        chip.isCheckable = true
+        return chip
     }
 
     private fun collectChips(): Facilities {

@@ -13,15 +13,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.databinding.FragmentEnterCodeBinding
-import com.androiddevelopers.villabuluyorum.databinding.FragmentPhoneLoginBinding
 import com.androiddevelopers.villabuluyorum.util.Status
-import com.androiddevelopers.villabuluyorum.view.BottomNavigationActivity
+import com.androiddevelopers.villabuluyorum.view.user.BottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.login.EntryViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.auth.UserProfileChangeRequest
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -56,9 +51,9 @@ class EnterCodeFragment : Fragment() {
             it.isEnabled = false
             binding.pbVerification.visibility = View.VISIBLE
             val otp = binding.etVerificationCode.text.toString()
-            if (storedVerificationId != null){
-                val credential = PhoneAuthProvider.getCredential(storedVerificationId,otp)
-                viewModel.signInWithPhoneAuthCredential(requireActivity(),credential)
+            if (storedVerificationId != null) {
+                val credential = PhoneAuthProvider.getCredential(storedVerificationId, otp)
+                viewModel.signInWithPhoneAuthCredential(requireActivity(), credential)
             }
         }
         binding.ivBack.setOnClickListener {
@@ -72,8 +67,7 @@ class EnterCodeFragment : Fragment() {
     }
 
 
-
-    private fun setupDialog(){
+    private fun setupDialog() {
         errorDialog?.setTitle("Hatalı kod")
         errorDialog?.setMessage("Lütfen doğrulama kodunu tekrar girin")
         errorDialog?.setCancelable(true)
@@ -82,31 +76,36 @@ class EnterCodeFragment : Fragment() {
 
         }
     }
-    private fun observeLiveData(){
-        viewModel.authState.observe(viewLifecycleOwner, Observer{
-            when(it.status){
-                Status.SUCCESS->{
-                    if (it.data == true){
+
+    private fun observeLiveData() {
+        viewModel.authState.observe(viewLifecycleOwner, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    if (it.data == true) {
                         goToHome()
-                    }else{
+                    } else {
                         goTOCreateUserName()
                     }
                 }
-                Status.ERROR->{
+
+                Status.ERROR -> {
                     errorDialog?.show()
                 }
-                Status.LOADING->{
+
+                Status.LOADING -> {
                     binding.pbVerification.visibility = View.VISIBLE
                 }
             }
         })
     }
-    private fun goTOCreateUserName(){
+
+    private fun goTOCreateUserName() {
         val action = EnterCodeFragmentDirections.actionEnterCodeFragmentToCreateUserNameFragment()
         Navigation.findNavController(requireView()).navigate(action)
     }
-    private fun goToHome(){
-        val intent = Intent(requireContext(),BottomNavigationActivity::class.java)
+
+    private fun goToHome() {
+        val intent = Intent(requireContext(), BottomNavigationActivity::class.java)
         requireActivity().finish()
         startActivity(intent)
     }

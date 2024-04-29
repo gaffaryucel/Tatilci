@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowBestHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
-import com.androiddevelopers.villabuluyorum.view.search.SearchFragmentDirections
+import com.androiddevelopers.villabuluyorum.view.user.search.SearchFragmentDirections
 import com.bumptech.glide.Glide
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
@@ -35,7 +35,8 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-        val binding = RowBestHouseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            RowBestHouseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SearchViewHolder(binding)
     }
 
@@ -56,7 +57,8 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
             house.villaId?.let { id ->
                 holder.itemView.setOnClickListener {
-                    val directions = SearchFragmentDirections.actionSearchFragmentToVillaDetailFragment(id)
+                    val directions =
+                        SearchFragmentDirections.actionSearchFragmentToVillaDetailFragment(id)
                     Navigation.findNavController(it).navigate(directions)
                 }
             }

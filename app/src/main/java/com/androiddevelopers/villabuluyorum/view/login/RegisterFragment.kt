@@ -20,19 +20,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.R
-import com.androiddevelopers.villabuluyorum.adapter.MyLocation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentRegisterBinding
 import com.androiddevelopers.villabuluyorum.util.Status
-import com.androiddevelopers.villabuluyorum.view.BottomNavigationActivity
+import com.androiddevelopers.villabuluyorum.view.user.BottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.login.RegisterViewModel
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -93,7 +89,7 @@ class RegisterFragment : Fragment() {
             val password = binding.etPassworad.text.toString()
             val confirmPassword = binding.etConfirmPassword.text.toString()
 
-            viewModel.signUp(email, password, confirmPassword,latitude, longitude)
+            viewModel.signUp(email, password, confirmPassword, latitude, longitude)
         }
 
         binding.ivBack.setOnClickListener {
@@ -126,7 +122,7 @@ class RegisterFragment : Fragment() {
                 Status.SUCCESS -> {
                     binding.pbRegister.visibility = View.INVISIBLE
                     binding.btnRegister.isEnabled = true
-                    if (it.data == true){
+                    if (it.data == true) {
                         enter()
                     }
                 }
@@ -166,7 +162,8 @@ class RegisterFragment : Fragment() {
         })
 
     }
-    private fun enter(){
+
+    private fun enter() {
         val intent = Intent(requireContext(), BottomNavigationActivity::class.java)
         startActivity(intent)
     }
@@ -209,7 +206,7 @@ class RegisterFragment : Fragment() {
             try {
                 task.addOnSuccessListener {
                     val account = it.requestExtraScopes()
-                    viewModel.signInWithGoogle(account.idToken,latitude,longitude)
+                    viewModel.signInWithGoogle(account.idToken, latitude, longitude)
                 }.addOnFailureListener {
                     Toast.makeText(
                         requireContext(),
@@ -220,9 +217,10 @@ class RegisterFragment : Fragment() {
             } catch (e: Exception) {
                 Toast.makeText(
                     requireContext(),
-                    "Giriş Yapılamadı : "+e.localizedMessage,
+                    "Giriş Yapılamadı : " + e.localizedMessage,
                     Toast.LENGTH_LONG
-                ).show()            }
+                ).show()
+            }
         }
     }
 
@@ -250,7 +248,8 @@ class RegisterFragment : Fragment() {
             getLastKnownLocation()
         }
     }
-    private fun getLastKnownLocation() = lifecycleScope.launch{
+
+    private fun getLastKnownLocation() = lifecycleScope.launch {
         delay(500)
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -259,8 +258,8 @@ class RegisterFragment : Fragment() {
             ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED)
-        {
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             // İzin yoksa izin iste
             ActivityCompat.requestPermissions(
                 requireActivity(),
@@ -270,7 +269,7 @@ class RegisterFragment : Fragment() {
             return@launch
         }
         fusedLocationClient.lastLocation.addOnSuccessListener {
-            latitude = it?.latitude  ?: 41.00527
+            latitude = it?.latitude ?: 41.00527
             longitude = it?.longitude ?: 28.97696
         }
     }

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.androiddevelopers.villabuluyorum.view.HomeFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.user.villa.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.FavoriteFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.user.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" />
 
@@ -39,7 +39,7 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.androiddevelopers.villabuluyorum.view.profile.ProfileFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.user.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile">
         <action
@@ -100,9 +100,9 @@
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/villaCreateFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.villa.VillaCreateFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreateFragment"
         android:label="fragment_villa_create"
-        tools:layout="@layout/fragment_villa_create">
+        tools:layout="@layout/fragment_host_villa_create">
         <argument
             android:name="facilities"
             android:defaultValue="@null"
@@ -118,7 +118,7 @@
     </fragment>
     <fragment
         android:id="@+id/villaDetailFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.villa.VillaDetailFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.user.villa.VillaDetailFragment"
         android:label="fragment_villa_detail"
         tools:layout="@layout/fragment_villa_detail">
         <action
@@ -154,7 +154,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_reservation"
-        android:name="com.androiddevelopers.villabuluyorum.view.reservation.ReservationFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.user.reservation.ReservationFragment"
         android:label="fragment_reservation"
         tools:layout="@layout/fragment_reservation">
         <action
@@ -163,7 +163,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.androiddevelopers.villabuluyorum.view.search.SearchFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.user.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search">
         <action
@@ -175,19 +175,19 @@
     </fragment>
     <fragment
         android:id="@+id/reservationDetailsFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.reservation.ReservationDetailsFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.user.reservation.ReservationDetailsFragment"
         android:label="fragment_reservation_details"
         tools:layout="@layout/fragment_reservation_details" />
     <fragment
         android:id="@+id/villaDetailFacilitiesFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.villa.VillaDetailFacilitiesFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.user.villa.VillaDetailFacilitiesFragment"
         android:label="fragment_villa_detail_facilities"
         tools:layout="@layout/fragment_villa_detail_facilities" />
     <fragment
         android:id="@+id/villaCreateFacilitiesFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.villa.VillaCreateFacilitiesFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreateFacilitiesFragment"
         android:label="fragment_villa_create_facilities"
-        tools:layout="@layout/fragment_villa_create_facilities">
+        tools:layout="@layout/fragment_host_villa_create_facilities">
         <action
             android:id="@+id/action_villaCreateFacilitiesFragment_to_villaCreateFragment"
             app:destination="@id/villaCreateFragment"
@@ -199,26 +199,26 @@
 
     <fragment
         android:id="@+id/editProfileDetailsFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.profile.EditProfileDetailsFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.user.profile.EditProfileDetailsFragment"
         android:label="fragment_edit_profile_details"
         tools:layout="@layout/fragment_edit_profile_details" />
     <fragment
         android:id="@+id/filterFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.search.FilterFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.user.search.FilterFragment"
         tools:layout="@layout/fragment_filter" />
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.profile.UserProfileFragment"
-        tools:layout="@layout/fragment_user_profile" >
+        android:name="com.androiddevelopers.villabuluyorum.view.user.profile.UserProfileFragment"
+        tools:layout="@layout/fragment_user_profile">
         <argument
             android:name="user_id"
             app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/createReservationFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.reservation.CreateReservationFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.user.reservation.CreateReservationFragment"
         android:label="fragment_create_reservation"
-        tools:layout="@layout/fragment_create_reservation" >
+        tools:layout="@layout/fragment_create_reservation">
         <argument android:name="villa_id" />
     </fragment>
 </navigation>

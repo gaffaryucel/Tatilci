@@ -2,7 +2,6 @@ package com.androiddevelopers.villabuluyorum.view.login
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,16 +10,11 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.databinding.FragmentPhoneLoginBinding
-import com.androiddevelopers.villabuluyorum.databinding.FragmentRegisterBinding
-import com.androiddevelopers.villabuluyorum.view.BottomNavigationActivity
-import com.androiddevelopers.villabuluyorum.viewmodel.login.RegisterViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthMissingActivityForRecaptchaException
-import com.google.firebase.auth.FirebaseAuthProvider
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
@@ -29,7 +23,6 @@ import java.util.concurrent.TimeUnit
 
 
 class PhoneLoginFragment : Fragment() {
-
 
 
     private var _binding: FragmentPhoneLoginBinding? = null
@@ -59,7 +52,7 @@ class PhoneLoginFragment : Fragment() {
             val phone = "+90${binding.etPhoneConfirm.text.toString()}"
             it.isEnabled = false
             binding.pbPhoneConfirm.visibility = View.VISIBLE
-            if (phone.isNotEmpty()){
+            if (phone.isNotEmpty()) {
                 val options = PhoneAuthOptions.newBuilder(firebaseAuth)
                     .setPhoneNumber(phone) // Phone number to verify
                     .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
@@ -78,6 +71,7 @@ class PhoneLoginFragment : Fragment() {
                             //resendToken = token
                             goToEnterCode(storedVerificationId)
                         }
+
                         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
                             println("credential")
                             // This callback will be invoked in two situations:
@@ -110,7 +104,7 @@ class PhoneLoginFragment : Fragment() {
                             // Show a message and update the UI
                         }
                     }).build()
-                    PhoneAuthProvider.verifyPhoneNumber(options)
+                PhoneAuthProvider.verifyPhoneNumber(options)
 
             }
         }
@@ -120,7 +114,8 @@ class PhoneLoginFragment : Fragment() {
         }
 
     }
-    private fun setupDialog(message : String){
+
+    private fun setupDialog(message: String) {
         errorDialog?.setTitle("Doğrulama başarısız")
         errorDialog?.setMessage(message)
         errorDialog?.setCancelable(true)
@@ -130,7 +125,7 @@ class PhoneLoginFragment : Fragment() {
         }
     }
 
-    private fun goToEnterCode(id : String){
+    private fun goToEnterCode(id: String) {
         val action = PhoneLoginFragmentDirections.actionPhoneLoginFragmentToEnterCodeFragment(id)
         Navigation.findNavController(requireView()).navigate(action)
     }

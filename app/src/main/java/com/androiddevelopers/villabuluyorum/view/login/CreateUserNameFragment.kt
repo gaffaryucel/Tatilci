@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.databinding.FragmentCreateUserNameBinding
 import com.androiddevelopers.villabuluyorum.util.Status
-import com.androiddevelopers.villabuluyorum.view.BottomNavigationActivity
+import com.androiddevelopers.villabuluyorum.view.user.BottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.login.EntryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,7 +47,7 @@ class CreateUserNameFragment : Fragment() {
         binding.btnCreateUserName.setOnClickListener {
             it.isEnabled = false
             val userName = binding.etUserName.text.toString()
-            if (userName.isNotEmpty()){
+            if (userName.isNotEmpty()) {
                 viewModel.createUserName(userName)
             }
 
@@ -59,12 +59,13 @@ class CreateUserNameFragment : Fragment() {
     }
 
 
-    private fun goToHome(){
+    private fun goToHome() {
         val intent = Intent(requireContext(), BottomNavigationActivity::class.java)
         requireActivity().finish()
         requireActivity().startActivity(intent)
     }
-    private fun setupDialog(){
+
+    private fun setupDialog() {
         errorDialog?.setTitle("Kullanıcı adı")
         errorDialog?.setMessage("Farklı bir Kullanıcı adı girin")
         errorDialog?.setCancelable(true)
@@ -73,16 +74,19 @@ class CreateUserNameFragment : Fragment() {
 
         }
     }
-    private fun observeLiveData(){
-        viewModel.authState.observe(viewLifecycleOwner,Observer{
-            when(it.status){
-                Status.SUCCESS->{
+
+    private fun observeLiveData() {
+        viewModel.authState.observe(viewLifecycleOwner, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
                     goToHome()
                 }
-                Status.ERROR->{
+
+                Status.ERROR -> {
                     errorDialog?.show()
                 }
-                Status.LOADING->{
+
+                Status.LOADING -> {
                     binding.pbUserName.visibility = View.VISIBLE
                 }
             }

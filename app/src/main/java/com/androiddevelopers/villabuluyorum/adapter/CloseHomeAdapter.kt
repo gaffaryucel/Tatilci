@@ -3,24 +3,20 @@ package com.androiddevelopers.villabuluyorum.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.androiddevelopers.villabuluyorum.databinding.RowHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
-import com.androiddevelopers.villabuluyorum.view.HomeFragmentDirections
-import com.bumptech.glide.Glide
+import com.androiddevelopers.villabuluyorum.view.user.villa.HomeFragmentDirections
 import kotlin.math.PI
 import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.sin
-import kotlin.random.Random
 
-class HouseAdapter(val myLocation :MyLocation? = null) : RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
+class HouseAdapter(val myLocation: MyLocation? = null) :
+    RecyclerView.Adapter<HouseAdapter.HouseViewHolder>() {
 
     private val diffUtil = object : DiffUtil.ItemCallback<Villa>() {
         override fun areItemsTheSame(oldItem: Villa, newItem: Villa): Boolean {
@@ -57,10 +53,15 @@ class HouseAdapter(val myLocation :MyLocation? = null) : RecyclerView.Adapter<Ho
                 binding.textAddress.text = address
             }
 
-            if (myLocation != null){
-                val distanceInKm = calculateDistance(myLocation.latitude, myLocation.longitude, house.latitude ?: 0.0, house.longitude ?: 0.0)
+            if (myLocation != null) {
+                val distanceInKm = calculateDistance(
+                    myLocation.latitude,
+                    myLocation.longitude,
+                    house.latitude ?: 0.0,
+                    house.longitude ?: 0.0
+                )
                 holder.binding.textDistance.text = "${distanceInKm.toInt()}km"
-            }else{
+            } else {
                 holder.binding.layoutDistance.visibility = ViewGroup.INVISIBLE
             }
 
@@ -101,7 +102,8 @@ class HouseAdapter(val myLocation :MyLocation? = null) : RecyclerView.Adapter<Ho
     }
 
 }
+
 class MyLocation(
-    var latitude : Double,
-    var longitude : Double
+    var latitude: Double,
+    var longitude: Double
 )

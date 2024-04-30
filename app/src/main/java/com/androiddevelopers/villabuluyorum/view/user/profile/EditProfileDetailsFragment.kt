@@ -6,35 +6,29 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import com.androiddevelopers.villabuluyorum.adapter.MyLocation
 import com.androiddevelopers.villabuluyorum.adapter.downloadImage
 import com.androiddevelopers.villabuluyorum.databinding.FragmentEditProfileDetailsBinding
 import com.androiddevelopers.villabuluyorum.model.UserModel
-import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.checkPermissionImageGallery
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
-import com.androiddevelopers.villabuluyorum.viewmodel.profile.EditProfileDetailsViewModel
 import com.androiddevelopers.villabuluyorum.viewmodel.user.profile.EditProfileDetailsViewModel
 import com.bumptech.glide.Glide
-import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-@Suppress("UNUSED_CHANGED_VALUE")
 @AndroidEntryPoint
 class EditProfileDetailsFragment : Fragment() {
 
@@ -79,7 +73,8 @@ class EditProfileDetailsFragment : Fragment() {
             getUserDataAndSave()
         }
         binding.editLocationIcon.setOnClickListener {
-            val action = EditProfileDetailsFragmentDirections.actionEditProfileDetailsFragmentToEditAddressFragment()
+            val action =
+                EditProfileDetailsFragmentDirections.actionEditProfileDetailsFragmentToEditAddressFragment()
             Navigation.findNavController(it).navigate(action)
         }
         setupLaunchers()
@@ -146,42 +141,46 @@ class EditProfileDetailsFragment : Fragment() {
                 }
             }
             val userAddress = userData.address
-            if (userAddress != null){
+            if (userAddress != null) {
                 val city = userAddress.province.toString()
                 val district = userAddress.district.toString()
                 var address = ""
-                if (city.isNotEmpty()){
+                if (city.isNotEmpty()) {
                     address += "$city,"
                 }
-                if(district.isNotEmpty()){
+                if (district.isNotEmpty()) {
                     address += district
                 }
-                if (address.isNotEmpty()){
+                if (address.isNotEmpty()) {
                     binding.etUserLocation.setText(address)
-                }else{
+                } else {
                     lifecycleScope.launch {
                         val location = viewModel.getCityFromCoordinates(
                             requireContext(),
-                            userData.latitude  ?: 41.00527,
-                            userData.longitude ?:  28.97696)
+                            userData.latitude ?: 41.00527,
+                            userData.longitude ?: 28.97696
+                        )
                         binding.etUserLocation.setText(location)
                     }
                 }
-            }else{
+            } else {
                 lifecycleScope.launch {
                     val location = viewModel.getCityFromCoordinates(
                         requireContext(),
-                        userData.latitude  ?: 41.00527,
-                        userData.longitude ?:  28.97696)
+                        userData.latitude ?: 41.00527,
+                        userData.longitude ?: 28.97696
+                    )
                     binding.etUserLocation.setText(location)
                 }
             }
 
 
-            Glide.with(requireContext()).load(userData.profileImageUrl).into(binding.ivUserProfilePhoto)
+            Glide.with(requireContext()).load(userData.profileImageUrl)
+                .into(binding.ivUserProfilePhoto)
             Glide.with(requireContext()).load(userData.profileBannerUrl).into(binding.ivUserBanner)
         })
     }
+
     private fun setupLaunchers() {
         profilePhotoLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -206,18 +205,20 @@ class EditProfileDetailsFragment : Fragment() {
                 }
             }
     }
+
     private fun openProfilePicker() {
         val imageIntent = Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            )
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
         profilePhotoLauncher.launch(imageIntent)
     }
+
     private fun openBannerPicker() {
         val imageIntent = Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            )
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
         bannerPhotoLauncher.launch(imageIntent)
     }
 

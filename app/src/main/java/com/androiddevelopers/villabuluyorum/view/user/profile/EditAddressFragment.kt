@@ -1,33 +1,25 @@
-package com.androiddevelopers.villabuluyorum.view.profile
+package com.androiddevelopers.villabuluyorum.view.user.profile
 
 import android.app.AlertDialog
 import android.app.ProgressDialog
-import android.content.Intent
-import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentEditAddressBinding
-import com.androiddevelopers.villabuluyorum.databinding.FragmentEditProfileDetailsBinding
 import com.androiddevelopers.villabuluyorum.model.UserAddress
-import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.provinces.District
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
-import com.androiddevelopers.villabuluyorum.viewmodel.profile.EditAddressViewModel
-import com.androiddevelopers.villabuluyorum.viewmodel.profile.EditProfileDetailsViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.user.profile.EditAddressViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
@@ -129,19 +121,19 @@ class EditAddressFragment : Fragment() {
             }
         })
         viewModel.userData.observe(viewLifecycleOwner, Observer {
-            with(binding){
+            with(binding) {
                 val address = it.address
-                if (address != null){
-                    if(!address.province.isNullOrEmpty()){
+                if (address != null) {
+                    if (!address.province.isNullOrEmpty()) {
                         dropdownProvince.setText(address.province)
                     }
-                    if(!address.district.isNullOrEmpty()){
+                    if (!address.district.isNullOrEmpty()) {
                         dropdownDistrict.setText(address.district)
                     }
-                    if(!address.neighborhood.isNullOrEmpty()){
+                    if (!address.neighborhood.isNullOrEmpty()) {
                         dropdownNeighborhoodAndVillage.setText(address.neighborhood)
                     }
-                    if(!address.address.isNullOrEmpty()){
+                    if (!address.address.isNullOrEmpty()) {
                         editTextAddress.setText(address.address)
                     }
                 }
@@ -150,7 +142,8 @@ class EditAddressFragment : Fragment() {
             }
         })
     }
-    private fun observeRoomLiveData(){
+
+    private fun observeRoomLiveData() {
         with(binding) {
             with(viewModel) {
                 liveDataProvinceFromRoom.observe(viewLifecycleOwner) {
@@ -207,6 +200,7 @@ class EditAddressFragment : Fragment() {
             }
         }
     }
+
     private fun setDropdownItems() {
         with(binding) {
             // seçtiğimiz illeri yakalıyoruz
@@ -239,8 +233,9 @@ class EditAddressFragment : Fragment() {
             }
         }
     }
-    private fun saveAddress(){
-        with(binding){
+
+    private fun saveAddress() {
+        with(binding) {
             val province = dropdownProvince.text.toString()
             val district = dropdownDistrict.text.toString()
             val neighborhood = dropdownNeighborhoodAndVillage.text.toString()
@@ -251,7 +246,7 @@ class EditAddressFragment : Fragment() {
             userAddress.address = address
             if (province.isNullOrBlank() || district.isNullOrBlank() || neighborhood.isNullOrBlank() || address.isNullOrBlank()) {
                 showAlertDialog()
-            }else{
+            } else {
                 val map = HashMap<String, Any?>()
                 map["address"] = userAddress
                 viewModel.updateUserData(map)
@@ -269,7 +264,7 @@ class EditAddressFragment : Fragment() {
                 val map = HashMap<String, Any?>()
                 map["userAddress"] = userAddress
                 viewModel.updateUserData(map)
-            }.setNegativeButton("Vazgeç"){dialog, _ ->
+            }.setNegativeButton("Vazgeç") { dialog, _ ->
                 dialog.dismiss()
             }
             .show()

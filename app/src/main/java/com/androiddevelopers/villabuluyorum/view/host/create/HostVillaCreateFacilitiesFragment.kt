@@ -36,10 +36,9 @@ class HostVillaCreateFacilitiesFragment : Fragment() {
 
         binding.facilitiesSave.setOnClickListener {
             val directions =
-                HostVillaCreateFacilitiesFragmentDirections
-                    .actionHostVillaCreateFacilitiesFragmentToHostVillaCreateFragment(
-                        collectChips()
-                    )
+                HostVillaCreateFacilitiesFragmentDirections.actionHostVillaCreateFacilitiesFragmentToHostVillaCreateFragment(
+                    collectChips()
+                )
 
             Navigation.findNavController(view).navigate(directions)
         }

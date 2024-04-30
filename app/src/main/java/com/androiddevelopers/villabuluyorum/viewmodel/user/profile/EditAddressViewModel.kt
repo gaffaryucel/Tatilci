@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.viewmodel.profile
+package com.androiddevelopers.villabuluyorum.viewmodel.user.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,10 +23,10 @@ import javax.inject.Inject
 @HiltViewModel
 class EditAddressViewModel @Inject
 constructor(
-    private val repo : FirebaseRepoInterFace,
-    private val auth : FirebaseAuth,
+    private val repo: FirebaseRepoInterFace,
+    private val auth: FirebaseAuth,
     private val roomProvinceRepo: RoomProvinceRepo
-):ViewModel() {
+) : ViewModel() {
     private val currentUserId = auth.currentUser?.uid.toString()
 
     private var _liveDataProvinceFromRoom = MutableLiveData<List<Province>>()
@@ -47,7 +47,7 @@ constructor(
 
 
     private var _uploadMessage = MutableLiveData<Resource<Boolean>>()
-    val uploadMessage : LiveData<Resource<Boolean>>
+    val uploadMessage: LiveData<Resource<Boolean>>
         get() = _uploadMessage
 
     private var _userData = MutableLiveData<UserModel>()
@@ -59,6 +59,7 @@ constructor(
         getAllProvince()
         getUserData()
     }
+
     private fun getAllProvince() = viewModelScope.launch {
         roomProvinceRepo.getAllProvince().flowOn(Dispatchers.IO).collect {
             _liveDataProvinceFromRoom.value = it
@@ -88,14 +89,15 @@ constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repo.updateUserData(currentUserId, updateMap).addOnSuccessListener {
                 _uploadMessage.value = Resource.success(null)
-            }.addOnFailureListener{
-                _uploadMessage.value = Resource.error(it.localizedMessage,null)
+            }.addOnFailureListener {
+                _uploadMessage.value = Resource.error(it.localizedMessage, null)
             }
         }
     }
-    private fun getUserData() = viewModelScope.launch{
+
+    private fun getUserData() = viewModelScope.launch {
         repo.getUserDataByDocumentId(currentUserId)
-            .addOnSuccessListener { document->
+            .addOnSuccessListener { document ->
                 document.toUserModel()?.let { user ->
                     _userData.value = user
                 }

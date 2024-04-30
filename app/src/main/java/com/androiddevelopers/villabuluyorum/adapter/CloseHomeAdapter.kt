@@ -33,6 +33,7 @@ class HouseAdapter(val myLocation: MyLocation? = null) :
         get() = recyclerListDiffer.currentList
         set(value) = recyclerListDiffer.submitList(value)
 
+    var inProfile = false
     inner class HouseViewHolder(val binding: RowHouseBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -67,10 +68,13 @@ class HouseAdapter(val myLocation: MyLocation? = null) :
 
 
             house.villaId?.let { id ->
-                holder.itemView.setOnClickListener {
-                    val directions =
+                if (inProfile){
+                    // TODO: Profile içinden detay sayfasına aksiyon
+                }else{
+                    holder.itemView.setOnClickListener { val directions =
                         HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(id)
-                    Navigation.findNavController(it).navigate(directions)
+                        Navigation.findNavController(it).navigate(directions)
+                    }
                 }
             }
 

@@ -149,6 +149,7 @@
     <color name="app_bg_color">#000000</color>
     <color name="translucent_background_color">#80000000</color>
     <color name="translucent_bg_color_two">#4DFFFFFF</color>
+    <color name="card_view_bg">#1d2024</color>
 
     <!-- TextColors Colors-->
     <color name="normal_text_color">#FFFFFF</color>
@@ -158,9 +159,8 @@
     <color name="secondary_button_gb_color">#2d2d2d</color>
     <color name="translucent_border_color">#80FFFFFF</color>
 
+
     <color name="indicator_drawable_color">@color/md_theme_onSurface</color>
-
-
     <color name="search_view_bg">#2d2d2d</color>
 
 

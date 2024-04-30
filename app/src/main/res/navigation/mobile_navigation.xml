@@ -177,7 +177,10 @@
         android:id="@+id/reservationDetailsFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.user.reservation.ReservationDetailsFragment"
         android:label="fragment_reservation_details"
-        tools:layout="@layout/fragment_reservation_details" />
+        tools:layout="@layout/fragment_reservation_details" >
+        <argument android:name="id"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/villaDetailFacilitiesFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.user.villa.VillaDetailFacilitiesFragment"
@@ -201,7 +204,11 @@
         android:id="@+id/editProfileDetailsFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.user.profile.EditProfileDetailsFragment"
         android:label="fragment_edit_profile_details"
-        tools:layout="@layout/fragment_edit_profile_details" />
+        tools:layout="@layout/fragment_edit_profile_details" >
+        <action
+            android:id="@+id/action_editProfileDetailsFragment_to_editAddressFragment"
+            app:destination="@id/editAddressFragment" />
+    </fragment>
     <fragment
         android:id="@+id/filterFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.user.search.FilterFragment"
@@ -221,4 +228,9 @@
         tools:layout="@layout/fragment_create_reservation">
         <argument android:name="villa_id" />
     </fragment>
+    <fragment
+        android:id="@+id/editAddressFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.profile.EditAddressFragment"
+        android:label="fragment_edit_address"
+        tools:layout="@layout/fragment_edit_address" />
 </navigation>

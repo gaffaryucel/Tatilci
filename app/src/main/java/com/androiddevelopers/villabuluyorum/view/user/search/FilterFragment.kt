@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentFilterBinding
 import com.androiddevelopers.villabuluyorum.model.FilterModel
+import com.androiddevelopers.villabuluyorum.model.PropertyType
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
@@ -212,11 +213,11 @@ class FilterFragment : Fragment() {
                 view.setBackgroundResource(R.drawable.main_button_gb)
                 // Seçilen elemanın adını ekrana yazdır
                 filter.propertyType = when (index) {
-                    0 -> "HOUSE"
-                    1 -> "APARTMENT"
-                    2 -> "GUEST_HOUSE"
-                    3 -> "HOTEL"
-                    else -> "HOTEL"
+                    0 -> PropertyType.HOUSE
+                    1 -> PropertyType.APARTMENT
+                    2 -> PropertyType.GUEST_HOUSE
+                    3 -> PropertyType.HOTEL
+                    else -> PropertyType.HOUSE
                 }
             }
         }
@@ -282,7 +283,8 @@ class FilterFragment : Fragment() {
             editor.putInt("beds", filter.beds ?: 0)
             editor.putInt("bathrooms", filter.bathrooms ?: 0)
             editor.putBoolean("isFavorite", filter.isFavorite ?: false)
-            editor.putString("propertyType", filter.propertyType)
+            // TODO: propertyType değerinin filtreleme sırasında doğru çalıştığından emin olunöalı
+            editor.putString("propertyType", filter.propertyType.toString())
             editor.putStringSet("amenities", filter.amenities?.toSet() ?: setOf())
             editor.apply().also {
                 findNavController().popBackStack()

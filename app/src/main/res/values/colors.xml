@@ -149,6 +149,7 @@
     <color name="app_bg_color">#fef7ff</color>
     <color name="translucent_background_color">#80FFFFFF</color>
     <color name="translucent_bg_color_two">#4DFFFFFF</color>
+    <color name="card_view_bg">#FFFFFF</color>
 
 
     <!-- TextColors Colors-->
@@ -165,5 +166,8 @@
     <color name="indicator_drawable_color">@color/md_theme_onSurface</color>
 
     <color name="search_view_bg">#f0f0f0</color>
+
+    <color name="reservation_denied_color">#FF0000</color>
+    <color name="reservation_waiting_color">#FFFF00</color>
 
 </resources>

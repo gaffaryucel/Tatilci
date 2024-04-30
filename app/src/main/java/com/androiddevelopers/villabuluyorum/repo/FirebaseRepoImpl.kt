@@ -1,6 +1,7 @@
 package com.androiddevelopers.villabuluyorum.repo
 
 import android.net.Uri
+import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.service.NotificationAPI
@@ -100,7 +101,12 @@ class FirebaseRepoImpl @Inject constructor(
     override fun getVillasByUserId(id: String, limit: Long): Task<QuerySnapshot> {
         return villaCollection.whereEqualTo("hostId", id).limit(limit).get()
     }
-
+    override fun createReservationForVilla(data: ReservationModel): Task<Void> {
+        return reservationCollection.document(data.reservationId.toString()).set(data)
+    }
+    override fun getUserReservations(userId: String): Task<QuerySnapshot> {
+        return reservationCollection.whereEqualTo("userId", userId).get()
+    }
     // Storage - Villa
     override fun addVillaImage(
         uri: Uri,
@@ -115,6 +121,15 @@ class FirebaseRepoImpl @Inject constructor(
             .child("${UUID.randomUUID()}.jpg")
             .putFile(uri)
 
+    }
+    // Storage - User
+    override fun uploadUserProfilePhoto(uri: Uri, userId: String,key : String): UploadTask {
+        return imagesParentRef
+            .child("userId_$userId")
+            .child("images")
+            .child(key)
+            .child("${UUID.randomUUID()}.jpg")
+            .putFile(uri)
     }
 
 }

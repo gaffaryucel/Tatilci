@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.androiddevelopers.villabuluyorum.adapter.SearchAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentSearchBinding
 import com.androiddevelopers.villabuluyorum.model.FilterModel
+import com.androiddevelopers.villabuluyorum.model.PropertyType
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.viewmodel.user.serch.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -89,6 +90,7 @@ class SearchFragment : Fragment() {
             val isFavorite = sharedPreferences.getBoolean("isFavorite", false)
             val propertyType = sharedPreferences.getString("propertyType", "")
             val amenities = sharedPreferences.getStringSet("amenities", setOf())
+// TODO: PropertyType sınıfının oluşturulmasından doğan hatalar giderilmeli SharedPref vs için yeni taktikler kullanılmalı
 
             val filter = createFilter(
                 city,
@@ -98,7 +100,7 @@ class SearchFragment : Fragment() {
                 beds,
                 bathrooms,
                 isFavorite,
-                propertyType,
+                PropertyType.HOUSE,
                 amenities?.toList(),
             )
             println(city)
@@ -130,7 +132,7 @@ class SearchFragment : Fragment() {
         beds: Int?,
         bathrooms: Int?,
         isFavorite: Boolean?,
-        propertyType: String?,
+        propertyType: PropertyType?,
         amenities: List<String>?
     ): FilterModel {
         return FilterModel(
@@ -141,7 +143,7 @@ class SearchFragment : Fragment() {
             beds ?: 4,
             bathrooms ?: 2,
             isFavorite ?: false,
-            propertyType ?: "HOUSE",
+            propertyType ?: PropertyType.HOUSE,
             null
         )
     }

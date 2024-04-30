@@ -95,113 +95,107 @@
                   android:layout_marginHorizontal="10dp"
                   app:layout_constraintTop_toBottomOf="@+id/includeCoverImageVillaCreate"
                   style="@style/ReservationCardStyle">
-                  <LinearLayout
+                  <androidx.constraintlayout.widget.ConstraintLayout
                       android:layout_margin="20dp"
-                      android:orientation="vertical"
                       android:layout_width="match_parent"
-                      android:layout_height="wrap_content">
+                      android:layout_height="match_parent">
+                      <LinearLayout
+                          android:orientation="vertical"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content">
 
+                          <TextView
+                              android:textSize="22sp"
+                              android:textStyle="bold"
+                              android:textColor="@color/normal_text_color"
+                              android:text="Rezervasyon Süresi"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"/>
+
+                          <androidx.constraintlayout.widget.ConstraintLayout
+                              android:id="@+id/layoutStartReservation"
+                              android:layout_marginHorizontal="10dp"
+                              android:layout_marginTop="10dp"
+                              android:layout_marginBottom="5dp"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content">
+
+
+                              <LinearLayout
+                                  android:orientation="vertical"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content">
+                                  <TextView
+                                      app:layout_constraintStart_toStartOf="parent"
+                                      android:textSize="18sp"
+                                      android:textColor="@color/normal_text_color"
+                                      android:text="Başlangıç tarihi"
+                                      android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content"/>
+
+                                  <TextView
+                                      android:id="@+id/tvSelectedStartDate"
+                                      app:layout_constraintStart_toStartOf="parent"
+                                      android:textSize="16sp"
+                                      android:textStyle="italic"
+                                      android:textColor="@color/normal_text_color"
+                                      android:text="Seçilmedi"
+                                      android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content"/>
+
+                              </LinearLayout>
+
+
+
+                          </androidx.constraintlayout.widget.ConstraintLayout>
+
+                          <androidx.constraintlayout.widget.ConstraintLayout
+                              android:id="@+id/layoutEndReservation"
+                              android:layout_marginVertical="5dp"
+                              android:layout_marginHorizontal="10dp"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content">
+                              <LinearLayout
+                                  android:orientation="vertical"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content">
+                                  <TextView
+                                      android:textSize="18sp"
+                                      android:textColor="@color/normal_text_color"
+                                      android:text="Bitiş tarihi"
+                                      android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content"/>
+
+                                  <TextView
+                                      android:id="@+id/tvSelectedEndDate"
+                                      app:layout_constraintStart_toStartOf="parent"
+                                      android:textSize="16sp"
+                                      android:textStyle="italic"
+                                      android:textColor="@color/normal_text_color"
+                                      android:text="Seçilmedi"
+                                      android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content"/>
+
+                              </LinearLayout>
+
+                          </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                      </LinearLayout>
                       <TextView
-                          android:textSize="22sp"
+                          android:layout_marginEnd="20dp"
+                          app:layout_constraintTop_toTopOf="parent"
+                          app:layout_constraintBottom_toBottomOf="parent"
+                          android:id="@+id/tvSelectDate"
+                          app:layout_constraintEnd_toEndOf="parent"
                           android:textStyle="bold"
+                          android:textSize="18sp"
                           android:textColor="@color/normal_text_color"
-                          android:text="Rezervasyon Süresi"
+                          android:text="Seç"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"/>
-
-                      <androidx.constraintlayout.widget.ConstraintLayout
-                          android:id="@+id/layoutStartReservation"
-                          android:layout_marginHorizontal="10dp"
-                          android:layout_marginTop="10dp"
-                          android:layout_marginBottom="5dp"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content">
-
-
-                          <LinearLayout
-                              android:orientation="vertical"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content">
-                              <TextView
-                                  app:layout_constraintStart_toStartOf="parent"
-                                  android:textSize="18sp"
-                                  android:textColor="@color/normal_text_color"
-                                  android:text="Başlangıç tarihi"
-                                  android:layout_width="wrap_content"
-                                  android:layout_height="wrap_content"/>
-
-                              <TextView
-                                  android:id="@+id/tvSelectedStartDate"
-                                  app:layout_constraintStart_toStartOf="parent"
-                                  android:textSize="16sp"
-                                  android:textStyle="italic"
-                                  android:textColor="@color/normal_text_color"
-                                  android:text="Seçilmedi"
-                                  android:layout_width="wrap_content"
-                                  android:layout_height="wrap_content"/>
-
-                          </LinearLayout>
-                          <TextView
-                              app:layout_constraintTop_toTopOf="parent"
-                              app:layout_constraintBottom_toBottomOf="parent"
-                              android:id="@+id/tvStartReservationDateSelect"
-                              app:layout_constraintEnd_toEndOf="parent"
-                              android:textStyle="bold"
-                              android:textSize="18sp"
-                              android:textColor="@color/normal_text_color"
-                              android:text="Seç"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"/>
-
-                      </androidx.constraintlayout.widget.ConstraintLayout>
-
-                      <androidx.constraintlayout.widget.ConstraintLayout
-                          android:id="@+id/layoutEndReservation"
-                          android:layout_marginVertical="5dp"
-                          android:layout_marginHorizontal="10dp"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content">
-                          <LinearLayout
-                              android:orientation="vertical"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content">
-                              <TextView
-                                  android:textSize="18sp"
-                                  android:textColor="@color/normal_text_color"
-                                  android:text="Bitiş tarihi"
-                                  android:layout_width="wrap_content"
-                                  android:layout_height="wrap_content"/>
-
-                              <TextView
-                                  android:id="@+id/tvSelectedEndDate"
-                                  app:layout_constraintStart_toStartOf="parent"
-                                  android:textSize="16sp"
-                                  android:textStyle="italic"
-                                  android:textColor="@color/normal_text_color"
-                                  android:text="Seçilmedi"
-                                  android:layout_width="wrap_content"
-                                  android:layout_height="wrap_content"/>
-
-                          </LinearLayout>
-
-                          <TextView
-                              android:id="@+id/tvEndReservationDateSelect"
-                              app:layout_constraintTop_toTopOf="parent"
-                              app:layout_constraintBottom_toBottomOf="parent"
-                              app:layout_constraintEnd_toEndOf="parent"
-                              android:textStyle="bold"
-                              android:textSize="18sp"
-                              android:textColor="@color/normal_text_color"
-                              android:text="Seç"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"/>
-
-                      </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-                  </LinearLayout>
-
+                  </androidx.constraintlayout.widget.ConstraintLayout>
               </androidx.cardview.widget.CardView>
               <androidx.cardview.widget.CardView
                   android:layout_marginTop="15dp"
@@ -218,7 +212,7 @@
                           android:textSize="22sp"
                           android:textStyle="bold"
                           android:textColor="@color/normal_text_color"
-                          android:text="Fiyat detayları"
+                          android:text="Fiyatlandırma detayları"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"/>
 
@@ -238,16 +232,10 @@
                                   app:layout_constraintStart_toStartOf="parent"
                                   android:textSize="18sp"
                                   android:textColor="@color/normal_text_color"
-                                  android:text="₺3.500 x 4 gece"
+                                  tools:text="₺3.500 x 4 gece"
                                   android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"/>
-                              <TextView
-                                  app:layout_constraintStart_toStartOf="parent"
-                                  android:textSize="18sp"
-                                  android:textColor="@color/normal_text_color"
-                                  android:text="Vergiler"
-                                  android:layout_width="wrap_content"
-                                  android:layout_height="wrap_content"/>
+
                           </LinearLayout>
                           <LinearLayout
                               app:layout_constraintEnd_toEndOf="parent"
@@ -258,17 +246,8 @@
                                   android:id="@+id/tvMainPriceTotal"
                                   android:textStyle="bold"
                                   android:textSize="18sp"
-                                  android:textColor="@color/normal_text_color"
-                                  android:text="₺14.000"
-                                  android:layout_width="wrap_content"
-                                  android:layout_height="wrap_content"/>
-                              <TextView
-                                  android:layout_gravity="end"
-                                  android:id="@+id/tvTexes"
-                                  android:textStyle="bold"
-                                  android:textSize="18sp"
-                                  android:textColor="@color/normal_text_color"
-                                  android:text="₺1000"
+                                  android:textColor="@color/main_button_gb_color"
+                                  tools:text="₺14.000"
                                   android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"/>
 
@@ -283,42 +262,13 @@
                           android:layout_height="1dp"
                           android:background="@color/detail_page_transparent_icon" />
 
-                      <androidx.constraintlayout.widget.ConstraintLayout
-                          android:layout_marginHorizontal="10dp"
-                          app:layout_constraintEnd_toEndOf="parent"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content">
-                          <TextView
-                              app:layout_constraintStart_toStartOf="parent"
-                              android:textSize="18sp"
-                              android:textColor="@color/normal_text_color"
-                              android:text="Toplam fiyat"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"/>
-                          <TextView
-                              app:layout_constraintEnd_toEndOf="parent"
-                              android:id="@+id/tvTotalPrice"
-                              android:textStyle="bold"
-                              android:textSize="18sp"
-                              android:textColor="@color/main_button_gb_color"
-                              android:text="₺15.000"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"/>
 
-                      </androidx.constraintlayout.widget.ConstraintLayout>
-
-                      <View
-                          android:layout_marginVertical="5dp"
-                          android:layout_width="match_parent"
-                          android:layout_height="1dp"
-                          android:background="@color/detail_page_transparent_icon" />
 
                       <TextView
                           android:layout_marginHorizontal="10dp"
-                          android:id="@+id/tvDeposit"
                           android:textSize="16sp"
                           android:textColor="@color/normal_text_color"
-                          android:text=""
+                          android:text="@string/payment_details"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"/>
 
@@ -359,12 +309,7 @@
                                   android:orientation="vertical"
                                   android:layout_width="30dp"
                                   android:layout_height="0dp">
-                                  <ImageView
-                                      android:layout_gravity="center"
-                                      android:src="@drawable/credit_card"
-                                      android:layout_width="30dp"
-                                      android:layout_weight="1"
-                                      android:layout_height="match_parent"/>
+
                                   <ImageView
                                       android:layout_gravity="center"
                                       android:src="@drawable/lira"
@@ -377,7 +322,12 @@
                                       android:layout_width="30dp"
                                       android:layout_weight="1"
                                       android:layout_height="match_parent"/>
-
+                                  <ImageView
+                                      android:layout_gravity="center"
+                                      android:src="@drawable/credit_card"
+                                      android:layout_width="30dp"
+                                      android:layout_weight="1"
+                                      android:layout_height="match_parent"/>
                               </LinearLayout>
                               <LinearLayout
                                   app:layout_constraintStart_toEndOf="@+id/layoutIcons"
@@ -390,14 +340,9 @@
                                       android:id="@+id/radioGroup"
                                       android:layout_width="wrap_content"
                                       android:layout_height="wrap_content">
+
                                       <RadioButton
                                           android:checked="true"
-                                          android:buttonTint="@color/main_button_gb_color"
-                                          android:id="@+id/radioCreditCard"
-                                          android:layout_width="wrap_content"
-                                          android:layout_height="wrap_content"
-                                          android:text="Kredi/Banka Kartı" />
-                                      <RadioButton
                                           android:buttonTint="@color/main_button_gb_color"
                                           android:id="@+id/radioCash"
                                           android:layout_width="wrap_content"
@@ -409,6 +354,12 @@
                                           android:layout_width="wrap_content"
                                           android:layout_height="wrap_content"
                                           android:text="EFT/Havale" />
+                                      <RadioButton
+                                          android:buttonTint="@color/main_button_gb_color"
+                                          android:id="@+id/radioCreditCard"
+                                          android:layout_width="wrap_content"
+                                          android:layout_height="wrap_content"
+                                          android:text="Kredi/Banka Kartı" />
                                   </RadioGroup>
 
                               </LinearLayout>

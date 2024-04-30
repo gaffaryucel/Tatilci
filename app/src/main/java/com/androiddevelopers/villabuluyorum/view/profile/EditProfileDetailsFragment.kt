@@ -4,9 +4,7 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.os.Handler
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,28 +13,24 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import com.androiddevelopers.villabuluyorum.R
-import com.androiddevelopers.villabuluyorum.adapter.HouseAdapter
+import androidx.navigation.Navigation
+import com.androiddevelopers.villabuluyorum.adapter.MyLocation
 import com.androiddevelopers.villabuluyorum.adapter.downloadImage
 import com.androiddevelopers.villabuluyorum.databinding.FragmentEditProfileDetailsBinding
-import com.androiddevelopers.villabuluyorum.databinding.FragmentProfileBinding
 import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.checkPermissionImageGallery
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.profile.EditProfileDetailsViewModel
-import com.androiddevelopers.villabuluyorum.viewmodel.profile.ProfileViewModel
 import com.bumptech.glide.Glide
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @Suppress("UNUSED_CHANGED_VALUE")
 @AndroidEntryPoint
@@ -56,6 +50,7 @@ class EditProfileDetailsFragment : Fragment() {
     private var oldUser = UserModel()
 
     private var progressDialog: ProgressDialog? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,6 +75,10 @@ class EditProfileDetailsFragment : Fragment() {
         }
         binding.btnSave.setOnClickListener {
             getUserDataAndSave()
+        }
+        binding.editLocationIcon.setOnClickListener {
+            val action = EditProfileDetailsFragmentDirections.actionEditProfileDetailsFragmentToEditAddressFragment()
+            Navigation.findNavController(it).navigate(action)
         }
         setupLaunchers()
         observeLiveData()
@@ -120,7 +119,6 @@ class EditProfileDetailsFragment : Fragment() {
         viewModel.uploadMessage.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
-                    println("SUCCESS")
                     progressDialog?.dismiss()
                 }
 
@@ -129,7 +127,6 @@ class EditProfileDetailsFragment : Fragment() {
                 }
 
                 Status.ERROR -> {
-                    println("ERROR")
                     Toast.makeText(
                         requireContext(),
                         it.message,
@@ -146,13 +143,39 @@ class EditProfileDetailsFragment : Fragment() {
                     user = userData
                 }
             }
-            lifecycleScope.launch {
-                val location = viewModel.getCityFromCoordinates(
-                   requireContext(),
-                   userData.latitude  ?: 41.00527,
-                   userData.longitude ?:  28.97696)
-               binding.etUserLocation.setText(location)
+            val userAddress = userData.address
+            if (userAddress != null){
+                val city = userAddress.province.toString()
+                val district = userAddress.district.toString()
+                var address = ""
+                if (city.isNotEmpty()){
+                    address += "$city,"
+                }
+                if(district.isNotEmpty()){
+                    address += district
+                }
+                if (address.isNotEmpty()){
+                    binding.etUserLocation.setText(address)
+                }else{
+                    lifecycleScope.launch {
+                        val location = viewModel.getCityFromCoordinates(
+                            requireContext(),
+                            userData.latitude  ?: 41.00527,
+                            userData.longitude ?:  28.97696)
+                        binding.etUserLocation.setText(location)
+                    }
+                }
+            }else{
+                lifecycleScope.launch {
+                    val location = viewModel.getCityFromCoordinates(
+                        requireContext(),
+                        userData.latitude  ?: 41.00527,
+                        userData.longitude ?:  28.97696)
+                    binding.etUserLocation.setText(location)
+                }
             }
+
+
             Glide.with(requireContext()).load(userData.profileImageUrl).into(binding.ivUserProfilePhoto)
             Glide.with(requireContext()).load(userData.profileBannerUrl).into(binding.ivUserBanner)
         })
@@ -182,21 +205,20 @@ class EditProfileDetailsFragment : Fragment() {
             }
     }
     private fun openProfilePicker() {
-        val imageIntent =
-            Intent(
+        val imageIntent = Intent(
                 Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             )
         profilePhotoLauncher.launch(imageIntent)
     }
     private fun openBannerPicker() {
-        val imageIntent =
-            Intent(
+        val imageIntent = Intent(
                 Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             )
         bannerPhotoLauncher.launch(imageIntent)
     }
+
     // Kullanıcı verilerini alır ve kaydeder
     private fun getUserDataAndSave() {
         var isUpdated = false // Veri güncellendi mi kontrolü için bir değişken

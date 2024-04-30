@@ -2,27 +2,36 @@ package com.androiddevelopers.villabuluyorum.view.reservation
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.app.ProgressDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.databinding.FragmentCreateReservationBinding
 import com.androiddevelopers.villabuluyorum.databinding.MergeItemCoverImageBinding
+import com.androiddevelopers.villabuluyorum.model.PaymentMethod
+import com.androiddevelopers.villabuluyorum.model.PropertyType
+import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
 import com.androiddevelopers.villabuluyorum.viewmodel.reservation.CreateReservationViewModel
 import com.bumptech.glide.Glide
+import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class CreateReservationFragment : Fragment() {
@@ -36,9 +45,14 @@ class CreateReservationFragment : Fragment() {
     private val mergeBinding get() = _mergeBinding!!
 
     private lateinit var villaId : String
+    private var paymentMethod = PaymentMethod.CASH
 
-    private var startDate = ""
-    private var endDate = ""
+    private var progressDialog: ProgressDialog? = null
+
+    private var nightlyRate = 0
+    private var nightCount = 0
+    private var price = 0
+    private var nyVilla = Villa()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,22 +66,23 @@ class CreateReservationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeLiveData()
+        setRadioButtonClickListener()
+        progressDialog = ProgressDialog(requireContext())
 
         if (villaId.isNotEmpty()){
             viewModel.getVillaByIdFromFirestore(villaId)
         }
-        binding.tvStartReservationDateSelect.setOnClickListener {
-            showDatePickerDialog(false)
-        }
-
-        binding.tvEndReservationDateSelect.setOnClickListener {
-            showDatePickerDialog(true)
+        binding.tvSelectDate.setOnClickListener {
+            showDatePickerDialog()
         }
 
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
         }
-        observeLiveData()
+        binding.btnReserve.setOnClickListener {
+            saveAndReserve()
+        }
     }
     private fun observeLiveData() {
         with(binding) {
@@ -90,64 +105,125 @@ class CreateReservationFragment : Fragment() {
                         }
                     }
                 }
-
                 liveDataFirebaseVilla.observe(viewLifecycleOwner) {villa->
+                    nyVilla = villa
                     mergeBinding.textDetailTitle.text =  villa.villaName
                     mergeBinding.textDetailAddress.text =  villa.locationAddress
                     mergeBinding.textDetailBedRoom.text =  villa.bedroomCount.toString()+" Yatak odası"
                     mergeBinding.textDetailBathRoom.text =  villa.bathroomCount.toString()+" Banyo"
                     Glide.with(requireContext()).load(villa.coverImage).into(mergeBinding.imageTitle)
-                    val minStay = villa.minStayDuration ?: 4
-                    val nightlyRate = villa.nightlyRate?.toInt() ?: 3000
-                    val price = minStay * nightlyRate
-                    val taxes = nightlyRate / 2
-                    val totalPrice = price + taxes
+                    val minStay = villa.minStayDuration ?: 1
+                    nightlyRate = villa.nightlyRate?.toInt() ?: 3000
+                    if (nightCount != 0 && nightCount >= minStay){
+                        price = nightCount * nightlyRate
+                    }else{
+                        price = minStay * nightlyRate
+                    }
                     binding.tvMainPrice.text = "Minimum ${minStay} gece x ₺${nightlyRate}"
-                    binding.tvDeposit.text = "Bu rezervasyon için ₺${nightlyRate} güvenlik depozitosu gereklidir. Bu tutar, varışınızdan önce veya giriş sırasında mülk sahibi tarafından ayrı olarak tahsil edilecektir"
-                    binding.tvMainPriceTotal.text = price.toString()
-                    binding.tvTexes.text = taxes.toString()
-                    binding.tvTotalPrice.text = totalPrice.toString()
+                    binding.tvMainPriceTotal.text = "₺$price"
+                }
+                liveDataReserveStatus.observe(viewLifecycleOwner) {
+                    when (it.status) {
+                        Status.SUCCESS -> {
+                            progressDialog?.dismiss()
+                            Toast.makeText(
+                                requireContext(),
+                                "Rezervasyon Talep Edildi",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            findNavController().popBackStack()
+                        }
+
+                        Status.LOADING -> {
+                            startLoadingProcess(progressDialog)
+                        }
+
+                        Status.ERROR -> {
+                            Toast.makeText(
+                                requireContext(),
+                                it.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            progressDialog?.dismiss()
+                        }
+
+                    }
                 }
             }
         }
     }
-    private fun showDatePickerDialog(isEnd : Boolean) {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
+    private fun showDatePickerDialog() {
 
-        // DatePickerDialog oluştur ve tarih seçimini dinle
-        val datePickerDialog = DatePickerDialog(
-            requireContext(),
-            DatePickerDialog.OnDateSetListener { view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
-                // Seçilen tarihi butona yaz
-                val date = "$dayOfMonth/${monthOfYear + 1}/$year"
-                if (isEnd){
-                    if (compareDates(startDate,date)){
-                        binding.tvSelectedEndDate.text = date
-                        endDate = date
-                    }else{
-                        Toast.makeText(
-                            requireContext(),
-                            "Lütfen geçerli bir bitiş tarihi seçin ",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }else{
-                    binding.tvSelectedStartDate.text = date
-                    startDate = date
-                }
-            },
-            year,
-            month,
-            day
-        )
+        // dateRangePicker oluştur ve tarih seçimini dinle
+        val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+            .setTitleText("Rezervasyon süresini belirleyin")
+            .build()
 
-        // Min. tarih olarak bugünü ayarla
-        datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
-        datePickerDialog.show()
+        dateRangePicker.addOnPositiveButtonClickListener { dateRange ->
+            val startDateMillis = dateRange.first
+            val endDateMillis = dateRange.second
+
+            val startDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(startDateMillis))
+            val endDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(endDateMillis))
+
+            binding.tvSelectedStartDate.text = startDate
+            binding.tvSelectedEndDate.text = endDate
+            binding.tvSelectDate.text = "Düzenle"
+
+            // Gece sayısını hesaplayalım
+            val startDateCal = Calendar.getInstance().apply { timeInMillis = startDateMillis }
+            val endDateCal = Calendar.getInstance().apply { timeInMillis = endDateMillis }
+            val diffInMillis = endDateCal.timeInMillis - startDateCal.timeInMillis
+            val diffInDays = TimeUnit.MILLISECONDS.toDays(diffInMillis)
+            nightCount = diffInDays.toInt() + 1 // Başlangıç ve bitiş tarihi arasındaki gün sayısı
+
+            // Gece sayısını kullanabiliriz
+            binding.tvMainPrice.text = "${nightCount} gece x ₺${nightlyRate}"
+            binding.btnReserve.text = "${nightCount} gecelik Rezervasyon yap"
+        }
+        dateRangePicker.show(parentFragmentManager, "DATE_RANGE_PICKER_TAG")
     }
+    private fun saveAndReserve(){
+        viewModel.createReservationInstance(
+            villaId = villaId ?: "",
+            startDate = binding.tvSelectedStartDate.text.toString(),
+            endDate =  binding.tvSelectedEndDate.text.toString(),
+            nights = nightCount,
+            totalPrice = price,
+            paymentMethod =paymentMethod,
+            nightlyRate,
+            nyVilla.propertyType ?: PropertyType.HOUSE,
+            nyVilla.coverImage ?: "",
+            nyVilla.bedroomCount ?: 0,
+            nyVilla.bathroomCount?:0,
+            nyVilla.villaName ?: "",
+        ).also {
+            viewModel.makeReservation(it)
+        }
+    }
+    private fun setRadioButtonClickListener() {
+        val secilenId = binding.radioGroup.checkedRadioButtonId
+        val secilenRadioButton = binding.root.findViewById<RadioButton>(secilenId)
+
+        val secilenRadioButtonMetni = when (secilenRadioButton) {
+
+            binding.radioCash ->{
+                paymentMethod = PaymentMethod.CASH
+            }
+            binding.radioBankTransfer ->{
+                paymentMethod = PaymentMethod.BANK_TRANSFER
+            }
+            binding.radioCreditCard ->{
+                paymentMethod = PaymentMethod.CREDIT_OR_DEBIT_CARD
+            }
+            else -> {
+                paymentMethod = PaymentMethod.CASH
+            }
+        }
+
+        println("Seçilen RadioButton: $secilenRadioButtonMetni")
+    }
+
     override fun onResume() {
         super.onResume()
         hideBottomNavigation(requireActivity())
@@ -155,13 +231,5 @@ class CreateReservationFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         showBottomNavigation(requireActivity())
-    }
-    private fun compareDates(start: String, end: String): Boolean {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val startDate = dateFormat.parse(start)
-        val endDate = dateFormat.parse(end)
-
-        // endDate > startDate ise true döndür, aksi halde false döndür
-        return endDate.after(startDate)
     }
 }

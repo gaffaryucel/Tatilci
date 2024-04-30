@@ -273,7 +273,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp" />
 
-                        <RelativeLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_marginTop="8dp"
                             android:padding="10dp"
                             android:layout_width="match_parent"
@@ -282,18 +282,35 @@
 
                             <!-- INPUT -->
                             <EditText
+                                android:inputType="number"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
                                 android:layout_marginStart="5dp"
                                 android:id="@+id/etPhoneNumber"
-                                android:layout_toRightOf="@+id/phone_icon"
-                                android:hint="Telefon(+90)"
+                                app:layout_constraintStart_toEndOf="@+id/tvPhoneCode"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:hint="Telefon numaranız"
                                 android:text="@{user.phoneNumber}"
-                                android:padding="10dp"
                                 android:background="@android:color/transparent"
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
                                 android:layout_height="40dp"/>
 
-                            <!-- ICON -->
+                            <TextView
+                                android:textColor="@color/main_button_gb_color"
+                                android:textSize="20sp"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:id="@+id/tvPhoneCode"
+                                app:layout_constraintStart_toEndOf="@+id/phone_icon"
+                                android:text="(+90)"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
                             <ImageView
+
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
                                 android:padding="3dp"
                                 android:id="@+id/phone_icon"
                                 android:src="@drawable/phone_number"
@@ -301,7 +318,7 @@
                                 android:layout_height="40dp"
                                 app:tint="@color/main_button_gb_color" />
 
-                        </RelativeLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
                             android:text="Konum"
@@ -319,15 +336,31 @@
                             android:background="@drawable/rounded_edit_text_bg">
 
                             <!-- INPUT -->
-                            <EditText
-                                android:layout_marginStart="5dp"
-                                android:id="@+id/etUserLocation"
-                                android:layout_toRightOf="@+id/location_icon"
-                                android:hint="Konumunuz"
-                                android:padding="10dp"
-                                android:background="@android:color/transparent"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"/>
+                           <LinearLayout
+                               android:layout_toRightOf="@+id/location_icon"
+                               android:orientation="horizontal"
+                               android:layout_width="match_parent"
+                               android:layout_height="40dp">
+                               <EditText
+                                   android:layout_weight="10"
+                                   android:enabled="false"
+                                   android:layout_marginStart="5dp"
+                                   android:id="@+id/etUserLocation"
+                                   android:hint="Konumunuz"
+                                   android:padding="10dp"
+                                   android:background="@android:color/transparent"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="40dp"/>
+                               <ImageView
+                                   android:layout_weight="1"
+                                   android:padding="3dp"
+                                   android:id="@+id/edit_location_icon"
+                                   android:src="@drawable/pencil"
+                                   android:layout_width="40dp"
+                                   android:layout_height="40dp"
+                                   app:tint="@color/main_button_gb_color" />
+                           </LinearLayout>
+
 
                             <!-- ICON -->
                             <ImageView
@@ -337,6 +370,7 @@
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 app:tint="@color/main_button_gb_color" />
+
 
                         </RelativeLayout>
 

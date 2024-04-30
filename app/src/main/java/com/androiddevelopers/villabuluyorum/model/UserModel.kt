@@ -16,6 +16,7 @@ data class UserModel(
     var host: Host? = null,
     var latitude: Double? = null,
     var longitude: Double? = null,
+    var address: UserAddress? = null,
 )
 
 data class Host(
@@ -24,4 +25,10 @@ data class Host(
     var experience: Int? = null,
     var languages: List<String>? = null,
     var description: String? = null,
+)
+data class UserAddress(
+    var province: String? = null,
+    var district: String? = null,
+    var neighborhood: String? = null,
+    var address: String? = null
 )

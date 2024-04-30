@@ -8,7 +8,12 @@ data class FilterModel(
     var beds: Int? = 99,
     var bathrooms: Int? = 99,
     var isFavorite: Boolean? = null,
-    var propertyType: String? = null,
+    var propertyType: PropertyType? = null,
     var amenities: ArrayList<String>? = null
 )
-
+enum class PropertyType{
+    HOUSE,
+    APARTMENT,
+    GUEST_HOUSE,
+    HOTEL
+}

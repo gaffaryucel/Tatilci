@@ -309,6 +309,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:layout_marginTop="50dp"
                             android:id="@+id/layoutEmptyComments"
                             android:layout_width="match_parent"
                             android:orientation="vertical"
@@ -323,6 +324,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
                             <ImageView
+                                android:layout_marginBottom="50dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/null_icon"
                                 android:layout_width="40dp"
@@ -365,6 +367,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:layout_marginTop="50dp"
                             android:visibility="gone"
                             android:id="@+id/layoutEmptyVillas"
                             android:layout_width="match_parent"
@@ -380,6 +383,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
                             <ImageView
+                                android:layout_marginBottom="50dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/null_icon"
                                 android:layout_width="40dp"

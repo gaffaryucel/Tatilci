@@ -1,5 +1,7 @@
 package com.androiddevelopers.villabuluyorum.model.villa
 
+import com.androiddevelopers.villabuluyorum.model.PropertyType
+
 data class Villa(
     var villaId: String? = null, // villanın database id si
     var hostId: String? = null, // ilanı oluşturtan kullanıcı database id si
@@ -34,4 +36,5 @@ data class Villa(
     var latitude: Double? = 39.9334,
     var longitude: Double? = 32.8597,
     var hasWifi: Boolean? = null, // wifi hizmeti
+    var propertyType: PropertyType? = null,
 )

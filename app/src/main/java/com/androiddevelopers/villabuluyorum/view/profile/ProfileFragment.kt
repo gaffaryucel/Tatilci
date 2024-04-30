@@ -59,6 +59,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.rvUserVillas.adapter = villaAdapter
+        villaAdapter.inProfile = true
         observeLiveData()
 
         binding.btnBecomeHomeowner.setOnClickListener {

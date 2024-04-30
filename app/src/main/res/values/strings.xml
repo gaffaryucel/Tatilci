@@ -11,4 +11,5 @@
     <string name="api_key">AIzaSyA1A3oCuG_dJYhBvky2HI0XqGFRE7neLsA</string>
     <string name="i_accept_reservation">Rezervasyon Yap butonuna basarak, ev sahibinin ev kurallarını, misafirler için temel kuralları, Villabuluyorum uygulamasının yeniden rezervasyon ve iade politikasını kabul ediyorum. Ayrıca, eğer bir hasar olursa Villabuluyorum uygulamasının ödeme tahsil edebileceğini kabul ediyorum</string>
     <string name="i_accept_privacy_policy">Güncellenmiş Hizmet Şartları ve Ödeme Hizmetleri Şartlarına da onay veriyorum ve Gizlilik Politikasını kabul ediyorum</string>
+    <string name="payment_details">Tatilc uygulamasında kiralama işlemleri sırasında herhangi bir ek ücret alınmamaktadır. Verdiğiniz tüm paranın kendi tatilleriniz için kullanıldığını belirtmek isteriz; böylece hizmet bedeli ödemeden tatilinizi planlayabilirsiniz. Ödeme işlemleri, mülk sahibinin belirlediği yöntemlerle gerçekleştirilmektedir, bu da ödeme sürecinin güvenli ve kolay olmasını sağlar. Tatilc olarak, müşterilerimizin tatil deneyimlerini en iyi şekilde yaşamalarını sağlamak için elimizden geleni yapıyoruz.</string>
 </resources>

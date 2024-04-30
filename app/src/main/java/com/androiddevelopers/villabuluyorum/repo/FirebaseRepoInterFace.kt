@@ -1,6 +1,7 @@
 package com.androiddevelopers.villabuluyorum.repo
 
 import android.net.Uri
+import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.google.android.gms.tasks.Task
@@ -31,7 +32,8 @@ interface FirebaseRepoInterFace {
     fun getVillasByStarRatingFromFirestore(limit: Long): Task<QuerySnapshot>
     fun getVillasByCity(city: String, limit: Long): Task<QuerySnapshot>
     fun getVillasByUserId(id: String, limit: Long): Task<QuerySnapshot>
-
+    fun createReservationForVilla(data: ReservationModel): Task<Void>
+    fun getUserReservations(userId: String): Task<QuerySnapshot>
     /*
     fun updateViewCountOfVilla(
         postId: String,

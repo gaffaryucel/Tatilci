@@ -52,7 +52,7 @@ class UserProfileFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        villaAdapter.inProfile = true
         if (userId.isNotEmpty()){
             viewModel.getUserVillas(userId,20)
             viewModel.getUserData(userId)

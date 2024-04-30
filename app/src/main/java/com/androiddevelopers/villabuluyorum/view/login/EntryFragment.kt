@@ -2,21 +2,32 @@ package com.androiddevelopers.villabuluyorum.view.login
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentEntryBinding
+import com.androiddevelopers.villabuluyorum.view.host.HostBottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.view.user.BottomNavigationActivity
+import com.androiddevelopers.villabuluyorum.viewmodel.login.EntryViewModel
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EntryFragment : Fragment() {
-
-
+    private val viewModel: EntryViewModel by viewModels()
     private var _binding: FragmentEntryBinding? = null
     private val binding get() = _binding!!
+    private var selectionStartMode: String = "user"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        selectionStartMode = viewModel.getStartMode()
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,8 +35,7 @@ class EntryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,7 +62,11 @@ class EntryFragment : Fragment() {
         val user = auth.currentUser
         if (user != null) {
             if (user.isEmailVerified) {
-                gotoHome()
+                if (selectionStartMode == "host") {
+                    gotoHostHome()
+                } else {
+                    gotoHome()
+                }
             } else {
                 Toast.makeText(requireContext(), "E-postanızı doğrulayın", Toast.LENGTH_SHORT)
                     .show()
@@ -61,8 +75,15 @@ class EntryFragment : Fragment() {
         }
     }
 
+
     private fun gotoHome() {
         val intent = Intent(requireContext(), BottomNavigationActivity::class.java)
+        requireActivity().finish()
+        requireActivity().startActivity(intent)
+    }
+
+    private fun gotoHostHome() {
+        val intent = Intent(requireContext(), HostBottomNavigationActivity::class.java)
         requireActivity().finish()
         requireActivity().startActivity(intent)
     }

@@ -58,10 +58,9 @@ class ProfileFragment : Fragment() {
         observeLiveData()
 
         binding.btnBecomeHomeowner.setOnClickListener {
-            val activity = requireActivity()
-            val intent = Intent(activity, HostBottomNavigationActivity::class.java)
-            activity.startActivity(intent)
-            activity.finish()
+            gotoHostHome()
+
+            viewModel.setStartModeHost()
 
 //            val action = ProfileFragmentDirections.actionNavigationProfileToVillaCreateFragment()
 //            Navigation.findNavController(it).navigate(action)
@@ -136,6 +135,13 @@ class ProfileFragment : Fragment() {
             Glide.with(requireContext()).load(userData.profileBannerUrl)
                 .into(binding.ivProfileBanner)
         })
+    }
+
+    private fun gotoHostHome() {
+        val activity = requireActivity()
+        val intent = Intent(activity, HostBottomNavigationActivity::class.java)
+        activity.startActivity(intent)
+        activity.finish()
     }
 
     override fun onDestroyView() {

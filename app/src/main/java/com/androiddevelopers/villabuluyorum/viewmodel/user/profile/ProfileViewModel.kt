@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
+import com.androiddevelopers.villabuluyorum.repo.SharedPreferencesRepo
 import com.androiddevelopers.villabuluyorum.util.Resource
 import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.util.toVilla
@@ -25,7 +26,8 @@ class ProfileViewModel
 @Inject
 constructor(
     private val repo: FirebaseRepoInterFace,
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    private val sharedPreferencesRepo: SharedPreferencesRepo
 ) : ViewModel() {
 
     private val currentUserId = auth.currentUser?.uid.toString()
@@ -110,6 +112,10 @@ constructor(
             }
             city
         }
+    }
+
+    fun setStartModeHost() {
+        sharedPreferencesRepo.setStartModeHost()
     }
 
 }

@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.databinding.FragmentEnterCodeBinding
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.view.user.BottomNavigationActivity
-import com.androiddevelopers.villabuluyorum.viewmodel.login.EntryViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.login.EntryCodeViewModel
 import com.google.firebase.auth.PhoneAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +27,7 @@ class EnterCodeFragment : Fragment() {
 
     private var errorDialog: AlertDialog? = null
 
-    private lateinit var viewModel: EntryViewModel
+    private lateinit var viewModel: EntryCodeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +35,7 @@ class EnterCodeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEnterCodeBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[EntryViewModel::class.java]
+        viewModel = ViewModelProvider(this)[EntryCodeViewModel::class.java]
         val view = binding.root
         return view
     }

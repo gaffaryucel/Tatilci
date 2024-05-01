@@ -20,3 +20,13 @@ fun startLoadingProcess(progressDialog : ProgressDialog?) {
     progressDialog?.setCancelable(false)
     progressDialog?.show()
 }
+
+fun hideHostBottomNavigation(act: FragmentActivity?) {
+    val bottomNavigationView = act?.findViewById<BottomNavigationView>(R.id.host_nav_view)
+    bottomNavigationView?.visibility = View.GONE
+}
+
+fun showHostBottomNavigation(act: FragmentActivity?) {
+    val bottomNavigationView = act?.findViewById<BottomNavigationView>(R.id.host_nav_view)
+    bottomNavigationView?.visibility = View.VISIBLE
+}

@@ -4,24 +4,19 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.databinding.FragmentEnterCodeBinding
-import com.androiddevelopers.villabuluyorum.databinding.FragmentPhoneLoginBinding
 import com.androiddevelopers.villabuluyorum.util.Status
-import com.androiddevelopers.villabuluyorum.view.BottomNavigationActivity
-import com.androiddevelopers.villabuluyorum.viewmodel.login.EntryViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.PhoneAuthCredential
+import com.androiddevelopers.villabuluyorum.view.user.BottomNavigationActivity
+import com.androiddevelopers.villabuluyorum.viewmodel.login.EntryCodeViewModel
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.auth.UserProfileChangeRequest
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,7 +27,7 @@ class EnterCodeFragment : Fragment() {
 
     private var errorDialog: AlertDialog? = null
 
-    private lateinit var viewModel: EntryViewModel
+    private lateinit var viewModel: EntryCodeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +35,7 @@ class EnterCodeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEnterCodeBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[EntryViewModel::class.java]
+        viewModel = ViewModelProvider(this)[EntryCodeViewModel::class.java]
         val view = binding.root
         return view
     }
@@ -56,9 +51,9 @@ class EnterCodeFragment : Fragment() {
             it.isEnabled = false
             binding.pbVerification.visibility = View.VISIBLE
             val otp = binding.etVerificationCode.text.toString()
-            if (storedVerificationId != null){
-                val credential = PhoneAuthProvider.getCredential(storedVerificationId,otp)
-                viewModel.signInWithPhoneAuthCredential(requireActivity(),credential)
+            if (storedVerificationId != null) {
+                val credential = PhoneAuthProvider.getCredential(storedVerificationId, otp)
+                viewModel.signInWithPhoneAuthCredential(requireActivity(), credential)
             }
         }
         binding.ivBack.setOnClickListener {
@@ -72,8 +67,7 @@ class EnterCodeFragment : Fragment() {
     }
 
 
-
-    private fun setupDialog(){
+    private fun setupDialog() {
         errorDialog?.setTitle("Hatalı kod")
         errorDialog?.setMessage("Lütfen doğrulama kodunu tekrar girin")
         errorDialog?.setCancelable(true)
@@ -82,31 +76,36 @@ class EnterCodeFragment : Fragment() {
 
         }
     }
-    private fun observeLiveData(){
-        viewModel.authState.observe(viewLifecycleOwner, Observer{
-            when(it.status){
-                Status.SUCCESS->{
-                    if (it.data == true){
+
+    private fun observeLiveData() {
+        viewModel.authState.observe(viewLifecycleOwner, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    if (it.data == true) {
                         goToHome()
-                    }else{
+                    } else {
                         goTOCreateUserName()
                     }
                 }
-                Status.ERROR->{
+
+                Status.ERROR -> {
                     errorDialog?.show()
                 }
-                Status.LOADING->{
+
+                Status.LOADING -> {
                     binding.pbVerification.visibility = View.VISIBLE
                 }
             }
         })
     }
-    private fun goTOCreateUserName(){
+
+    private fun goTOCreateUserName() {
         val action = EnterCodeFragmentDirections.actionEnterCodeFragmentToCreateUserNameFragment()
         Navigation.findNavController(requireView()).navigate(action)
     }
-    private fun goToHome(){
-        val intent = Intent(requireContext(),BottomNavigationActivity::class.java)
+
+    private fun goToHome() {
+        val intent = Intent(requireContext(), BottomNavigationActivity::class.java)
         requireActivity().finish()
         startActivity(intent)
     }

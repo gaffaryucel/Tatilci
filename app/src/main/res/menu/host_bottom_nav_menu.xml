@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_host_villa"
+        android:icon="@drawable/home_vectorel"
+        android:title="Villalar" />
+
+    <item
+        android:id="@+id/navigation_host_villa_create_enter"
+        android:icon="@drawable/home_add_vectorel"
+        android:title="Yeni Villa" />
+
+    <item
+        android:id="@+id/navigation_host_reservation"
+        android:icon="@drawable/calendar_vectorel"
+        android:title="Rezervasyon" />
+
+    <item
+        android:id="@+id/navigation_host_message"
+        android:icon="@drawable/chat_vectorel"
+        android:title="Mesajlar" />
+    <item
+        android:id="@+id/navigation_host_profile"
+        android:icon="@drawable/person_vectorel"
+        android:title="Profil" />
+
+
+</menu>

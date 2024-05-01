@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.host.create.HostVillaCreateFacilitiesFragment">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+            <TextView
+                android:id="@+id/facilitiesTitlePage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="Villanız için sunduğunuz olanakları seçebilirsiniz."
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dividerTitlePage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/facilitiesTitlePage" />
+
+            <TextView
+                android:id="@+id/facilitiesTitleLandscape"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Manzara:"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/dividerTitlePage"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupLandscape"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/facilitiesTitleLandscape" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dividerTitleLandscape"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/chipGroupLandscape" />
+
+            <TextView
+                android:id="@+id/facilitiesTitleBath"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Banyo:"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/dividerTitleLandscape"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupBath"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/facilitiesTitleBath" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dividerTitleBath"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/chipGroupBath" />
+
+            <TextView
+                android:id="@+id/facilitiesTitleBedroom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Yatak Odası:"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/dividerTitleBath"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupBedroom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/facilitiesTitleBedroom" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dividerTitleBedroom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/chipGroupBedroom" />
+
+            <TextView
+                android:id="@+id/facilitiesTitleEntertainment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Eğlence:"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/dividerTitleBedroom"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupEntertainment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/facilitiesTitleEntertainment" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dividerTitleEntertainment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/chipGroupEntertainment" />
+
+            <TextView
+                android:id="@+id/facilitiesTitleHeatingCooling"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Isıtma ve Soğutma:"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/dividerTitleEntertainment"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupHeatingCooling"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/facilitiesTitleHeatingCooling" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dividerTitleHeatingCooling"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/chipGroupHeatingCooling" />
+
+            <TextView
+                android:id="@+id/facilitiesTitleKitchenFood"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Mutfak ve Yiyecek:"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/dividerTitleHeatingCooling"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupKitchenFood"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/facilitiesTitleKitchenFood" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dividerTitleKitchenFood"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/chipGroupKitchenFood" />
+
+            <TextView
+                android:id="@+id/facilitiesTitleLocationFeatures"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Konum Özellikleri:"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/dividerTitleKitchenFood"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupLocationFeatures"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/facilitiesTitleLocationFeatures" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dividerTitleLocationFeatures"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/chipGroupLocationFeatures" />
+
+            <TextView
+                android:id="@+id/facilitiesTitleOutdoor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Dış Mekan:"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/dividerTitleLocationFeatures"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupOutdoor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/facilitiesTitleOutdoor" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dividerTitleOutdoor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/chipGroupOutdoor" />
+
+            <TextView
+                android:id="@+id/facilitiesTitleServices"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Hizmetler:"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/dividerTitleOutdoor"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupServices"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/facilitiesTitleServices" />
+
+            <Button
+                android:id="@+id/facilitiesSave"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="24dp"
+                android:text="Olanakları Kaydet"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/chipGroupServices"
+                tools:ignore="HardcodedText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

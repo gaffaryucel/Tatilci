@@ -3,10 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
@@ -24,8 +22,13 @@
         android:theme="@style/Base.Theme.VillaBuluyorum"
         tools:targetApi="31">
         <activity
-            android:name=".view.BottomNavigationActivity"
-            android:exported="false" />
+            android:name=".view.host.HostBottomNavigationActivity"
+            android:exported="false"
+            android:label="@string/title_activity_host_bottom_navigation" />
+        <activity
+            android:name=".view.user.BottomNavigationActivity"
+            android:exported="false"
+            android:label="@string/title_activity_bottom_navigation" />
         <activity
             android:name=".view.MainActivity"
             android:exported="true">

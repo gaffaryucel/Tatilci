@@ -43,9 +43,6 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile">
         <action
-            android:id="@+id/action_navigation_profile_to_editProfileDetailsFragment"
-            app:destination="@id/editProfileDetailsFragment" />
-        <action
             android:id="@+id/action_navigation_profile_to_villaCreateFragment"
             app:destination="@id/villaCreateFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -53,12 +50,8 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_navigation_profile_to_favoriteFragment"
-            app:destination="@id/favoriteFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            android:id="@+id/action_navigation_profile_to_profileSettingsFragment"
+            app:destination="@id/profileSettingsFragment" />
     </fragment>
 
     <action
@@ -233,4 +226,15 @@
         android:name="com.androiddevelopers.villabuluyorum.view.profile.EditAddressFragment"
         android:label="fragment_edit_address"
         tools:layout="@layout/fragment_edit_address" />
+    <fragment
+        android:id="@+id/profileSettingsFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.profile.ProfileSettingsFragment"
+        tools:layout="@layout/fragment_profile_settings" >
+        <action
+            android:id="@+id/action_profileSettingsFragment_to_editProfileDetailsFragment"
+            app:destination="@id/editProfileDetailsFragment" />
+        <action
+            android:id="@+id/action_profileSettingsFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+    </fragment>
 </navigation>

@@ -45,12 +45,7 @@ class EditAddressFragment : Fragment() {
 
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var latitude: Double? = null
-    private var longitude: Double? = null
 
-    private val PREFS_FILENAME = "permission"
-
-    private val KEY_VALUE = "location"
 
 
     private val provinceList = mutableListOf<Province>()

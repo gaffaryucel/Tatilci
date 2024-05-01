@@ -9,7 +9,7 @@
 
     </data>
     <androidx.cardview.widget.CardView
-        android:backgroundTint="@color/md_theme_onSecondaryFixedVariant_mediumContrast"
+        android:backgroundTint="@color/md_theme_surfaceContainer"
         android:layout_margin="10dp"
         app:cardCornerRadius="15dp"
         android:layout_width="match_parent"
@@ -119,7 +119,7 @@
                 android:layout_marginHorizontal="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/detail_page_transparent_icon" />
+                android:background="@color/main_button_gb_color" />
 
 
             <LinearLayout

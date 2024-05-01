@@ -26,6 +26,7 @@ import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.checkPermissionImageGallery
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
 import com.androiddevelopers.villabuluyorum.viewmodel.profile.EditProfileDetailsViewModel
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -63,6 +64,9 @@ class EditProfileDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressDialog = ProgressDialog(requireContext())
+
         binding.ivEditProfilePhoto.setOnClickListener {
             if (checkPermissionImageGallery(requireActivity(), 800)) {
                 openProfilePicker()
@@ -123,7 +127,7 @@ class EditProfileDetailsFragment : Fragment() {
                 }
 
                 Status.LOADING -> {
-                    startLoadingProcess()
+                    startLoadingProcess(progressDialog)
                 }
 
                 Status.ERROR -> {
@@ -270,10 +274,4 @@ class EditProfileDetailsFragment : Fragment() {
         }
     }
 
-    private fun startLoadingProcess() {
-        progressDialog = ProgressDialog(requireContext())
-        progressDialog?.setMessage("Bilgiler güncelleniyor...")
-        progressDialog?.setCancelable(false)
-        progressDialog?.show()
-    }
 }

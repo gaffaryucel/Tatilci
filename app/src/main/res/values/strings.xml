@@ -2,6 +2,7 @@
     <string name="app_name">Villa Buluyorum</string>
     <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
     <string name="title_home">Home</string>
+    <string name="become_homeowner">Ev sahibi olmanın keyfini yaşayın ve evinizi Tatilci uygulamasında kiraya vererek ek gelir elde edin! Tatilciler için unutulmaz bir konaklama deneyimi sunun ve kazancınızı artırın. Haydi, evinizi Tatilciye ekleyin ve mülkünüzü değerlendirin!</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_notifications">Notifications</string>
     <string name="entry_description">Uygun fiyatlarla harika bir Villa bulun ve hayallerinizdeki tatili yaşamanın keyfini çıkarın!</string>

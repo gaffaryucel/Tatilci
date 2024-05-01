@@ -40,19 +40,7 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
-    /*
-       val googleSignInClient = GoogleSignIn.getClient(requireContext(), GoogleSignInOptions.DEFAULT_SIGN_IN)
-          googleSignInClient.signOut().addOnCompleteListener {
-              // Kullanıcıyı başka bir aktiviteye yönlendir veya ek işlemler yap
-              // Örneğin, giriş ekranına geri dönme gibi
-          }
-          FirebaseAuth.getInstance().signOut().also {
-              val intent = Intent(requireActivity(),MainActivity::class.java)
-              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-              requireActivity().finish()
-              requireActivity().startActivity(intent)
-          }
-       */
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,12 +50,9 @@ class ProfileFragment : Fragment() {
         villaAdapter.inProfile = true
         observeLiveData()
 
-        binding.btnBecomeHomeowner.setOnClickListener {
-            val action = ProfileFragmentDirections.actionNavigationProfileToVillaCreateFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
+
         binding.ivSettings.setOnClickListener {
-            val action = ProfileFragmentDirections.actionNavigationProfileToEditProfileDetailsFragment()
+            val action = ProfileFragmentDirections.actionNavigationProfileToProfileSettingsFragment()
             Navigation.findNavController(it).navigate(action)
         }
         binding.ivBack.setOnClickListener {

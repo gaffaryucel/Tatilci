@@ -141,6 +141,7 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_gravity="center"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -219,6 +220,7 @@
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:visibility="gone"
                     android:id="@+id/btnBecomeHomeowner"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"

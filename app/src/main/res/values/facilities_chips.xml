@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="landscape">
+        <item>Körfez</item>
+        <item>Plaj</item>
+        <item>Kanal</item>
+        <item>Şehir silüeti</item>
+        <item>Bahçe</item>
+        <item>Marina</item>
+        <item>Nehir</item>
+        <item>Deniz</item>
+    </string-array>
+
+    <string-array name="bath">
+        <item>Saç kurutma makinesi</item>
+        <item>Temizlik ürünleri</item>
+        <item>Şampuan</item>
+        <item>Saç kremi</item>
+        <item>Vücut sabunu</item>
+        <item>Sıcak su"</item>
+        <item>Duş jeli</item>
+    </string-array>
+
+    <string-array name="bedroom">
+        <item>Havlu</item>
+        <item>Nevresim</item>
+        <item>Elbise askıları</item>
+        <item>Fazladan yastık ve battaniye"</item>
+        <item>Yorgan</item>
+        <item>Karartma perdeleri</item>
+        <item>Çamaşır asma yeri</item>
+        <item>Giysi saklamak için alan</item>
+        <item>Ütü</item>
+        <item>Kurutma makinesi</item>
+    </string-array>
+
+    <string-array name="entertainment">
+        <item>Bluetooth ve aux özellikli ses sistemi</item>
+        <item>TV</item>
+        <item>Uydu Yayını</item>
+        <item>Netflix, Amazon Prime vb.</item>
+        <item>Oyun konsulu</item>
+        <item>Kitaplar</item>
+    </string-array>
+
+    <string-array name="heating_cooling">
+        <item>Klima</item>
+        <item>Merkezi Klima</item>
+        <item>Kombi</item>
+        <item>Şömine</item>
+        <item>Odun sobası</item>
+        <item>Elektrikli soba</item>
+    </string-array>
+
+    <string-array name="kitchen_food">
+        <item>Misafirlerin kendi yemeklerini pişirebileceği alan</item>
+        <item>Buzdolabı</item>
+        <item>Mikrodalga fırın</item>
+        <item>Yemek pişirmek için temel malzemeler"</item>
+        <item>Tencere ve tava</item>
+        <item>Yemek ve çatal bıçak takımı</item>
+        <item>Bulaşık makinesi</item>
+        <item>Kahve makinesi</item>
+        <item>Su ısıtıcı</item>
+    </string-array>
+
+    <string-array name="location_features">
+        <item>Ayrı giriş</item>
+        <item>Ortak giriş</item>
+        <item>Göle erişim</item>
+        <item>Plaja erişim</item>
+        <item>Su kenarı</item>
+    </string-array>
+
+    <string-array name="outdoor">
+        <item>Arka bahçe</item>
+        <item>Açık havada yemek alanı</item>
+        <item>Bahçe mobilyaları</item>
+        <item>Bahçe şöminesi</item>
+        <item>Bisiklet</item>
+        <item>Hamak</item>
+        <item>Kano</item>
+        <item>Plaj malzemeleri</item>
+        <item>Şezlong</item>
+        <item>Mangal</item>
+        <item>Teras veya balkon</item>
+    </string-array>
+
+    <string-array name="services">
+        <item>Kahvaltı</item>
+        <item>Konaklama sırasında temizlik</item>
+        <item>Valiz bırakılabilir</item>
+        <item>Uzun süreli konaklama imkanı</item>
+    </string-array>
+</resources>

@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowBestHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
-import com.androiddevelopers.villabuluyorum.view.HomeFragmentDirections
+import com.androiddevelopers.villabuluyorum.view.user.villa.HomeFragmentDirections
+
 import com.bumptech.glide.Glide
 
 
@@ -36,7 +37,8 @@ class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>(
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HouseViewHolder {
-        val binding = RowBestHouseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            RowBestHouseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HouseViewHolder(binding)
     }
 
@@ -46,10 +48,10 @@ class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>(
 
         try {
 
-             Glide.with(holder.itemView.context).load(house.coverImage)
-                 .placeholder(R.drawable.app_logo)
-                 .error(R.drawable.app_logo)
-                 .into(holder.binding.ivBestHouse)
+            Glide.with(holder.itemView.context).load(house.coverImage)
+                .placeholder(R.drawable.app_logo)
+                .error(R.drawable.app_logo)
+                .into(holder.binding.ivBestHouse)
 
 
             holder.binding.tvTitle.text = house.villaName ?: "Güzel Bir Villa"
@@ -59,7 +61,8 @@ class BestHouseAdapter : RecyclerView.Adapter<BestHouseAdapter.HouseViewHolder>(
 
             house.villaId?.let { id ->
                 holder.itemView.setOnClickListener {
-                    val directions = HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(id)
+                    val directions =
+                        HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(id)
                     Navigation.findNavController(it).navigate(directions)
                 }
             }

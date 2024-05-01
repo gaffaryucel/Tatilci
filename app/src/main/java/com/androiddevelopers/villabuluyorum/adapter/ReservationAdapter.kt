@@ -9,24 +9,27 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.androiddevelopers.villabuluyorum.R
-import com.androiddevelopers.villabuluyorum.databinding.RowBestHouseBinding
 import com.androiddevelopers.villabuluyorum.databinding.RowReservationBinding
 import com.androiddevelopers.villabuluyorum.model.ApprovalStatus
 import com.androiddevelopers.villabuluyorum.model.PropertyType
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
-import com.androiddevelopers.villabuluyorum.model.villa.Villa
-import com.androiddevelopers.villabuluyorum.view.HomeFragmentDirections
-import com.androiddevelopers.villabuluyorum.view.reservation.ReservationFragmentDirections
+import com.androiddevelopers.villabuluyorum.view.user.reservation.ReservationFragmentDirections
 import com.bumptech.glide.Glide
 
-class ReservationAdapter() : RecyclerView.Adapter<ReservationAdapter.ReservationViewHolder>() {
+class ReservationAdapter : RecyclerView.Adapter<ReservationAdapter.ReservationViewHolder>() {
 
     private val diffUtil = object : DiffUtil.ItemCallback<ReservationModel>() {
-        override fun areItemsTheSame(oldItem: ReservationModel, newItem: ReservationModel): Boolean {
+        override fun areItemsTheSame(
+            oldItem: ReservationModel,
+            newItem: ReservationModel
+        ): Boolean {
             return oldItem.reservationId == newItem.reservationId
         }
 
-        override fun areContentsTheSame(oldItem: ReservationModel, newItem: ReservationModel): Boolean {
+        override fun areContentsTheSame(
+            oldItem: ReservationModel,
+            newItem: ReservationModel
+        ): Boolean {
             return oldItem.reservationId == newItem.reservationId
         }
     }
@@ -43,7 +46,8 @@ class ReservationAdapter() : RecyclerView.Adapter<ReservationAdapter.Reservation
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReservationViewHolder {
-        val binding = RowReservationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            RowReservationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ReservationViewHolder(binding)
     }
 
@@ -58,26 +62,27 @@ class ReservationAdapter() : RecyclerView.Adapter<ReservationAdapter.Reservation
                 .into(holder.ivBestHouse)
             holder.binding.apply {
                 reservation = myReservation
-                if (myReservation.propertyType!= null){
-                    when(myReservation.propertyType){
-                        PropertyType.HOUSE->  tvPropertyType.text = "Villa"
-                        PropertyType.APARTMENT->  tvPropertyType.text = "Apartman"
-                        PropertyType.GUEST_HOUSE->  tvPropertyType.text = "Misafir evi"
-                        PropertyType.HOTEL->  tvPropertyType.text = "Otel"
+                if (myReservation.propertyType != null) {
+                    when (myReservation.propertyType) {
+                        PropertyType.HOUSE -> tvPropertyType.text = "Villa"
+                        PropertyType.APARTMENT -> tvPropertyType.text = "Apartman"
+                        PropertyType.GUEST_HOUSE -> tvPropertyType.text = "Misafir evi"
+                        PropertyType.HOTEL -> tvPropertyType.text = "Otel"
                     }
 
-                }else{
+                } else {
                     tvPropertyType.text = "Villa"
                 }
 
-                if (myReservation.approvalStatus != null){
-                    when(myReservation.approvalStatus){
-                        ApprovalStatus.APPROVED-> tvApprovalStatus.text = "Onaylandı"
-                        ApprovalStatus.NOT_APPROVED-> tvApprovalStatus.text = "Onaylanmadı"
-                        ApprovalStatus.WAITING_FOR_APPROVAL-> tvApprovalStatus.text = "Onay bekliyor"
+                if (myReservation.approvalStatus != null) {
+                    when (myReservation.approvalStatus) {
+                        ApprovalStatus.APPROVED -> tvApprovalStatus.text = "Onaylandı"
+                        ApprovalStatus.NOT_APPROVED -> tvApprovalStatus.text = "Onaylanmadı"
+                        ApprovalStatus.WAITING_FOR_APPROVAL -> tvApprovalStatus.text =
+                            "Onay bekliyor"
                     }
-                }else{
-                    tvApprovalStatus.text =  "Onay bekliyor"
+                } else {
+                    tvApprovalStatus.text = "Onay bekliyor"
                 }
             }
             //holder.binding.tvPropertyType.text = myReservation.propertyType ?: "Apartman"
@@ -85,7 +90,10 @@ class ReservationAdapter() : RecyclerView.Adapter<ReservationAdapter.Reservation
 
             myReservation.reservationId?.let { id ->
                 holder.itemView.setOnClickListener {
-                    val directions = ReservationFragmentDirections.actionReservationFragmentToReservationDetailsFragment(id)
+                    val directions =
+                        ReservationFragmentDirections.actionReservationFragmentToReservationDetailsFragment(
+                            id
+                        )
                     Navigation.findNavController(it).navigate(directions)
                 }
             }

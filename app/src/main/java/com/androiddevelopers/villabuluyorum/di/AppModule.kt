@@ -9,6 +9,7 @@ import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoImpl
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.repo.RoomProvinceRepo
+import com.androiddevelopers.villabuluyorum.repo.SharedPreferencesRepo
 import com.androiddevelopers.villabuluyorum.room.dao.ProvinceDao
 import com.androiddevelopers.villabuluyorum.room.database.AppRoomDatabase
 import com.androiddevelopers.villabuluyorum.service.NotificationAPI
@@ -107,6 +108,12 @@ object AppModule {
     @Provides
     fun provideSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences("app_shared_preferences", Context.MODE_PRIVATE)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSharedPreferencesRepo(sharedPreferences: SharedPreferences): SharedPreferencesRepo {
+        return SharedPreferencesRepo(sharedPreferences)
     }
 
     @Singleton

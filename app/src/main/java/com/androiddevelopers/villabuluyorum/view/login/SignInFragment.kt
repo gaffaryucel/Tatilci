@@ -14,7 +14,7 @@ import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentSignInBinding
 import com.androiddevelopers.villabuluyorum.util.Status
-import com.androiddevelopers.villabuluyorum.view.BottomNavigationActivity
+import com.androiddevelopers.villabuluyorum.view.user.BottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.login.SignInViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -133,7 +133,7 @@ class SignInFragment : Fragment() {
         viewModel.getUser()?.let {
             //kullanıcının email adresini onayladığını kontrol ediyoruz
             if (it.isEmailVerified) {
-               gotoHome()
+                gotoHome()
             } else {
                 //kullanıcı email adresi doğrulanmadıysa uyarı mesajı görüntüler
                 verifiedEmailDialog.show()
@@ -312,9 +312,10 @@ class SignInFragment : Fragment() {
             } catch (e: Exception) {
                 Toast.makeText(
                     requireContext(),
-                    "Giriş Yapılamadı : "+e.localizedMessage,
+                    "Giriş Yapılamadı : " + e.localizedMessage,
                     Toast.LENGTH_LONG
-                ).show()            }
+                ).show()
+            }
         }
     }
 }

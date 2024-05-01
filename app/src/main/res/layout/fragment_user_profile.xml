@@ -14,7 +14,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".view.profile.UserProfileFragment">
+            tools:context=".view.user.profile.UserProfileFragment">
 
 
             <LinearLayout
@@ -71,8 +71,7 @@
                 android:background="@drawable/profile_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-             >
+                app:layout_constraintTop_toTopOf="parent">
 
             </LinearLayout>
 

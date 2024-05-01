@@ -1,7 +1,6 @@
-package com.androiddevelopers.villabuluyorum.view.profile
+package com.androiddevelopers.villabuluyorum.view.user.profile
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,20 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.adapter.HouseAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentProfileBinding
 import com.androiddevelopers.villabuluyorum.util.Status
-import com.androiddevelopers.villabuluyorum.view.MainActivity
-import com.androiddevelopers.villabuluyorum.viewmodel.profile.ProfileViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.user.profile.ProfileViewModel
 import com.bumptech.glide.Glide
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {

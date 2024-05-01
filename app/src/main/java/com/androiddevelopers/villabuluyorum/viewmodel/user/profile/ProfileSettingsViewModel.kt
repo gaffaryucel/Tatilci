@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.viewmodel.profile
+package com.androiddevelopers.villabuluyorum.viewmodel.user.profile
 
 import android.content.Context
 import androidx.core.content.ContentProviderCompat.requireContext

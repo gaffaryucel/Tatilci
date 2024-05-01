@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.view.profile
+package com.androiddevelopers.villabuluyorum.view.user.profile
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -17,19 +17,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import com.androiddevelopers.villabuluyorum.adapter.MyLocation
 import com.androiddevelopers.villabuluyorum.adapter.downloadImage
 import com.androiddevelopers.villabuluyorum.databinding.FragmentEditProfileDetailsBinding
 import com.androiddevelopers.villabuluyorum.model.UserModel
-import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.checkPermissionImageGallery
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
-import com.androiddevelopers.villabuluyorum.viewmodel.profile.EditProfileDetailsViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.user.profile.EditProfileDetailsViewModel
 import com.bumptech.glide.Glide
-import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

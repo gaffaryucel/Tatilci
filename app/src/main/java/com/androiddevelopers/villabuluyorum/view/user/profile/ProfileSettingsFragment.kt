@@ -1,8 +1,7 @@
-package com.androiddevelopers.villabuluyorum.view.profile
+package com.androiddevelopers.villabuluyorum.view.user.profile
 
 import android.app.ProgressDialog
 import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,21 +12,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.androiddevelopers.villabuluyorum.R
-import com.androiddevelopers.villabuluyorum.adapter.HouseAdapter
-import com.androiddevelopers.villabuluyorum.databinding.FragmentProfileBinding
 import com.androiddevelopers.villabuluyorum.databinding.FragmentProfileSettingsBinding
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
 import com.androiddevelopers.villabuluyorum.view.MainActivity
-import com.androiddevelopers.villabuluyorum.viewmodel.profile.ProfileSettingsViewModel
-import com.androiddevelopers.villabuluyorum.viewmodel.profile.ProfileViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.user.profile.ProfileSettingsViewModel
 import com.bumptech.glide.Glide
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

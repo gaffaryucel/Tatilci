@@ -1,13 +1,13 @@
 package com.androiddevelopers.villabuluyorum.viewmodel.user.profile
 
 import android.content.Context
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
+import com.androiddevelopers.villabuluyorum.repo.SharedPreferencesRepo
 import com.androiddevelopers.villabuluyorum.util.Resource
 import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -19,9 +19,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileSettingsViewModel @Inject constructor(
-    private val repo : FirebaseRepoInterFace,
-    private val auth : FirebaseAuth
-):ViewModel() {
+    private val repo: FirebaseRepoInterFace,
+    private val auth: FirebaseAuth,
+    private val sharedPreferencesRepo: SharedPreferencesRepo
+) : ViewModel() {
 
     private val currentUserId = auth.currentUser?.uid.toString()
 
@@ -41,24 +42,31 @@ class ProfileSettingsViewModel @Inject constructor(
     init {
         getUserData()
     }
-    private fun getUserData() = viewModelScope.launch{
+
+    private fun getUserData() = viewModelScope.launch {
         _userInfoMessage.value = Resource.loading(null)
         repo.getUserDataByDocumentId(currentUserId)
-            .addOnSuccessListener { document->
+            .addOnSuccessListener { document ->
                 document.toUserModel()?.let { user ->
                     _userData.value = user
                 }
-                _userInfoMessage.value = Resource.success( null)
+                _userInfoMessage.value = Resource.success(null)
             }.addOnFailureListener { exception ->
                 // Hata durzumunda işlemleri buraya ekleyebilirsiniz
                 _userInfoMessage.value = Resource.error("Belge alınamadı. Hata: $exception", null)
             }
     }
-    fun signOutAndExit(context : Context){
-        _exitMessage.value = Resource.loading( null)
-        val googleSignInClient = GoogleSignIn.getClient(context, GoogleSignInOptions.DEFAULT_SIGN_IN)
+
+    fun signOutAndExit(context: Context) {
+        _exitMessage.value = Resource.loading(null)
+        val googleSignInClient =
+            GoogleSignIn.getClient(context, GoogleSignInOptions.DEFAULT_SIGN_IN)
         googleSignInClient.signOut()
         auth.signOut()
-        _exitMessage.value = Resource.success( null)
+        _exitMessage.value = Resource.success(null)
+    }
+
+    fun setStartModeHost() {
+        sharedPreferencesRepo.setStartModeHost()
     }
 }

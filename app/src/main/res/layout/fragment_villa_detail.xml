@@ -41,10 +41,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.card.MaterialCardView
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="4dp"
+            android:layout_margin="8dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -697,6 +697,6 @@
                         tools:text="5000₺ /Aylık" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

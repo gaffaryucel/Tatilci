@@ -3,11 +3,11 @@ package com.androiddevelopers.villabuluyorum.view.user.profile
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -18,6 +18,7 @@ import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
 import com.androiddevelopers.villabuluyorum.view.MainActivity
+import com.androiddevelopers.villabuluyorum.view.host.HostBottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.user.profile.ProfileSettingsViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,20 +49,30 @@ class ProfileSettingsFragment : Fragment() {
         setButtonActions()
         observeLiveData()
     }
-    private fun setButtonActions(){
+
+    private fun setButtonActions() {
         binding.cardViewProfile.setOnClickListener {
-            val action = ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToEditProfileDetailsFragment()
+            val action =
+                ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToEditProfileDetailsFragment()
             Navigation.findNavController(it).navigate(action)
         }
         binding.cardViewBecomeHomeOwner.setOnClickListener {
-            // TODO: yeni activiteye gidilecek bir intent
+            gotoHostHome()
+            viewModel.setStartModeHost()
         }
-        binding.cardViewExit.setOnClickListener{
+        binding.cardViewExit.setOnClickListener {
             viewModel.signOutAndExit(requireContext())
         }
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
         }
+    }
+
+    private fun gotoHostHome() {
+        val activity = requireActivity()
+        val intent = Intent(activity, HostBottomNavigationActivity::class.java)
+        activity.startActivity(intent)
+        activity.finish()
     }
 
     private fun observeLiveData() {
@@ -89,13 +100,18 @@ class ProfileSettingsFragment : Fragment() {
                     requireActivity().startActivity(intent)
                     progressDialog?.dismiss()
                 }
+
                 Status.LOADING -> {
                     startLoadingProcess(progressDialog)
                 }
 
                 Status.ERROR -> {
                     progressDialog?.dismiss()
-                    Toast.makeText(requireContext(), "Hata oluştu, tekrar deneyin", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Hata oluştu, tekrar deneyin",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         })
@@ -108,6 +124,7 @@ class ProfileSettingsFragment : Fragment() {
             Glide.with(requireContext()).load(userData.profileImageUrl).into(binding.ivUserPhoto)
         })
     }
+
     override fun onResume() {
         super.onResume()
         hideBottomNavigation(requireActivity())

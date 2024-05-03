@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreateEnterBinding
+import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.viewmodel.host.create.HostVillaCreateEnterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,10 +28,12 @@ class HostVillaCreateEnterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
         binding.cardHostVillaCreateEnter.setOnClickListener {
             val directions =
-                HostVillaCreateEnterFragmentDirections.actionNavigationHostVillaCreateEnterToHostVillaCreateFragment()
+                HostVillaCreateEnterFragmentDirections.actionNavigationHostVillaCreateEnterToHostVillaCreateFragment(
+                    Villa()
+                )
             Navigation.findNavController(it).navigate(directions)
         }
     }

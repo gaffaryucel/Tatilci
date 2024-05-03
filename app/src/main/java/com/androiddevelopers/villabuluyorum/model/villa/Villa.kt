@@ -1,6 +1,7 @@
 package com.androiddevelopers.villabuluyorum.model.villa
 
 import com.androiddevelopers.villabuluyorum.model.PropertyType
+import java.io.Serializable
 
 data class Villa(
     var villaId: String? = null, // villanın database id si
@@ -37,4 +38,4 @@ data class Villa(
     var longitude: Double? = 32.8597,
     var hasWifi: Boolean? = null, // wifi hizmeti
     var propertyType: PropertyType? = null,
-)
+) : Serializable

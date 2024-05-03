@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreateFacilitiesBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Facilities
@@ -35,12 +34,12 @@ class HostVillaCreateFacilitiesFragment : Fragment() {
         setViewChips()
 
         binding.facilitiesSave.setOnClickListener {
-            val directions =
-                HostVillaCreateFacilitiesFragmentDirections.actionHostVillaCreateFacilitiesFragmentToHostVillaCreateFragment(
-                    collectChips()
-                )
-
-            Navigation.findNavController(view).navigate(directions)
+//            val directions =
+//                HostVillaCreateFacilitiesFragmentDirections.actionHostVillaCreateFacilitiesFragmentToHostVillaCreateFragment(
+//                    collectChips()
+//                )
+//
+//            Navigation.findNavController(view).navigate(directions)
         }
     }
 

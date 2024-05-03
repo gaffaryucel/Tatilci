@@ -22,7 +22,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.adapter.ViewPagerAdapterForVillaCreate
 import com.androiddevelopers.villabuluyorum.adapter.downloadImage
@@ -94,12 +93,12 @@ class HostVillaCreateFragment : Fragment() {
         setupDialogs()
         setEdittextListener()
 
-        val args: HostVillaCreateFragmentArgs by navArgs()
-        args.facilities?.let {
-            facilitiesArg = it
-        } ?: run {
-            facilitiesArg = Facilities()
-        }
+//        val args: HostVillaCreateFragmentArgs by navArgs()
+//        args.facilities?.let {
+//            facilitiesArg = it
+//        } ?: run {
+//            facilitiesArg = Facilities()
+//        }
 
         with(binding) {
             setProgressBarVisibility = false
@@ -109,6 +108,12 @@ class HostVillaCreateFragment : Fragment() {
             //viewpager adapter ve indicatoru set ediyoruz
             viewPagerVillaCreate.adapter = viewPagerAdapter
             indicatorVillaCreate.setViewPager(viewPagerVillaCreate)
+
+            toolbarVillaCreate.setNavigationOnClickListener {
+                val directions =
+                    HostVillaCreateFragmentDirections.actionHostVillaCreateFragmentToNavigationHostVillaCreateEnter()
+                Navigation.findNavController(it).navigate(directions)
+            }
         }
 
         viewModel.setImageUriList(selectedOtherImages.toList())
@@ -327,10 +332,10 @@ class HostVillaCreateFragment : Fragment() {
             textAddMoreFacility.setOnClickListener {
                 //TODO: Create ekranında yapılan değişiklikeri kaybetmemek için giderken mevcut verileride gönder
                 //TODO: Dönüşte bilgileri tekrar ekrana yazdır
-                val directions =
-                    HostVillaCreateFragmentDirections.actionHostVillaCreateFragmentToHostVillaCreateFacilitiesFragment()
-                Navigation.findNavController(it)
-                    .navigate(directions)
+//                val directions =
+//                    HostVillaCreateFragmentDirections.actionHostVillaCreateFragmentToHostVillaCreateFacilitiesFragment()
+//                Navigation.findNavController(it)
+//                    .navigate(directions)
             }
 
             textAddImageCover.setOnClickListener {

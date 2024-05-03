@@ -7,9 +7,6 @@
         <variable
             name="user"
             type="com.androiddevelopers.villabuluyorum.model.UserModel" />
-        <variable
-            name="payment"
-            type="String" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,9 +17,6 @@
         tools:context=".view.user.reservation.ReservationDetailsFragment">
 
         <androidx.core.widget.NestedScrollView
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/btnMessageToHomeOwner"
-            android:id="@+id/layoutReservationDetails"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -85,11 +79,25 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="8dp"
                     android:orientation="vertical">
-
+                    <ProgressBar
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:id="@+id/pbReservation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
                     <include layout="@layout/merge_item_cover_image" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <TextView
+                    android:visibility="gone"
+                    android:textColor="@color/main_button_gb_color"
+                    android:text="Bir hata oluştu,tekrar deneyin"
+                    android:id="@+id/tvErrorReservation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
                 <LinearLayout
                     android:layout_marginTop="20dp"
                     android:layout_marginHorizontal="10dp"
@@ -179,7 +187,6 @@
                             <TextView
                                 android:id="@+id/tvPaymentMethod"
                                 tools:text="Nakit"
-                                android:text="@{payment}"
                                 android:textColor="@color/normal_text_color"
                                 android:textSize="16sp"
                                 android:textAlignment="textEnd"
@@ -204,7 +211,7 @@
                     android:textSize="20sp"
                     android:textColor="@color/normal_text_color"
                     android:textStyle="bold"
-                    android:text="Ev sahibi bilgileri"
+                    android:text="Tatilci bilgileri"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -226,18 +233,18 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
 
-                        <TextView
-                            android:layout_marginStart="5dp"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/ivUserPhoto"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:id="@+id/textView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{user.username}"
-                            tools:text="gaffaryucell" />
+                    <TextView
+                        android:layout_marginStart="5dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/ivUserPhoto"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{user.username}"
+                        tools:text="gaffaryucell" />
 
                     <ImageView
                         android:padding="5dp"
@@ -254,45 +261,52 @@
 
                 <TextView
                     android:layout_marginHorizontal="10dp"
-                    android:text='@{user.firstName +"isimli Ev sahibi, mülkünü "+ reservation.startDate + " - "+ reservation.endDate + "tarihleri arasında kiralamak istediğiniz bildirimini aldı, ₺"+ reservation.totalPrice+ " tutarinda olan ödemeyi belirttiğiniz şekilde " +payment+ " ile yapmanızı bekliyor.\nGüvenliğiniz için kararlaştırılan zamandan daha önce bir ödeme yapmamanızı rica ediyoruz. \nRezervasyon isteğiniz 24 içerisinde sonuçlanacaktır, sonuçlandığında bildirim alacaksınız."}'
+                    android:text='@{user.firstName +"isimli Tatilci, mülkünüzü"+ reservation.startDate + " - "+ reservation.endDate + "tarihleri arasında kiralamak istiyor, ₺"+ reservation.totalPrice+ "tutarinda olan ödemeyi " +reservation.paymentMethod + " ile yapacak"}'
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="Ali Can isimli Ev sahibi, mülkünü 01/06/2024 - 07/06/2024 tarihleri arasında kiralamak istediğiniz bildirimini aldı,, ₺1500 tutarında olan ödemeyi kredi kartı ile yapmanızı bekliyor. Güvenliğiniz için kararlaştırılan zamandan daha önce bir ödeme yapmamanızı rica ediyoruz.  \nRezervasyon isteğiniz 24 içerisinde sonuçlanacaktır, sonuçlandığında bildirim alacaksınız." />
+                    tools:text="Ali Can isimli Tatilci, mülkünüzü 01/06/2024 - 07/06/2024 tarihleri arasında kiralamak istiyor, ₺1500 tutarında olan ödemeyi kredi kartı ile yapacak" />
 
+
+
+
+                <TextView
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/normal_text_color"
+                    android:textStyle="bold"
+                    android:text="Rezervasyon Onayı"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:layout_marginHorizontal="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <CheckBox
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:textStyle="bold"
+                        android:textColor="@color/normal_text_color"
+                        android:text="@string/accept_reservation_rules"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/btnSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bu Rezervasyon'u Onayla"
+                    android:background="@drawable/rectangle_button_bg"
+                    android:textColor="@color/black"
+                    android:elevation="20sp"
+                    />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-        <ProgressBar
-            android:id="@+id/pbReservationDetails"
-            android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:visibility="gone"
-            android:textStyle="bold"
-            android:textSize="25sp"
-            android:text="@string/error_text"
-            android:textColor="@color/md_theme_error"
-            android:id="@+id/tvErrorReservationDetails"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <androidx.appcompat.widget.AppCompatButton
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="10dp"
-            android:id="@+id/btnMessageToHomeOwner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ev sahibine mesaj gönder"
-            android:background="@drawable/rectangle_button_bg"
-            android:textColor="@color/black"
-            android:elevation="20sp"
-            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

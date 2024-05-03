@@ -1,27 +1,29 @@
 package com.androiddevelopers.villabuluyorum.view.host.reservation
 
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.adapter.ReservationAdapter
-import com.androiddevelopers.villabuluyorum.databinding.FragmentHostReservationBinding
+import com.androiddevelopers.villabuluyorum.databinding.FragmentHostReservationDetailsBinding
 import com.androiddevelopers.villabuluyorum.databinding.FragmentReservationBinding
+import com.androiddevelopers.villabuluyorum.databinding.FragmentReservationDetailsBindingImpl
 import com.androiddevelopers.villabuluyorum.util.Status
-import com.androiddevelopers.villabuluyorum.viewmodel.host.reservation.HostReservationViewModel
+import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
+import com.androiddevelopers.villabuluyorum.viewmodel.host.reservation.HostReservationDetailsViewModel
 import com.androiddevelopers.villabuluyorum.viewmodel.user.reservation.ReservationViewModel
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class HostReservationFragment : Fragment() {
+class HostReservationDetailsFragment : Fragment() {
 
-    private var _binding: FragmentHostReservationBinding? = null
+    private var _binding: FragmentHostReservationDetailsBinding? = null
     private val binding get() = _binding!!
 
-    val viewModel: HostReservationViewModel by viewModels()
+    val viewModel: HostReservationDetailsViewModel by viewModels()
 
     private val reservationAdapter: ReservationAdapter = ReservationAdapter()
 
@@ -29,18 +31,19 @@ class HostReservationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHostReservationBinding.inflate(inflater, container, false)
+        _binding = FragmentHostReservationDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvReservations.adapter = reservationAdapter
+        //binding.rvReservations.adapter = reservationAdapter
         observeLiveData()
     }
 
     private fun observeLiveData() {
-        viewModel.reservationMessage.observe(viewLifecycleOwner, Observer {
+        /*
+              viewModel.reservationMessage.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.pbReservations.visibility = View.GONE
@@ -70,9 +73,17 @@ class HostReservationFragment : Fragment() {
                 binding.layoutEmptyList.visibility = View.VISIBLE
             }
         })
+
+         */
+      }
+
+    override fun onResume() {
+        super.onResume()
+        hideBottomNavigation(requireActivity())
     }
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+
+    override fun onPause() {
+        super.onPause()
+        showBottomNavigation(requireActivity())
     }
 }

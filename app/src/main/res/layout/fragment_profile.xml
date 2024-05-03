@@ -88,36 +88,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/profile_layout" />
 
-            <LinearLayout
-                android:paddingVertical="5dp"
-                android:paddingHorizontal="10dp"
-                android:id="@+id/layoutUserRating"
-                android:backgroundTint="@color/normal_text_color"
-                android:background="@drawable/secondary_button_bg"
-                app:layout_constraintTop_toBottomOf="@+id/ivProfilePhoto"
-                app:layout_constraintBottom_toBottomOf="@+id/ivProfilePhoto"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_marginEnd="2dp"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/star" />
-
-                <TextView
-                    android:layout_marginStart="2dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0.0"
-                    android:textColor="#FFD700"
-                    android:textSize="16sp" />
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_user_info"
@@ -128,7 +98,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutUserRating">
+                app:layout_constraintTop_toBottomOf="@+id/ivProfilePhoto">
 
                 <TextView
                     android:text="@{user.username}"
@@ -140,33 +110,10 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:layout_gravity="center"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:orientation="vertical"
-                        android:layout_width="80dp"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:textStyle="bold"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:id="@+id/tvComments"
-                            android:text="0"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="23sp"/>
-                        <TextView
-                            android:text="yorum"
-                            android:textAlignment="center"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"/>
-                    </LinearLayout>
                     <LinearLayout
                         android:layout_weight="1"
                         android:layout_gravity="center"
@@ -183,7 +130,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="23sp"/>
                         <TextView
-                            android:text="Değerlendirme"
+                            android:text="Yorum yaptın"
                             android:layout_gravity="center"
                             android:textAlignment="center"
                             android:layout_width="wrap_content"
@@ -206,7 +153,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="23sp"/>
                         <TextView
-                            android:text="yıldır ev sahibi"
+                            android:text="Rezervasyon yaptın"
                             android:layout_gravity="center"
                             android:textAlignment="center"
                             android:layout_width="wrap_content"
@@ -277,6 +224,7 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:layout_marginTop="10dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -286,19 +234,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <TextView
-                                android:text="Sizin için yapılan yorumlar"
+                                android:text="Yorumların"
                                 android:textSize="20sp"
                                 android:textColor="@color/normal_text_color"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
                             <ProgressBar
-                                android:visibility="gone"
                                 android:id="@+id/pbComments"
                                 android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                             <androidx.recyclerview.widget.RecyclerView
-                                android:visibility="gone"
                                 android:id="@+id/rvComments"
                                 android:orientation="horizontal"
                                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -310,6 +256,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:visibility="gone"
                             android:layout_marginTop="50dp"
                             android:id="@+id/layoutEmptyComments"
                             android:layout_width="match_parent"
@@ -317,7 +264,7 @@
                             android:layout_height="wrap_content">
                             <TextView
                                 android:textAlignment="center"
-                                android:text="Henüz Bir Yorum Yapılmadı"
+                                android:text="Henüz yorum yapmadın"
                                 android:textColor="@color/main_button_gb_color"
                                 android:textStyle="bold"
                                 android:layout_gravity="center"
@@ -346,7 +293,7 @@
                             android:layout_height="wrap_content">
 
                             <TextView
-                                android:text="İlanlarınız"
+                                android:text="Rezervasyonların"
                                 android:textSize="20sp"
                                 android:textColor="@color/normal_text_color"
                                 android:layout_width="match_parent"
@@ -376,7 +323,7 @@
                             android:layout_height="wrap_content">
                             <TextView
                                 android:textAlignment="center"
-                                android:text="Henüz Bir İlan Paylaşmadın"
+                                android:text="Henüz bir rezervasyon yapmadın"
                                 android:textColor="@color/main_button_gb_color"
                                 android:textStyle="bold"
                                 android:layout_gravity="center"

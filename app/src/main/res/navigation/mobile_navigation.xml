@@ -147,7 +147,13 @@
         android:label="fragment_reservation_details"
         tools:layout="@layout/fragment_reservation_details">
         <argument
-            android:name="id"
+            android:name="villa_id"
+            app:argType="string" />
+        <argument
+            android:name="user_id"
+            app:argType="string" />
+        <argument
+            android:name="reservation_id"
             app:argType="string" />
     </fragment>
     <fragment

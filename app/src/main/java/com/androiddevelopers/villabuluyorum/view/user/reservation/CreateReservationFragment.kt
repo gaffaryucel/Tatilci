@@ -187,6 +187,7 @@ class CreateReservationFragment : Fragment() {
     private fun saveAndReserve() {
         viewModel.createReservationInstance(
             villaId = villaId ?: "",
+            hostId = nyVilla.hostId ?: "",
             startDate = binding.tvSelectedStartDate.text.toString(),
             endDate = binding.tvSelectedEndDate.text.toString(),
             nights = nightCount,

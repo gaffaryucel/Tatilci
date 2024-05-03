@@ -4,6 +4,7 @@ data class ReservationModel(
     val reservationId: String? = null,
     val userId: String? = null,
     val villaId: String? = null,
+    val hostId: String? = null,
     val startDate: String? = null,
     val endDate: String? = null,
     val nights: Int? = null,

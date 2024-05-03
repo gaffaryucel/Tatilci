@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Villa Buluyorum</string>
+    <string name="error_text">Hata : Tekrar deneyin</string>
     <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
     <string name="title_activity_host_bottom_navigation">HostBottomNavigationActivity</string>
     <string name="title_home">Home</string>
@@ -10,4 +11,5 @@
     <string name="i_accept_reservation">Rezervasyon Yap butonuna basarak, ev sahibinin ev kurallarını, misafirler için temel kuralları, Villabuluyorum uygulamasının yeniden rezervasyon ve iade politikasını kabul ediyorum. Ayrıca, eğer bir hasar olursa Villabuluyorum uygulamasının ödeme tahsil edebileceğini kabul ediyorum</string>
     <string name="i_accept_privacy_policy">Güncellenmiş Hizmet Şartları ve Ödeme Hizmetleri Şartlarına da onay veriyorum ve Gizlilik Politikasını kabul ediyorum</string>
     <string name="payment_details">Tatilc uygulamasında kiralama işlemleri sırasında herhangi bir ek ücret alınmamaktadır. Verdiğiniz tüm paranın kendi tatilleriniz için kullanıldığını belirtmek isteriz; böylece hizmet bedeli ödemeden tatilinizi planlayabilirsiniz. Ödeme işlemleri, mülk sahibinin belirlediği yöntemlerle gerçekleştirilmektedir, bu da ödeme sürecinin güvenli ve kolay olmasını sağlar. Tatilc olarak, müşterilerimizin tatil deneyimlerini en iyi şekilde yaşamalarını sağlamak için elimizden geleni yapıyoruz.</string>
+    <string name="accept_reservation_rules">Rezervasyonu onayladığınızda, belirtilen tarihler arasında bu mülk için bir rezervasyon oluşturulacaktır. İptal edilene veya rezervasyon süresi dolana kadar bu mülk için başka bir rezervasyon oluşturulmayacağını onaylıyor musunuz?</string>
 </resources>

@@ -16,6 +16,7 @@ interface FirebaseRepoInterFace {
     fun forgotPassword(email: String): Task<Void>
     fun register(email: String, password: String): Task<AuthResult>
 
+// Firestore
 
     // Firestore - User
     fun addUserToFirestore(data: UserModel): Task<Void>
@@ -32,8 +33,13 @@ interface FirebaseRepoInterFace {
     fun getVillasByStarRatingFromFirestore(limit: Long): Task<QuerySnapshot>
     fun getVillasByCity(city: String, limit: Long): Task<QuerySnapshot>
     fun getVillasByUserId(id: String, limit: Long): Task<QuerySnapshot>
+
+    // Firestore - Reservation
     fun createReservationForVilla(data: ReservationModel): Task<Void>
     fun getUserReservations(userId: String): Task<QuerySnapshot>
+    fun getReservationsForHost(userId: String): Task<QuerySnapshot>
+    fun getReservationById(reservationId: String):Task<DocumentSnapshot>
+
     /*
     fun updateViewCountOfVilla(
         postId: String,

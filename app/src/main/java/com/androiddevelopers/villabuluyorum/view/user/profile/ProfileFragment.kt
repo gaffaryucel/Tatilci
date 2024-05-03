@@ -39,10 +39,12 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // TODO: Yorumlar ve rezervasyonları firebase'den alıp gösterme işlemleri yapılmalı
+
         binding.rvUserVillas.adapter = villaAdapter
         villaAdapter.inProfile = true
-        observeLiveData()
 
+        observeLiveData()
 
         binding.ivSettings.setOnClickListener {
             val action = ProfileFragmentDirections.actionNavigationProfileToProfileSettingsFragment()
@@ -76,21 +78,28 @@ class ProfileFragment : Fragment() {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.pbVillas.visibility = View.GONE
+                    binding.pbComments.visibility = View.GONE
                     if (it.data == true){
                         binding.layoutEmptyVillas.visibility = View.GONE
+                        binding.layoutEmptyComments.visibility = View.GONE
                     }else{
                         binding.layoutEmptyVillas.visibility = View.VISIBLE
+                        binding.layoutEmptyComments.visibility = View.VISIBLE
                     }
                 }
 
                 Status.LOADING -> {
                     binding.pbVillas.visibility = View.VISIBLE
                     binding.layoutEmptyVillas.visibility = View.GONE
+                    binding.pbComments.visibility = View.VISIBLE
+                    binding.layoutEmptyComments.visibility = View.GONE
                 }
 
                 Status.ERROR -> {
                     binding.pbVillas.visibility = View.GONE
                     binding.layoutEmptyVillas.visibility = View.VISIBLE
+                    binding.pbComments.visibility = View.GONE
+                    binding.layoutEmptyComments.visibility = View.VISIBLE
                 }
             }
         })

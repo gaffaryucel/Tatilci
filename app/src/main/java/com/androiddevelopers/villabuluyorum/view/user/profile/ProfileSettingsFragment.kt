@@ -18,6 +18,7 @@ import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
 import com.androiddevelopers.villabuluyorum.view.MainActivity
+import com.androiddevelopers.villabuluyorum.view.host.HostBottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.user.profile.ProfileSettingsViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,7 +55,8 @@ class ProfileSettingsFragment : Fragment() {
             Navigation.findNavController(it).navigate(action)
         }
         binding.cardViewBecomeHomeOwner.setOnClickListener {
-            // TODO: yeni activiteye gidilecek bir intent
+            val intent = Intent(requireActivity(),HostBottomNavigationActivity::class.java)
+            startActivity(intent)
         }
         binding.cardViewExit.setOnClickListener{
             viewModel.signOutAndExit(requireContext())

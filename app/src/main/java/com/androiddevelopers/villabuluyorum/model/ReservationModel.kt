@@ -10,6 +10,7 @@ data class ReservationModel(
     val nights: Int? = null,
     val totalPrice: Int? = null,
     val nightlyRate: Int? = null,
+    val guestCount: Int? = null,
     val paymentMethod: PaymentMethod? = null,
     val propertyType: PropertyType? = null,
     val villaImage: String? = null,

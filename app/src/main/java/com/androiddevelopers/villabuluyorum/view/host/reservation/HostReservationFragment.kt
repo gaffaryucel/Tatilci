@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.androiddevelopers.villabuluyorum.adapter.ReservationAdapter
+import com.androiddevelopers.villabuluyorum.adapter.HostReservationAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostReservationBinding
-import com.androiddevelopers.villabuluyorum.databinding.FragmentReservationBinding
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.viewmodel.host.reservation.HostReservationViewModel
-import com.androiddevelopers.villabuluyorum.viewmodel.user.reservation.ReservationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +21,7 @@ class HostReservationFragment : Fragment() {
 
     val viewModel: HostReservationViewModel by viewModels()
 
-    private val reservationAdapter: ReservationAdapter = ReservationAdapter()
+    private val reservationAdapter: HostReservationAdapter = HostReservationAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

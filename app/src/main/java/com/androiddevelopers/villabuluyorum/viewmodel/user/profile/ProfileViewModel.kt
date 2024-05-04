@@ -14,6 +14,8 @@ import com.androiddevelopers.villabuluyorum.repo.SharedPreferencesRepo
 import com.androiddevelopers.villabuluyorum.util.Resource
 import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.util.toVilla
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -49,6 +51,9 @@ constructor(
     val villaInfoMessage: LiveData<Resource<Boolean>>
         get() = _villaInfoMessage
 
+    private var _exitMessage = MutableLiveData<Resource<Boolean>>()
+    val exitMessage: LiveData<Resource<Boolean>>
+        get() = _exitMessage
 
     init {
         getUserData()
@@ -113,9 +118,15 @@ constructor(
             city
         }
     }
-
+    fun signOutAndExit(context: Context) {
+        _exitMessage.value = Resource.loading(null)
+        val googleSignInClient =
+            GoogleSignIn.getClient(context, GoogleSignInOptions.DEFAULT_SIGN_IN)
+        googleSignInClient.signOut()
+        auth.signOut()
+        _exitMessage.value = Resource.success(null)
+    }
     fun setStartModeHost() {
         sharedPreferencesRepo.setStartModeHost()
     }
-
 }

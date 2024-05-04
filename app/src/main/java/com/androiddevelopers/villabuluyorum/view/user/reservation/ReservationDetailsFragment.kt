@@ -7,10 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.androiddevelopers.villabuluyorum.R
-import com.androiddevelopers.villabuluyorum.adapter.ReservationAdapter
-import com.androiddevelopers.villabuluyorum.databinding.FragmentReservationBinding
 import com.androiddevelopers.villabuluyorum.databinding.FragmentReservationDetailsBinding
 import com.androiddevelopers.villabuluyorum.databinding.MergeItemCoverImageBinding
 import com.androiddevelopers.villabuluyorum.model.PaymentMethod
@@ -18,9 +14,7 @@ import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.user.reservation.ReservationDetailsViewModel
-import com.androiddevelopers.villabuluyorum.viewmodel.user.reservation.ReservationViewModel
 import com.bumptech.glide.Glide
-import com.google.android.gms.common.ErrorDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +24,6 @@ class ReservationDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     val viewModel: ReservationDetailsViewModel by viewModels()
-
 
     private var _mergeBinding: MergeItemCoverImageBinding? = null
     private val mergeBinding get() = _mergeBinding!!
@@ -54,12 +47,20 @@ class ReservationDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeLiveData()
         if (reservationId.isNotEmpty() && userId.isNotEmpty() && villaId.isNotEmpty()) {
             viewModel.getReservationById(reservationId)
             viewModel.getUserDataById(userId)
             viewModel.getVillaById(villaId)
         }
+        binding.ivMessage.setOnClickListener {
+            //goToMessageFragment
+            // TODO: Rezervasyon detaylarından Mesajlar ekranına gidicek
+        }
+        binding.btnMessageToHomeOwner.setOnClickListener {
+            //goToMessageFragment
+        }
+        observeLiveData()
+
     }
 
     private fun observeLiveData() {
@@ -89,6 +90,11 @@ class ReservationDetailsFragment : Fragment() {
                binding.apply {
                    reservation = myReservation
                }
+                if (myReservation.guestCount != null){
+                    binding.guestCount = myReservation.guestCount.toString()
+                }else{
+                    binding.guestCount = "1"
+                }
                 when(myReservation.paymentMethod){
                     PaymentMethod.CASH -> {
                         binding.payment = "Nakit"

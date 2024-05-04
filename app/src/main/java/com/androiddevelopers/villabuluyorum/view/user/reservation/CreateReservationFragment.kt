@@ -47,6 +47,8 @@ class CreateReservationFragment : Fragment() {
     private var nightCount = 0
     private var price = 0
     private var nyVilla = Villa()
+
+    private var number = 1
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -77,6 +79,13 @@ class CreateReservationFragment : Fragment() {
         binding.btnReserve.setOnClickListener {
             saveAndReserve()
         }
+        binding.btnPlus.setOnClickListener {
+            incrementNumber()
+        }
+        binding.btnMinus.setOnClickListener {
+            decrementNumber()
+        }
+
     }
 
     private fun observeLiveData() {
@@ -161,10 +170,8 @@ class CreateReservationFragment : Fragment() {
             val startDateMillis = dateRange.first
             val endDateMillis = dateRange.second
 
-            val startDate =
-                SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(startDateMillis))
-            val endDate =
-                SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(endDateMillis))
+            val startDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(startDateMillis))
+            val endDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(endDateMillis))
 
             binding.tvSelectedStartDate.text = startDate
             binding.tvSelectedEndDate.text = endDate
@@ -185,51 +192,60 @@ class CreateReservationFragment : Fragment() {
     }
 
     private fun saveAndReserve() {
-        viewModel.createReservationInstance(
-            villaId = villaId ?: "",
-            hostId = nyVilla.hostId ?: "",
-            startDate = binding.tvSelectedStartDate.text.toString(),
-            endDate = binding.tvSelectedEndDate.text.toString(),
-            nights = nightCount,
-            totalPrice = price,
-            paymentMethod = paymentMethod,
-            nightlyRate,
-            nyVilla.propertyType ?: PropertyType.HOUSE,
-            nyVilla.coverImage ?: "",
-            nyVilla.bedroomCount ?: 0,
-            nyVilla.bathroomCount ?: 0,
-            nyVilla.villaName ?: "",
-        ).also {
-            viewModel.makeReservation(it)
-        }
+       if (binding.cb1.isChecked && binding.cb2.isChecked){
+           viewModel.createReservationInstance(
+               villaId = villaId ?: "",
+               hostId = nyVilla.hostId ?: "",
+               startDate = binding.tvSelectedStartDate.text.toString(),
+               endDate = binding.tvSelectedEndDate.text.toString(),
+               nights = nightCount,
+               totalPrice = price,
+               guestCount = number,
+               paymentMethod = paymentMethod,
+               nightlyRate,
+               nyVilla.propertyType ?: PropertyType.HOUSE,
+               nyVilla.coverImage ?: "",
+               nyVilla.bedroomCount ?: 0,
+               nyVilla.bathroomCount ?: 0,
+               nyVilla.villaName ?: "",
+           ).also {
+               viewModel.makeReservation(it)
+           }
+       }else{
+           Toast.makeText(requireContext(), "Lütfen şartları kabul edin", Toast.LENGTH_SHORT).show()
+       }
     }
 
     private fun setRadioButtonClickListener() {
         val secilenId = binding.radioGroup.checkedRadioButtonId
         val secilenRadioButton = binding.root.findViewById<RadioButton>(secilenId)
 
-        val secilenRadioButtonMetni = when (secilenRadioButton) {
-
+        when (secilenRadioButton) {
             binding.radioCash -> {
                 paymentMethod = PaymentMethod.CASH
             }
-
             binding.radioBankTransfer -> {
                 paymentMethod = PaymentMethod.BANK_TRANSFER
             }
-
             binding.radioCreditCard -> {
                 paymentMethod = PaymentMethod.CREDIT_OR_DEBIT_CARD
             }
-
             else -> {
                 paymentMethod = PaymentMethod.CASH
             }
         }
-
-        println("Seçilen RadioButton: $secilenRadioButtonMetni")
+    }
+    private fun incrementNumber() {
+        number++
+        binding.tvNumber.text = number.toString()
     }
 
+    private fun decrementNumber() {
+        if (number > 1) {
+            number--
+            binding.tvNumber.text = number.toString()
+        }
+    }
     override fun onResume() {
         super.onResume()
         hideBottomNavigation(requireActivity())

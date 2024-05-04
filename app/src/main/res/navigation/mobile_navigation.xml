@@ -43,8 +43,11 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile">
         <action
-            android:id="@+id/action_navigation_profile_to_profileSettingsFragment"
-            app:destination="@id/profileSettingsFragment" />
+            android:id="@+id/action_navigation_profile_to_editProfileDetailsFragment"
+            app:destination="@id/editProfileDetailsFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
     </fragment>
 
     <action
@@ -196,15 +199,4 @@
         android:name="com.androiddevelopers.villabuluyorum.view.user.profile.EditAddressFragment"
         android:label="fragment_edit_address"
         tools:layout="@layout/fragment_edit_address" />
-    <fragment
-        android:id="@+id/profileSettingsFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.user.profile.ProfileSettingsFragment"
-        tools:layout="@layout/fragment_profile_settings" >
-        <action
-            android:id="@+id/action_profileSettingsFragment_to_editProfileDetailsFragment"
-            app:destination="@id/editProfileDetailsFragment" />
-        <action
-            android:id="@+id/action_profileSettingsFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
-    </fragment>
 </navigation>

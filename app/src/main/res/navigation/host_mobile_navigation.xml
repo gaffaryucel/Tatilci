@@ -31,7 +31,11 @@
         android:id="@+id/navigation_host_reservation"
         android:name="com.androiddevelopers.villabuluyorum.view.host.reservation.HostReservationFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_host_reservation" />
+        tools:layout="@layout/fragment_host_reservation" >
+        <action
+            android:id="@+id/action_navigation_host_reservation_to_hostReservationDetailsFragment"
+            app:destination="@id/hostReservationDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_host_message"
         android:name="com.androiddevelopers.villabuluyorum.view.host.message.HostMessageFragment"
@@ -159,6 +163,20 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/hostVillaCreateFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/hostReservationDetailsFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.host.reservation.HostReservationDetailsFragment"
+        tools:layout="@layout/fragment_host_reservation_details">
+        <argument
+            android:name="villa_id"
+            app:argType="string" />
+        <argument
+            android:name="user_id"
+            app:argType="string" />
+        <argument
+            android:name="reservation_id"
+            app:argType="string" />
     </fragment>
 
 

@@ -115,6 +115,9 @@ class FirebaseRepoImpl @Inject constructor(
     override fun getReservationById(reservationId: String):Task<DocumentSnapshot>{
         return reservationCollection.document(reservationId).get()
     }
+    override fun changeReservationStatus(reservationId: String, status: HashMap<String, Any?>): Task<Void> {
+        return reservationCollection.document(reservationId).update(status)
+    }
 
     // Storage - Villa
     override fun addVillaImage(

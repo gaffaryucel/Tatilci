@@ -18,330 +18,513 @@
 
 
             <LinearLayout
+                android:layout_marginHorizontal="20dp"
                 android:id="@+id/topBarProfile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginVertical="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/ivProfileBanner"
-                        android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/app_logo" />
-
-                    <ImageView
-                        android:id="@+id/ivBack"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/circle_translucent_bg"
-                        android:padding="10dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/baseline_arrow_back"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/white" />
-
-
-                    <ImageView
-                        android:id="@+id/ivSettings"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/circle_translucent_bg"
-                        android:padding="10dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/settings"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/white" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/profile_layout"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="230dp"
-                android:background="@drawable/profile_bg"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </LinearLayout>
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ivProfilePhoto"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@drawable/default_user_icon"
-                app:civ_border_color="@color/main_button_gb_color"
-                app:civ_border_width="2dp"
-                app:layout_constraintBottom_toTopOf="@+id/profile_layout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/profile_layout" />
-
-
-            <LinearLayout
-                android:id="@+id/layout_user_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivProfilePhoto">
-
-                <TextView
-                    android:text="@{user.username}"
-                    tools:text="Gaffar Yücel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/normal_text_color"
-                    android:textSize="22dp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:orientation="vertical"
-                        android:layout_width="80dp"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:textStyle="bold"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:id="@+id/tvFollowersCount"
-                            android:text="0"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="23sp"/>
-                        <TextView
-                            android:text="Yorum yaptın"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:orientation="vertical"
-                        android:layout_width="80dp"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:textStyle="bold"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:id="@+id/tvPostCount"
-                            android:text="0"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="23sp"/>
-                        <TextView
-                            android:text="Rezervasyon yaptın"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"/>
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:visibility="gone"
-                    android:id="@+id/btnBecomeHomeowner"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/secondary_button_bg"
-                    android:backgroundTint="@color/main_button_gb_color"
-                    android:text="Ev Sahibi Ol"
-                    android:textColor="@color/normal_text_color"
-                    android:layout_marginBottom="20dp"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginHorizontal="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/layout_user_info"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:visibility="gone"
-                    android:id="@+id/layoutProfileError"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
 
                     <TextView
-                        android:textAlignment="center"
-                        android:text="Bir Hata Oluştu"
                         android:textColor="@color/main_button_gb_color"
+                        android:textSize="24sp"
                         android:textStyle="bold"
-                        android:layout_gravity="center"
-                        android:textSize="18sp"
+                        android:text="Profil"
+                        android:textAlignment="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:src="@drawable/null_icon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:tint="@color/main_button_gb_color" />
-                </LinearLayout>
-                <ProgressBar
-                    android:visibility="gone"
-                    android:id="@+id/pbProfile"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/layoutUserData"
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:backgroundTint="@color/md_theme_surfaceContainer"
+                    android:id="@+id/cardViewProfile"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="25dp">
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
+
+                        <ImageView
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:id="@+id/ivProfileBanner"
+                            android:layout_width="0dp"
+                            android:layout_height="220dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/app_logo" />
+                        <ImageView
+                            android:background="@drawable/circle_translucent_bg"
+                            android:id="@+id/ivSettings"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="10dp"
+                            android:padding="7dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/pencil"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/normal_text_color" />
+
+
                         <LinearLayout
-                            android:id="@+id/layoutComments"
                             android:orientation="vertical"
+                            android:id="@+id/profile_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/profile_bg"
+                            app:layout_constraintBottom_toBottomOf="@+id/ivProfileBanner"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ivProfileBanner">
                             <TextView
-                                android:text="Yorumların"
-                                android:textSize="20sp"
-                                android:textColor="@color/normal_text_color"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
-                            <ProgressBar
-                                android:id="@+id/pbComments"
+                                android:layout_marginTop="60dp"
                                 android:layout_gravity="center"
+                                android:text="@{user.username}"
+                                tools:text="Gaffar Yücel"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rvComments"
-                                android:orientation="horizontal"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent" />
-                        </LinearLayout>
+                                android:textColor="@color/normal_text_color"
+                                android:textSize="22dp"
+                                android:textStyle="bold" />
 
-                        <LinearLayout
-                            android:visibility="gone"
-                            android:layout_marginTop="50dp"
-                            android:id="@+id/layoutEmptyComments"
-                            android:layout_width="match_parent"
-                            android:orientation="vertical"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:textAlignment="center"
-                                android:text="Henüz yorum yapmadın"
-                                android:textColor="@color/main_button_gb_color"
-                                android:textStyle="bold"
+                            <LinearLayout
+                                android:layout_marginBottom="10dp"
                                 android:layout_gravity="center"
-                                android:textSize="18sp"
+                                android:orientation="horizontal"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
-                            <ImageView
-                                android:layout_marginBottom="50dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/null_icon"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                app:tint="@color/main_button_gb_color" />
-                        </LinearLayout>
-                    </LinearLayout>
+                                android:layout_height="wrap_content">
+                                <LinearLayout
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:orientation="vertical"
+                                    android:layout_width="80dp"
+                                    android:layout_height="match_parent">
+                                    <TextView
+                                        android:textStyle="bold"
+                                        android:layout_gravity="center"
+                                        android:textAlignment="center"
+                                        android:id="@+id/tvFollowersCount"
+                                        android:text="0"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="23sp"/>
+                                    <TextView
+                                        android:text="Yorum yaptın"
+                                        android:layout_gravity="center"
+                                        android:textAlignment="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="16sp"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:orientation="vertical"
+                                    android:layout_width="80dp"
+                                    android:layout_height="match_parent">
+                                    <TextView
+                                        android:textStyle="bold"
+                                        android:layout_gravity="center"
+                                        android:textAlignment="center"
+                                        android:id="@+id/tvPostCount"
+                                        android:text="0"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="23sp"/>
+                                    <TextView
+                                        android:text="Rezervasyon yaptın"
+                                        android:layout_gravity="center"
+                                        android:textAlignment="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="16sp"/>
 
-                    <LinearLayout
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_marginHorizontal="15dp"
+                            android:id="@+id/ivProfilePhoto"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:src="@drawable/default_user_icon"
+                            app:civ_border_color="@color/main_button_gb_color"
+                            app:civ_border_width="2dp"
+                            app:layout_constraintBottom_toTopOf="@+id/profile_layout"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/profile_layout" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:backgroundTint="@color/md_theme_surfaceContainer"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/cardViewBecomeHomeOwner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <LinearLayout
-                            android:id="@+id/layoutVillas"
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp">
 
-                            <TextView
-                                android:text="Rezervasyonların"
-                                android:textSize="20sp"
-                                android:textColor="@color/normal_text_color"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
-                            <ProgressBar
-                                android:id="@+id/pbVillas"
-                                android:layout_gravity="center"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rvUserVillas"
-                                android:orientation="horizontal"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent" />
-                        </LinearLayout>
+                        <ImageView
+                            android:id="@+id/ivArrow"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/baseline_arrow_forward_ios_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/main_button_gb_color" />
 
                         <LinearLayout
-                            android:layout_marginTop="50dp"
-                            android:visibility="gone"
-                            android:id="@+id/layoutEmptyVillas"
-                            android:layout_width="match_parent"
-                            android:orientation="vertical"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:textAlignment="center"
-                                android:text="Henüz bir rezervasyon yapmadın"
-                                android:textColor="@color/main_button_gb_color"
-                                android:textStyle="bold"
-                                android:layout_gravity="center"
-                                android:textSize="18sp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                            android:paddingVertical="10dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/ivArrow"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
                             <ImageView
-                                android:layout_marginBottom="50dp"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/null_icon"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                app:tint="@color/main_button_gb_color" />
+                                android:src="@drawable/villa"
+                                android:layout_marginVertical="10dp"
+                                />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="10dp"
+                                android:layout_marginVertical="10dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Evini Tatilciy'e Taşı"
+                                    android:textColor="@color/normal_text_color"
+                                    android:textSize="24sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:textSize="18sp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Hemen ilan yayınla ve para kazanmaya başla"
+                                    android:textColor="@color/normal_text_color" />
+
+                            </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:backgroundTint="@color/md_theme_surfaceContainer"
+                    android:id="@+id/cardViewPersonalInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardCornerRadius="12dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/baseline_arrow_forward_ios_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/main_button_gb_color" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="5dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/profile"
+                                app:tint="@color/normal_text_color" />
+
+                            <TextView
+                                android:id="@+id/tvPersonalInfo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="Kişisel Bilgiler"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:backgroundTint="@color/md_theme_surfaceContainer"
+                    android:id="@+id/cardViewSecurity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardCornerRadius="12dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/baseline_arrow_forward_ios_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/main_button_gb_color" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="5dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/lock"
+                                app:tint="@color/normal_text_color" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="Güvenlik"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:backgroundTint="@color/md_theme_surfaceContainer"
+                    android:id="@+id/cardViewAppOptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardCornerRadius="12dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/baseline_arrow_forward_ios_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/main_button_gb_color" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="5dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/settings"
+                                app:tint="@color/normal_text_color" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="Uygulama Ayarları"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:backgroundTint="@color/md_theme_surfaceContainer"
+                    android:id="@+id/cardViewAppTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardCornerRadius="12dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/baseline_arrow_forward_ios_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/main_button_gb_color" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="5dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/theme_vector"
+                                app:tint="@color/normal_text_color" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="Tema"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:backgroundTint="@color/md_theme_surfaceContainer"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/cardViewExit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:cardCornerRadius="12dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/baseline_arrow_forward_ios_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/main_button_gb_color" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="5dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/exit"
+                                app:tint="@color/main_button_gb_color" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="Çıkış Yap"
+                                android:textColor="@color/main_button_gb_color"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
+
+
+
+            <ProgressBar
+                android:id="@+id/pbProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:text="@string/error_text"
+                android:id="@+id/tvErrorProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

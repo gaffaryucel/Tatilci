@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <variable
+            name="payment"
+            type="String" />
         <variable
             name="reservation"
             type="com.androiddevelopers.villabuluyorum.model.ReservationModel" />
@@ -9,14 +15,12 @@
             type="com.androiddevelopers.villabuluyorum.model.UserModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.user.reservation.ReservationDetailsFragment">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/layoutHostReservationDetails"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -131,6 +135,7 @@
                                 android:text="Başlangıç tarihi"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
+
                             <TextView
                                 android:textSize="16sp"
                                 android:text="Bitiş tarihi"
@@ -139,11 +144,15 @@
 
                             <TextView
                                 android:textSize="16sp"
-                                android:text="Ödeme yöntemi"
+                                android:text="Misafir sayısı"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
 
-
+                            <TextView
+                                android:textSize="16sp"
+                                android:text="Ödeme yöntemi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
                             <TextView
                                 android:text="Onay durumu"
                                 android:textColor="@color/normal_text_color"
@@ -185,8 +194,17 @@
                                 android:layout_height="wrap_content"/>
 
                             <TextView
+                                android:text="@{reservation.guestCount}"
+                                tools:text="3 Misafir"
+                                android:textColor="@color/normal_text_color"
+                                android:textSize="16sp"
+                                android:textAlignment="textEnd"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                            <TextView
                                 android:id="@+id/tvPaymentMethod"
                                 tools:text="Nakit"
+                                android:text="@{payment}"
                                 android:textColor="@color/normal_text_color"
                                 android:textSize="16sp"
                                 android:textAlignment="textEnd"
@@ -247,6 +265,7 @@
                         tools:text="gaffaryucell" />
 
                     <ImageView
+                        android:id="@+id/ivMessage"
                         android:padding="5dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -254,7 +273,8 @@
                         android:background="@drawable/rounded_button_background"
                         android:src="@drawable/chat"
                         android:layout_width="35dp"
-                        android:layout_height="35dp"/>
+                        android:layout_height="35dp"
+                        app:tint="@color/app_bg_color" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -284,6 +304,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <CheckBox
+                        android:id="@+id/cbConfirmRules"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -298,15 +319,37 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_marginTop="10dp"
-                    android:id="@+id/btnSave"
+                    android:id="@+id/btnConfirmReservation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Bu Rezervasyon'u Onayla"
                     android:background="@drawable/rectangle_button_bg"
-                    android:textColor="@color/black"
+                    android:textColor="@color/app_bg_color"
                     android:elevation="20sp"
                     />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+        <ProgressBar
+            android:id="@+id/pbReservationDetails"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:visibility="gone"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:text="@string/error_text"
+            android:textColor="@color/md_theme_error"
+            android:id="@+id/tvErrorReservationDetails"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.androiddevelopers.villabuluyorum.R
@@ -18,7 +19,9 @@ import com.androiddevelopers.villabuluyorum.model.ApprovalStatus
 import com.androiddevelopers.villabuluyorum.model.PaymentMethod
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.showHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.host.reservation.HostReservationDetailsViewModel
 import com.androiddevelopers.villabuluyorum.viewmodel.user.reservation.ReservationViewModel
 import com.bumptech.glide.Glide
@@ -52,7 +55,6 @@ class HostReservationDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeLiveData()
         if (reservationId.isNotEmpty() && userId.isNotEmpty() && villaId.isNotEmpty()) {
             viewModel.getReservationById(reservationId)
             viewModel.getUserDataById(userId)
@@ -65,6 +67,8 @@ class HostReservationDetailsFragment : Fragment() {
         binding.btnConfirmReservation.setOnClickListener {
             if (binding.cbConfirmRules.isChecked){
                 viewModel.confirmReservation(ApprovalStatus.APPROVED)
+            }else{
+                Toast.makeText(requireContext(), "Lütfen Rezervasyon Koşullarını Onaylayın", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -95,32 +99,28 @@ class HostReservationDetailsFragment : Fragment() {
             if (myReservation != null) {
                 binding.apply {
                     reservation = myReservation
-                }
-                when(myReservation.paymentMethod){
-                    PaymentMethod.CASH -> {
-                        binding.payment = "Nakit"
+                    status = when(myReservation.approvalStatus){
+                        ApprovalStatus.WAITING_FOR_APPROVAL ->  "Onay Bekliyor"
+                        ApprovalStatus.APPROVED ->  "Onaylandı"
+                        ApprovalStatus.NOT_APPROVED -> "Onay Verilmedi"
+                        null -> "Onay Bekliyor"
                     }
-                    PaymentMethod.BANK_TRANSFER -> {
-                        binding.payment = "EFT/Havale"
-                    }
-                    PaymentMethod.CREDIT_OR_DEBIT_CARD -> {
-                        binding.payment = "Kredi/Banka kartı"
-                    }
-                    else -> {
-                        binding.payment = "Nakit"
+                    payment = when(myReservation.paymentMethod){
+                        PaymentMethod.CASH ->  "Nakit"
+                        PaymentMethod.CREDIT_OR_DEBIT_CARD ->  "Banka/Kredi kartı"
+                        PaymentMethod.BANK_TRANSFER ->"EFT/Havale"
+                        null -> "Nakit"
                     }
                 }
-            }
 
+            }
         })
         viewModel.userData.observe(viewLifecycleOwner, Observer { myUser ->
             if (myUser != null) {
-                binding.apply {
-                    user = myUser
-                }
                 Glide.with(requireContext())
                     .load(myUser.profileImageUrl)
                     .into(binding.ivUserPhoto)
+                binding.user = myUser
             }
         })
         viewModel.liveDataFirebaseVilla.observe(viewLifecycleOwner, Observer { villa ->
@@ -136,11 +136,12 @@ class HostReservationDetailsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        hideBottomNavigation(requireActivity())
+        observeLiveData()
+        hideHostBottomNavigation(requireActivity())
     }
 
     override fun onPause() {
         super.onPause()
-        showBottomNavigation(requireActivity())
+        showHostBottomNavigation(requireActivity())
     }
 }

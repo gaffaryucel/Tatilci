@@ -72,20 +72,14 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
-        binding.rvCloseHomes.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-        binding.rvBest.layoutManager = LinearLayoutManager(requireContext())
         binding.rvBest.adapter = bestHouseAdapter
-
 
         binding.sv.isClickable = false
         binding.sv.isFocusable = false
         binding.sv.isFocusableInTouchMode = false
 
 
-        val navHostFragment =
-            requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_bottom_navigation) as NavHostFragment?
+        val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_bottom_navigation) as NavHostFragment?
         val navControl = navHostFragment?.navController
 
         binding.searchView.setOnClickListener {
@@ -251,16 +245,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun setPermissionRequestValue(value: Boolean) {
-        val sharedPrefs: SharedPreferences =
-            requireContext().getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
+        val sharedPrefs: SharedPreferences = requireContext().getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPrefs.edit()
         editor.putBoolean(KEY_VALUE, value)
         editor.apply()
     }
 
     private fun isPermissionRequested(): Boolean {
-        val sharedPrefs: SharedPreferences =
-            requireContext().getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
+        val sharedPrefs: SharedPreferences = requireContext().getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
         return sharedPrefs.getBoolean(KEY_VALUE, false)
     }
 

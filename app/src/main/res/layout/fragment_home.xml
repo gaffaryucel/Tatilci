@@ -241,6 +241,8 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"
                 android:id="@+id/rvCloseHomes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

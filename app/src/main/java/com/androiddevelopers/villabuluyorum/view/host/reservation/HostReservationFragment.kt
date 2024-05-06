@@ -34,6 +34,10 @@ class HostReservationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvReservations.adapter = reservationAdapter
+    }
+
+    override fun onResume() {
+        super.onResume()
         observeLiveData()
     }
 

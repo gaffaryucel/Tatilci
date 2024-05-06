@@ -69,7 +69,7 @@ class HostReservationDetailsViewModel @Inject constructor(
     fun confirmReservation(status: ApprovalStatus) {
         _reservationMessage.value = Resource.loading(null)
         val map = HashMap<String, Any?>()
-        map["address"] = status
+        map["approvalStatus"] = status
         firebaseRepo.changeReservationStatus(reservation.value?.reservationId.toString(),map)
             .addOnSuccessListener {
                 _reservationMessage.value = Resource.success()

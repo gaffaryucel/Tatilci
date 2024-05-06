@@ -48,6 +48,9 @@ class CreateReservationFragment : Fragment() {
     private var price = 0
     private var nyVilla = Villa()
 
+    private var startDate : String = ""
+    private var endDate : String = ""
+
     private var number = 1
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -113,8 +116,7 @@ class CreateReservationFragment : Fragment() {
                     nyVilla = villa
                     mergeBinding.textDetailTitle.text = villa.villaName
                     mergeBinding.textDetailAddress.text = villa.locationAddress
-                    mergeBinding.textDetailBedRoom.text =
-                        villa.bedroomCount.toString() + " Yatak odası"
+                    mergeBinding.textDetailBedRoom.text = villa.bedroomCount.toString() + " Yatak odası"
                     mergeBinding.textDetailBathRoom.text = villa.bathroomCount.toString() + " Banyo"
                     Glide.with(requireContext()).load(villa.coverImage)
                         .into(mergeBinding.imageTitle)
@@ -170,8 +172,8 @@ class CreateReservationFragment : Fragment() {
             val startDateMillis = dateRange.first
             val endDateMillis = dateRange.second
 
-            val startDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(startDateMillis))
-            val endDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(endDateMillis))
+            startDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(startDateMillis))
+            endDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(endDateMillis))
 
             binding.tvSelectedStartDate.text = startDate
             binding.tvSelectedEndDate.text = endDate
@@ -192,28 +194,33 @@ class CreateReservationFragment : Fragment() {
     }
 
     private fun saveAndReserve() {
-       if (binding.cb1.isChecked && binding.cb2.isChecked){
-           viewModel.createReservationInstance(
-               villaId = villaId ?: "",
-               hostId = nyVilla.hostId ?: "",
-               startDate = binding.tvSelectedStartDate.text.toString(),
-               endDate = binding.tvSelectedEndDate.text.toString(),
-               nights = nightCount,
-               totalPrice = price,
-               guestCount = number,
-               paymentMethod = paymentMethod,
-               nightlyRate,
-               nyVilla.propertyType ?: PropertyType.HOUSE,
-               nyVilla.coverImage ?: "",
-               nyVilla.bedroomCount ?: 0,
-               nyVilla.bathroomCount ?: 0,
-               nyVilla.villaName ?: "",
-           ).also {
-               viewModel.makeReservation(it)
-           }
-       }else{
-           Toast.makeText(requireContext(), "Lütfen şartları kabul edin", Toast.LENGTH_SHORT).show()
-       }
+        if (startDate.isNotEmpty() && endDate.isNotEmpty()){
+            if (binding.cb1.isChecked && binding.cb2.isChecked){
+                viewModel.createReservationInstance(
+                    villaId = villaId ?: "",
+                    hostId = nyVilla.hostId ?: "",
+                    startDate = binding.tvSelectedStartDate.text.toString(),
+                    endDate = binding.tvSelectedEndDate.text.toString(),
+                    nights = nightCount,
+                    totalPrice = price,
+                    guestCount = number,
+                    paymentMethod = paymentMethod,
+                    nightlyRate,
+                    nyVilla.propertyType ?: PropertyType.HOUSE,
+                    nyVilla.coverImage ?: "",
+                    nyVilla.bedroomCount ?: 0,
+                    nyVilla.bathroomCount ?: 0,
+                    nyVilla.villaName ?: "",
+                ).also {
+                    viewModel.makeReservation(it)
+                }
+            }else{
+                Toast.makeText(requireContext(), "Lütfen şartları kabul edin", Toast.LENGTH_SHORT).show()
+            }
+        }else{
+            Toast.makeText(requireContext(), "Lütfen rezervasyon süresini belirtin", Toast.LENGTH_SHORT).show()
+        }
+        // TODO: Ev sahibine bildirim gönder
     }
 
     private fun setRadioButtonClickListener() {

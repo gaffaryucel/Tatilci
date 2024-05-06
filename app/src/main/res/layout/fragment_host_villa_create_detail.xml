@@ -1,13 +1,346 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.host.create.HostVillaCreateDetailFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="setProgressBarVisibility"
+            type="Boolean" />
+
+        <variable
+            name="numberAdapter"
+            type="android.widget.ArrayAdapter&lt;String>" />
+
+        <variable
+            name="chooseAdapter"
+            type="android.widget.ArrayAdapter&lt;String>" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        tools:context=".view.host.create.HostVillaCreateDetailFragment">
 
-</FrameLayout>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarVillaCreate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/baseline_close_24"
+            app:subtitle="Sayfa 2/3"
+            app:subtitleTextColor="@color/white"
+            app:title="Villa Oluştur"
+            app:titleTextColor="@color/white" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressBarVillaCreate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{setProgressBarVisibility == true ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbarVillaCreate" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progressBarVillaCreate">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownCapacityVillaCreateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="20dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownCapacityVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{numberAdapter}"
+                        android:hint="Kaç kişi kalabilir"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText,SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownBedroomCountVillaCreateLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toStartOf="@id/dropdownBedCountVillaCreateLayout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownCapacityVillaCreateLayout"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownBedroomCountVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{numberAdapter}"
+                        android:hint="Yatak odası"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText,SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownBedCountVillaCreateLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="40dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/dropdownBedroomCountVillaCreateLayout"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownCapacityVillaCreateLayout"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownBedCountVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{numberAdapter}"
+                        android:hint="Yatak"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText,SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownBathroomCountVillaCreateLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toStartOf="@id/dropdownRestroomCountVillaCreateLayout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownBedCountVillaCreateLayout"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownBathroomCountVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{numberAdapter}"
+                        android:hint="Banyo"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText,SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownRestroomCountVillaCreateLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="40dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/dropdownBathroomCountVillaCreateLayout"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownBedCountVillaCreateLayout"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownRestroomCountVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{numberAdapter}"
+                        android:hint="Tuvalet"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText,SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownMinStayDurationVillaCreateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownRestroomCountVillaCreateLayout"
+                    app:layout_constraintWidth_max="480dp"
+                    app:suffixText="Gün">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownMinStayDurationVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{numberAdapter}"
+                        android:hint="En az konaklama süresi"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText,SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownHasWifiVillaCreateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownMinStayDurationVillaCreateLayout"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownHasWifiVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{chooseAdapter}"
+                        android:hint="Ücretsiz Wifi"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText,SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownHasPoolVillaCreateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownHasWifiVillaCreateLayout"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownHasPoolVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{chooseAdapter}"
+                        android:hint="Yüzme havuzu"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText,SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dropdownQuietAreaVillaCreateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownHasPoolVillaCreateLayout"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownQuietAreaVillaCreate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adapter="@{chooseAdapter}"
+                        android:hint="Sessiz alan"
+                        android:inputType="none"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText,SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editTextInteriorDesignVillaCreateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownQuietAreaVillaCreateLayout"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextInteriorDesignVillaCreate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Villa iç tasarım"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editTextGardenAreaVillaCreateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editTextInteriorDesignVillaCreateLayout"
+                    app:layout_constraintWidth_max="480dp"
+                    app:suffixText="m\u00B2">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextGardenAreaVillaCreate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Bahçe alanı"
+                        android:inputType="number"
+                        tools:ignore="HardcodedText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/buttonNextVillaCreatePage2"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="40dp"
+                    android:text="Sonraki Sayfa"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editTextGardenAreaVillaCreateLayout"
+                    tools:ignore="HardcodedText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

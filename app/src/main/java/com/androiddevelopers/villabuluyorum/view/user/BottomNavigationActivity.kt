@@ -48,14 +48,5 @@ class BottomNavigationActivity : AppCompatActivity() {
                 }
             }
         }
-        setPermissionRequestValue(false)
-    }
-
-    private fun setPermissionRequestValue(value: Boolean) {
-        val sharedPrefs: SharedPreferences =
-            baseContext.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPrefs.edit()
-        editor.putBoolean(KEY_VALUE, value)
-        editor.apply()
     }
 }

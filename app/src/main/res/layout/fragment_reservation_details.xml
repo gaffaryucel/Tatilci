@@ -1,13 +1,315 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.user.reservation.ReservationDetailsFragment">
-
-    <TextView
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="reservation"
+            type="com.androiddevelopers.villabuluyorum.model.ReservationModel" />
+        <variable
+            name="user"
+            type="com.androiddevelopers.villabuluyorum.model.UserModel" />
+        <variable
+            name="payment"
+            type="String" />
+        <variable
+            name="guestCount"
+            type="String" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        tools:context=".view.user.reservation.ReservationDetailsFragment">
 
-</FrameLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnMessageToHomeOwner"
+            android:id="@+id/layoutReservationDetails"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginVertical="10dp"
+                    android:id="@+id/topBarReservations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/ivBack"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:padding="10dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/baseline_arrow_back"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/main_button_gb_color" />
+                    <ImageView
+                        android:id="@+id/ivDot"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:padding="10dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/menu_icon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/main_button_gb_color" />
+
+                    <TextView
+                        android:textAlignment="center"
+                        android:textColor="@color/main_button_gb_color"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        android:text="Rezervasyon Detayları"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/includeCoverImageVillaCreate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/merge_item_cover_image" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="20dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="20sp"
+                        android:textColor="@color/normal_text_color"
+                        android:textStyle="bold"
+                        android:text="Rezervasyon Detayları"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:textSize="16sp"
+                                tools:text="3 gece x ₺3000"
+                                android:text='@{reservation.nights +" gece x ₺"+reservation.nightlyRate}'
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:textSize="16sp"
+                                android:text="Başlangıç tarihi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:textSize="16sp"
+                                android:text="Bitiş tarihi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:textSize="16sp"
+                                android:text="Misafir sayısı"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:textSize="16sp"
+                                android:text="Ödeme yöntemi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+
+                            <TextView
+                                android:text="Onay durumu"
+                                android:textColor="@color/normal_text_color"
+                                android:textSize="16sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_gravity="end"
+                                android:textColor="@color/main_button_gb_color"
+                                android:textAlignment="textEnd"
+                                android:textSize="16sp"
+                                tools:text="₺15.000"
+                                android:text='@{"₺"+reservation.totalPrice}'
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:layout_gravity="end"
+                                android:textColor="@color/normal_text_color"
+                                android:textAlignment="textEnd"
+                                android:textSize="16sp"
+                                tools:text="17/05/2024"
+                                android:text="@{reservation.startDate}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:layout_gravity="end"
+                                android:textColor="@color/normal_text_color"
+                                android:textAlignment="textEnd"
+                                android:textSize="16sp"
+                                tools:text="21/05/2024"
+                                android:text="@{reservation.endDate}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:text='@{guestCount+" Misafir"}'
+                                tools:text="3 Misafir"
+                                android:textColor="@color/normal_text_color"
+                                android:textSize="16sp"
+                                android:textAlignment="textEnd"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tvPaymentMethod"
+                                tools:text="Nakit"
+                                android:text="@{payment}"
+                                android:textColor="@color/normal_text_color"
+                                android:textSize="16sp"
+                                android:textAlignment="textEnd"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/tvApprovalStatus"
+                                android:textStyle="bold"
+                                android:text="Onayınızı Bekliyor"
+                                android:textColor="@color/normal_text_color"
+                                android:textSize="16sp"
+                                android:textAlignment="textEnd"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/normal_text_color"
+                    android:textStyle="bold"
+                    android:text="Ev sahibi bilgileri"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:padding="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        app:civ_border_width="2dp"
+                        app:civ_border_color="@color/main_button_gb_color"
+                        android:id="@+id/ivUserPhoto"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:padding="1dp"
+                        android:src="@drawable/placeholder"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:layout_marginStart="5dp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/ivUserPhoto"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{user.username}"
+                            tools:text="gaffaryucell" />
+
+                    <ImageView
+                        android:id="@+id/ivMessage"
+                        android:padding="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:background="@drawable/rounded_button_background"
+                        android:src="@drawable/chat"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        app:tint="@color/app_bg_color" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:layout_marginHorizontal="10dp"
+                    android:text='@{user.firstName +"isimli Ev sahibi, mülkünü "+ reservation.startDate + " - "+ reservation.endDate + "tarihleri arasında kiralamak istediğiniz bildirimini aldı, ₺"+ reservation.totalPrice+ " tutarinda olan ödemeyi belirttiğiniz şekilde " +payment+ " ile yapmanızı bekliyor.\nGüvenliğiniz için kararlaştırılan zamandan daha önce bir ödeme yapmamanızı rica ediyoruz. \nRezervasyon isteğiniz 24 içerisinde sonuçlanacaktır, sonuçlandığında bildirim alacaksınız."}'
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Ali Can isimli Ev sahibi, mülkünü 01/06/2024 - 07/06/2024 tarihleri arasında kiralamak istediğiniz bildirimini aldı,, ₺1500 tutarında olan ödemeyi kredi kartı ile yapmanızı bekliyor. Güvenliğiniz için kararlaştırılan zamandan daha önce bir ödeme yapmamanızı rica ediyoruz.  \nRezervasyon isteğiniz 24 içerisinde sonuçlanacaktır, sonuçlandığında bildirim alacaksınız." />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <ProgressBar
+            android:id="@+id/pbReservationDetails"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:visibility="gone"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:text="@string/error_text"
+            android:textColor="@color/md_theme_error"
+            android:id="@+id/tvErrorReservationDetails"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.AppCompatButton
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="10dp"
+            android:id="@+id/btnMessageToHomeOwner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ev sahibine mesaj gönder"
+            android:background="@drawable/rectangle_button_bg"
+            android:textColor="@color/app_bg_color"
+            android:elevation="20sp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

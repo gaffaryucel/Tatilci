@@ -55,6 +55,7 @@ constructor(
             }
     }
     fun makeReservation(reservation : ReservationModel) = viewModelScope.launch{
+        // TODO: yapılan rezearvasyonunun bilgisini ev sahibine bildirimle ilet
         _liveDataReserveStatus.value = Resource.loading(null)
         firebaseRepo.createReservationForVilla(reservation).addOnSuccessListener {
             _liveDataReserveStatus.value = Resource.success(null)
@@ -64,10 +65,12 @@ constructor(
     }
     fun createReservationInstance(
         villaId: String,
+        hostId: String,
         startDate: String,
         endDate: String,
         nights: Int,
         totalPrice: Int,
+        guestCount: Int,
         paymentMethod: PaymentMethod,
         nightlyRate: Int,
         propertyType: PropertyType,
@@ -79,11 +82,13 @@ constructor(
         return ReservationModel(
             reservationId = UUID.randomUUID().toString(),
             userId = currentUserId,
+            hostId = hostId,
             villaId = villaId,
             startDate = startDate,
             endDate = endDate,
             nights = nights,
             totalPrice = totalPrice,
+            guestCount = guestCount,
             paymentMethod = paymentMethod,
             propertyType = propertyType,
             villaImage = villaImage,

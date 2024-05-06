@@ -88,15 +88,16 @@ class ReservationAdapter : RecyclerView.Adapter<ReservationAdapter.ReservationVi
             //holder.binding.tvPropertyType.text = myReservation.propertyType ?: "Apartman"
 
 
-            myReservation.reservationId?.let { id ->
+
                 holder.itemView.setOnClickListener {
                     val directions =
                         ReservationFragmentDirections.actionReservationFragmentToReservationDetailsFragment(
-                            id
+                            myReservation.villaId.toString(),
+                            myReservation.hostId.toString(),
+                            myReservation.reservationId.toString(),
                         )
                     Navigation.findNavController(it).navigate(directions)
                 }
-            }
         } catch (e: Exception) {
             // Hata oluştuğunda Toast göster
             Toast.makeText(holder.itemView.context, e.localizedMessage, Toast.LENGTH_SHORT).show()

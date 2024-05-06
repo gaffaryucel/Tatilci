@@ -101,12 +101,24 @@ class FirebaseRepoImpl @Inject constructor(
     override fun getVillasByUserId(id: String, limit: Long): Task<QuerySnapshot> {
         return villaCollection.whereEqualTo("hostId", id).limit(limit).get()
     }
+
+    // Firestore - Reservation
     override fun createReservationForVilla(data: ReservationModel): Task<Void> {
         return reservationCollection.document(data.reservationId.toString()).set(data)
     }
     override fun getUserReservations(userId: String): Task<QuerySnapshot> {
         return reservationCollection.whereEqualTo("userId", userId).get()
     }
+    override fun getReservationsForHost(userId: String): Task<QuerySnapshot> {
+        return reservationCollection.whereEqualTo("hostId", userId).get()
+    }
+    override fun getReservationById(reservationId: String):Task<DocumentSnapshot>{
+        return reservationCollection.document(reservationId).get()
+    }
+    override fun changeReservationStatus(reservationId: String, status: HashMap<String, Any?>): Task<Void> {
+        return reservationCollection.document(reservationId).update(status)
+    }
+
     // Storage - Villa
     override fun addVillaImage(
         uri: Uri,

@@ -68,9 +68,17 @@ class EntryFragment : Fragment() {
                     gotoHome()
                 }
             } else {
-                Toast.makeText(requireContext(), "E-postanızı doğrulayın", Toast.LENGTH_SHORT)
-                    .show()
-                auth.signOut()
+                if (user.phoneNumber!!.isNotEmpty()) {
+                    if (selectionStartMode == "host") {
+                        gotoHostHome()
+                    } else {
+                        gotoHome()
+                    }
+                }else{
+                    auth.signOut()
+                    Toast.makeText(requireContext(), "E-postanızı doğrulayın", Toast.LENGTH_SHORT)
+                        .show() 
+                }
             }
         }
     }

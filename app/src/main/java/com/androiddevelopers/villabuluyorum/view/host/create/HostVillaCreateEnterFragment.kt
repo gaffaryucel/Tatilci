@@ -5,16 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreateEnterBinding
+import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
-import com.androiddevelopers.villabuluyorum.viewmodel.host.create.HostVillaCreateEnterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HostVillaCreateEnterFragment : Fragment() {
-    private val viewModel: HostVillaCreateEnterViewModel by viewModels()
+    //private val viewModel: HostVillaCreateBaseViewModel by viewModels()
     private var _binding: FragmentHostVillaCreateEnterBinding? = null
     private val binding get() = _binding!!
 
@@ -32,7 +31,11 @@ class HostVillaCreateEnterFragment : Fragment() {
         binding.cardHostVillaCreateEnter.setOnClickListener {
             val directions =
                 HostVillaCreateEnterFragmentDirections.actionNavigationHostVillaCreateEnterToHostVillaCreateFragment(
-                    Villa()
+                    CreateVillaPageArguments(
+                        coverImage = null,
+                        otherImages = mutableListOf(),
+                        villa = Villa()
+                    )
                 )
             Navigation.findNavController(it).navigate(directions)
         }

@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
 import com.androiddevelopers.villabuluyorum.model.provinces.District
 import com.androiddevelopers.villabuluyorum.model.provinces.Neighborhood
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
@@ -14,7 +14,6 @@ import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.repo.RoomProvinceRepo
 import com.androiddevelopers.villabuluyorum.util.Resource
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
@@ -23,10 +22,10 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class HostVillaCreateViewModel
-@Inject constructor(
+class HostVillaCreateBaseViewModel
+@Inject
+constructor(
     private val firebaseRepo: FirebaseRepoInterFace,
-    private val firebaseAuth: FirebaseAuth,
     private val roomProvinceRepo: RoomProvinceRepo
 ) : ViewModel() {
 
@@ -50,13 +49,17 @@ class HostVillaCreateViewModel
     val liveDataVillageFromRoom: LiveData<List<Village>>
         get() = _liveDataVillageFromRoom
 
-    private var _liveDataFirebaseUser = MutableLiveData<UserModel>()
-    val liveDataFirebaseUser: LiveData<UserModel>
-        get() = _liveDataFirebaseUser
+    private var _liveDataVilla = MutableLiveData<Villa>()
+    val liveDataVilla: LiveData<Villa>
+        get() = _liveDataVilla
 
-    private var _imageUriList = MutableLiveData<List<Uri>>()
-    val imageUriList: LiveData<List<Uri>>
-        get() = _imageUriList
+    private var _liveDataImageCover = MutableLiveData<Uri>()
+    val liveDataImageCover: LiveData<Uri>
+        get() = _liveDataImageCover
+
+    private var _liveDataImageUriList = MutableLiveData<List<Uri>>()
+    val liveDataImageUriList: LiveData<List<Uri>>
+        get() = _liveDataImageUriList
 
     private var _imageSize = MutableLiveData<Int>()
     val imageSize: LiveData<Int>
@@ -87,6 +90,33 @@ class HostVillaCreateViewModel
             _liveDataVillageFromRoom.value = it
         }
     }
+
+    fun setCreateVillaPageArguments(createVillaPageArguments: CreateVillaPageArguments) =
+        viewModelScope.launch {
+            with(createVillaPageArguments) {
+                setVilla(villa)
+
+                coverImage?.let { image ->
+                    setImageCover(image)
+                }
+
+                setImageUriList(otherImages.toList())
+            }
+        }
+
+    private fun setVilla(villa: Villa) = viewModelScope.launch {
+        _liveDataVilla.value = villa
+    }
+
+    private fun setImageCover(uri: Uri) = viewModelScope.launch {
+        _liveDataImageCover.value = uri
+    }
+
+    fun setImageUriList(newList: List<Uri>) = viewModelScope.launch {
+        _liveDataImageUriList.value = newList
+        _imageSize.value = newList.size
+    }
+
 
     fun addImagesAndVillaToFirebase(
         coverImage: Uri?,
@@ -199,10 +229,5 @@ class HostVillaCreateViewModel
                     _liveDataFirebaseStatus.value = Resource.error(message)
                 }
             }
-    }
-
-    fun setImageUriList(newList: List<Uri>) = viewModelScope.launch {
-        _imageUriList.value = newList
-        _imageSize.value = newList.size
     }
 }

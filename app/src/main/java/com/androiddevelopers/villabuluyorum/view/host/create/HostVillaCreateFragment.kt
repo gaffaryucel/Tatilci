@@ -22,20 +22,23 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.adapter.ViewPagerAdapterForVillaCreate
 import com.androiddevelopers.villabuluyorum.adapter.downloadImage
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreateBinding
-import com.androiddevelopers.villabuluyorum.databinding.MergeItemCoverImageBinding
+import com.androiddevelopers.villabuluyorum.databinding.MergeItemCoverImageOnlyTitleLocationBinding
+import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
 import com.androiddevelopers.villabuluyorum.model.provinces.District
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
-import com.androiddevelopers.villabuluyorum.model.villa.Facilities
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.checkPermissionImageGallery
 import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.setupDialogs
 import com.androiddevelopers.villabuluyorum.util.showHostBottomNavigation
-import com.androiddevelopers.villabuluyorum.viewmodel.host.create.HostVillaCreateViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.host.create.HostVillaCreateBaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -44,14 +47,12 @@ import java.util.*
 @Suppress("UNUSED_ANONYMOUS_PARAMETER")
 @AndroidEntryPoint
 class HostVillaCreateFragment : Fragment() {
-    private val viewModel: HostVillaCreateViewModel by viewModels()
+    private val viewModel: HostVillaCreateBaseViewModel by viewModels()
     private var _binding: FragmentHostVillaCreateBinding? = null
     private val binding get() = _binding!!
 
-    private var _mergeBinding: MergeItemCoverImageBinding? = null
+    private var _mergeBinding: MergeItemCoverImageOnlyTitleLocationBinding? = null
     private val mergeBinding get() = _mergeBinding!!
-
-    private lateinit var facilitiesArg: Facilities
 
     private val provinceList = mutableListOf<Province>()
     private val districtList = mutableListOf<District>()
@@ -66,39 +67,42 @@ class HostVillaCreateFragment : Fragment() {
 
     private lateinit var errorDialog: AlertDialog
 
-    private var selectedHasPool: Boolean? = null
-    private var selectedHasWifi: Boolean? = null
-    private var selectedHasQuietArea: Boolean? = null
-
     private var selectedLongitude: Double? = null
     private var selectedLatitude: Double? = null
+
+    private lateinit var villaFromArgs: Villa
+    private lateinit var createVillaPageArguments: CreateVillaPageArguments
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val args: HostVillaCreateFragmentArgs by navArgs()
+        createVillaPageArguments = args.createVillaPageArguments
+        viewModel.setCreateVillaPageArguments(createVillaPageArguments)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHostVillaCreateBinding.inflate(inflater, container, false)
-        _mergeBinding = MergeItemCoverImageBinding.bind(binding.root)
+        _mergeBinding = MergeItemCoverImageOnlyTitleLocationBinding.bind(binding.root)
+
         setDropdownItems()
         setClickItems()
         viewModel.getAllProvince()
 
         errorDialog = AlertDialog.Builder(requireContext()).create()
+        setupDialogs(errorDialog)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupDialogs()
-        setEdittextListener()
 
-//        val args: HostVillaCreateFragmentArgs by navArgs()
-//        args.facilities?.let {
-//            facilitiesArg = it
-//        } ?: run {
-//            facilitiesArg = Facilities()
-//        }
+        setEdittextListener()
+        observeLiveData(viewLifecycleOwner)
 
         with(binding) {
             setProgressBarVisibility = false
@@ -110,26 +114,38 @@ class HostVillaCreateFragment : Fragment() {
             indicatorVillaCreate.setViewPager(viewPagerVillaCreate)
 
             toolbarVillaCreate.setNavigationOnClickListener {
-                val directions =
-                    HostVillaCreateFragmentDirections.actionHostVillaCreateFragmentToNavigationHostVillaCreateEnter()
-                Navigation.findNavController(it).navigate(directions)
+                Navigation.findNavController(it)
+                    .navigate(R.id.action_hostVillaCreateFragment_to_navigation_host_villa_create_enter)
             }
         }
 
         viewModel.setImageUriList(selectedOtherImages.toList())
 
         setupLaunchers()
+
         viewPagerAdapter.listenerImages = { images ->
             viewModel.setImageUriList(images.toList())
         }
 
+        //geri tuşuna basıldığında sonraki sayfadan gelen argümanı yakalıyoruz
+        val navController = findNavController()
+        navController
+            .currentBackStackEntry
+            ?.savedStateHandle
+            ?.getLiveData<CreateVillaPageArguments>("createVillaPageArgumentsToBack")
+            ?.observe(viewLifecycleOwner) { data ->
+                createVillaPageArguments = data
+                viewModel.setCreateVillaPageArguments(createVillaPageArguments)
+            }
     }
 
-    private fun createVilla(id: String): Villa {
-        val newVilla = Villa()
+    private fun createVilla(villa: Villa): Villa {
+        if (villa.villaId == null) {
+            villa.villaId = UUID.randomUUID().toString()
+        }
+
         with(binding) {
-            with(newVilla) {
-                villaId = id
+            with(villa) {
                 hostId = userId
                 villaName = editTextTitleVillaCreate.text.toString()
                 description = editTextDescriptionVillaCreate.text.toString()
@@ -139,25 +155,12 @@ class HostVillaCreateFragment : Fragment() {
                     dropdownNeighborhoodAndVillageVillaCreate.text.toString()
                 locationAddress = editTextAddressVillaCreate.text.toString()
                 nightlyRate = editTextNightlyRateVillaCreate.text.toString().toDoubleOrNull() ?: 0.0
-                capacity = dropdownCapacityVillaCreate.text.toString().toIntOrNull() ?: 0
-                bedroomCount = dropdownBedroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
-                bedCount = dropdownBedCountVillaCreate.text.toString().toIntOrNull() ?: 0
-                bathroomCount = dropdownBathroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
-                restroom = dropdownRestroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
-                minStayDuration =
-                    dropdownMinStayDurationVillaCreate.text.toString().toIntOrNull() ?: 0
-                hasWifi = selectedHasWifi
-                hasPool = selectedHasPool
-                isQuietArea = selectedHasQuietArea
-                interiorDesign = editTextInteriorDesignVillaCreate.text.toString()
-                gardenArea = editTextGardenAreaVillaCreate.text.toString().toDoubleOrNull() ?: 0.0
-                facilities = facilitiesArg
                 longitude = selectedLongitude
                 latitude = selectedLatitude
             }
         }
 
-        return newVilla
+        return villa
     }
 
     private fun observeLiveData(owner: LifecycleOwner) {
@@ -235,7 +238,15 @@ class HostVillaCreateFragment : Fragment() {
                     }
                 }
 
-                imageUriList.observe(owner) { images ->
+                liveDataVilla.observe(owner) { villa ->
+                    villaFromArgs = villa
+                }
+
+                liveDataImageCover.observe(owner) { image ->
+                    selectedCoverImage = image
+                }
+
+                liveDataImageUriList.observe(owner) { images ->
                     selectedOtherImages.clear()
                     selectedOtherImages.addAll(images.toList())
                     viewPagerAdapter.refreshList(images.toList())
@@ -259,33 +270,6 @@ class HostVillaCreateFragment : Fragment() {
 
     private fun setDropdownItems() {
         with(binding) {
-            // string-array olarak belirleridğimiz numara listesini databinding ile görünüme gönderiyoruz
-            numberAdapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                resources.getStringArray(R.array.numbers)
-            )
-
-            chooseAdapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                resources.getStringArray(R.array.choose)
-            )
-
-            dropdownHasWifiVillaCreate.setOnItemClickListener { parent, view, position, id ->
-                selectedHasWifi = position == 0
-            }
-
-            dropdownHasPoolVillaCreate.setOnItemClickListener { parent, view, position, id ->
-                selectedHasPool = position == 0
-            }
-
-            dropdownQuietAreaVillaCreate.setOnItemClickListener { parent, view, position, id ->
-                selectedHasQuietArea = position == 0
-            }
-
             // seçtiğimiz illeri yakalıyoruz
             dropdownProvinceVillaCreate.setOnItemClickListener { parent, view, position, id ->
                 // il değiştiğinde ilçe ve mahalle/köy içeriğini temizliyoruz
@@ -320,22 +304,16 @@ class HostVillaCreateFragment : Fragment() {
 
     private fun setClickItems() {
         with(binding) {
-            buttonSaveVillaCreate.setOnClickListener {
-                val villaId = UUID.randomUUID().toString()
-                viewModel.addImagesAndVillaToFirebase(
-                    selectedCoverImage,
-                    selectedOtherImages,
-                    createVilla(villaId)
-                )
-            }
+            buttonNextVillaCreatePage1.setOnClickListener {
+                createVillaPageArguments.coverImage = selectedCoverImage
+                createVillaPageArguments.otherImages = selectedOtherImages.toList()
+                createVillaPageArguments.villa = createVilla(villaFromArgs)
 
-            textAddMoreFacility.setOnClickListener {
-                //TODO: Create ekranında yapılan değişiklikeri kaybetmemek için giderken mevcut verileride gönder
-                //TODO: Dönüşte bilgileri tekrar ekrana yazdır
-//                val directions =
-//                    HostVillaCreateFragmentDirections.actionHostVillaCreateFragmentToHostVillaCreateFacilitiesFragment()
-//                Navigation.findNavController(it)
-//                    .navigate(directions)
+                val directions =
+                    HostVillaCreateFragmentDirections.actionHostVillaCreateFragmentToHostVillaCreateDetailFragment(
+                        createVillaPageArguments
+                    )
+                Navigation.findNavController(it).navigate(directions)
             }
 
             textAddImageCover.setOnClickListener {
@@ -414,18 +392,6 @@ class HostVillaCreateFragment : Fragment() {
                 "Resimleri seçin"
             )
         )
-    }
-
-    private fun setupDialogs() {
-        with(errorDialog) {
-            setTitle("Veriler alınırken hata oluştu.")
-            setCancelable(false)
-            setButton(
-                AlertDialog.BUTTON_POSITIVE, "Tamam"
-            ) { dialog, _ ->
-                dialog.cancel()
-            }
-        }
     }
 
     private fun setEdittextListener() {
@@ -537,52 +503,7 @@ class HostVillaCreateFragment : Fragment() {
                 }
 
             })
-
-            dropdownBathroomCountVillaCreate.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    mergeBinding.textDetailBathRoom.text = buildString {
-                        append(s)
-                        append(" Banyo")
-                    }
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                }
-
-            })
-
-            dropdownBedroomCountVillaCreate.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    mergeBinding.textDetailBedRoom.text = buildString {
-                        append(s)
-                        append(" Yatak Odası")
-                    }
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                }
-
-            })
         }
-
     }
 
     // seçilen adres bilgisinden koordinat bilgisini almak için kullanılan metod
@@ -616,7 +537,6 @@ class HostVillaCreateFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        observeLiveData(viewLifecycleOwner)
         hideHostBottomNavigation(requireActivity())
     }
 
@@ -630,4 +550,5 @@ class HostVillaCreateFragment : Fragment() {
         _binding = null
         _mergeBinding = null
     }
+
 }

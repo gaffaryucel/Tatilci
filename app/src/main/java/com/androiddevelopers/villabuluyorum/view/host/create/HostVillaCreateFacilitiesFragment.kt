@@ -1,46 +1,114 @@
 package com.androiddevelopers.villabuluyorum.view.host.create
 
+import android.app.AlertDialog
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreateFacilitiesBinding
+import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
 import com.androiddevelopers.villabuluyorum.model.villa.Facilities
+import com.androiddevelopers.villabuluyorum.model.villa.Villa
+import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
-import com.androiddevelopers.villabuluyorum.viewmodel.host.create.HostVillaCreateFacilitiesViewModel
+import com.androiddevelopers.villabuluyorum.util.setupDialogs
+import com.androiddevelopers.villabuluyorum.util.showHostBottomNavigation
+import com.androiddevelopers.villabuluyorum.viewmodel.host.create.HostVillaCreateBaseViewModel
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HostVillaCreateFacilitiesFragment : Fragment() {
-    private val viewModel: HostVillaCreateFacilitiesViewModel by viewModels()
+    private val viewModel: HostVillaCreateBaseViewModel by viewModels()
     private var _binding: FragmentHostVillaCreateFacilitiesBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var errorDialog: AlertDialog
+    private lateinit var villaFromArgs: Villa
+    private lateinit var createVillaPageArguments: CreateVillaPageArguments
+
+    private var selectedCoverImage: Uri? = null
+    private val selectedOtherImages = mutableListOf<Uri>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val args: HostVillaCreateFacilitiesFragmentArgs by navArgs()
+        createVillaPageArguments = args.createVillaPageArguments
+        viewModel.setCreateVillaPageArguments(createVillaPageArguments)
+
+        //Telefon geri tuşunu dinliyoruz
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            //geri tuşuna basıldığında önceki sayfaya villayıda gönderiyoruz
+            val navController = findNavController()
+            createVillaPageArguments.villa = updateVilla(villaFromArgs)
+            navController.previousBackStackEntry?.savedStateHandle?.set(
+                "createVillaPageArgumentsToBack",
+                createVillaPageArguments
+            )
+            navController.popBackStack()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHostVillaCreateFacilitiesBinding.inflate(inflater, container, false)
+
+        setClickItems()
+
+        errorDialog = AlertDialog.Builder(requireContext()).create()
+        setupDialogs(errorDialog)
+
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeLiveData(viewLifecycleOwner)
         setViewChips()
 
-        binding.facilitiesSave.setOnClickListener {
-//            val directions =
-//                HostVillaCreateFacilitiesFragmentDirections.actionHostVillaCreateFacilitiesFragmentToHostVillaCreateFragment(
-//                    collectChips()
-//                )
-//
-//            Navigation.findNavController(view).navigate(directions)
+
+    }
+
+    private fun updateVilla(villa: Villa): Villa {
+        villa.facilities = collectChips()
+        return villa
+    }
+
+
+    private fun setClickItems() {
+        with(binding) {
+            toolbarVillaCreate.setNavigationOnClickListener {
+                gotoCreateEnter()
+            }
+
+            buttonSaveVillaCreatePage3.setOnClickListener {
+                viewModel.addImagesAndVillaToFirebase(
+                    selectedCoverImage,
+                    selectedOtherImages,
+                    villaFromArgs
+                )
+            }
         }
+    }
+
+    private fun gotoCreateEnter() {
+        Navigation.findNavController(binding.root)
+            .navigate(R.id.action_hostVillaCreateFacilitiesFragment_to_navigation_host_villa_create_enter)
+        showHostBottomNavigation(requireActivity())
     }
 
     private fun setViewChips() {
@@ -171,6 +239,43 @@ class HostVillaCreateFacilitiesFragment : Fragment() {
         }
 
         return facilities
+    }
+
+    private fun observeLiveData(owner: LifecycleOwner) {
+        with(binding) {
+            with(viewModel) {
+                liveDataFirebaseStatus.observe(owner) {
+                    when (it.status) {
+                        Status.SUCCESS -> {
+                            gotoCreateEnter()
+                        }
+
+                        Status.LOADING -> it.data?.let { status ->
+                            setProgressBarVisibility = status
+                        }
+
+                        Status.ERROR -> {
+                            errorDialog.setMessage("Hata mesajı:\n${it.message}")
+                            errorDialog.show()
+                        }
+                    }
+
+                }
+
+                liveDataVilla.observe(owner) { villa ->
+                    villaFromArgs = villa
+                }
+
+                liveDataImageCover.observe(owner) { image ->
+                    selectedCoverImage = image
+                }
+
+                liveDataImageUriList.observe(owner) { images ->
+                    selectedOtherImages.clear()
+                    selectedOtherImages.addAll(images.toList())
+                }
+            }
+        }
     }
 
     override fun onResume() {

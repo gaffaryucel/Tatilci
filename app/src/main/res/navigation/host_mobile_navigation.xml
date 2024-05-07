@@ -177,6 +177,18 @@
         <argument
             android:name="reservation_id"
             app:argType="string" />
+        <action
+            android:id="@+id/action_hostReservationDetailsFragment_to_reservationApprovalFragment"
+            app:destination="@id/reservationApprovalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reservationApprovalFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.host.reservation.ReservationApprovalFragment"
+        android:label="fragment_reservation_approval"
+        tools:layout="@layout/fragment_reservation_approval" >
+        <argument
+            android:name="id"
+            app:argType="string" />
     </fragment>
 
 

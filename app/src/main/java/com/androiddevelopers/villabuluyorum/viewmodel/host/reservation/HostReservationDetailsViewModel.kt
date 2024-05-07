@@ -66,13 +66,5 @@ class HostReservationDetailsViewModel @Inject constructor(
                 _liveDataFirebaseVilla.value = documentSnapshot.toVilla()
             }
     }
-    fun confirmReservation(status: ApprovalStatus) {
-        _reservationMessage.value = Resource.loading(null)
-        val map = HashMap<String, Any?>()
-        map["approvalStatus"] = status
-        firebaseRepo.changeReservationStatus(reservation.value?.reservationId.toString(),map)
-            .addOnSuccessListener {
-                _reservationMessage.value = Resource.success()
-            }
-    }
+
 }

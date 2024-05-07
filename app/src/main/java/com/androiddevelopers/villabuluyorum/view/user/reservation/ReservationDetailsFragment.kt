@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentReservationDetailsBinding
 import com.androiddevelopers.villabuluyorum.databinding.MergeItemCoverImageBinding
 import com.androiddevelopers.villabuluyorum.model.PaymentMethod
@@ -52,12 +54,26 @@ class ReservationDetailsFragment : Fragment() {
             viewModel.getUserDataById(userId)
             viewModel.getVillaById(villaId)
         }
+        binding.layoutUser.setOnClickListener {
+            val action = ReservationDetailsFragmentDirections.actionReservationDetailsFragmentToUserProfileFragment(userId)
+            Navigation.findNavController(it).navigate(action)
+        }
         binding.ivMessage.setOnClickListener {
+            Toast.makeText(
+                requireContext(),
+                "Bu sürümde Mesaj özelliği kullanılamaz",
+                Toast.LENGTH_SHORT
+            ).show()
             //goToMessageFragment
             // TODO: Rezervasyon detaylarından Mesajlar ekranına gidicek
         }
         binding.btnMessageToHomeOwner.setOnClickListener {
             //goToMessageFragment
+            Toast.makeText(
+                requireContext(),
+                "Bu sürümde Mesaj özelliği kullanılamaz",
+                Toast.LENGTH_SHORT
+            ).show()
         }
         observeLiveData()
 

@@ -12,4 +12,20 @@
     <string name="i_accept_privacy_policy">Güncellenmiş Hizmet Şartları ve Ödeme Hizmetleri Şartlarına da onay veriyorum ve Gizlilik Politikasını kabul ediyorum</string>
     <string name="payment_details">Tatilc uygulamasında kiralama işlemleri sırasında herhangi bir ek ücret alınmamaktadır. Verdiğiniz tüm paranın kendi tatilleriniz için kullanıldığını belirtmek isteriz; böylece hizmet bedeli ödemeden tatilinizi planlayabilirsiniz. Ödeme işlemleri, mülk sahibinin belirlediği yöntemlerle gerçekleştirilmektedir, bu da ödeme sürecinin güvenli ve kolay olmasını sağlar. Tatilc olarak, müşterilerimizin tatil deneyimlerini en iyi şekilde yaşamalarını sağlamak için elimizden geleni yapıyoruz.</string>
     <string name="accept_reservation_rules">Rezervasyonu onayladığınızda, belirtilen tarihler arasında bu mülk için bir rezervasyon oluşturulacaktır. İptal edilene veya rezervasyon süresi dolana kadar bu mülk için başka bir rezervasyon oluşturulmayacağını onaylıyor musunuz?</string>
+
+    <string name="terms_conditions_title">Kiralama Şartları ve Sorumluluklar</string>
+    <string name="terms_conditions_description">Ev sahibi olarak mülkünüzü kiraladığınızda yaşanabilecek durumlar hakkında bilgi vermek istiyoruz. Lütfen aşağıdaki şartları ve sorumlulukları kabul edin:</string>
+    <string name="condition_1">- Mülkünüzün güvenliği ve temizliği için gerekli önlemleri almalısınız.</string>
+    <string name="condition_2">- Misafirlerinizi hoş karşılamalı ve onlara yardımcı olmalısınız.</string>
+    <string name="condition_3">- Ev kurallarını net bir şekilde belirtmelisiniz ve misafirlerin bu kurallara uymasını sağlamalısınız.</string>
+    <string name="condition_4">- Herhangi bir sorun veya acil durumda hızlı bir şekilde iletişime geçmelisiniz.</string>
+    <string name="accept_conditions">Yukarıdaki şartları ve sorumlulukları kabul ediyorum.</string>
+
+    <string name="reservation_approval_message">Rezervasyonu onaylamak üzeresiniz. Onayladığınızda aşağıdaki adımları takip edeceğiz. \n\n1. Rezervasyon Onayı\nRezervasyonu onayladığınızda, tatilciye rezervasyonunuzun onaylandığına dair bir bildirim gönderilecektir.\n\n2.Ödeme işlemleri\nÖdeme işlemleri, tatilci ve sizin (ev sahibinin) belirlediğiniz anlaşılan ödeme yöntemi ile yapılacaktır. Bu durumda, uygulamamız tarafından herhangi bir komisyon alınmayacaktır ve tüm kiralama ücreti doğrudan size (ev sahibine) iletilmiş olacaktır. Lütfen unutmayın ki, ödeme esnasında yaşanabilecek herhangi bir sorunun uygulamamız tarafından kontrol edilemeyeceğini ve bu tür durumlarla ilgili olarak doğrudan tatilciyle iletişime geçmeniz gerektiğini belirtmek isteriz.\n\n3. Detaylar\nOnaylanan rezervasyonun detayları, profilinizde ve rezervasyon geçmişinizde görüntülenecektir.\n\nGüvenlik ve Sorumluluk:\nRezervasyonu onayladığınızda, ev sahibi olarak aşağıdaki güvenlik ve sorumluluk ilkelerini kabul etmiş olursunuz:\n- Misafirlerin güvenliği ve konforu için gereken önlemleri almak.\n- Ev kurallarını net bir şekilde belirtmek ve misafirlerin bu kurallara uymasını sağlamak.\n- Herhangi bir sorun veya acil durumda tatilciyle iletişime geçmek ve yardımcı olmak.\n\nOnaylamak istediğinizden emin misiniz?</string>
+
+    <string name="reservation_approved_host">Rezervasyon Onaylandı,\n\nSize, yapılan rezervasyonun başarıyla onaylandığını bildirmekten mutluluk duyuyoruz! Tatil yerinizde konaklamalarını sağlayacak olmanızı umuyoruz.\n\nDetaylar için lütfen bizimle iletişime geçin.\n\nSaygılarımızla.</string>
+    <string name="reservation_rejected_host">Bu rezervasyon maalesef reddedilmiştir.\nDetaylar için lütfen bizimle iletişime geçin.\nSaygılarımızla</string>
+
+
+
 </resources>

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.adapter.ReservationAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostReservationDetailsBinding
@@ -66,11 +67,15 @@ class HostReservationDetailsFragment : Fragment() {
         }
         binding.btnConfirmReservation.setOnClickListener {
             if (binding.cbConfirmRules.isChecked){
-                viewModel.confirmReservation(ApprovalStatus.APPROVED)
+                goToApprovalFragment(reservationId)
             }else{
                 Toast.makeText(requireContext(), "Lütfen Rezervasyon Koşullarını Onaylayın", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+    private fun goToApprovalFragment(id : String){
+        val action = HostReservationDetailsFragmentDirections.actionHostReservationDetailsFragmentToReservationApprovalFragment(id)
+        Navigation.findNavController(requireView()).navigate(action)
     }
 
     private fun observeLiveData() {
@@ -99,11 +104,31 @@ class HostReservationDetailsFragment : Fragment() {
             if (myReservation != null) {
                 binding.apply {
                     reservation = myReservation
-                    status = when(myReservation.approvalStatus){
-                        ApprovalStatus.WAITING_FOR_APPROVAL ->  "Onay Bekliyor"
-                        ApprovalStatus.APPROVED ->  "Onaylandı"
-                        ApprovalStatus.NOT_APPROVED -> "Onay Verilmedi"
-                        null -> "Onay Bekliyor"
+                    when(myReservation.approvalStatus){
+                        ApprovalStatus.WAITING_FOR_APPROVAL ->  {
+                            status ="Onay Bekliyor"
+                        }
+                        ApprovalStatus.APPROVED ->  {
+                            tvReservationApprovalStatusApproved.visibility = View.VISIBLE
+                            layoutConfirmRules.visibility = View.GONE
+                            btnConfirmReservation.apply {
+                                isEnabled = false
+                                text = "Onaylandı"
+                            }
+                            status = "Onaylandı"
+                        }
+                        ApprovalStatus.NOT_APPROVED -> {
+                            tvReservationApprovalStatusNotApproved.visibility = View.VISIBLE
+                            layoutConfirmRules.visibility = View.GONE
+                            btnConfirmReservation.apply {
+                                isEnabled = false
+                                text = "İptal Edildi"
+                            }
+                            status =  "İptal Edildi"
+                        }
+                        null ->{
+                            status = "Onay Bekliyor"
+                        }
                     }
                     payment = when(myReservation.paymentMethod){
                         PaymentMethod.CASH ->  "Nakit"
@@ -112,7 +137,6 @@ class HostReservationDetailsFragment : Fragment() {
                         null -> "Nakit"
                     }
                 }
-
             }
         })
         viewModel.userData.observe(viewLifecycleOwner, Observer { myUser ->
@@ -120,7 +144,9 @@ class HostReservationDetailsFragment : Fragment() {
                 Glide.with(requireContext())
                     .load(myUser.profileImageUrl)
                     .into(binding.ivUserPhoto)
-                binding.user = myUser
+                binding.apply {
+                    user = myUser
+                }
             }
         })
         viewModel.liveDataFirebaseVilla.observe(viewLifecycleOwner, Observer { villa ->
@@ -129,7 +155,10 @@ class HostReservationDetailsFragment : Fragment() {
                 mergeBinding.textDetailAddress.text = villa.locationAddress
                 mergeBinding.textDetailBedRoom.text = villa.bedroomCount.toString() + " Yatak odası"
                 mergeBinding.textDetailBathRoom.text = villa.bathroomCount.toString() + " Banyo"
-                Glide.with(requireContext()).load(villa.coverImage).into(mergeBinding.imageTitle)
+                Glide.with(requireContext())
+                    .load(villa.coverImage)
+                    .placeholder(R.drawable.app_logo)
+                    .into(mergeBinding.imageTitle)
             }
         })
     }

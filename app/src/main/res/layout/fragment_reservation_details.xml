@@ -35,10 +35,6 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-
-
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_marginVertical="10dp"
                     android:id="@+id/topBarReservations"
@@ -223,6 +219,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutUser"
                     android:padding="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -271,7 +268,7 @@
 
                 <TextView
                     android:layout_marginHorizontal="10dp"
-                    android:text='@{user.firstName +"isimli Ev sahibi, mülkünü "+ reservation.startDate + " - "+ reservation.endDate + "tarihleri arasında kiralamak istediğiniz bildirimini aldı, ₺"+ reservation.totalPrice+ " tutarinda olan ödemeyi belirttiğiniz şekilde " +payment+ " ile yapmanızı bekliyor.\nGüvenliğiniz için kararlaştırılan zamandan daha önce bir ödeme yapmamanızı rica ediyoruz. \nRezervasyon isteğiniz 24 içerisinde sonuçlanacaktır, sonuçlandığında bildirim alacaksınız."}'
+                    android:text='@{user.firstName +" isimli Ev sahibi, mülkünü "+ reservation.startDate + " - "+ reservation.endDate + "tarihleri arasında kiralamak istediğiniz bildirimini aldı, ₺"+ reservation.totalPrice+ " tutarinda olan ödemeyi belirttiğiniz şekilde " +payment+ " ile yapmanızı bekliyor.\nGüvenliğiniz için kararlaştırılan zamandan daha önce bir ödeme yapmamanızı rica ediyoruz. \nRezervasyon isteğiniz 24 içerisinde sonuçlanacaktır, sonuçlandığında bildirim alacaksınız."}'
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:text="Ali Can isimli Ev sahibi, mülkünü 01/06/2024 - 07/06/2024 tarihleri arasında kiralamak istediğiniz bildirimini aldı,, ₺1500 tutarında olan ödemeyi kredi kartı ile yapmanızı bekliyor. Güvenliğiniz için kararlaştırılan zamandan daha önce bir ödeme yapmamanızı rica ediyoruz.  \nRezervasyon isteğiniz 24 içerisinde sonuçlanacaktır, sonuçlandığında bildirim alacaksınız." />

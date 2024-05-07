@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.adapter.HouseAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentProfileBinding
 import com.androiddevelopers.villabuluyorum.util.Status
+import com.androiddevelopers.villabuluyorum.util.UserType
 import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
 import com.androiddevelopers.villabuluyorum.view.MainActivity
 import com.androiddevelopers.villabuluyorum.view.host.HostBottomNavigationActivity
@@ -31,6 +32,8 @@ class ProfileFragment : Fragment() {
     val viewModel: ProfileViewModel by viewModels()
 
     private var progressDialog: ProgressDialog? = null
+
+    private var userType : UserType = UserType.NORMAL_USER
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,14 +52,24 @@ class ProfileFragment : Fragment() {
     }
     private fun setButtonActions(){
         binding.ivSettings.setOnClickListener {
-            val action = ProfileFragmentDirections.actionNavigationProfileToEditProfileDetailsFragment()
-            Navigation.findNavController(it).navigate(action)
+            goToEditProfileDetails(it)
         }
         binding.cardViewBecomeHomeOwner.setOnClickListener {
-            val intent = Intent(requireActivity(), HostBottomNavigationActivity::class.java)
-            requireActivity().finish()
-            viewModel.setStartModeHost()
-            startActivity(intent)
+            if (viewModel.checkAllFieldsValid()){
+                if (userType == UserType.HOMEOWNER){
+                    viewModel.setStartModeHost()
+                    goToHomeOwnerActivity()
+                }else{
+                    showTermsConditionsDialog()
+                }
+            }else{
+                Toast.makeText(
+                    requireContext(),
+                    "Ev sahibi olmak için öncelikle tüm kullanıcı bilgilerini girmelisiniz",
+                    Toast.LENGTH_SHORT
+                ).show()
+                goToEditProfileDetails(it)
+            }
         }
         binding.cardViewExit.setOnClickListener{
             viewModel.signOutAndExit(requireContext())
@@ -108,9 +121,34 @@ class ProfileFragment : Fragment() {
                     user = userData
                 }
             }
+            userType = userData.userType ?: UserType.NORMAL_USER
             Glide.with(requireContext()).load(userData.profileImageUrl).into(binding.ivProfilePhoto)
             Glide.with(requireContext()).load(userData.profileBannerUrl).into(binding.ivProfileBanner)
         })
+        viewModel.reservationCount.observe(viewLifecycleOwner, Observer {
+            val count = it ?: 0
+            binding.tvReservationCount.text = count.toString()
+        })
+    }
+    private fun goToEditProfileDetails(view : View){
+        val action = ProfileFragmentDirections.actionNavigationProfileToEditProfileDetailsFragment()
+        Navigation.findNavController(view).navigate(action)
+    }
+    private fun showTermsConditionsDialog() {
+        val dialogFragment = TermsConditionsDialogFragment()
+        dialogFragment.show(parentFragmentManager, "TermsConditionsDialog")
+        dialogFragment.onClick = {
+            if (it){
+                viewModel.setStartModeHost()
+                viewModel.setUserTypeHomeOwner()
+            }
+        }
+    }
+    private fun goToHomeOwnerActivity(){
+        val intent = Intent(requireActivity(), HostBottomNavigationActivity::class.java)
+        requireActivity().finish()
+        startActivity(intent)
+        viewModel.setStartModeHost()
     }
     override fun onDestroyView() {
         super.onDestroyView()

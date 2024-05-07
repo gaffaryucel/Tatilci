@@ -6,390 +6,443 @@
         <variable
             name="user"
             type="com.androiddevelopers.villabuluyorum.model.UserModel" />
+        <variable
+            name="commentCount"
+            type="String" />
+        <variable
+            name="ratingCount"
+            type="String" />
+        <variable
+            name="rating"
+            type="String" />
+        <variable
+            name="yearCount"
+            type="String" />
     </data>
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/layoutProfile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:context=".view.user.profile.UserProfileFragment">
-
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/topBarProfile"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    tools:context=".view.user.profile.UserProfileFragment">
 
-                    <ImageView
+
+                    <LinearLayout
+                        android:id="@+id/topBarProfile"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/app_logo" />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/ivBack"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/circle_translucent_bg"
-                        android:padding="10dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/baseline_arrow_back"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/white" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/ivUserBanner"
+                                android:layout_width="match_parent"
+                                android:layout_height="250dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/app_logo" />
+
+                            <ImageView
+                                android:id="@+id/ivBack"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_margin="10dp"
+                                android:background="@drawable/circle_translucent_bg"
+                                android:padding="10dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/baseline_arrow_back"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:tint="@color/white" />
 
 
-                    <ImageView
-                        android:id="@+id/ivSettings"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/circle_translucent_bg"
-                        android:padding="10dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/settings"
+                            <ImageView
+                                android:id="@+id/ivSettings"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_margin="10dp"
+                                android:background="@drawable/circle_translucent_bg"
+                                android:padding="10dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/menu_icon"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:tint="@color/white" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginHorizontal="5dp"
+                        android:id="@+id/profile_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="230dp"
+                        android:background="@drawable/profile_bg"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/white" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <LinearLayout
+                            android:layout_marginTop="75dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/layoutUserRating">
+
+                            <TextView
+                                android:text="@{user.username}"
+                                tools:text="Gaffar Yücel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/normal_text_color"
+                                android:textSize="22dp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_gravity="center"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <LinearLayout
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:orientation="vertical"
+                                    android:layout_width="80dp"
+                                    android:layout_height="match_parent">
+                                    <TextView
+                                        android:textStyle="bold"
+                                        android:layout_gravity="center"
+                                        android:textAlignment="center"
+                                        android:text="@{commentCount}"
+                                        tools:text="0"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="23sp"/>
+                                    <TextView
+                                        android:text="yorum"
+                                        android:textAlignment="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="16sp"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:orientation="vertical"
+                                    android:layout_width="80dp"
+                                    android:layout_height="match_parent">
+                                    <TextView
+                                        android:textStyle="bold"
+                                        android:layout_gravity="center"
+                                        android:textAlignment="center"
+                                        tools:text="0"
+                                        android:text="@{ratingCount}"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="23sp"/>
+                                    <TextView
+                                        android:text="Değerlendirme"
+                                        android:layout_gravity="center"
+                                        android:textAlignment="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="16sp"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:orientation="vertical"
+                                    android:layout_width="80dp"
+                                    android:layout_height="match_parent">
+                                    <TextView
+                                        android:textStyle="bold"
+                                        android:layout_gravity="center"
+                                        android:textAlignment="center"
+                                        tools:text="0"
+                                        android:text="@{yearCount}"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="23sp"/>
+                                    <TextView
+                                        android:text="yıldır ev sahibi"
+                                        android:layout_gravity="center"
+                                        android:textAlignment="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="16sp"/>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/btnMessage"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:layout_marginTop="16dp"
+                                android:background="@drawable/secondary_button_bg"
+                                android:backgroundTint="@color/main_button_gb_color"
+                                android:text="Mesaj gönder"
+                                android:textColor="@color/normal_text_color"
+                                android:layout_marginBottom="20dp"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivProfilePhoto"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/default_user_icon"
+                        app:civ_border_color="@color/main_button_gb_color"
+                        app:civ_border_width="2dp"
+                        app:layout_constraintBottom_toTopOf="@+id/profile_layout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/profile_layout" />
+
+                    <LinearLayout
+                        android:paddingVertical="5dp"
+                        android:paddingHorizontal="10dp"
+                        android:id="@+id/layoutUserRating"
+                        android:backgroundTint="@color/normal_text_color"
+                        android:background="@drawable/secondary_button_bg"
+                        app:layout_constraintTop_toBottomOf="@+id/ivProfilePhoto"
+                        app:layout_constraintBottom_toBottomOf="@+id/ivProfilePhoto"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_marginEnd="2dp"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/star" />
+
+                        <TextView
+                            android:layout_marginStart="2dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{rating}"
+                            tools:text="0.0"
+                            android:textColor="#FFD700"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+
+
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/profile_layout"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="230dp"
-                android:background="@drawable/profile_bg"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </LinearLayout>
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ivProfilePhoto"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@drawable/default_user_icon"
-                app:civ_border_color="@color/main_button_gb_color"
-                app:civ_border_width="2dp"
-                app:layout_constraintBottom_toTopOf="@+id/profile_layout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/profile_layout" />
-
-            <LinearLayout
-                android:paddingVertical="5dp"
-                android:paddingHorizontal="10dp"
-                android:id="@+id/layoutUserRating"
-                android:backgroundTint="@color/normal_text_color"
-                android:background="@drawable/secondary_button_bg"
-                app:layout_constraintTop_toBottomOf="@+id/ivProfilePhoto"
-                app:layout_constraintBottom_toBottomOf="@+id/ivProfilePhoto"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_marginEnd="2dp"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/star" />
-
-                <TextView
-                    android:layout_marginStart="2dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5.0"
-                    android:textColor="#FFD700"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_user_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutUserRating">
-
-                <TextView
-                    android:text="@{user.username}"
-                    tools:text="Gaffar Yücel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/normal_text_color"
-                    android:textSize="22dp"
-                    android:textStyle="bold" />
 
                 <LinearLayout
-                    android:layout_gravity="center"
-                    android:orientation="horizontal"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_layout"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <LinearLayout
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
                         android:orientation="vertical"
-                        android:layout_width="80dp"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:textStyle="bold"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:id="@+id/tvComments"
-                            android:text="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="23sp"/>
-                        <TextView
-                            android:text="yorum"
-                            android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:paddingTop="5dp"
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:orientation="vertical"
-                        android:layout_width="80dp"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:textStyle="bold"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:id="@+id/tvFollowersCount"
-                            android:text="15"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="23sp"/>
-                        <TextView
-                            android:text="Değerlendirme"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:orientation="vertical"
-                        android:layout_width="80dp"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:textStyle="bold"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:id="@+id/tvPostCount"
-                            android:text="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="23sp"/>
-                        <TextView
-                            android:text="yıldır ev sahibi"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"/>
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="@{user.username + ` için yapılan yorumlar` }"
+                                    tools:text="Gaffar Yücel için yapılan yorumlar"
+                                    android:textSize="20sp"
+                                    android:textColor="@color/normal_text_color"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <ProgressBar
+                                    android:id="@+id/pbComments"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:visibility="gone"
+                                    android:id="@+id/rvComments"
+                                    android:orientation="horizontal"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent" />
+                            </LinearLayout>
 
-                    </LinearLayout>
+                            <LinearLayout
+                                android:visibility="gone"
+                                android:layout_marginTop="50dp"
+                                android:id="@+id/layoutEmptyComments"
+                                android:layout_width="match_parent"
+                                android:orientation="vertical"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:textAlignment="center"
+                                    android:text="Henüz Bir Yorum Yapılmadı"
+                                    android:textColor="@color/main_button_gb_color"
+                                    android:textStyle="bold"
+                                    android:layout_gravity="center"
+                                    android:textSize="18sp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <ImageView
+                                    android:layout_marginBottom="50dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/null_icon"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    app:tint="@color/main_button_gb_color" />
+                            </LinearLayout>
+                        </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    tools:text="Gaffar Yücel adlı kullanıcının ilanları"
+                                    android:text="@{user.username + ` adlı kullanıcının ilanları` }"
+                                    android:textSize="20sp"
+                                    android:textColor="@color/normal_text_color"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+
+                                <ProgressBar
+                                    android:layout_marginTop="10dp"
+                                    android:id="@+id/pbUserProfileVillas"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:layout_marginBottom="10dp"
+                                    android:visibility="gone"
+                                    android:id="@+id/rvUserVillas"
+                                    android:orientation="horizontal"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_marginTop="50dp"
+                                android:visibility="gone"
+                                android:id="@+id/layoutEmptyVillas"
+                                android:layout_width="match_parent"
+                                android:orientation="vertical"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:textAlignment="center"
+                                    android:text="Henüz Bir İlan Paylaşmadı"
+                                    android:textColor="@color/main_button_gb_color"
+                                    android:textStyle="bold"
+                                    android:layout_gravity="center"
+                                    android:textSize="18sp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <ImageView
+                                    android:layout_marginBottom="50dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/null_icon"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    app:tint="@color/main_button_gb_color" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnMessage"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/secondary_button_bg"
-                    android:backgroundTint="@color/main_button_gb_color"
-                    android:text="Mesaj gönder"
-                    android:textColor="@color/normal_text_color"
-                    android:layout_marginBottom="20dp"
-                    android:textSize="16sp" />
             </LinearLayout>
 
 
-         <LinearLayout
-             app:layout_constraintStart_toStartOf="parent"
-             app:layout_constraintEnd_toEndOf="parent"
-             android:layout_marginHorizontal="10dp"
-             app:layout_constraintTop_toBottomOf="@+id/layout_user_info"
-             android:orientation="vertical"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content">
-             <LinearLayout
-                 android:visibility="gone"
-                 android:id="@+id/layoutProfileError"
-                 android:orientation="vertical"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent">
+        </androidx.core.widget.NestedScrollView>
 
-                 <TextView
-                     android:textAlignment="center"
-                     android:text="Bir Hata Oluştu"
-                     android:textColor="@color/main_button_gb_color"
-                     android:textStyle="bold"
-                     android:layout_gravity="center"
-                     android:textSize="18sp"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"/>
-                 <ImageView
-                     android:layout_gravity="center"
-                     android:src="@drawable/null_icon"
-                     android:layout_width="40dp"
-                     android:layout_height="40dp"
-                     app:tint="@color/main_button_gb_color" />
-             </LinearLayout>
-             <ProgressBar
-                 android:visibility="gone"
-                 android:id="@+id/pbProfile"
-                 android:layout_gravity="center"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"/>
-             <LinearLayout
-                 android:orientation="vertical"
-                 android:id="@+id/layoutUserData"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content">
+        <LinearLayout
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            android:id="@+id/layoutProfileError"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-                 <LinearLayout
-                     android:orientation="vertical"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content">
-                     <LinearLayout
-                         android:id="@+id/layoutComments"
-                         android:orientation="vertical"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content">
-                         <TextView
-                             android:text="@{user.username + ` için yapılan yorumlar` }"
-                             tools:text="Gaffar Yücel için yapılan yorumlar"
-                             android:textSize="20sp"
-                             android:textColor="@color/normal_text_color"
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"/>
+            <TextView
+                android:textAlignment="center"
+                android:text="Bir Hata Oluştu"
+                android:textColor="@color/main_button_gb_color"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:layout_gravity="center"
+                android:src="@drawable/null_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:tint="@color/main_button_gb_color" />
+        </LinearLayout>
 
-                         <androidx.recyclerview.widget.RecyclerView
-                             android:visibility="gone"
-                             android:id="@+id/rvComments"
-                             android:orientation="horizontal"
-                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"
-                             android:layout_marginTop="10dp"
-                             app:layout_constraintEnd_toEndOf="parent"
-                             app:layout_constraintStart_toStartOf="parent" />
-                     </LinearLayout>
-
-                     <LinearLayout
-                         android:layout_marginTop="50dp"
-                         android:id="@+id/layoutEmptyComments"
-                         android:layout_width="match_parent"
-                         android:orientation="vertical"
-                         android:layout_height="wrap_content">
-                         <TextView
-                             android:textAlignment="center"
-                             android:text="Henüz Bir Yorum Yapılmadı"
-                             android:textColor="@color/main_button_gb_color"
-                             android:textStyle="bold"
-                             android:layout_gravity="center"
-                             android:textSize="18sp"
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"/>
-                         <ImageView
-                             android:layout_marginBottom="50dp"
-                             android:layout_gravity="center"
-                             android:src="@drawable/null_icon"
-                             android:layout_width="40dp"
-                             android:layout_height="40dp"
-                             app:tint="@color/main_button_gb_color" />
-                     </LinearLayout>
-                 </LinearLayout>
-
-                 <LinearLayout
-                     android:layout_marginTop="10dp"
-                     android:orientation="vertical"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content">
-                     <LinearLayout
-                         android:id="@+id/layoutVillas"
-                         android:orientation="vertical"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content">
-
-
-                         <TextView
-                             tools:text="Gaffar Yücel adlı kullanıcının ilanları"
-                             android:text="@{user.username + ` adlı kullanıcının ilanları` }"
-                             android:textSize="20sp"
-                             android:textColor="@color/normal_text_color"
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"/>
-                         <androidx.recyclerview.widget.RecyclerView
-                             android:id="@+id/rvUserVillas"
-                             android:orientation="horizontal"
-                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"
-                             android:layout_marginTop="10dp"
-                             app:layout_constraintEnd_toEndOf="parent"
-                             app:layout_constraintStart_toStartOf="parent" />
-                     </LinearLayout>
-
-                     <LinearLayout
-                         android:layout_marginTop="50dp"
-                         android:visibility="gone"
-                         android:id="@+id/layoutEmptyVillas"
-                         android:layout_width="match_parent"
-                         android:orientation="vertical"
-                         android:layout_height="wrap_content">
-                         <TextView
-                             android:textAlignment="center"
-                             android:text="Henüz Bir İlan Paylaşmadı"
-                             android:textColor="@color/main_button_gb_color"
-                             android:textStyle="bold"
-                             android:layout_gravity="center"
-                             android:textSize="18sp"
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"/>
-                         <ImageView
-                             android:layout_marginBottom="50dp"
-                             android:layout_gravity="center"
-                             android:src="@drawable/null_icon"
-                             android:layout_width="40dp"
-                             android:layout_height="40dp"
-                             app:tint="@color/main_button_gb_color" />
-                     </LinearLayout>
-                 </LinearLayout>
-             </LinearLayout>
-
-         </LinearLayout>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
+        <ProgressBar
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/pbProfile"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
 

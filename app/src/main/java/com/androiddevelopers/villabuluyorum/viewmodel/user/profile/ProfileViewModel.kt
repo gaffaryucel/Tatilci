@@ -7,11 +7,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.repo.SharedPreferencesRepo
 import com.androiddevelopers.villabuluyorum.util.Resource
+import com.androiddevelopers.villabuluyorum.util.UserType
+import com.androiddevelopers.villabuluyorum.util.toReservation
 import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.util.toVilla
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -34,6 +37,9 @@ constructor(
 
     private val currentUserId = auth.currentUser?.uid.toString()
 
+    private var _reservationCount = MutableLiveData<Int>()
+    val reservationCount: LiveData<Int>
+        get() = _reservationCount
 
     private var _userData = MutableLiveData<UserModel>()
     val userData: LiveData<UserModel>
@@ -58,6 +64,7 @@ constructor(
     init {
         getUserData()
         getUserVillas(20)
+        getReservationCount()
     }
 
     private fun getUserData() = viewModelScope.launch {
@@ -71,6 +78,17 @@ constructor(
             }.addOnFailureListener { exception ->
                 // Hata durzumunda işlemleri buraya ekleyebilirsiniz
                 _userInfoMessage.value = Resource.error("Belge alınamadı. Hata: $exception", null)
+            }
+    }
+    private fun getReservationCount() = viewModelScope.launch(Dispatchers.IO) {
+        repo.getUserReservations(currentUserId)
+            .addOnSuccessListener { document ->
+                val reservationList = mutableListOf<ReservationModel>()
+                println("size : "+ document.documents.size)
+                for (document in document) {
+                    document.toReservation()?.let { r -> reservationList.add(r) }
+                }
+                _reservationCount.value = reservationList.size
             }
     }
 
@@ -118,15 +136,35 @@ constructor(
             city
         }
     }
+    fun checkAllFieldsValid(): Boolean {
+        val user = userData.value
+        return !user?.username.isNullOrBlank() &&
+                !user?.firstName.isNullOrBlank() &&
+                !user?.lastName.isNullOrBlank() &&
+                !user?.email.isNullOrBlank() &&
+                !user?.phoneNumber.isNullOrBlank() &&
+                !user?.profileImageUrl.isNullOrBlank() &&
+                user?.address != null &&
+                !user.address?.province.isNullOrBlank() &&
+                !user.address?.district.isNullOrBlank() &&
+                !user.address?.neighborhood.isNullOrBlank() &&
+                !user.address?.address.isNullOrBlank()
+    }
+
     fun signOutAndExit(context: Context) {
         _exitMessage.value = Resource.loading(null)
-        val googleSignInClient =
-            GoogleSignIn.getClient(context, GoogleSignInOptions.DEFAULT_SIGN_IN)
+        val googleSignInClient = GoogleSignIn.getClient(context, GoogleSignInOptions.DEFAULT_SIGN_IN)
         googleSignInClient.signOut()
         auth.signOut()
         _exitMessage.value = Resource.success(null)
     }
     fun setStartModeHost() {
         sharedPreferencesRepo.setStartModeHost()
+    }
+
+    fun setUserTypeHomeOwner() = viewModelScope.launch(Dispatchers.IO) {
+        val updateMap = HashMap<String, Any?>()
+        updateMap["userType"] = UserType.HOMEOWNER
+        repo.updateUserData(currentUserId, updateMap)
     }
 }

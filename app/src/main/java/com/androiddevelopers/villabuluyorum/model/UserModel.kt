@@ -1,5 +1,7 @@
 package com.androiddevelopers.villabuluyorum.model
 
+import com.androiddevelopers.villabuluyorum.util.UserType
+
 data class UserModel(
     var userId: String? = null,
     var username: String? = null,
@@ -17,6 +19,7 @@ data class UserModel(
     var latitude: Double? = null,
     var longitude: Double? = null,
     var address: UserAddress? = null,
+    var userType: UserType? = null,
 )
 
 data class Host(
@@ -26,6 +29,7 @@ data class Host(
     var languages: List<String>? = null,
     var description: String? = null,
 )
+
 data class UserAddress(
     var province: String? = null,
     var district: String? = null,

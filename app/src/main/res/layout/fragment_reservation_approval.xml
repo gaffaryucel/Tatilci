@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.core.widget.NestedScrollView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".view.host.reservation.ReservationApprovalFragment">
+
+
+            <TextView
+                android:id="@+id/tvApprovalTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rezervasyonu Onayla"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="16dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/reservation_approval_message"
+                android:textSize="16sp"
+                android:paddingBottom="16dp"
+                android:paddingHorizontal="16dp" />
+
+
+            <CheckBox
+                android:layout_marginStart="16dp"
+                android:id="@+id/checkBoxAccept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bilgilendirmeyi okudum ve onaylıyorum" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:padding="16dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp">
+                    <ImageButton
+                        android:background="@drawable/secondary_button_bg"
+                        android:textColor="@color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+                    <TextView
+                        android:id="@+id/btnDecline"
+                        android:textColor="@color/normal_text_color"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="Reddet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:id="@+id/btnApprove"
+                    android:layout_gravity="center"
+                    android:layout_weight="9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="Rezervasyonu Onayla" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

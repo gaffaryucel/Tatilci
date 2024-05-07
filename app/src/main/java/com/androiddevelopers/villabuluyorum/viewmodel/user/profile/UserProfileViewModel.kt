@@ -23,6 +23,10 @@ constructor(
     val userVillas: LiveData<List<Villa>>
         get() = _userVillas
 
+    private var _villaMessage =  MutableLiveData<Resource<Boolean>>()
+    val villaMessage: LiveData<Resource<Boolean>>
+        get() = _villaMessage
+
     private var _firebaseMessage = MutableLiveData<Resource<Boolean>>()
     val firebaseMessage: LiveData<Resource<Boolean>>
         get() = _firebaseMessage
@@ -33,7 +37,7 @@ constructor(
 
 
     fun getUserVillas(userId: String, limit: Long) = viewModelScope.launch {
-        _firebaseMessage.value = Resource.loading(null)
+        _villaMessage.value = Resource.loading(null)
         repo.getVillasByUserId(userId, limit)
             .addOnSuccessListener {
                 val villaList = mutableListOf<Villa>()
@@ -42,10 +46,14 @@ constructor(
                     document.toVilla()?.let { villa -> villaList.add(villa) }
                 }
                 _userVillas.value = villaList
-                _firebaseMessage.value = Resource.success(null)
+                if (villaList.isEmpty()){
+                    _villaMessage.value = Resource.success(false)
+                }else{
+                    _villaMessage.value = Resource.success(true)
+                }
             }.addOnFailureListener { exception ->
                 // Hata durzumunda işlemleri buraya ekleyebilirsiniz
-                _firebaseMessage.value = Resource.error("Belge alınamadı. Hata: $exception", null)
+                _villaMessage.value = Resource.error("Belge alınamadı. Hata: $exception", null)
             }
     }
 

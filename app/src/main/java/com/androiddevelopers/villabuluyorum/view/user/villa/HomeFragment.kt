@@ -27,7 +27,9 @@ import com.androiddevelopers.villabuluyorum.adapter.BestHouseAdapter
 import com.androiddevelopers.villabuluyorum.adapter.HouseAdapter
 import com.androiddevelopers.villabuluyorum.adapter.MyLocation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHomeBinding
+import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
+import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.viewmodel.user.villa.HomeViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -35,6 +37,7 @@ import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 
 @AndroidEntryPoint
@@ -255,31 +258,4 @@ class HomeFragment : Fragment() {
         val sharedPrefs: SharedPreferences = requireContext().getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
         return sharedPrefs.getBoolean(KEY_VALUE, false)
     }
-
-    /*
-    getLastKnownLocation
-        val tokatCoordinates = findCityCoordinates("istanbul")
-        if (tokatCoordinates != null) {
-            println("Tokat şehrinin koordinatları: ${tokatCoordinates.first}, ${tokatCoordinates.second}")
-        } else {
-            println("Tokat şehrinin koordinatları bulunamadı.")
-        }
-         */
-    /*
-    fun findCityCoordinates(city : String): Pair<Double, Double>? {
-        val cityList = resources.getStringArray(R.array.city_list)
-        for (cityInfo in cityList) {
-            val cityData = cityInfo.split(",")
-            val cityName = cityData[0].trim()
-            if (cityName.equals(city, ignoreCase = true) && cityData.size >= 3) {
-                val latitude = cityData[1].trim().toDoubleOrNull()
-                val longitude = cityData[2].trim().toDoubleOrNull()
-                if (latitude != null && longitude != null) {
-                    return Pair(latitude, longitude)
-                }
-            }
-        }
-        return null
-    }
-*/
 }

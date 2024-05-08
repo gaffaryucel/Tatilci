@@ -1,6 +1,6 @@
 package com.androiddevelopers.villabuluyorum.service
 
-import com.androiddevelopers.villabuluyorum.model.PushNotification
+import com.androiddevelopers.villabuluyorum.model.notification.PushNotification
 import com.androiddevelopers.villabuluyorum.util.Util
 import okhttp3.ResponseBody
 import retrofit2.Response

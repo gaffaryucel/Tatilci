@@ -35,6 +35,7 @@ class ReservationApprovalFragment : Fragment() {
     val viewModel: ReservationApprovalViewModel by viewModels()
 
     private lateinit var reservationId: String
+    private lateinit var villaImage : String
 
     private var progressDialog: ProgressDialog? = null
 
@@ -44,6 +45,7 @@ class ReservationApprovalFragment : Fragment() {
     ): View {
         _binding = FragmentReservationApprovalBinding.inflate(inflater, container, false)
         reservationId = arguments?.getString("id") ?: ""
+        villaImage = arguments?.getString("image") ?: ""
         return binding.root
     }
 
@@ -59,6 +61,7 @@ class ReservationApprovalFragment : Fragment() {
                         reservationId,
                         ApprovalStatus.APPROVED
                     )
+                    viewModel.reservationStatusNotifier(reservationId,"Rezervasyon Onaylandı","rezervasyon isteğinizi kabul etti",villaImage)
                 }else{
                     Toast.makeText(
                         requireContext(),
@@ -119,6 +122,7 @@ class ReservationApprovalFragment : Fragment() {
         builder.setMessage("Rezervasyonu reddettiğinizde, bu bilgi kullanıcıya iletilir ve rezervasyon iptal edilir. Devam etmek istiyor musunuz?")
         builder.setPositiveButton("Evet") { _, _ ->
             viewModel.changeReservationStatus(reservationId,ApprovalStatus.NOT_APPROVED)
+            viewModel.reservationStatusNotifier(reservationId,"Rezervasyon reddedildi","rezervasyon isteğinizi geri çevirdi",villaImage)
         }
         builder.setNegativeButton("İptal") { dialog, _ ->
             dialog.dismiss()

@@ -14,7 +14,7 @@
             name="payment"
             type="String" />
         <variable
-            name="guestCount"
+            name="status"
             type="String" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -180,7 +180,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                             <TextView
-                                android:text='@{guestCount+" Misafir"}'
+                                android:text='@{reservation.guestCount.toString()+" Misafir"}'
                                 tools:text="3 Misafir"
                                 android:textColor="@color/normal_text_color"
                                 android:textSize="16sp"
@@ -199,7 +199,9 @@
                             <TextView
                                 android:id="@+id/tvApprovalStatus"
                                 android:textStyle="bold"
-                                android:text="Onayınızı Bekliyor"
+                                android:text="@{status}"
+                                android:layout_gravity="end"
+                                tools:text="Onay Bekliyor"
                                 android:textColor="@color/normal_text_color"
                                 android:textSize="16sp"
                                 android:textAlignment="textEnd"
@@ -266,12 +268,70 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
                 <TextView
-                    android:layout_marginHorizontal="10dp"
-                    android:text='@{user.firstName +" isimli Ev sahibi, mülkünü "+ reservation.startDate + " - "+ reservation.endDate + "tarihleri arasında kiralamak istediğiniz bildirimini aldı, ₺"+ reservation.totalPrice+ " tutarinda olan ödemeyi belirttiğiniz şekilde " +payment+ " ile yapmanızı bekliyor.\nGüvenliğiniz için kararlaştırılan zamandan daha önce bir ödeme yapmamanızı rica ediyoruz. \nRezervasyon isteğiniz 24 içerisinde sonuçlanacaktır, sonuçlandığında bildirim alacaksınız."}'
+                    android:layout_marginStart="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/normal_text_color"
+                    android:textStyle="bold"
+                    android:text="Rezervasyon Onay Durumu"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="Ali Can isimli Ev sahibi, mülkünü 01/06/2024 - 07/06/2024 tarihleri arasında kiralamak istediğiniz bildirimini aldı,, ₺1500 tutarında olan ödemeyi kredi kartı ile yapmanızı bekliyor. Güvenliğiniz için kararlaştırılan zamandan daha önce bir ödeme yapmamanızı rica ediyoruz.  \nRezervasyon isteğiniz 24 içerisinde sonuçlanacaktır, sonuçlandığında bildirim alacaksınız." />
+                    android:layout_height="wrap_content"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/tvReservationApprovalStatusApproved"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:ignore="MissingConstraints">
+                        <ImageView
+                            android:padding="10dp"
+                            android:src="@drawable/confirm_icon"
+                            android:layout_gravity="center"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            app:tint="@color/main_button_gb_color" />
+                        <TextView
+                            android:text="@string/reservation_approved_host"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/tvReservationApprovalStatusNotApproved"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:ignore="MissingConstraints">
+                        <ImageView
+                            android:padding="10dp"
+                            android:src="@drawable/cancel_icon"
+                            android:layout_gravity="center"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            app:tint="@color/main_button_gb_color" />
+                        <TextView
+                            android:text="@string/reservation_rejected_host"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvNotifyUser"
+                        android:layout_marginHorizontal="10dp"
+                        android:text='@{user.firstName +" isimli Ev sahibi, mülkünü "+ reservation.startDate + " - "+ reservation.endDate + "tarihleri arasında kiralamak istediğiniz bildirimini aldı, ₺"+ reservation.totalPrice+ " tutarinda olan ödemeyi belirttiğiniz şekilde " +payment+ " ile yapmanızı bekliyor.\nGüvenliğiniz için kararlaştırılan zamandan daha önce bir ödeme yapmamanızı rica ediyoruz. \nRezervasyon isteğiniz 24 içerisinde sonuçlanacaktır, sonuçlandığında bildirim alacaksınız."}'
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Ali Can isimli Ev sahibi, mülkünü 01/06/2024 - 07/06/2024 tarihleri arasında kiralamak istediğiniz bildirimini aldı,, ₺1500 tutarında olan ödemeyi kredi kartı ile yapmanızı bekliyor. Güvenliğiniz için kararlaştırılan zamandan daha önce bir ödeme yapmamanızı rica ediyoruz.  \nRezervasyon isteğiniz 24 içerisinde sonuçlanacaktır, sonuçlandığında bildirim alacaksınız." />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

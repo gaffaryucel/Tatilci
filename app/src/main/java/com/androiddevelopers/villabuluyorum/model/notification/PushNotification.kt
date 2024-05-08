@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.model
+package com.androiddevelopers.villabuluyorum.model.notification
 
 
 data class PushNotification(

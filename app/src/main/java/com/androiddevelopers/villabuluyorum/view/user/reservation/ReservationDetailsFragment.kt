@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentReservationDetailsBinding
 import com.androiddevelopers.villabuluyorum.databinding.MergeItemCoverImageBinding
+import com.androiddevelopers.villabuluyorum.model.ApprovalStatus
 import com.androiddevelopers.villabuluyorum.model.PaymentMethod
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
@@ -105,12 +106,25 @@ class ReservationDetailsFragment : Fragment() {
             if (myReservation != null) {
                binding.apply {
                    reservation = myReservation
+                   when(myReservation.approvalStatus){
+                       ApprovalStatus.WAITING_FOR_APPROVAL ->  {
+                           status ="Onay Bekliyor"
+                       }
+                       ApprovalStatus.APPROVED ->  {
+                           tvReservationApprovalStatusApproved.visibility = View.VISIBLE
+                           tvNotifyUser.visibility = View.GONE
+                           status = "Onaylandı"
+                       }
+                       ApprovalStatus.NOT_APPROVED -> {
+                           tvReservationApprovalStatusNotApproved.visibility = View.VISIBLE
+                           tvNotifyUser.visibility = View.GONE
+                           status =  "İptal Edildi"
+                       }
+                       null ->{
+                           status = "Onay Bekliyor"
+                       }
+                   }
                }
-                if (myReservation.guestCount != null){
-                    binding.guestCount = myReservation.guestCount.toString()
-                }else{
-                    binding.guestCount = "1"
-                }
                 when(myReservation.paymentMethod){
                     PaymentMethod.CASH -> {
                         binding.payment = "Nakit"

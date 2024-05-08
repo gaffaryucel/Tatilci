@@ -42,6 +42,7 @@ class HostReservationDetailsFragment : Fragment() {
     private lateinit var userId: String
     private lateinit var villaId: String
     private lateinit var reservationId: String
+    private var villaImage: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,7 +75,7 @@ class HostReservationDetailsFragment : Fragment() {
         }
     }
     private fun goToApprovalFragment(id : String){
-        val action = HostReservationDetailsFragmentDirections.actionHostReservationDetailsFragmentToReservationApprovalFragment(id)
+        val action = HostReservationDetailsFragmentDirections.actionHostReservationDetailsFragmentToReservationApprovalFragment(id,villaImage.toString())
         Navigation.findNavController(requireView()).navigate(action)
     }
 
@@ -151,6 +152,7 @@ class HostReservationDetailsFragment : Fragment() {
         })
         viewModel.liveDataFirebaseVilla.observe(viewLifecycleOwner, Observer { villa ->
             if (villa != null) {
+                villaImage = villa.coverImage
                 mergeBinding.textDetailTitle.text = villa.villaName
                 mergeBinding.textDetailAddress.text = villa.locationAddress
                 mergeBinding.textDetailBedRoom.text = villa.bedroomCount.toString() + " Yatak odası"

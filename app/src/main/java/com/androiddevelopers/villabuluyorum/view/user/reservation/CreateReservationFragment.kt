@@ -14,7 +14,10 @@ import com.androiddevelopers.villabuluyorum.databinding.FragmentCreateReservatio
 import com.androiddevelopers.villabuluyorum.databinding.MergeItemCoverImageBinding
 import com.androiddevelopers.villabuluyorum.model.PaymentMethod
 import com.androiddevelopers.villabuluyorum.model.PropertyType
+import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
+import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
@@ -52,6 +55,7 @@ class CreateReservationFragment : Fragment() {
     private var endDate : String = ""
 
     private var number = 1
+    private var currentUser = UserModel()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -130,6 +134,9 @@ class CreateReservationFragment : Fragment() {
                     binding.tvMainPrice.text = "Minimum ${minStay} gece x ₺${nightlyRate}"
                     binding.tvMainPriceTotal.text = "₺$price"
                 }
+                currentUserData.observe(viewLifecycleOwner) { user ->
+                    currentUser = user
+                }
                 liveDataReserveStatus.observe(viewLifecycleOwner) {
                     when (it.status) {
                         Status.SUCCESS -> {
@@ -162,7 +169,6 @@ class CreateReservationFragment : Fragment() {
     }
 
     private fun showDatePickerDialog() {
-
         // dateRangePicker oluştur ve tarih seçimini dinle
         val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
             .setTitleText("Rezervasyon süresini belirleyin")
@@ -194,9 +200,11 @@ class CreateReservationFragment : Fragment() {
     }
 
     private fun saveAndReserve() {
+        val reservationId = UUID.randomUUID().toString()
         if (startDate.isNotEmpty() && endDate.isNotEmpty()){
             if (binding.cb1.isChecked && binding.cb2.isChecked){
                 viewModel.createReservationInstance(
+                    reservationId = reservationId,
                     villaId = villaId ?: "",
                     hostId = nyVilla.hostId ?: "",
                     startDate = binding.tvSelectedStartDate.text.toString(),
@@ -213,6 +221,22 @@ class CreateReservationFragment : Fragment() {
                     nyVilla.villaName ?: "",
                 ).also {
                     viewModel.makeReservation(it)
+                    InAppNotificationModel(
+                        userId = currentUser.userId,
+                        notificationId = UUID.randomUUID().toString(),
+                        title =  "Rezervasyon Talebi Var",
+                        message = "${currentUser.firstName+" "+currentUser.lastName} isimli kullanıcı size rezervasyon talebinde bulundu",
+                        userImage = currentUser.profileImageUrl,
+                        imageUrl = nyVilla.coverImage,
+                        userToken = currentUser.token,
+                        time = viewModel.getCurrentTime()
+                    ).also { notification->
+                        viewModel.sendNotification(
+                            notification = notification,
+                            reservationId = reservationId,
+                            type = NotificationTypeForActions.HOST_RESERVATION,
+                        )
+                    }
                 }
             }else{
                 Toast.makeText(requireContext(), "Lütfen şartları kabul edin", Toast.LENGTH_SHORT).show()
@@ -220,7 +244,6 @@ class CreateReservationFragment : Fragment() {
         }else{
             Toast.makeText(requireContext(), "Lütfen rezervasyon süresini belirtin", Toast.LENGTH_SHORT).show()
         }
-        // TODO: Ev sahibine bildirim gönder
     }
 
     private fun setRadioButtonClickListener() {

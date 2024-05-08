@@ -1,22 +1,32 @@
 package com.androiddevelopers.villabuluyorum.viewmodel.user.villa
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
+import com.androiddevelopers.villabuluyorum.model.notification.NotificationData
+import com.androiddevelopers.villabuluyorum.model.notification.PushNotification
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.repo.RoomProvinceRepo
+import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.androiddevelopers.villabuluyorum.util.Resource
 import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.util.toVilla
+import com.androiddevelopers.villabuluyorum.viewmodel.notification.BaseNotificationViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -26,7 +36,7 @@ constructor(
     private val repo: FirebaseRepoInterFace,
     private val auth: FirebaseAuth,
     private val roomProvinceRepo: RoomProvinceRepo
-) : ViewModel() {
+) : BaseNotificationViewModel(repo,auth) {
 
     private var _bestVillas = MutableLiveData<List<Villa>>()
     val bestVillas: LiveData<List<Villa>>
@@ -131,7 +141,6 @@ constructor(
                 _notifyUser.value = "Konum Güncellenirken bir hata oluştu"
             }
     }
-
 
     fun resetNotifyMessage() {
         _notifyUser.value = ""

@@ -4,10 +4,10 @@ package com.androiddevelopers.villabuluyorum.util
 object Util {
 
     //Database
-    const val DATABASE_URL = "https://freelance-app-48c7e-default-rtdb.europe-west1.firebasedatabase.app/"
+    const val DATABASE_URL = "https://villabuluyorum-9666c-default-rtdb.europe-west1.firebasedatabase.app/"
 
     //Push Notification
     const val BASE_URL = "https://fcm.googleapis.com"
     const val CONTENT_TYPE = "application/json"
-    const val SERVER_KEY = "AAAA15oBBjU:APA91bFUiRiw-DtR2PMfvD9-qVG8W6sp0xk4xv8fwcuFyIThbLZt885oKfQ-fQfe_zNtzXrzWsehkg-0l2BSkmpvGX7kHG0RJ6RW9QXwWBOECoR5s3U3nn_ao7_16CO3F3bDq78T1v-L"
+    const val SERVER_KEY = "AAAAHplZo4w:APA91bFgf7vEZdsASmYyXdNaqBP0gWS_BlN5jx7CuqOZ1nf6b0v0kyL5LTgvbLBCZ4LxrZk9a_xZ8XNApr3ef8VIMULurPWgQcgeUgKoP0n_tpvZ__B11KU_ySgIgcDFCA4b8xVQWYyP"
 }

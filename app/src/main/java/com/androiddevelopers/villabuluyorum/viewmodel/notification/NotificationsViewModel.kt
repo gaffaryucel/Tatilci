@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.viewmodel
+package com.androiddevelopers.villabuluyorum.viewmodel.notification
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

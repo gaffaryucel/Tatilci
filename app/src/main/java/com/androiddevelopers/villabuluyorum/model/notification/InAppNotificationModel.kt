@@ -1,10 +1,12 @@
-package com.androiddevelopers.villabuluyorum.model
+package com.androiddevelopers.villabuluyorum.model.notification
+
+import com.androiddevelopers.villabuluyorum.util.NotificationType
 
 
 class InAppNotificationModel {
 
     var userId : String? = null
-   // var notificationType : NotificationType? = null
+    var notificationType : NotificationType? = null
     var notificationId : String? = null
     var title : String? = null
     var message : String? = null
@@ -12,11 +14,10 @@ class InAppNotificationModel {
     var imageUrl : String? = null
     var userToken : String? = null
     var time : String? = null
-    var idForAction : String? = null
     constructor()
     constructor(
         userId : String? = null,
-  //      notificationType : NotificationType? = null,
+        notificationType : NotificationType? = null,
         notificationId : String? = null,
         title : String? = null,
         message : String? = null,
@@ -24,10 +25,9 @@ class InAppNotificationModel {
         imageUrl : String? = null,
         userToken : String? = null,
         time : String? = null,
-        idForAction : String? = null
     ){
         this.userId = userId
- //       this.notificationType = notificationType
+        this.notificationType = notificationType
         this.notificationId = notificationId
         this.title = title
         this.message = message
@@ -35,6 +35,5 @@ class InAppNotificationModel {
         this.imageUrl = imageUrl
         this.userToken = userToken
         this.time = time
-        this.idForAction = idForAction
     }
 }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.androiddevelopers.villabuluyorum.databinding.RowHouseBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
+import com.androiddevelopers.villabuluyorum.view.user.profile.UserProfileFragmentDirections
 import com.androiddevelopers.villabuluyorum.view.user.villa.HomeFragmentDirections
 import kotlin.math.PI
 import kotlin.math.acos
@@ -65,14 +66,13 @@ class HouseAdapter(val myLocation: MyLocation? = null) :
             } else {
                 holder.binding.layoutDistance.visibility = ViewGroup.INVISIBLE
             }
-
-
-            house.villaId?.let { id ->
-                if (inProfile){
-                    // TODO: Profile içinden detay sayfasına aksiyon
-                }else{
-                    holder.itemView.setOnClickListener { val directions =
-                        HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(id)
+            holder.itemView.setOnClickListener {
+                house.villaId?.let { id ->
+                    if (inProfile){
+                        val directions = UserProfileFragmentDirections.actionUserProfileFragmentToVillaDetailFragment(id)
+                        Navigation.findNavController(it).navigate(directions)
+                    }else{
+                        val directions = HomeFragmentDirections.actionNavigationHomeToVillaDetailFragment(id)
                         Navigation.findNavController(it).navigate(directions)
                     }
                 }

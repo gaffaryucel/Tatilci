@@ -12,7 +12,9 @@ import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.util.Resource
+import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.util.toVilla
+import com.androiddevelopers.villabuluyorum.viewmodel.notification.BaseNotificationViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,8 +27,8 @@ class CreateReservationViewModel
 constructor(
     private val firebaseRepo: FirebaseRepoInterFace,
     private val auth: FirebaseAuth
-) : ViewModel() {
-    private var currentUserId =auth.currentUser?.uid
+) : BaseNotificationViewModel(firebaseRepo,auth) {
+    private val currentUserId =auth.currentUser?.uid
 
     private var _liveDataFirebaseStatus = MutableLiveData<Resource<Boolean>>()
     val liveDataFirebaseStatus: LiveData<Resource<Boolean>>
@@ -41,6 +43,14 @@ constructor(
         get() = _liveDataReserveStatus
 
 
+    private var _currentUserData = MutableLiveData<UserModel>()
+    val currentUserData: LiveData<UserModel>
+        get() = _currentUserData
+
+
+    init {
+        getCurrentUserData()
+    }
 
     fun getVillaByIdFromFirestore(villaId: String) = viewModelScope.launch{
         _liveDataFirebaseStatus.value = Resource.loading(true)
@@ -63,7 +73,18 @@ constructor(
             _liveDataReserveStatus.value = Resource.error("Hata :", null)
         }
     }
+
+    private fun getCurrentUserData() = viewModelScope.launch {
+        firebaseRepo.getUserDataByDocumentId(currentUserId.toString())
+            .addOnSuccessListener { document ->
+                document.toUserModel()?.let { user ->
+                    _currentUserData.value = user
+                }
+            }
+    }
+
     fun createReservationInstance(
+        reservationId: String,
         villaId: String,
         hostId: String,
         startDate: String,
@@ -80,7 +101,7 @@ constructor(
         title: String
     ) : ReservationModel{
         return ReservationModel(
-            reservationId = UUID.randomUUID().toString(),
+            reservationId = reservationId,
             userId = currentUserId,
             hostId = hostId,
             villaId = villaId,

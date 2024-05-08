@@ -316,7 +316,14 @@
                                 android:layout_width="match_parent"
                                 android:orientation="vertical"
                                 android:layout_height="wrap_content">
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/chat"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    app:tint="@color/main_button_gb_color" />
                                 <TextView
+                                    android:layout_marginBottom="50dp"
                                     android:textAlignment="center"
                                     android:text="Henüz Bir Yorum Yapılmadı"
                                     android:textColor="@color/main_button_gb_color"
@@ -325,13 +332,7 @@
                                     android:textSize="18sp"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"/>
-                                <ImageView
-                                    android:layout_marginBottom="50dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/null_icon"
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    app:tint="@color/main_button_gb_color" />
+
                             </LinearLayout>
                         </LinearLayout>
 
@@ -378,7 +379,14 @@
                                 android:layout_width="match_parent"
                                 android:orientation="vertical"
                                 android:layout_height="wrap_content">
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/home"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    app:tint="@color/main_button_gb_color" />
                                 <TextView
+                                    android:layout_marginBottom="50dp"
                                     android:textAlignment="center"
                                     android:text="Henüz Bir İlan Paylaşmadı"
                                     android:textColor="@color/main_button_gb_color"
@@ -387,13 +395,6 @@
                                     android:textSize="18sp"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"/>
-                                <ImageView
-                                    android:layout_marginBottom="50dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/null_icon"
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    app:tint="@color/main_button_gb_color" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>

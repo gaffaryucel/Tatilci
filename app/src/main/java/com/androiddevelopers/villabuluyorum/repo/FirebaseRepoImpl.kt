@@ -3,8 +3,11 @@ package com.androiddevelopers.villabuluyorum.repo
 import android.net.Uri
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
+import com.androiddevelopers.villabuluyorum.model.notification.PushNotification
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.service.NotificationAPI
+import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -15,6 +18,8 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import okhttp3.ResponseBody
+import retrofit2.Response
 import java.util.*
 import javax.inject.Inject
 
@@ -144,4 +149,40 @@ class FirebaseRepoImpl @Inject constructor(
             .putFile(uri)
     }
 
+
+    //Notification
+//Set
+    override suspend fun postNotification(notification: PushNotification): Response<ResponseBody> {
+        return notificationAPI.postNotification(notification)
+    }
+
+    override fun saveNotification(notification: InAppNotificationModel): Task<Void> {
+        return notificationCollection.document(notification.notificationId.toString())
+            .set(notification)
+    }
+
+    //Get
+    override fun getNotificationsByType(
+        userId: String,
+        type: NotificationType,
+        limit: Long
+    ): Task<QuerySnapshot> {
+        return notificationCollection.whereEqualTo("userId", userId)
+            .whereEqualTo("notificationType", type)
+            .limit(limit)
+            .get()
+    }
+
+    override fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot> {
+        return notificationCollection.whereEqualTo("userId", userId)
+            .limit(limit)
+            .get()
+    }
+
+    override fun changeOnlineStatus(userId: String, onlineData: Boolean): Task<Void> {
+        val map = hashMapOf<String, Any?>(
+            "isOnline" to onlineData,
+        )
+        return userCollection.document(userId).update(map)
+    }
 }

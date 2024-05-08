@@ -3,12 +3,17 @@ package com.androiddevelopers.villabuluyorum.repo
 import android.net.Uri
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
+import com.androiddevelopers.villabuluyorum.model.notification.PushNotification
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
+import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.UploadTask
+import okhttp3.ResponseBody
+import retrofit2.Response
 
 interface FirebaseRepoInterFace {
     // Auth
@@ -40,6 +45,17 @@ interface FirebaseRepoInterFace {
     fun getReservationsForHost(userId: String): Task<QuerySnapshot>
     fun getReservationById(reservationId: String):Task<DocumentSnapshot>
     fun changeReservationStatus(reservationId: String, status: java.util.HashMap<String, Any?>): Task<Void>
+
+    //Notification
+    //Set
+    suspend fun postNotification(notification: PushNotification): Response<ResponseBody>
+    fun saveNotification(notification: InAppNotificationModel): Task<Void>
+    //Get
+    fun getNotificationsByType(userId: String, type : NotificationType, limit: Long): Task<QuerySnapshot>
+
+    fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot>
+
+    fun changeOnlineStatus(userId: String, onlineData: Boolean): Task<Void>
 
     /*
     fun updateViewCountOfVilla(

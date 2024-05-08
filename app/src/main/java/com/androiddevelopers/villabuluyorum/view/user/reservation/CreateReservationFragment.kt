@@ -191,9 +191,10 @@ class CreateReservationFragment : Fragment() {
             val diffInMillis = endDateCal.timeInMillis - startDateCal.timeInMillis
             val diffInDays = TimeUnit.MILLISECONDS.toDays(diffInMillis)
             nightCount = diffInDays.toInt() + 1 // Başlangıç ve bitiş tarihi arasındaki gün sayısı
-
+            price = nightCount * nightlyRate
             // Gece sayısını kullanabiliriz
             binding.tvMainPrice.text = "${nightCount} gece x ₺${nightlyRate}"
+            binding.tvMainPriceTotal.text = "₺${nightCount*nightlyRate}"
             binding.btnReserve.text = "${nightCount} gecelik Rezervasyon yap"
         }
         dateRangePicker.show(parentFragmentManager, "DATE_RANGE_PICKER_TAG")

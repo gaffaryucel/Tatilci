@@ -7,6 +7,7 @@ import com.androiddevelopers.villabuluyorum.model.notification.NotificationData
 import com.androiddevelopers.villabuluyorum.model.notification.PushNotification
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.repo.RoomProvinceRepo
+import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,6 +47,9 @@ open class BaseNotificationViewModel @Inject constructor(
                 notification.userToken.toString()
             ).also {
                 repo.postNotification(it)
+                if (type != NotificationTypeForActions.MESSAGE){
+                    repo.saveNotification(notification)
+                }
             }
         } catch (e: Exception) {
             Log.e(TAG, e.toString())

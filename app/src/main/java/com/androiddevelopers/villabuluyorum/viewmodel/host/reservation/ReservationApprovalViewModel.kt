@@ -74,7 +74,7 @@ class ReservationApprovalViewModel @Inject constructor(
             sendNotification(
                 notification = notification,
                 reservationId = reservationId,
-                type = NotificationTypeForActions.HOST_RESERVATION,
+                type = NotificationTypeForActions.RESERVATION_STATUS_CHANGE,
             )
         }
     }

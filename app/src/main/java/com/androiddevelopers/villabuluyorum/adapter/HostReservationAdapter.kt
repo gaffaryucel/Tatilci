@@ -69,6 +69,9 @@ class HostReservationAdapter : RecyclerView.Adapter<HostReservationAdapter.HostR
                         PropertyType.APARTMENT -> tvPropertyType.text = "Apartman"
                         PropertyType.GUEST_HOUSE -> tvPropertyType.text = "Misafir evi"
                         PropertyType.HOTEL -> tvPropertyType.text = "Otel"
+                        else->{
+
+                        }
                     }
 
                 } else {
@@ -79,8 +82,10 @@ class HostReservationAdapter : RecyclerView.Adapter<HostReservationAdapter.HostR
                     when (myReservation.approvalStatus) {
                         ApprovalStatus.APPROVED -> tvApprovalStatus.text = "Onaylandı"
                         ApprovalStatus.NOT_APPROVED -> tvApprovalStatus.text = "Onaylanmadı"
-                        ApprovalStatus.WAITING_FOR_APPROVAL -> tvApprovalStatus.text =
-                            "Onay bekliyor"
+                        ApprovalStatus.WAITING_FOR_APPROVAL -> tvApprovalStatus.text = "Onay bekliyor"
+                        else -> {
+
+                        }
                     }
                 } else {
                     tvApprovalStatus.text = "Onay bekliyor"

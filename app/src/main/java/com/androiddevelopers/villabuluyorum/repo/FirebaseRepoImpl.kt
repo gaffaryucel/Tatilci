@@ -3,6 +3,7 @@ package com.androiddevelopers.villabuluyorum.repo
 import android.net.Uri
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.chat.ChatModel
 import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.model.notification.PushNotification
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
@@ -11,6 +12,8 @@ import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -169,14 +172,26 @@ class FirebaseRepoImpl @Inject constructor(
     ): Task<QuerySnapshot> {
         return notificationCollection.whereEqualTo("userId", userId)
             .whereEqualTo("notificationType", type)
+            .orderBy("time", Query.Direction.ASCENDING) // createdAt alanına göre azalan sıralama
             .limit(limit)
             .get()
     }
-
     override fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot> {
         return notificationCollection.whereEqualTo("userId", userId)
             .limit(limit)
             .get()
+    }
+
+
+//Realtime Database - Chat
+    override fun createChatRoomForOwner(currentUserId: String, chat: ChatModel): Task<Void> {
+        return messagesReference.child(currentUserId).child(chat.receiverId.toString()).setValue(chat)
+    }
+    override fun createChatRoomForChatMate(userId: String, chat: ChatModel): Task<Void> {
+        return messagesReference.child(userId).child(chat.receiverId.toString()).setValue(chat)
+    }
+    override fun getChatRoomData(currentUserId: String,receiverId: String): DatabaseReference {
+        return messagesReference.child(currentUserId).child(receiverId)
     }
 
     override fun changeOnlineStatus(userId: String, onlineData: Boolean): Task<Void> {

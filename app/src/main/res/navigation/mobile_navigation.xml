@@ -113,7 +113,11 @@
         android:id="@+id/messagesFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.chat.MessagesFragment"
         android:label="fragment_messages"
-        tools:layout="@layout/fragment_messages" />
+        tools:layout="@layout/fragment_messages" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/chatsFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.chat.ChatsFragment"
@@ -161,6 +165,9 @@
         <action
             android:id="@+id/action_reservationDetailsFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_reservationDetailsFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
     </fragment>
     <fragment
         android:id="@+id/villaDetailFacilitiesFragment"
@@ -198,7 +205,10 @@
         android:name="com.androiddevelopers.villabuluyorum.view.user.reservation.CreateReservationFragment"
         android:label="fragment_create_reservation"
         tools:layout="@layout/fragment_create_reservation">
-        <argument android:name="villa_id" />
+        <argument android:name="villa_id"
+            app:argType="string" />
+        <argument android:name="token"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/editAddressFragment"

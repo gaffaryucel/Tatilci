@@ -38,7 +38,7 @@
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:id="@+id/ivBestHouse"
-                    android:src="@drawable/ic_launcher_background"
+                    android:src="@drawable/app_logo"
                     android:scaleType="centerCrop"
                     />
                 </androidx.cardview.widget.CardView>
@@ -204,10 +204,11 @@
                         <TextView
                             android:id="@+id/tvApprovalStatus"
                             android:textStyle="bold"
-                            tools:text="Onay bekliyor"
+                            tools:text="Onay"
                             android:textColor="@color/normal_text_color"
                             android:textSize="16sp"
                             android:textAlignment="textEnd"
+                            android:layout_gravity="end"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                     </LinearLayout>

@@ -17,6 +17,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.adapter.ViewPagerAdapterForVillaDetail
 import com.androiddevelopers.villabuluyorum.databinding.FragmentVillaDetailBinding
+import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
@@ -43,6 +44,7 @@ class VillaDetailFragment : Fragment() {
     private var geocoderLocation: List<Address> = listOf()
 
     private var villaId: String? = null
+    private var myUser: UserModel? = null
     private var hostId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -172,6 +174,7 @@ class VillaDetailFragment : Fragment() {
 
                 liveDataFirebaseUser.observe(owner) {
                     user = it
+                    myUser = it
                 }
             }
         }
@@ -254,10 +257,10 @@ class VillaDetailFragment : Fragment() {
     }
 
     private fun gotoReservation(id: String, view: View) {
-        val action =
-            VillaDetailFragmentDirections.actionVillaDetailFragmentToCreateReservationFragment(
-                id
-            )
+        val action = VillaDetailFragmentDirections.actionVillaDetailFragmentToCreateReservationFragment(
+            id,
+            myUser?.token.toString()
+        )
         Navigation.findNavController(view).navigate(action)
     }
 

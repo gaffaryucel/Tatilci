@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androiddevelopers.villabuluyorum.R
@@ -89,6 +90,10 @@ class HomeFragment : Fragment() {
             navControl?.let {
                 navControl.navigate(R.id.action_global_navigation_search)
             }
+        }
+        binding.ivNotifications.setOnClickListener { 
+            val action = HomeFragmentDirections.actionNavigationHomeToNavigationNotifications()
+            Navigation.findNavController(it).navigate(action)
         }
 
         binding.dropDownCity.setOnItemClickListener { _, _, position, _ ->

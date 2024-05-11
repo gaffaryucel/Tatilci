@@ -12,6 +12,7 @@ import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.util.Resource
+import com.androiddevelopers.villabuluyorum.util.getCurrentTime
 import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.util.toVilla
 import com.androiddevelopers.villabuluyorum.viewmodel.notification.BaseNotificationViewModel
@@ -117,7 +118,8 @@ constructor(
             bedroomCount = bedroomCount,
             bathCount = bathCount,
             title = title,
-            approvalStatus = ApprovalStatus.WAITING_FOR_APPROVAL
+            approvalStatus = ApprovalStatus.WAITING_FOR_APPROVAL,
+            time = getCurrentTime()
         )
     }
 }

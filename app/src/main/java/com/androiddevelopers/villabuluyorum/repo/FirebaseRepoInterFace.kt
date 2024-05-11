@@ -3,12 +3,14 @@ package com.androiddevelopers.villabuluyorum.repo
 import android.net.Uri
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.chat.ChatModel
 import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.model.notification.PushNotification
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.UploadTask
@@ -52,8 +54,15 @@ interface FirebaseRepoInterFace {
     fun saveNotification(notification: InAppNotificationModel): Task<Void>
     //Get
     fun getNotificationsByType(userId: String, type : NotificationType, limit: Long): Task<QuerySnapshot>
-
     fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot>
+
+
+
+//Realtime Database - Chat
+    fun createChatRoomForOwner(currentUserId: String, chat: ChatModel): Task<Void>
+    fun createChatRoomForChatMate(userId: String, chat: ChatModel): Task<Void>
+    fun getChatRoomData(currentUserId: String,receiverId: String): DatabaseReference
+
 
     fun changeOnlineStatus(userId: String, onlineData: Boolean): Task<Void>
 

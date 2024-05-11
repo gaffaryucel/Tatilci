@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentSnapshot
@@ -51,6 +52,12 @@ fun DocumentSnapshot.toVilla(): Villa? = try {
 fun DocumentSnapshot.toReservation(): ReservationModel? = try {
     toObject(ReservationModel::class.java)
 } catch (e: Exception) {
-    e.message?.let { Log.e("getVilla", it) }
+    e.message?.let { Log.e("getReservation", it) }
     ReservationModel()
+}
+fun DocumentSnapshot.toNotification(): InAppNotificationModel? = try {
+    toObject(InAppNotificationModel::class.java)
+} catch (e: Exception) {
+    e.message?.let { Log.e("getNotification", it) }
+    InAppNotificationModel()
 }

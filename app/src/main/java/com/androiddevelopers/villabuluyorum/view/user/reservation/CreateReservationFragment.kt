@@ -17,8 +17,10 @@ import com.androiddevelopers.villabuluyorum.model.PropertyType
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
+import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.androiddevelopers.villabuluyorum.util.Status
+import com.androiddevelopers.villabuluyorum.util.getCurrentTime
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
@@ -42,6 +44,7 @@ class CreateReservationFragment : Fragment() {
     private val mergeBinding get() = _mergeBinding!!
 
     private lateinit var villaId: String
+    private lateinit var token: String
     private var paymentMethod = PaymentMethod.CASH
 
     private var progressDialog: ProgressDialog? = null
@@ -64,6 +67,7 @@ class CreateReservationFragment : Fragment() {
         _binding = FragmentCreateReservationBinding.inflate(inflater, container, false)
         _mergeBinding = MergeItemCoverImageBinding.bind(binding.root)
         villaId = arguments?.getString("villa_id") ?: ""
+        token = arguments?.getString("token") ?: ""
         return binding.root
     }
 
@@ -224,13 +228,15 @@ class CreateReservationFragment : Fragment() {
                     viewModel.makeReservation(it)
                     InAppNotificationModel(
                         userId = currentUser.userId,
+                        notificationType = NotificationType.HOST_RESERVATION,
                         notificationId = UUID.randomUUID().toString(),
+                        userName =  currentUser.firstName+" "+currentUser.lastName,
                         title =  "Rezervasyon Talebi Var",
                         message = "${currentUser.firstName+" "+currentUser.lastName} isimli kullanıcı size rezervasyon talebinde bulundu",
                         userImage = currentUser.profileImageUrl,
                         imageUrl = nyVilla.coverImage,
-                        userToken = currentUser.token,
-                        time = viewModel.getCurrentTime()
+                        userToken = token,
+                        time = getCurrentTime()
                     ).also { notification->
                         viewModel.sendNotification(
                             notification = notification,
@@ -248,22 +254,15 @@ class CreateReservationFragment : Fragment() {
     }
 
     private fun setRadioButtonClickListener() {
-        val secilenId = binding.radioGroup.checkedRadioButtonId
-        val secilenRadioButton = binding.root.findViewById<RadioButton>(secilenId)
+        binding.radioCash.setOnClickListener {
+            paymentMethod = PaymentMethod.CASH
+        }
+        binding.radioBankTransfer.setOnClickListener{
+            paymentMethod = PaymentMethod.BANK_TRANSFER
 
-        when (secilenRadioButton) {
-            binding.radioCash -> {
-                paymentMethod = PaymentMethod.CASH
-            }
-            binding.radioBankTransfer -> {
-                paymentMethod = PaymentMethod.BANK_TRANSFER
-            }
-            binding.radioCreditCard -> {
-                paymentMethod = PaymentMethod.CREDIT_OR_DEBIT_CARD
-            }
-            else -> {
-                paymentMethod = PaymentMethod.CASH
-            }
+        }
+        binding.radioCreditCard.setOnClickListener{
+            paymentMethod = PaymentMethod.CREDIT_OR_DEBIT_CARD
         }
     }
     private fun incrementNumber() {

@@ -17,6 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.adapter.downloadImage
 import com.androiddevelopers.villabuluyorum.databinding.FragmentEditProfileDetailsBinding
 import com.androiddevelopers.villabuluyorum.model.UserModel
@@ -80,6 +81,9 @@ class EditProfileDetailsFragment : Fragment() {
         binding.editLocationIcon.setOnClickListener {
             val action = EditProfileDetailsFragmentDirections.actionEditProfileDetailsFragmentToEditAddressFragment()
             Navigation.findNavController(it).navigate(action)
+        }
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
         }
         setupLaunchers()
         observeLiveData()

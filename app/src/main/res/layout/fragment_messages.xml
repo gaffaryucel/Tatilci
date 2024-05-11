@@ -6,8 +6,9 @@
     tools:context=".view.chat.MessagesFragment">
 
     <TextView
+        android:textSize="24dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        android:text="Messages Fragment" />
 
 </FrameLayout>

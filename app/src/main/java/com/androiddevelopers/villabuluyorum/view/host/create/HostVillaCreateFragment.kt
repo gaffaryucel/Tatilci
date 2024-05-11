@@ -35,6 +35,7 @@ import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.checkPermissionImageGallery
+import com.androiddevelopers.villabuluyorum.util.getCurrentTime
 import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.setupDialogs
 import com.androiddevelopers.villabuluyorum.util.showHostBottomNavigation
@@ -142,6 +143,7 @@ class HostVillaCreateFragment : Fragment() {
     private fun createVilla(villa: Villa): Villa {
         if (villa.villaId == null) {
             villa.villaId = UUID.randomUUID().toString()
+            villa.time = getCurrentTime()
         }
 
         with(binding) {

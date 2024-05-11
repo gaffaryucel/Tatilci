@@ -2,14 +2,15 @@ package com.androiddevelopers.villabuluyorum.viewmodel.host.reservation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.androiddevelopers.villabuluyorum.model.ApprovalStatus
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
+import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.androiddevelopers.villabuluyorum.util.Resource
+import com.androiddevelopers.villabuluyorum.util.getCurrentTime
 import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.viewmodel.notification.BaseNotificationViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -63,7 +64,9 @@ class ReservationApprovalViewModel @Inject constructor(
     fun reservationStatusNotifier(reservationId : String,title : String,status : String,villaImage : String){
         InAppNotificationModel(
             userId = userData.value?.userId,
+            notificationType = NotificationType.RESERVATION_STATUS_CHANGE,
             notificationId = UUID.randomUUID().toString(),
+            userName =  userData.value?.firstName+" "+userData.value?.lastName,
             title =  title,
             message = "${userData.value?.firstName+" "+userData.value?.lastName} isimli Ev sahibi, $status",
             userImage = userData.value?.profileImageUrl,

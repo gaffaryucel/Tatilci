@@ -13,9 +13,12 @@ import com.androiddevelopers.villabuluyorum.databinding.FragmentReservationDetai
 import com.androiddevelopers.villabuluyorum.databinding.MergeItemCoverImageBinding
 import com.androiddevelopers.villabuluyorum.model.ApprovalStatus
 import com.androiddevelopers.villabuluyorum.model.PaymentMethod
+import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.util.Resource
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
+import com.androiddevelopers.villabuluyorum.viewmodel.chat.ChatsViewModel
 import com.androiddevelopers.villabuluyorum.viewmodel.user.reservation.ReservationDetailsViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +30,7 @@ class ReservationDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     val viewModel: ReservationDetailsViewModel by viewModels()
+    val chatViewModel: ChatsViewModel by viewModels()
 
     private var _mergeBinding: MergeItemCoverImageBinding? = null
     private val mergeBinding get() = _mergeBinding!!
@@ -34,6 +38,8 @@ class ReservationDetailsFragment : Fragment() {
     private lateinit var userId: String
     private lateinit var villaId: String
     private lateinit var reservationId: String
+    private var userData: UserModel? = null
+    private var isChatRoomExists : Boolean = false
 
 
     override fun onCreateView(
@@ -54,27 +60,29 @@ class ReservationDetailsFragment : Fragment() {
             viewModel.getReservationById(reservationId)
             viewModel.getUserDataById(userId)
             viewModel.getVillaById(villaId)
+            chatViewModel.getChatRoomsByReceiverId(userId)
         }
         binding.layoutUser.setOnClickListener {
             val action = ReservationDetailsFragmentDirections.actionReservationDetailsFragmentToUserProfileFragment(userId)
             Navigation.findNavController(it).navigate(action)
         }
         binding.ivMessage.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                "Bu sürümde Mesaj özelliği kullanılamaz",
-                Toast.LENGTH_SHORT
-            ).show()
-            //goToMessageFragment
-            // TODO: Rezervasyon detaylarından Mesajlar ekranına gidicek
+            if (userData != null){
+                if (isChatRoomExists){
+                    goToMessagesFragment(userData!!.userId.toString())
+                }else{
+                    chatViewModel.createChatRoom(userData!!)
+                }
+            }
         }
         binding.btnMessageToHomeOwner.setOnClickListener {
-            //goToMessageFragment
-            Toast.makeText(
-                requireContext(),
-                "Bu sürümde Mesaj özelliği kullanılamaz",
-                Toast.LENGTH_SHORT
-            ).show()
+            if (userData != null){
+                if (isChatRoomExists){
+                    goToMessagesFragment(userData!!.userId.toString())
+                }else{
+                    chatViewModel.createChatRoom(userData!!)
+                }
+            }
         }
         observeLiveData()
 
@@ -101,6 +109,25 @@ class ReservationDetailsFragment : Fragment() {
                     binding.layoutReservationDetails.visibility = View.INVISIBLE
                 }
             }
+        })
+        chatViewModel.dataStatus.observe(viewLifecycleOwner, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    goToMessagesFragment(userData!!.userId.toString())
+                    chatViewModel._dataStatus.value = Resource.loading(null)
+                }
+
+                Status.LOADING -> {
+
+                }
+
+                Status.ERROR -> {
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+        chatViewModel._isChatRoomExists.observe(viewLifecycleOwner, Observer {
+            isChatRoomExists = it
         })
         viewModel.reservation.observe(viewLifecycleOwner, Observer { myReservation ->
             if (myReservation != null) {
@@ -150,6 +177,7 @@ class ReservationDetailsFragment : Fragment() {
                 Glide.with(requireContext())
                     .load(myUser.profileImageUrl)
                     .into(binding.ivUserPhoto)
+                userData = myUser
             }
         })
         viewModel.liveDataFirebaseVilla.observe(viewLifecycleOwner, Observer { villa ->
@@ -163,6 +191,10 @@ class ReservationDetailsFragment : Fragment() {
         })
     }
 
+    private fun goToMessagesFragment(id : String){
+        val action = ReservationDetailsFragmentDirections.actionReservationDetailsFragmentToMessagesFragment(id)
+        Navigation.findNavController(requireView()).navigate(action)
+    }
     override fun onResume() {
         super.onResume()
         hideBottomNavigation(requireActivity())

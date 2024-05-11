@@ -55,12 +55,4 @@ open class BaseNotificationViewModel @Inject constructor(
             Log.e(TAG, e.toString())
         }
     }
-
-    internal fun getCurrentTime(): String {
-        val currentTime = System.currentTimeMillis()
-        val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
-        val date = Date(currentTime)
-        return dateFormat.format(date)
-    }
-
 }

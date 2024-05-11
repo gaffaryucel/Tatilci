@@ -7,6 +7,9 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.androiddevelopers.villabuluyorum.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 fun hideBottomNavigation(act: FragmentActivity?) {
     val bottomNavigationView = act?.findViewById<BottomNavigationView>(R.id.nav_view)
@@ -45,4 +48,10 @@ fun setupDialogs(errorDialog: AlertDialog, activity: Activity? = null) {
             dialog.cancel()
         }
     }
+}
+fun getCurrentTime(): String {
+    val currentTime = System.currentTimeMillis()
+    val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
+    val date = Date(currentTime)
+    return dateFormat.format(date)
 }

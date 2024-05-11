@@ -18,7 +18,7 @@ import com.androiddevelopers.villabuluyorum.util.Resource
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
-import com.androiddevelopers.villabuluyorum.viewmodel.chat.ChatsViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.chat.CreateChatViewModel
 import com.androiddevelopers.villabuluyorum.viewmodel.user.reservation.ReservationDetailsViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +30,7 @@ class ReservationDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     val viewModel: ReservationDetailsViewModel by viewModels()
-    val chatViewModel: ChatsViewModel by viewModels()
+    val chatViewModel: CreateChatViewModel by viewModels()
 
     private var _mergeBinding: MergeItemCoverImageBinding? = null
     private val mergeBinding get() = _mergeBinding!!

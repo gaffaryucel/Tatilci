@@ -23,7 +23,6 @@
         tools:context=".view.user.reservation.ReservationDetailsFragment">
 
         <androidx.core.widget.NestedScrollView
-            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toTopOf="@+id/btnMessageToHomeOwner"
             android:id="@+id/layoutReservationDetails"
             app:layout_constraintTop_toTopOf="parent"
@@ -280,6 +279,7 @@
                     android:layout_height="wrap_content"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginBottom="10dp"
                     android:layout_marginHorizontal="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -359,7 +359,6 @@
             android:layout_height="wrap_content"/>
         <androidx.appcompat.widget.AppCompatButton
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="10dp"
             android:id="@+id/btnMessageToHomeOwner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

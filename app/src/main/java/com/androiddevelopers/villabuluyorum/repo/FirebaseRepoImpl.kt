@@ -190,6 +190,11 @@ class FirebaseRepoImpl @Inject constructor(
     override fun createChatRoomForChatMate(userId: String, chat: ChatModel): Task<Void> {
         return messagesReference.child(userId).child(chat.receiverId.toString()).setValue(chat)
     }
+
+    override fun getAllChatRooms(currentUserId: String): DatabaseReference {
+        return messagesReference.child(currentUserId)
+    }
+
     override fun getChatRoomData(currentUserId: String,receiverId: String): DatabaseReference {
         return messagesReference.child(currentUserId).child(receiverId)
     }

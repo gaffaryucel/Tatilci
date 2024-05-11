@@ -26,73 +26,47 @@ open class ChatsViewModel  @Inject constructor(
 
     val currentUserId = auth.currentUser?.uid.toString()
 
-    var _dataStatus = MutableLiveData<Resource<Boolean>>()
-    val dataStatus : LiveData<Resource<Boolean>>
-        get() = _dataStatus
+    private var _firebasemessage = MutableLiveData<Resource<Boolean>>()
+    val firebasemessage : LiveData<Resource<Boolean>>
+        get() = _firebasemessage
 
-    private var currentUserData = MutableLiveData<UserModel>()
+    //Chat Rooms
+    private var _chatRooms = MutableLiveData<List<ChatModel>>()
+    val chatRooms : LiveData<List<ChatModel>>
+        get() = _chatRooms
 
-    var _isChatRoomExists = MutableLiveData<Boolean>()
+    //Search Results
+    private var _chatSearchResult = MutableLiveData<List<ChatModel>>()
+    val chatSearchResult : LiveData<List<ChatModel>>
+        get() = _chatSearchResult
 
     init {
-        getCurrentUserData()
+        getChatRooms()
     }
-    private fun getCurrentUserData() = viewModelScope.launch {
-        repo.getUserDataByDocumentId(currentUserId)
-            .addOnSuccessListener { document ->
-                document.toUserModel()?.let { user ->
-                    currentUserData.value = user
-                }
-            }
-    }
-    fun createChatRoom(user: UserModel) = viewModelScope.launch{
-        _dataStatus.value = Resource.loading(null)
-        if (!currentUserData.value?.userId.isNullOrEmpty() && currentUserId != user.userId) {
-            try {
-                val newChat = createChatForChatMate()
-                val chat = ChatModel(
-                    user.userId,
-                    user.username,
-                    user.profileImageUrl,
-                    "",
-                    ""
-                )
-                repo.createChatRoomForOwner(currentUserId,chat)
-                    .addOnSuccessListener {
-                        repo.createChatRoomForChatMate(chat.receiverId.toString(),newChat).addOnSuccessListener {
-                            _dataStatus.value = Resource.success()
-                        }.addOnFailureListener {
-                            _dataStatus.value = Resource.error(it.localizedMessage)
+
+    private fun getChatRooms () {
+        _firebasemessage.value = Resource.loading(null)
+        repo.getAllChatRooms(currentUserId ?: "").addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val chatList = mutableListOf<ChatModel>()
+                    for (messageSnapshot in snapshot.children) {
+                        val chat = messageSnapshot.getValue(ChatModel::class.java)
+                        chat?.let {
+                            chatList.add(it)
                         }
                     }
-                    .addOnFailureListener { error ->
-                        _dataStatus.value = Resource.error(error.localizedMessage)
-                    }
-            }catch (e : Exception){
-                _dataStatus.value = Resource.error(e.localizedMessage)
-            }
-        }else{
-            _dataStatus.value = Resource.error("Hata, tekrar deneyyin")
-        }
-    }
-    private fun createChatForChatMate() : ChatModel {
-        return ChatModel(
-            currentUserId,
-            currentUserData.value?.username,
-            currentUserData.value?.profileImageUrl,
-            "",
-            ""
-        )
-    }
-    fun getChatRoomsByReceiverId(receiverId: String){
-        repo.getChatRoomData(currentUserId,receiverId)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    _isChatRoomExists.value = dataSnapshot.childrenCount > 0
+                    _chatRooms.value = chatList
+                    _firebasemessage.value = Resource.success(null)
                 }
-                override fun onCancelled(databaseError: DatabaseError) {
-                    _isChatRoomExists.value = false
+
+                override fun onCancelled(error: DatabaseError) {
+                    _firebasemessage.value = Resource.error("Hata, tekrar deneyin", null)
                 }
             })
+    }
+    fun searchChatByUsername(query: String) = viewModelScope.launch{
+        val list = chatRooms.value
+        _chatSearchResult.value = list?.filter { it.receiverUserName!!.contains(query, ignoreCase = true) }
     }
 }

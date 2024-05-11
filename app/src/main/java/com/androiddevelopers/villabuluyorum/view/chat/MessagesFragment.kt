@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.androiddevelopers.villabuluyorum.R
+import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.chat.MessagesViewModel
 
 class MessagesFragment : Fragment() {
@@ -29,5 +31,20 @@ class MessagesFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(MessagesViewModel::class.java)
         // TODO: Use the ViewModel
     }
+    override fun onResume() {
+        super.onResume()
+        hideBottomNavigation(requireActivity())
+    }
+    override fun onPause() {
+        super.onPause()
+        showBottomNavigation(requireActivity())
+    }
+
+  /*
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+   */
 
 }

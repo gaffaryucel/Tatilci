@@ -61,6 +61,8 @@ interface FirebaseRepoInterFace {
 //Realtime Database - Chat
     fun createChatRoomForOwner(currentUserId: String, chat: ChatModel): Task<Void>
     fun createChatRoomForChatMate(userId: String, chat: ChatModel): Task<Void>
+    fun getAllChatRooms(currentUserId: String): DatabaseReference
+
     fun getChatRoomData(currentUserId: String,receiverId: String): DatabaseReference
 
 

@@ -95,6 +95,10 @@ class HomeFragment : Fragment() {
             val action = HomeFragmentDirections.actionNavigationHomeToNavigationNotifications()
             Navigation.findNavController(it).navigate(action)
         }
+        binding.ivMessages.setOnClickListener {
+            val action = HomeFragmentDirections.actionNavigationHomeToChatsFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
 
         binding.dropDownCity.setOnItemClickListener { _, _, position, _ ->
             val selectedCity = binding.dropDownCity.adapter.getItem(position).toString()

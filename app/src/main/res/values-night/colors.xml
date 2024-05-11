@@ -282,7 +282,7 @@
     <color name="md_theme_surfaceContainer_highContrast">#2D1B19</color>
     <color name="md_theme_surfaceContainerHigh_highContrast">#382523</color>
     <color name="md_theme_surfaceContainerHighest_highContrast">#44302E</color>
-    <color name="status_bar_background">@color/black</color>
+    <color name="status_bar_background">@color/md_theme_primary</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -295,6 +295,7 @@
 
     <!-- TextColors Colors-->
     <color name="normal_text_color">#FFFFFF</color>
+    <color name="gray_text_color">#696969</color>
 
     <!-- Button Colors-->
     <color name="secondary_button_gb_color">#2d2d2d</color>

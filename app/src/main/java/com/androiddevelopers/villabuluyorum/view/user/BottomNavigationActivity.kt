@@ -3,20 +3,20 @@ package com.androiddevelopers.villabuluyorum.view.user
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.ActivityBottomNavigationBinding
+import com.androiddevelopers.villabuluyorum.viewmodel.chat.MessagesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BottomNavigationActivity : AppCompatActivity() {
 
-    private val PREFS_FILENAME = "permission"
-
-    private val KEY_VALUE = "location"
-
+    val viewModel: MessagesViewModel by viewModels()
 
     private lateinit var binding: ActivityBottomNavigationBinding
 
@@ -48,5 +48,15 @@ class BottomNavigationActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.setUserOnline()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.setUserOffline()
     }
 }

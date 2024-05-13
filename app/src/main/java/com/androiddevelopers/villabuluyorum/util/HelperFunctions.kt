@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.androiddevelopers.villabuluyorum.R
+import com.androiddevelopers.villabuluyorum.model.chat.MessageModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -54,4 +55,8 @@ fun getCurrentTime(): String {
     val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
     val date = Date(currentTime)
     return dateFormat.format(date)
+}
+
+fun sortListByDate(yourList: List<MessageModel>): List<MessageModel> {
+    return yourList.sortedBy { it.timestamp }
 }

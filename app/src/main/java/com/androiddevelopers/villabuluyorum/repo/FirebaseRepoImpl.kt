@@ -4,6 +4,7 @@ import android.net.Uri
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.chat.ChatModel
+import com.androiddevelopers.villabuluyorum.model.chat.MessageModel
 import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.model.notification.PushNotification
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
@@ -194,11 +195,79 @@ class FirebaseRepoImpl @Inject constructor(
     override fun getAllChatRooms(currentUserId: String): DatabaseReference {
         return messagesReference.child(currentUserId)
     }
-
     override fun getChatRoomData(currentUserId: String,receiverId: String): DatabaseReference {
         return messagesReference.child(currentUserId).child(receiverId)
     }
 
+    //Message
+    override fun sendMessageToRealtimeDatabase(
+        userId: String,
+        chatId: String,
+        message: MessageModel
+    ): Task<Void> {
+        return messagesReference.child(userId).child(chatId).child("messages")
+            .child(message.messageId.toString()).setValue(message)
+    }
+
+    override fun addMessageInChatMatesRoom(
+        chatMateId: String,
+        chatId: String,
+        message: MessageModel
+    ): Task<Void> {
+        return messagesReference.child(chatMateId).child(chatId).child("messages")
+            .child(message.messageId.toString()).setValue(message)
+    }
+
+    override fun getAllMessagesFromRealtimeDatabase(
+        currentUserId: String,
+        chatId: String
+    ): DatabaseReference {
+        return messagesReference.child(currentUserId).child(chatId).child("messages")
+    }
+
+    override fun changeLastMessage(
+        userId: String,
+        chatId: String,
+        message: String,
+        time: String
+    ): Task<Void> {
+        val reference = messagesReference.child(userId).child(chatId)
+        val updates = hashMapOf<String, Any>(
+            "chatLastMessage" to message,
+            "chatLastMessageTimestamp" to time
+        )
+        return reference.updateChildren(updates)
+    }
+
+    override fun changeLastMessageInChatMatesRoom(
+        chatMateId: String,
+        chatId: String,
+        message: String,
+        time: String
+    ): Task<Void> {
+        val reference = messagesReference.child(chatMateId).child(chatId)
+        val updates = hashMapOf<String, Any>(
+            "chatLastMessage" to message,
+            "chatLastMessageTimestamp" to time
+        )
+        return reference.updateChildren(updates)
+    }
+
+    override fun seeMessage(userId: String, chatId: String): Task<Void> {
+        val seen = hashMapOf<String, Any>(
+            "seen" to true,
+        )
+        val userChatReference = messagesReference.child(userId).child(chatId)
+        return userChatReference.updateChildren(seen)
+    }
+
+    override fun changeReceiverSeenStatus(receiverId: String, chatId: String): Task<Void> {
+        val unSeen = hashMapOf<String, Any>(
+            "seen" to false,
+        )
+        val receiverChatReference = messagesReference.child(receiverId).child(chatId)
+        return receiverChatReference.updateChildren(unSeen)
+    }
     override fun changeOnlineStatus(userId: String, onlineData: Boolean): Task<Void> {
         val map = hashMapOf<String, Any?>(
             "isOnline" to onlineData,

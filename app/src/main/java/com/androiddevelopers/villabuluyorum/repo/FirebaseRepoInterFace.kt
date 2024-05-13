@@ -4,6 +4,7 @@ import android.net.Uri
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.chat.ChatModel
+import com.androiddevelopers.villabuluyorum.model.chat.MessageModel
 import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.model.notification.PushNotification
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
@@ -66,26 +67,7 @@ interface FirebaseRepoInterFace {
     fun getChatRoomData(currentUserId: String,receiverId: String): DatabaseReference
 
 
-    fun changeOnlineStatus(userId: String, onlineData: Boolean): Task<Void>
-
-    /*
-    fun updateViewCountOfVilla(
-        postId: String,
-        newCount: List<String>
-    ): Task<Void>
-
-    fun updateLikeCountOfVilla(
-        postId: String,
-        likes: List<String>
-    ): Task<Void>
-
-    fun updateSavedUsersOfVilla(
-        postId: String,
-        savedUsers: List<String>
-    ): Task<Void>
-
-
-//Realtime Database - Chat
+    //Message
     fun sendMessageToRealtimeDatabase(
         userId: String,
         chatId: String,
@@ -98,10 +80,11 @@ interface FirebaseRepoInterFace {
         message: MessageModel
     ): Task<Void>
 
-    fun getAllMessagesFromRealtimeDatabase(currentUserId: String, chatId: String): DatabaseReference
-    fun createChatRoomForOwner(currentUserId: String, chat: ChatModel): Task<Void>
-    fun createChatRoomForChatMate(userId: String, chat: ChatModel): Task<Void>
-    fun getAllChatRooms(currentUserId: String): DatabaseReference
+    fun getAllMessagesFromRealtimeDatabase(
+        currentUserId: String,
+        chatId: String
+    ): DatabaseReference
+
     fun changeLastMessage(
         userId: String,
         chatId: String,
@@ -125,6 +108,34 @@ interface FirebaseRepoInterFace {
         receiverId: String,
         chatId: String
     ): Task<Void>
+
+    fun changeOnlineStatus(userId: String, onlineData: Boolean): Task<Void>
+
+    /*
+    fun updateViewCountOfVilla(
+        postId: String,
+        newCount: List<String>
+    ): Task<Void>
+
+    fun updateLikeCountOfVilla(
+        postId: String,
+        likes: List<String>
+    ): Task<Void>
+
+    fun updateSavedUsersOfVilla(
+        postId: String,
+        savedUsers: List<String>
+    ): Task<Void>
+
+
+//Realtime Database - Chat
+
+
+    fun getAllMessagesFromRealtimeDatabase(currentUserId: String, chatId: String): DatabaseReference
+    fun createChatRoomForOwner(currentUserId: String, chat: ChatModel): Task<Void>
+    fun createChatRoomForChatMate(userId: String, chat: ChatModel): Task<Void>
+    fun getAllChatRooms(currentUserId: String): DatabaseReference
+
 
 
 */

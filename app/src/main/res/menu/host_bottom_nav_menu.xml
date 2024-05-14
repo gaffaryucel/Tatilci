@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/navigation_host_villa"
         android:icon="@drawable/home_vectorel"
-        android:title="Villalar" />
-
-    <item
-        android:id="@+id/navigation_host_villa_create_enter"
-        android:icon="@drawable/home_add_vectorel"
-        android:title="Yeni Villa" />
+        android:title="Villalar"
+        tools:ignore="HardcodedText" />
 
     <item
         android:id="@+id/navigation_host_reservation"
         android:icon="@drawable/calendar_vectorel"
-        android:title="Rezervasyon" />
+        android:title="Rezervasyon"
+        tools:ignore="HardcodedText" />
 
     <item
-        android:id="@+id/navigation_host_message"
-        android:icon="@drawable/chat_vectorel"
-        android:title="Mesajlar" />
+        android:id="@+id/navigation_host_notification"
+        android:icon="@drawable/notification_vector"
+        android:title="Bildirimler"
+        tools:ignore="HardcodedText" />
     <item
         android:id="@+id/navigation_host_profile"
         android:icon="@drawable/person_vectorel"
-        android:title="Profil" />
+        android:title="Profil"
+        tools:ignore="HardcodedText" />
 
 
 </menu>

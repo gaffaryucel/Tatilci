@@ -21,6 +21,7 @@ import javax.inject.Inject
 class HostReservationDetailsViewModel @Inject constructor(
     private val firebaseRepo: FirebaseRepoInterFace,
 ) : ViewModel() {
+
     private var _reservationMessage = MutableLiveData<Resource<Boolean>>()
     val reservationMessage: LiveData<Resource<Boolean>>
         get() = _reservationMessage
@@ -43,6 +44,8 @@ class HostReservationDetailsViewModel @Inject constructor(
             .addOnSuccessListener {
                 it.toReservation()?.let { reservation ->
                     _reservation.value = reservation
+                    getUserDataById(reservation.userId.toString())
+                    getVillaById(reservation.villaId.toString())
                 }
                 _reservationMessage.value = Resource.success( true)
             }.addOnFailureListener { exception ->

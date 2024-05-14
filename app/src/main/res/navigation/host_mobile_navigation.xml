@@ -9,7 +9,11 @@
         android:id="@+id/navigation_host_villa"
         android:name="com.androiddevelopers.villabuluyorum.view.host.villa.HostVillaFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_host_villa" />
+        tools:layout="@layout/fragment_host_villa" >
+        <action
+            android:id="@+id/action_navigation_host_villa_to_hostReservationDetailsFragment"
+            app:destination="@id/hostReservationDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_host_villa_create_enter"

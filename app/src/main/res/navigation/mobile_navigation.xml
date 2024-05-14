@@ -23,6 +23,12 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_notifications"
             app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_reservationDetailsFragment"
+            app:destination="@id/reservationDetailsFragment" />
     </fragment>
 
     <fragment
@@ -117,6 +123,9 @@
         <argument
             android:name="id"
             app:argType="string" />
+        <action
+            android:id="@+id/action_messagesFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatsFragment"

@@ -39,8 +39,6 @@ class HostReservationDetailsFragment : Fragment() {
     private var _mergeBinding: MergeItemCoverImageBinding? = null
     private val mergeBinding get() = _mergeBinding!!
 
-    private lateinit var userId: String
-    private lateinit var villaId: String
     private lateinit var reservationId: String
     private var villaImage: String? = null
     override fun onCreateView(
@@ -49,18 +47,14 @@ class HostReservationDetailsFragment : Fragment() {
     ): View {
         _binding = FragmentHostReservationDetailsBinding.inflate(inflater, container, false)
         _mergeBinding = MergeItemCoverImageBinding.bind(binding.root)
-        userId = arguments?.getString("user_id") ?: ""
-        villaId = arguments?.getString("villa_id") ?: ""
         reservationId = arguments?.getString("reservation_id") ?: ""
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (reservationId.isNotEmpty() && userId.isNotEmpty() && villaId.isNotEmpty()) {
+        if(reservationId.isNotEmpty()) {
             viewModel.getReservationById(reservationId)
-            viewModel.getUserDataById(userId)
-            viewModel.getVillaById(villaId)
         }
         binding.ivMessage.setOnClickListener {
             //goToMessageFragment

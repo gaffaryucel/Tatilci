@@ -28,7 +28,7 @@
             android:layout_height="60dp"
             android:visibility="visible" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/chatNameAndMessageLayout"
             app:layout_constraintStart_toEndOf="@+id/chatImage"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,19 +42,36 @@
             android:paddingHorizontal="8dp"
             >
 
-            <TextView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/chatName"
-                android:layout_width="match_parent"
-                android:text="@{chatItem.receiverUserName}"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLength="25"
-                android:textColor="@color/normal_text_color"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                tools:text="John Doe" />
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+               <TextView
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   android:id="@+id/chatName"
+                   android:layout_width="match_parent"
+                   android:text="@{chatItem.receiverUserName}"
+                   android:layout_height="wrap_content"
+                   android:ellipsize="end"
+                   android:maxLength="25"
+                   android:textColor="@color/normal_text_color"
+                   android:textSize="20sp"
+                   android:textStyle="bold"
+                   tools:text="John Doe" />
+               <TextView
+                   app:layout_constraintTop_toTopOf="@id/chatName"
+                   app:layout_constraintBottom_toBottomOf="@+id/chatName"
+                   app:layout_constraintEnd_toEndOf="@+id/chatName"
+                   android:id="@+id/chatLastMessageTimeStamp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentEnd="true"
+                   android:fontFamily="sans-serif"
+                   android:textColor="@color/gray_text_color"
+                   android:textSize="14sp"
+                   tools:text="12:30 PM" />
+           </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -86,22 +103,11 @@
                     android:textColor="@color/gray_text_color"
                     android:textSize="18sp"
                     tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-        <TextView
-            app:layout_constraintTop_toTopOf="@id/chatNameAndMessageLayout"
-            app:layout_constraintEnd_toEndOf="@id/chatNameAndMessageLayout"
-            android:id="@+id/chatLastMessageTimeStamp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="14dp"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/gray_text_color"
-            android:textSize="16sp"
-            tools:text="12:30 PM" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

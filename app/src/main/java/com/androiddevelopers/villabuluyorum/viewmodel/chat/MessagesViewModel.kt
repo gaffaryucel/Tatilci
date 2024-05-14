@@ -42,7 +42,7 @@ class MessagesViewModel @Inject constructor(
         get() = _messageStatus
 
 
-    var _receiverData = MutableLiveData<UserModel>()
+    private var _receiverData = MutableLiveData<UserModel>()
     val receiverData : LiveData<UserModel>
         get() = _receiverData
 
@@ -161,17 +161,13 @@ class MessagesViewModel @Inject constructor(
         }
     }
     fun setUserOnline() {
-        if (currentUserId != null){
-            repo.changeOnlineStatus(currentUserId,true).addOnSuccessListener {
-                println("setUserOnline")
-            }
+        if (currentUserId.isNotEmpty()){
+            repo.changeOnlineStatus(currentUserId,true)
         }
     }
     fun setUserOffline(){
-        if (currentUserId != null){
-            repo.changeOnlineStatus(currentUserId,false).addOnSuccessListener {
-                println("setUserOffline")
-            }
+        if (currentUserId.isNotEmpty()){
+            repo.changeOnlineStatus(currentUserId,false)
         }
     }
 }

@@ -13,6 +13,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
+import com.androiddevelopers.villabuluyorum.view.host.HostBottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.view.user.BottomNavigationActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -40,35 +41,45 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(message)
 
         val sharedPref = applicationContext.getSharedPreferences("notification", Context.MODE_PRIVATE)
-
+        var intent = Intent(this, BottomNavigationActivity::class.java)
 
         val type = message.data["type"] ?: ""
         sharedPref.edit().putString("not_type", type).apply()
         when(type){
             NotificationTypeForActions.MESSAGE.toString()->{
                 val chatId = message.data["chatId"] ?: ""
-                sharedPref.edit().putString("chatId", chatId).apply()
+                intent.putExtra("chatId",chatId)
+                //sharedPref.edit().putString("chatId", chatId).apply()
+
             }
             NotificationTypeForActions.RESERVATION_STATUS_CHANGE.toString()->{
                 val reservationObject = message.data["reservationObject"] ?: ""
-                sharedPref.edit().putString("reservationId", reservationObject).apply()
+                intent.putExtra("reservation",reservationObject)
+                //sharedPref.edit().putString("reservationId", reservationObject).apply()
             }
             NotificationTypeForActions.HOST_RESERVATION.toString()->{
+                intent = Intent(this, HostBottomNavigationActivity::class.java)
                 val reservationId = message.data["reservationId"] ?: ""
-                sharedPref.edit().putString("reservationId", reservationId).apply()
+                intent.putExtra("reservation_host",reservationId)
+                //Bu kımın altında kalan when'ler farklı bir intent kullanmalı
+                //sharedPref.edit().putString("reservationId", reservationId).apply()
             }
             NotificationTypeForActions.COMMENT.toString()->{
+                intent = Intent(this, HostBottomNavigationActivity::class.java)
                 val homeId = message.data["homeId"] ?: ""
-                sharedPref.edit().putString("homeId", homeId).apply()
+                intent.putExtra("home_id",homeId)
+                //sharedPref.edit().putString("homeId", homeId).apply()
             }
             NotificationTypeForActions.RATING.toString()->{
+                intent = Intent(this, HostBottomNavigationActivity::class.java)
                 val homeId = message.data["homeId"] ?: ""
-                sharedPref.edit().putString("homeId", homeId).apply()
+                intent.putExtra("home_id",homeId)
+                //sharedPref.edit().putString("homeId", homeId).apply()
             }
         }
 
 
-        val intent = Intent(this, BottomNavigationActivity::class.java)
+
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         val notificationID = Random.nextInt()
 
@@ -86,10 +97,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val bigPictureStyle = NotificationCompat.BigPictureStyle()
             .bigPicture(getBitmapFromUrl(imageUrl)) // Görseli URL'den al ve bitmap olarak indir
 
+        val random = Random.nextInt(1000)
+
         val pendingIntent = PendingIntent.getActivity(
-            this, 0, intent,
+            this, random, intent,
             PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
         )
+
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(message.data["title"])
             .setContentText(message.data["message"])

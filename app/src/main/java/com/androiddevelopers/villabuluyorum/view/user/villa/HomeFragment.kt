@@ -76,12 +76,23 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
+        val chatId = requireActivity().intent.getStringExtra("chatId") ?: ""
+        val reservationHost = requireActivity().intent.getStringExtra("reservation_host") ?: ""
+
+        if (chatId.isNotEmpty()){
+            goToChat(chatId)
+            requireActivity().intent.removeExtra("chatId")
+        }
+        if (reservationHost.isNotEmpty()){
+            gotoReservation(reservationHost)
+            requireActivity().intent.removeExtra("reservation_host")
+        }
+
         binding.rvBest.adapter = bestHouseAdapter
 
         binding.sv.isClickable = false
         binding.sv.isFocusable = false
         binding.sv.isFocusableInTouchMode = false
-
 
         val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_bottom_navigation) as NavHostFragment?
         val navControl = navHostFragment?.navController
@@ -91,10 +102,12 @@ class HomeFragment : Fragment() {
                 navControl.navigate(R.id.action_global_navigation_search)
             }
         }
+
         binding.ivNotifications.setOnClickListener { 
             val action = HomeFragmentDirections.actionNavigationHomeToNavigationNotifications()
             Navigation.findNavController(it).navigate(action)
         }
+
         binding.ivMessages.setOnClickListener {
             val action = HomeFragmentDirections.actionNavigationHomeToChatsFragment()
             Navigation.findNavController(it).navigate(action)
@@ -108,12 +121,22 @@ class HomeFragment : Fragment() {
         if (!isPermissionRequested()) {
             requestGPSPermission(requireContext())
         }
+
+
     }
 
     override fun onResume() {
         super.onResume()
         binding.pbHome.visibility = View.VISIBLE
         observeLiveData()
+    }
+    private fun goToChat(chatId : String){
+        val action = HomeFragmentDirections.actionNavigationHomeToMessagesFragment(chatId)
+        Navigation.findNavController(requireView()).navigate(action)
+    }
+    private fun gotoReservation(reservationId : String){
+        val action = HomeFragmentDirections.actionNavigationHomeToReservationDetailsFragment("villa","user",reservationId)
+        Navigation.findNavController(requireView()).navigate(action)
     }
 
     private fun observeLiveData() {

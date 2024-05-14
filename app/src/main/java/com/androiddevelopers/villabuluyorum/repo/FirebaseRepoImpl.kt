@@ -270,7 +270,7 @@ class FirebaseRepoImpl @Inject constructor(
     }
     override fun changeOnlineStatus(userId: String, onlineData: Boolean): Task<Void> {
         val map = hashMapOf<String, Any?>(
-            "isOnline" to onlineData,
+            "online" to onlineData,
         )
         return userCollection.document(userId).update(map)
     }

@@ -12,6 +12,7 @@ import com.androiddevelopers.villabuluyorum.util.Resource
 import com.androiddevelopers.villabuluyorum.util.toReservation
 import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.util.toVilla
+import com.androiddevelopers.villabuluyorum.viewmodel.chat.CreateChatViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -25,7 +26,8 @@ class ReservationDetailsViewModel
 @Inject
 constructor(
     private val firebaseRepo: FirebaseRepoInterFace,
-) : ViewModel() {
+    private val auth: FirebaseAuth
+) : CreateChatViewModel(firebaseRepo,auth) {
 
     private var _reservationMessage = MutableLiveData<Resource<Boolean>>()
     val reservationMessage: LiveData<Resource<Boolean>>
@@ -49,6 +51,9 @@ constructor(
             .addOnSuccessListener {
                 it.toReservation()?.let { reservation ->
                     _reservation.value = reservation
+                    getUserDataById(reservation.hostId.toString())
+                    getVillaById(reservation.villaId.toString())
+                    getChatRoomsByReceiverId(reservation.hostId.toString())
                 }
                 _reservationMessage.value = Resource.success( true)
             }.addOnFailureListener { exception ->

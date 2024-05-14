@@ -30,7 +30,6 @@ class ReservationDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     val viewModel: ReservationDetailsViewModel by viewModels()
-    val chatViewModel: CreateChatViewModel by viewModels()
 
     private var _mergeBinding: MergeItemCoverImageBinding? = null
     private val mergeBinding get() = _mergeBinding!!
@@ -58,9 +57,13 @@ class ReservationDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (reservationId.isNotEmpty() && userId.isNotEmpty() && villaId.isNotEmpty()) {
             viewModel.getReservationById(reservationId)
+            // TODO: Rezervasyon için alınan bilgilerin alınış şekli düzenlemlei
+            //En optimal yol bulunmalı
+          /*
             viewModel.getUserDataById(userId)
             viewModel.getVillaById(villaId)
             chatViewModel.getChatRoomsByReceiverId(userId)
+           */
         }
         binding.layoutUser.setOnClickListener {
             val action = ReservationDetailsFragmentDirections.actionReservationDetailsFragmentToUserProfileFragment(userId)
@@ -71,7 +74,7 @@ class ReservationDetailsFragment : Fragment() {
                 if (isChatRoomExists){
                     goToMessagesFragment(userData!!.userId.toString())
                 }else{
-                    chatViewModel.createChatRoom(userData!!)
+                    viewModel.createChatRoom(userData!!)
                 }
             }
         }
@@ -80,7 +83,7 @@ class ReservationDetailsFragment : Fragment() {
                 if (isChatRoomExists){
                     goToMessagesFragment(userData!!.userId.toString())
                 }else{
-                    chatViewModel.createChatRoom(userData!!)
+                    viewModel.createChatRoom(userData!!)
                 }
             }
         }
@@ -110,11 +113,11 @@ class ReservationDetailsFragment : Fragment() {
                 }
             }
         })
-        chatViewModel.dataStatus.observe(viewLifecycleOwner, Observer {
+        viewModel.dataStatus.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     goToMessagesFragment(userData!!.userId.toString())
-                    chatViewModel._dataStatus.value = Resource.loading(null)
+                    viewModel._dataStatus.value = Resource.loading(null)
                 }
 
                 Status.LOADING -> {
@@ -126,7 +129,7 @@ class ReservationDetailsFragment : Fragment() {
                 }
             }
         })
-        chatViewModel._isChatRoomExists.observe(viewLifecycleOwner, Observer {
+        viewModel._isChatRoomExists.observe(viewLifecycleOwner, Observer {
             isChatRoomExists = it
         })
         viewModel.reservation.observe(viewLifecycleOwner, Observer { myReservation ->

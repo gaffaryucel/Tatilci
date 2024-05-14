@@ -22,15 +22,13 @@ class BottomNavigationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityBottomNavigationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
 
         //host navigation fragmente erişiyoruz
-        val navHostFragment =
-            supportFragmentManager
-                .findFragmentById(binding.navHostFragmentActivityBottomNavigation.id) as NavHostFragment?
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(binding.navHostFragmentActivityBottomNavigation.id) as NavHostFragment?
         val navControl = navHostFragment?.navController
 
         navControl?.let {

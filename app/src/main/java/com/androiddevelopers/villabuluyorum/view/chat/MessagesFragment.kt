@@ -1,34 +1,26 @@
 package com.androiddevelopers.villabuluyorum.view.chat
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.androiddevelopers.villabuluyorum.R
-import com.androiddevelopers.villabuluyorum.adapter.ChatAdapter
 import com.androiddevelopers.villabuluyorum.adapter.MessageAdapter
-import com.androiddevelopers.villabuluyorum.databinding.FragmentChatsBinding
 import com.androiddevelopers.villabuluyorum.databinding.FragmentMessagesBinding
-import com.androiddevelopers.villabuluyorum.model.UserModel
-import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
-import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
-import com.androiddevelopers.villabuluyorum.util.getCurrentTime
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
-import com.androiddevelopers.villabuluyorum.viewmodel.chat.ChatsViewModel
 import com.androiddevelopers.villabuluyorum.viewmodel.chat.MessagesViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.UUID
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MessagesFragment : Fragment() {
@@ -60,7 +52,6 @@ class MessagesFragment : Fragment() {
         viewModel.getUserData(receiverId)
         viewModel.getMessages(receiverId)
 
-//Click Listeners
         binding.layoutUserInfo.setOnClickListener {
             goToUserProfile(receiverId)
         }
@@ -98,11 +89,8 @@ class MessagesFragment : Fragment() {
 
     private fun goToUserProfile(messageReceiver: String?) {
         if (messageReceiver != null){
-          /*
-            val action = MessagesFragmentDirections.actionMessageToProfile(messageReceiver)
+            val action = MessagesFragmentDirections.actionMessagesFragmentToUserProfileFragment(messageReceiver)
             Navigation.findNavController(requireView()).navigate(action)
-
-          */
         }
     }
 
@@ -110,26 +98,26 @@ class MessagesFragment : Fragment() {
         viewModel.messages.observe(viewLifecycleOwner, Observer {
             if (isFirst){
                 adapter.messageList = it
-                adapter.notifyDataSetChanged()
                 isFirst = false
-                println("size : "+it.size)
             }else{
                 adapter.messageList = it
-                adapter.notifyItemInserted(adapter.itemCount+1)
+                adapter.notifyItemInserted(it.size)
+                lifecycleScope.launch {
+                    delay(100)
+                    binding.messageRecyclerView.scrollToPosition(adapter.messageList.size-1)
+                }
             }
         })
         viewModel.receiverData.observe(viewLifecycleOwner, Observer {
-            if (it.isOnline != null){
-                println("if1")
-                if (it.isOnline!!){
+            if (it.online != null){
+                if (it.online!!){
+
                     binding.tvOnline.visibility = View.VISIBLE
-                    println("if2")
                 }else{
                     binding.tvOnline.visibility = View.GONE
-                    println("else2")
                 }
             }else{
-                println("else1")
+
                 binding.tvOnline.visibility = View.GONE
             }
 

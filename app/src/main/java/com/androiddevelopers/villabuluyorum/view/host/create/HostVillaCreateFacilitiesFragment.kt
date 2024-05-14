@@ -80,7 +80,7 @@ class HostVillaCreateFacilitiesFragment : Fragment() {
         observeLiveData(viewLifecycleOwner)
         setViewChips()
 
-
+        //TODO: Ödeme Tipi Ekle
     }
 
     private fun updateVilla(villa: Villa): Villa {
@@ -92,10 +92,10 @@ class HostVillaCreateFacilitiesFragment : Fragment() {
     private fun setClickItems() {
         with(binding) {
             toolbarVillaCreate.setNavigationOnClickListener {
-                gotoCreateEnter()
+                gotoHostHome()
             }
 
-            buttonSaveVillaCreatePage3.setOnClickListener {
+            buttonSaveVillaCreatePage4.setOnClickListener {
                 viewModel.addImagesAndVillaToFirebase(
                     selectedCoverImage,
                     selectedOtherImages,
@@ -105,9 +105,9 @@ class HostVillaCreateFacilitiesFragment : Fragment() {
         }
     }
 
-    private fun gotoCreateEnter() {
+    private fun gotoHostHome() {
         Navigation.findNavController(binding.root)
-            .navigate(R.id.action_hostVillaCreateFacilitiesFragment_to_navigation_host_villa_create_enter)
+            .navigate(R.id.action_global_navigation_host_villa)
         showHostBottomNavigation(requireActivity())
     }
 
@@ -247,7 +247,7 @@ class HostVillaCreateFacilitiesFragment : Fragment() {
                 liveDataFirebaseStatus.observe(owner) {
                     when (it.status) {
                         Status.SUCCESS -> {
-                            gotoCreateEnter()
+                            gotoHostHome()
                         }
 
                         Status.LOADING -> it.data?.let { status ->

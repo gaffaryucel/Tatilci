@@ -29,7 +29,6 @@ class ChatsFragment : Fragment() {
 
     val viewModel: ChatsViewModel by viewModels()
 
-
     private val chatAdapter = ChatAdapter()
 
     override fun onCreateView(

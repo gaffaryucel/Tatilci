@@ -59,11 +59,11 @@ class ReservationDetailsFragment : Fragment() {
             viewModel.getReservationById(reservationId)
             // TODO: Rezervasyon için alınan bilgilerin alınış şekli düzenlemlei
             //En optimal yol bulunmalı
-          /*
+            /*
             viewModel.getUserDataById(userId)
             viewModel.getVillaById(villaId)
             chatViewModel.getChatRoomsByReceiverId(userId)
-           */
+            */
         }
         binding.layoutUser.setOnClickListener {
             val action = ReservationDetailsFragmentDirections.actionReservationDetailsFragmentToUserProfileFragment(userId)

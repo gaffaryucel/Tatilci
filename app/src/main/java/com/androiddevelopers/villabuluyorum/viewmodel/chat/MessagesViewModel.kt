@@ -68,7 +68,7 @@ class MessagesViewModel @Inject constructor(
             .addOnSuccessListener {
                 _messageStatus.value = Resource.success(null)
                 changeLastMessage(messageData,time,messageReceiver)
-                repo.changeReceiverSeenStatus(messageReceiver,currentUserId)
+                //repo.changeReceiverSeenStatus(messageReceiver,currentUserId)
             }
             .addOnFailureListener { error ->
                 _messageStatus.value = error.localizedMessage?.let { Resource.error(it, null) }

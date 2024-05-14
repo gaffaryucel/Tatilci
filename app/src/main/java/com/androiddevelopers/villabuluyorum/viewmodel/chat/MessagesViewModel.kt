@@ -156,7 +156,7 @@ class MessagesViewModel @Inject constructor(
             sendNotification(
                 notification = notification,
                 type = NotificationTypeForActions.MESSAGE,
-                chatId = receiverData.value?.userId,
+                chatId = currentUserData.value?.userId,
             )
         }
     }

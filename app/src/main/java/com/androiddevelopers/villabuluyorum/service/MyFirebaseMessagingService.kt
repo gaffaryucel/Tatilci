@@ -40,6 +40,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
+// TODO: Moda göre değişen sharedPref değerine bakuılarak gerrekli şekilde gerekli aktivite içindeki chat sayfasına atılacak
+
         val sharedPref = applicationContext.getSharedPreferences("notification", Context.MODE_PRIVATE)
         var intent = Intent(this, BottomNavigationActivity::class.java)
 
@@ -50,7 +52,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 val chatId = message.data["chatId"] ?: ""
                 intent.putExtra("chatId",chatId)
                 //sharedPref.edit().putString("chatId", chatId).apply()
-
             }
             NotificationTypeForActions.RESERVATION_STATUS_CHANGE.toString()->{
                 val reservationObject = message.data["reservationObject"] ?: ""

@@ -131,7 +131,9 @@ class HomeFragment : Fragment() {
         observeLiveData()
     }
     private fun goToChat(chatId : String){
-        val action = HomeFragmentDirections.actionNavigationHomeToMessagesFragment(chatId)
+        val action = HomeFragmentDirections.actionNavigationHomeToMessagesFragment(
+            chatId
+        )
         Navigation.findNavController(requireView()).navigate(action)
     }
     private fun gotoReservation(reservationId : String){

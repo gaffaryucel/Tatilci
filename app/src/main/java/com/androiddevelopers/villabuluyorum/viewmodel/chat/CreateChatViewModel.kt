@@ -47,11 +47,12 @@ open class CreateChatViewModel  @Inject constructor(
         _dataStatus.value = Resource.loading(null)
         if (!currentUserData.value?.userId.isNullOrEmpty() && currentUserId != user.userId) {
             try {
-                val newChat = createChatForChatMate()
+                val newChat = createChatForChatMate(user.userId.toString())
                 val chat = ChatModel(
                     user.userId,
                     user.username,
                     user.profileImageUrl,
+                    user.userId,
                     "",
                     ""
                 )
@@ -73,11 +74,12 @@ open class CreateChatViewModel  @Inject constructor(
             _dataStatus.value = Resource.error("Hata, tekrar deneyyin")
         }
     }
-    private fun createChatForChatMate() : ChatModel {
+    private fun createChatForChatMate(hostId : String) : ChatModel {
         return ChatModel(
             currentUserId,
             currentUserData.value?.username,
             currentUserData.value?.profileImageUrl,
+            hostId,
             "",
             ""
         )

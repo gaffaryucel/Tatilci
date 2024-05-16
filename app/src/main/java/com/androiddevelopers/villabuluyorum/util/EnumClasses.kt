@@ -5,7 +5,8 @@ enum class UserType{
     HOMEOWNER
 }
 enum class NotificationTypeForActions{
-    MESSAGE,
+    MESSAGE_RECEIVER_HOST,
+    MESSAGE_RECEIVER_USER,
     RESERVATION_STATUS_CHANGE,
     HOST_RESERVATION,
     COMMENT,

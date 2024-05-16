@@ -126,6 +126,7 @@
         <action
             android:id="@+id/action_messagesFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/chatsFragment"

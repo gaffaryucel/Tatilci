@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.chat.ChatModel
 import com.androiddevelopers.villabuluyorum.model.chat.MessageModel
 import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
@@ -30,8 +31,9 @@ class MessagesViewModel @Inject constructor(
     auth: FirebaseAuth
 ) : BaseNotificationViewModel(repo,auth) {
 
-    private val currentUserId = auth.currentUser?.uid.toString()
+    val currentUserId = auth.currentUser?.uid.toString()
     private val currentUserData = MutableLiveData<UserModel>()
+
 
     private var _messages = MutableLiveData<List<MessageModel>>()
     val messages: LiveData<List<MessageModel>>
@@ -68,7 +70,7 @@ class MessagesViewModel @Inject constructor(
             .addOnSuccessListener {
                 _messageStatus.value = Resource.success(null)
                 changeLastMessage(messageData,time,messageReceiver)
-                //repo.changeReceiverSeenStatus(messageReceiver,currentUserId)
+                repo.changeReceiverSeenStatus(messageReceiver,currentUserId)
             }
             .addOnFailureListener { error ->
                 _messageStatus.value = error.localizedMessage?.let { Resource.error(it, null) }
@@ -131,6 +133,7 @@ class MessagesViewModel @Inject constructor(
                 }
             }
     }
+
     private fun getCurrentUserData() = viewModelScope.launch {
         repo.getUserDataByDocumentId(currentUserId)
             .addOnSuccessListener { document ->
@@ -139,7 +142,8 @@ class MessagesViewModel @Inject constructor(
                 }
             }
     }
-    fun sendNotificationToReceiver(title : String,message : String, ){
+
+    fun sendNotificationToReceiver(title : String,message : String, notificationType : NotificationTypeForActions){
         if (_receiverData.value?.userId.toString().isEmpty() || currentUserData.value?.userId == null || currentUserData.value?.username == null || currentUserData.value?.profileImageUrl == null){
             return
         }
@@ -155,7 +159,7 @@ class MessagesViewModel @Inject constructor(
         ).also { notification->
             sendNotification(
                 notification = notification,
-                type = NotificationTypeForActions.MESSAGE,
+                type = notificationType,
                 chatId = currentUserData.value?.userId,
             )
         }

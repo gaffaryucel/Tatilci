@@ -19,7 +19,6 @@ import com.androiddevelopers.villabuluyorum.viewmodel.notification.BaseNotificat
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel

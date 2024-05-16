@@ -261,7 +261,6 @@ class FirebaseRepoImpl @Inject constructor(
         return userChatReference.updateChildren(seen)
     }
 
-  /*
     override fun changeReceiverSeenStatus(receiverId: String, chatId: String): Task<Void> {
         val unSeen = hashMapOf<String, Any>(
             "seen" to false,
@@ -269,7 +268,7 @@ class FirebaseRepoImpl @Inject constructor(
         val receiverChatReference = messagesReference.child(receiverId).child(chatId)
         return receiverChatReference.updateChildren(unSeen)
     }
-   */
+
     override fun changeOnlineStatus(userId: String, onlineData: Boolean): Task<Void> {
         val map = hashMapOf<String, Any?>(
             "online" to onlineData,

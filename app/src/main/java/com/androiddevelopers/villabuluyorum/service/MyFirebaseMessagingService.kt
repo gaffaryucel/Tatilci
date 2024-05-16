@@ -48,34 +48,34 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val type = message.data["type"] ?: ""
         sharedPref.edit().putString("not_type", type).apply()
         when(type){
-            NotificationTypeForActions.MESSAGE.toString()->{
+            NotificationTypeForActions.MESSAGE_RECEIVER_HOST.toString()->{
+                intent = Intent(this, HostBottomNavigationActivity::class.java)
                 val chatId = message.data["chatId"] ?: ""
                 intent.putExtra("chatId",chatId)
-                //sharedPref.edit().putString("chatId", chatId).apply()
+            }
+            NotificationTypeForActions.MESSAGE_RECEIVER_USER.toString()->{
+                val chatId = message.data["chatId"] ?: ""
+                intent.putExtra("chatId",chatId)
             }
             NotificationTypeForActions.RESERVATION_STATUS_CHANGE.toString()->{
                 val reservationObject = message.data["reservationObject"] ?: ""
                 intent.putExtra("reservation",reservationObject)
-                //sharedPref.edit().putString("reservationId", reservationObject).apply()
             }
             NotificationTypeForActions.HOST_RESERVATION.toString()->{
                 intent = Intent(this, HostBottomNavigationActivity::class.java)
                 val reservationId = message.data["reservationId"] ?: ""
                 intent.putExtra("reservation_host",reservationId)
                 //Bu kımın altında kalan when'ler farklı bir intent kullanmalı
-                //sharedPref.edit().putString("reservationId", reservationId).apply()
             }
             NotificationTypeForActions.COMMENT.toString()->{
                 intent = Intent(this, HostBottomNavigationActivity::class.java)
                 val homeId = message.data["homeId"] ?: ""
                 intent.putExtra("home_id",homeId)
-                //sharedPref.edit().putString("homeId", homeId).apply()
             }
             NotificationTypeForActions.RATING.toString()->{
                 intent = Intent(this, HostBottomNavigationActivity::class.java)
                 val homeId = message.data["homeId"] ?: ""
                 intent.putExtra("home_id",homeId)
-                //sharedPref.edit().putString("homeId", homeId).apply()
             }
         }
 

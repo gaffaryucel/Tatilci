@@ -14,6 +14,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androiddevelopers.villabuluyorum.adapter.MessageAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentMessagesBinding
+import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.chat.MessagesViewModel
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class MessagesFragment : Fragment() {
@@ -35,6 +37,7 @@ class MessagesFragment : Fragment() {
     private var isFirst = true
 
     private lateinit var receiverId : String
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,7 +50,6 @@ class MessagesFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         viewModel.getUserData(receiverId)
         viewModel.getMessages(receiverId)
@@ -69,7 +71,8 @@ class MessagesFragment : Fragment() {
                 try {
                     viewModel.sendNotificationToReceiver(
                         title,
-                        message
+                        message,
+                        NotificationTypeForActions.MESSAGE_RECEIVER_HOST
                     )
                 }catch (e : Exception){
                     Toast.makeText(requireContext(), "Hata", Toast.LENGTH_SHORT).show()
@@ -111,16 +114,13 @@ class MessagesFragment : Fragment() {
         viewModel.receiverData.observe(viewLifecycleOwner, Observer {
             if (it.online != null){
                 if (it.online!!){
-
                     binding.tvOnline.visibility = View.VISIBLE
                 }else{
                     binding.tvOnline.visibility = View.GONE
                 }
             }else{
-
                 binding.tvOnline.visibility = View.GONE
             }
-
             Glide.with(requireContext()).load(it.profileImageUrl).into(binding.ivUser)
             binding.tvUserName.text = it.username
         })
@@ -157,12 +157,7 @@ class MessagesFragment : Fragment() {
         editor.remove("current_chat_page_id")
         editor.apply()
     }
-    private fun scrollLast() {
-        val itemCount = adapter?.itemCount ?: 0
-        if (itemCount > 0) {
-            binding.messageRecyclerView.scrollToPosition(itemCount)
-        }
-    }
+
     private fun scrollToMessage(itemCount : Int) {
         if (itemCount > 0) {
             binding.messageRecyclerView.smoothScrollToPosition(itemCount)

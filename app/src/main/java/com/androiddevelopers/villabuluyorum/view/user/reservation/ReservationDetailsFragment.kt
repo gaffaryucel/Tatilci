@@ -35,7 +35,6 @@ class ReservationDetailsFragment : Fragment() {
     private val mergeBinding get() = _mergeBinding!!
 
     private lateinit var userId: String
-    private lateinit var villaId: String
     private lateinit var reservationId: String
     private var userData: UserModel? = null
     private var isChatRoomExists : Boolean = false
@@ -48,22 +47,15 @@ class ReservationDetailsFragment : Fragment() {
         _binding = FragmentReservationDetailsBinding.inflate(inflater, container, false)
         _mergeBinding = MergeItemCoverImageBinding.bind(binding.root)
         userId = arguments?.getString("user_id") ?: ""
-        villaId = arguments?.getString("villa_id") ?: ""
         reservationId = arguments?.getString("reservation_id") ?: ""
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (reservationId.isNotEmpty() && userId.isNotEmpty() && villaId.isNotEmpty()) {
+
+        if (reservationId.isNotEmpty()) {
             viewModel.getReservationById(reservationId)
-            // TODO: Rezervasyon için alınan bilgilerin alınış şekli düzenlemlei
-            //En optimal yol bulunmalı
-            /*
-            viewModel.getUserDataById(userId)
-            viewModel.getVillaById(villaId)
-            chatViewModel.getChatRoomsByReceiverId(userId)
-            */
         }
         binding.layoutUser.setOnClickListener {
             val action = ReservationDetailsFragmentDirections.actionReservationDetailsFragmentToUserProfileFragment(userId)

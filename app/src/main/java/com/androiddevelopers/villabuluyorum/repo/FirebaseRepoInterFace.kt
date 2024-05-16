@@ -104,14 +104,11 @@ interface FirebaseRepoInterFace {
         chatId: String
     ): Task<Void>
 
-    // TODO: Görüldü problemi düzeltilmeli 
-/*
     fun changeReceiverSeenStatus(
         receiverId: String,
         chatId: String
     ): Task<Void>
-*/
-    
+
     fun changeOnlineStatus(userId: String, onlineData: Boolean): Task<Void>
 
     /*

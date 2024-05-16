@@ -9,6 +9,7 @@ import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.repo.RoomProvinceRepo
 import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
+import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions.*
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -47,7 +48,7 @@ open class BaseNotificationViewModel @Inject constructor(
                 notification.userToken.toString()
             ).also {
                 repo.postNotification(it)
-                if (type != NotificationTypeForActions.MESSAGE){
+                if ((type != MESSAGE_RECEIVER_HOST) && (type != MESSAGE_RECEIVER_USER)){
                     repo.saveNotification(notification)
                 }
             }

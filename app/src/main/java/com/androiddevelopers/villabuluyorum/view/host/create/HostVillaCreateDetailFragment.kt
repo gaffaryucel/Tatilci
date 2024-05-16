@@ -130,7 +130,7 @@ class HostVillaCreateDetailFragment : Fragment() {
                 showHostBottomNavigation(requireActivity())
             }
 
-            buttonNextVillaCreatePage2.setOnClickListener {
+            buttonNextVillaCreatePage3.setOnClickListener {
                 createVillaPageArguments.villa = updateVilla(villaFromArgs)
                 val directions =
                     HostVillaCreateDetailFragmentDirections.actionHostVillaCreateDetailFragmentToHostVillaCreateFacilitiesFragment(

@@ -34,9 +34,8 @@ class HostBottomNavigationActivity : AppCompatActivity() {
             binding.hostNavView.setOnItemReselectedListener {
                 when (it.itemId) {
                     R.id.navigation_host_villa -> navControl.navigate(R.id.action_global_navigation_host_villa)
-                    R.id.navigation_host_villa_create_enter -> navControl.navigate(R.id.action_global_navigation_host_villa_create_enter)
                     R.id.navigation_host_reservation -> navControl.navigate(R.id.action_global_navigation_host_reservation)
-                    R.id.navigation_host_message -> navControl.navigate(R.id.action_global_navigation_host_message)
+                    R.id.navigation_host_notification -> navControl.navigate(R.id.action_global_navigation_host_notification)
                     R.id.navigation_host_profile -> navControl.navigate(R.id.action_global_navigation_host_profile)
                 }
             }

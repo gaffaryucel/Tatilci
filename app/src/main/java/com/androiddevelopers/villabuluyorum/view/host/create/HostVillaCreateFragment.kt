@@ -38,7 +38,6 @@ import com.androiddevelopers.villabuluyorum.util.checkPermissionImageGallery
 import com.androiddevelopers.villabuluyorum.util.getCurrentTime
 import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.setupDialogs
-import com.androiddevelopers.villabuluyorum.util.showHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.host.create.HostVillaCreateBaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -306,7 +305,7 @@ class HostVillaCreateFragment : Fragment() {
 
     private fun setClickItems() {
         with(binding) {
-            buttonNextVillaCreatePage1.setOnClickListener {
+            buttonNextVillaCreatePage2.setOnClickListener {
                 createVillaPageArguments.coverImage = selectedCoverImage
                 createVillaPageArguments.otherImages = selectedOtherImages.toList()
                 createVillaPageArguments.villa = createVilla(villaFromArgs)
@@ -540,11 +539,6 @@ class HostVillaCreateFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         hideHostBottomNavigation(requireActivity())
-    }
-
-    override fun onPause() {
-        super.onPause()
-        showHostBottomNavigation(requireActivity())
     }
 
     override fun onDestroy() {

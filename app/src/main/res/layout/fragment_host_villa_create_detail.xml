@@ -35,7 +35,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/baseline_close_24"
-            app:subtitle="Sayfa 2/3"
+            app:subtitle="Sayfa 3/4"
             app:subtitleTextColor="@color/white"
             app:title="Villa Oluştur"
             app:titleTextColor="@color/white" />
@@ -324,7 +324,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
-                    android:id="@+id/buttonNextVillaCreatePage2"
+                    android:id="@+id/buttonNextVillaCreatePage3"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="40dp"

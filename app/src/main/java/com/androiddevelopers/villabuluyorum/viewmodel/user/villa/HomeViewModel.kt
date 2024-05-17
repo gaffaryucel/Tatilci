@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.model.notification.NotificationData
@@ -15,6 +16,7 @@ import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.repo.RoomProvinceRepo
 import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.androiddevelopers.villabuluyorum.util.Resource
+import com.androiddevelopers.villabuluyorum.util.toReservation
 import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.util.toVilla
 import com.androiddevelopers.villabuluyorum.viewmodel.notification.BaseNotificationViewModel
@@ -25,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
@@ -69,6 +72,7 @@ constructor(
         getCloseVillas("İzmir", 20)
         getBestVillas(20)
         getAllProvince()
+        getReservations()
     }
 
     fun getCloseVillas(city: String, limit: Long) = viewModelScope.launch {
@@ -141,6 +145,23 @@ constructor(
                 _notifyUser.value = "Konum Güncellenirken bir hata oluştu"
             }
     }
+    private fun getReservations() = viewModelScope.launch {
+        val currentDate = Calendar.getInstance().time
+        val currentDateFormatted = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(currentDate)
+        repo.getFinishedReservations(currentUserId,currentDateFormatted)
+            .addOnSuccessListener {
+                val set = mutableSetOf<ReservationModel>()
+                for (document in it.documents) {
+                    document.toReservation()?.let { reservation ->
+                        set.add(reservation)
+                    }
+                }
+            }.addOnFailureListener{
+                println("error : "+it.localizedMessage)
+            }
+    }
+
+
 
     fun resetNotifyMessage() {
         _notifyUser.value = ""

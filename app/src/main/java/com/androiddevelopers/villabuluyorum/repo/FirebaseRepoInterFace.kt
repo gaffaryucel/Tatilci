@@ -47,6 +47,7 @@ interface FirebaseRepoInterFace {
     fun getUserReservations(userId: String): Task<QuerySnapshot>
     fun getReservationsForHost(userId: String): Task<QuerySnapshot>
     fun getReservationById(reservationId: String):Task<DocumentSnapshot>
+    fun getFinishedReservations(userId: String,today : String): Task<QuerySnapshot>
     fun changeReservationStatus(reservationId: String, status: java.util.HashMap<String, Any?>): Task<Void>
 
     //Notification

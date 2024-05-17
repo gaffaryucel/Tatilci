@@ -121,7 +121,7 @@ class HomeFragment : Fragment() {
         if (!isPermissionRequested()) {
             requestGPSPermission(requireContext())
         }
-
+        binding.dropDownCity.setText("İzmir")
 
     }
 

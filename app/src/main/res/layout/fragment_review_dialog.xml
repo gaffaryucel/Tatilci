@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.user.dialog.ReviewDialogFragment">
+
+
+    <TextView
+        android:paddingHorizontal="10dp"
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Tatilinizi Nasıl Buldunuz?"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:paddingHorizontal="10dp"
+        android:id="@+id/textViewDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTitle"
+        android:layout_marginTop="8dp"
+        android:text="Tatilci ile yaptığınız bu yolculuk sizin için nasıl geçti? Deneyimlerinizi bizimle paylaşarak hem tatilinizi puanlayabilir hem de yorumlarınızı ekleyebilirsiniz. Bu sayede diğer kullanıcılarımıza da rehber olabilirsiniz."
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/textViewDescription"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/buttonRateLater"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/secondary_button_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp">
+
+            <TextView
+                android:paddingHorizontal="30dp"
+                android:text="Daha Sonra"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:layout_gravity="center"
+            android:id="@+id/buttonRateNow"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Puanla ve Yorum Yap" />
+    </LinearLayout>
+
+</RelativeLayout>

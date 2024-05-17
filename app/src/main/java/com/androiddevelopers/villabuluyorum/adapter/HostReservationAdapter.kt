@@ -96,12 +96,7 @@ class HostReservationAdapter : RecyclerView.Adapter<HostReservationAdapter.HostR
 
 
             holder.itemView.setOnClickListener {
-                val directions =
-                    HostReservationFragmentDirections.actionNavigationHostReservationToHostReservationDetailsFragment(
-                        myReservation.villaId.toString(),
-                        myReservation.userId.toString(),
-                        myReservation.reservationId.toString(),
-                    )
+                val directions = HostReservationFragmentDirections.actionNavigationHostReservationToHostReservationDetailsFragment(myReservation.reservationId.toString())
                 Navigation.findNavController(it).navigate(directions)
             }
         } catch (e: Exception) {

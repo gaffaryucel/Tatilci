@@ -74,3 +74,28 @@ open class HostChatViewModel  @Inject constructor(
         _chatSearchResult.value = list?.filter { it.receiverUserName!!.contains(query, ignoreCase = true) }
     }
 }
+/*
+ repo.getAllChatRooms(currentUserId ?: "").addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val chatList = mutableListOf<ChatModel>()
+                    for (messageSnapshot in snapshot.children) {
+                        val chat = messageSnapshot.getValue(ChatModel::class.java)
+                        println("chat : "+chat?.hostId)
+                        println("currentUserId : "+currentUserId)
+                        if (chat?.hostId.equals(currentUserId)){
+                            chat?.let {
+                                chatList.add(it)
+                            }
+                            println("hostId : "+chat?.chatLastMessage)
+                        }
+                    }
+                    _chatRooms.value = chatList
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    _firebaseMessage.value = Resource.error("Hata, tekrar deneyin", null)
+                }
+            })
+ */

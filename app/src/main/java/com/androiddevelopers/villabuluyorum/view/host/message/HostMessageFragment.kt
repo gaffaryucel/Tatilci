@@ -12,13 +12,15 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androiddevelopers.villabuluyorum.adapter.MessageAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentMessagesBinding
 import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
-import com.androiddevelopers.villabuluyorum.viewmodel.chat.MessagesViewModel
+import com.androiddevelopers.villabuluyorum.util.showHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.host.message.HostMessageViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +39,7 @@ class HostMessageFragment : Fragment() {
 
     private var isFirst = true
 
-    private lateinit var receiverId : String
+    private var receiverId : String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,25 +48,34 @@ class HostMessageFragment : Fragment() {
     ): View {
         _binding = FragmentMessagesBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        receiverId = arguments?.getString("chat_id") ?: ""
+        receiverId = arguments?.getString("id")
         return root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.getUserData(receiverId)
-        viewModel.getMessages(receiverId)
+        if (receiverId == null){
+            findNavController().popBackStack()
+            Toast.makeText(
+                requireContext(),
+                "Hata daha sonra tekrar deneyin",
+                Toast.LENGTH_SHORT)
+                .show()
+           return
+        }
+        viewModel.getUserData(receiverId!!)
+        viewModel.getMessages(receiverId!!)
 
         binding.layoutUserInfo.setOnClickListener {
             goToUserProfile(receiverId)
         }
+
         binding.buttonSend.setOnClickListener{
             val message = binding.editTextMessage.text.toString()
             val title = "yeni mesajın var"
             if (message.isNotEmpty()){
                 viewModel.sendMessage(
                     message,
-                    receiverId
+                    receiverId!!
                 )
                 binding.editTextMessage.setText("")
                 val itemCount = adapter.itemCount ?: 0
@@ -128,13 +139,13 @@ class HostMessageFragment : Fragment() {
     }
     override fun onResume() {
         super.onResume()
-        hideBottomNavigation(requireActivity())
+        hideHostBottomNavigation(requireActivity())
         saveUserIdInSharedPref()
     }
 
     override fun onPause() {
         super.onPause()
-        showBottomNavigation(requireActivity())
+        showHostBottomNavigation(requireActivity())
         deleteUserIdInSharedPref()
     }
 

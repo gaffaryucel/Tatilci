@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androiddevelopers.villabuluyorum.databinding.RowChatBinding
 import com.androiddevelopers.villabuluyorum.model.chat.ChatModel
 import com.androiddevelopers.villabuluyorum.view.chat.ChatsFragmentDirections
+import com.androiddevelopers.villabuluyorum.view.host.chat.HostChatFragmentDirections
 import com.bumptech.glide.Glide
 
 class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
@@ -36,6 +37,7 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
         val binding = RowChatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ChatViewHolder(binding)
     }
+    var isHost = false
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chat = chatsList[position]
@@ -68,10 +70,18 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
             }
             holder.itemView.setOnClickListener {
                 sharedPref.edit().putString("place", "chat").apply()
-                val action = ChatsFragmentDirections.actionChatsFragmentToMessagesFragment(
-                    chat.receiverId.toString()
-                )
-                Navigation.findNavController(it).navigate(action)
+                if (isHost){
+                    val action = HostChatFragmentDirections.actionHostChatFragmentToNavigationHostMessage(
+                        chat.receiverId.toString()
+                    )
+                    Navigation.findNavController(it).navigate(action)
+                }else{
+                    val action = ChatsFragmentDirections.actionChatsFragmentToMessagesFragment(
+                        chat.receiverId.toString()
+                    )
+                    Navigation.findNavController(it).navigate(action)
+                }
+
             }
         }catch (e: Exception){
             Toast.makeText(holder.itemView.context, "Hata : Chat", Toast.LENGTH_SHORT).show()

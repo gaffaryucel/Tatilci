@@ -15,6 +15,7 @@ import com.androiddevelopers.villabuluyorum.databinding.FragmentChatsBinding
 import com.androiddevelopers.villabuluyorum.databinding.FragmentReservationDetailsBinding
 import com.androiddevelopers.villabuluyorum.databinding.MergeItemCoverImageBinding
 import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.chat.ChatsViewModel
@@ -50,8 +51,7 @@ class ChatsFragment : Fragment() {
     private fun setupBinding(){
         binding.rvChat.adapter = chatAdapter
 
-        binding.svChat.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        binding.svChat.setOnQueryTextListener(object : SearchView.OnQueryTextListener, androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
                     viewModel.searchChatByUsername(it)
@@ -70,6 +70,28 @@ class ChatsFragment : Fragment() {
     }
 
     private fun observeLiveData(){
+        viewModel.firebaseMessage.observe(viewLifecycleOwner, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    binding.pbHostChat.visibility = View.GONE
+                    if (it.data == true) {
+                        binding.layoutEmptyHostChat.visibility = View.GONE
+                    } else {
+                        binding.layoutEmptyHostChat.visibility = View.VISIBLE
+                    }
+                }
+
+                Status.LOADING -> {
+                    binding.pbHostChat.visibility = View.VISIBLE
+                    binding.layoutEmptyHostChat.visibility = View.GONE
+                }
+
+                Status.ERROR -> {
+                    binding.pbHostChat.visibility = View.GONE
+                    binding.layoutEmptyHostChat.visibility = View.VISIBLE
+                }
+            }
+        })
         viewModel.chatRooms.observe(viewLifecycleOwner, Observer {
             chatAdapter.chatsList = it
             chatAdapter.notifyDataSetChanged()

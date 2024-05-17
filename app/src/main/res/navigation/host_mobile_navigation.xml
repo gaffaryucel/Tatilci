@@ -31,6 +31,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_navigation_host_villa_to_hostChatFragment"
+            app:destination="@id/hostChatFragment" />
     </fragment>
 
     <fragment
@@ -50,7 +53,11 @@
         android:id="@+id/navigation_host_message"
         android:name="com.androiddevelopers.villabuluyorum.view.host.message.HostMessageFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_host_message" />
+        tools:layout="@layout/fragment_host_message" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_host_profile"
         android:name="com.androiddevelopers.villabuluyorum.view.host.profile.HostProfileFragment"
@@ -88,12 +95,6 @@
         android:id="@+id/hostReservationDetailsFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.host.reservation.HostReservationDetailsFragment"
         tools:layout="@layout/fragment_host_reservation_details">
-        <argument
-            android:name="villa_id"
-            app:argType="string" />
-        <argument
-            android:name="user_id"
-            app:argType="string" />
         <argument
             android:name="reservation_id"
             app:argType="string" />
@@ -218,6 +219,15 @@
 
         </fragment>
     </navigation>
+    <fragment
+        android:id="@+id/hostChatFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.host.chat.HostChatFragment"
+        android:label="fragment_host_chat"
+        tools:layout="@layout/fragment_host_chat" >
+        <action
+            android:id="@+id/action_hostChatFragment_to_navigation_host_message"
+            app:destination="@id/navigation_host_message" />
+    </fragment>
 
 
 </navigation>

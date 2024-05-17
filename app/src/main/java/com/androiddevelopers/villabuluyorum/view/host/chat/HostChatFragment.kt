@@ -1,6 +1,5 @@
 package com.androiddevelopers.villabuluyorum.view.host.chat
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,16 +8,17 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.adapter.ChatAdapter
-import com.androiddevelopers.villabuluyorum.databinding.FragmentChatsBinding
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostChatBinding
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
-import com.androiddevelopers.villabuluyorum.viewmodel.chat.ChatsViewModel
+import com.androiddevelopers.villabuluyorum.util.showHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.host.chat.HostChatViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HostChatFragment : Fragment() {
 
     private var _binding: FragmentHostChatBinding? = null
@@ -45,6 +45,7 @@ class HostChatFragment : Fragment() {
 
 
     private fun setupBinding(){
+        chatAdapter.isHost = true
         binding.rvChat.adapter = chatAdapter
 
         binding.svChat.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
@@ -99,19 +100,17 @@ class HostChatFragment : Fragment() {
                 chatAdapter.notifyDataSetChanged()
             }
         })
-
     }
 
     override fun onResume() {
         super.onResume()
-        hideBottomNavigation(requireActivity())
+        hideHostBottomNavigation(requireActivity())
     }
 
     override fun onPause() {
         super.onPause()
-        showBottomNavigation(requireActivity())
+        showHostBottomNavigation(requireActivity())
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -26,9 +26,9 @@ open class ChatsViewModel  @Inject constructor(
 
     val currentUserId = auth.currentUser?.uid.toString()
 
-    private var _firebasemessage = MutableLiveData<Resource<Boolean>>()
-    val firebasemessage : LiveData<Resource<Boolean>>
-        get() = _firebasemessage
+    private var _firebaseMessage = MutableLiveData<Resource<Boolean>>()
+    val firebaseMessage : LiveData<Resource<Boolean>>
+        get() = _firebaseMessage
 
     //Chat Rooms
     private var _chatRooms = MutableLiveData<List<ChatModel>>()
@@ -45,7 +45,7 @@ open class ChatsViewModel  @Inject constructor(
     }
 
     private fun getChatRooms () {
-        _firebasemessage.value = Resource.loading(null)
+        _firebaseMessage.value = Resource.loading(null)
         repo.getAllChatRooms(currentUserId ?: "").addValueEventListener(
             object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -59,11 +59,15 @@ open class ChatsViewModel  @Inject constructor(
                         }
                     }
                     _chatRooms.value = chatList
-                    _firebasemessage.value = Resource.success(null)
+                    if (chatList.isEmpty()){
+                        _firebaseMessage.value = Resource.success(false)
+                    }else{
+                        _firebaseMessage.value = Resource.success(true)
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    _firebasemessage.value = Resource.error("Hata, tekrar deneyin", null)
+                    _firebaseMessage.value = Resource.error("Hata, tekrar deneyin", null)
                 }
             })
     }

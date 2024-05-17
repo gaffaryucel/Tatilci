@@ -29,11 +29,15 @@ class HostVillaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setClickItems()
 
-        //val chatId = requireActivity().intent.getStringExtra("chatId") ?: ""
+        val chatId = requireActivity().intent.getStringExtra("chatId") ?: ""
         val reservationObject = requireActivity().intent.getStringExtra("reservation_host") ?: ""
         val homeId = requireActivity().intent.getStringExtra("home_id") ?: ""
 
-        if (reservationObject.isNotEmpty()) {
+        if (chatId.isNotEmpty()){
+            goToMessage(reservationObject)
+            requireActivity().intent.removeExtra("reservation_host")
+        }
+        if (reservationObject.isNotEmpty()){
             gotoReservation(reservationObject)
             requireActivity().intent.removeExtra("reservation_host")
         }
@@ -44,23 +48,27 @@ class HostVillaFragment : Fragment() {
             fabHostVillaAdd.setOnClickListener {
                 gotoCreateEnterPage()
             }
+            ivMessages.setOnClickListener {
+                goToChat()
+            }
         }
     }
-
+    private fun goToMessage(chatId : String){
+        val action = HostVillaFragmentDirections.actionNavigationHostVillaToNavigationHostMessage(chatId)
+        Navigation.findNavController(requireView()).navigate(action)
+    }
+    private fun goToChat(){
+        val action = HostVillaFragmentDirections.actionNavigationHostVillaToHostChatFragment()
+        Navigation.findNavController(requireView()).navigate(action)
+    }
     private fun gotoCreateEnterPage() {
-        val directions =
-            HostVillaFragmentDirections.actionNavigationHostVillaToNavigationHostVillaCreateEnter()
+        val directions = HostVillaFragmentDirections.actionNavigationHostVillaToNavigationHostVillaCreateEnter()
         Navigation.findNavController(binding.root).navigate(directions)
     }
 
 
     private fun gotoReservation(reservationId: String) {
-        val action =
-            HostVillaFragmentDirections.actionNavigationHostVillaToHostReservationDetailsFragment(
-                "villa",
-                "user",
-                reservationId
-            )
+        val action = HostVillaFragmentDirections.actionNavigationHostVillaToHostReservationDetailsFragment(reservationId)
         Navigation.findNavController(requireView()).navigate(action)
     }
 

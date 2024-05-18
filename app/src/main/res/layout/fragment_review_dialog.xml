@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.user.dialog.ReviewDialogFragment">
+    tools:context=".view.user.review.ReviewDialogFragment">
 
 
     <TextView
@@ -18,7 +18,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="15dp"
         android:id="@+id/textViewDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
 
             <TextView
                 android:paddingHorizontal="30dp"
-                android:text="Daha Sonra"
+                android:text="Sonra"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
             android:id="@+id/buttonRateNow"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="Puanla ve Yorum Yap" />
+            android:text="Değerlendir" />
     </LinearLayout>
 
 </RelativeLayout>

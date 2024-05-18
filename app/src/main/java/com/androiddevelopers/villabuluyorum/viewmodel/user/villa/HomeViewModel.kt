@@ -16,6 +16,7 @@ import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.repo.RoomProvinceRepo
 import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.androiddevelopers.villabuluyorum.util.Resource
+import com.androiddevelopers.villabuluyorum.util.getCurrentData
 import com.androiddevelopers.villabuluyorum.util.toReservation
 import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.util.toVilla
@@ -40,6 +41,8 @@ constructor(
     private val auth: FirebaseAuth,
     private val roomProvinceRepo: RoomProvinceRepo
 ) : BaseNotificationViewModel(repo,auth) {
+
+    var rateReservations = MutableLiveData<Boolean>()
 
     private var _bestVillas = MutableLiveData<List<Villa>>()
     val bestVillas: LiveData<List<Villa>>
@@ -146,9 +149,7 @@ constructor(
             }
     }
     private fun getReservations() = viewModelScope.launch {
-        val currentDate = Calendar.getInstance().time
-        val currentDateFormatted = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(currentDate)
-        repo.getFinishedReservations(currentUserId,currentDateFormatted)
+       repo.getFinishedReservations(currentUserId, getCurrentData())
             .addOnSuccessListener {
                 val set = mutableSetOf<ReservationModel>()
                 for (document in it.documents) {
@@ -156,6 +157,7 @@ constructor(
                         set.add(reservation)
                     }
                 }
+                rateReservations.value = set.size > 0
             }.addOnFailureListener{
                 println("error : "+it.localizedMessage)
             }

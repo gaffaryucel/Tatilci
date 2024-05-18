@@ -74,6 +74,10 @@ class ProfileFragment : Fragment() {
         binding.cardViewExit.setOnClickListener{
             viewModel.signOutAndExit(requireContext())
         }
+        binding.cardViewRateHoliday.setOnClickListener{
+            val action = ProfileFragmentDirections.actionNavigationProfileToReviewFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
 
     }
 

@@ -9,6 +9,7 @@ import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.model.chat.MessageModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -59,4 +60,8 @@ fun getCurrentTime(): String {
 
 fun sortListByDate(yourList: List<MessageModel>): List<MessageModel> {
     return yourList.sortedBy { it.timestamp }
+}
+fun getCurrentData(): String {
+    val currentDate = Calendar.getInstance().time
+    return SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(currentDate)
 }

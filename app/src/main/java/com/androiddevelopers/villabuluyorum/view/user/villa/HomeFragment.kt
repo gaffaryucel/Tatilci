@@ -22,23 +22,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.adapter.BestHouseAdapter
 import com.androiddevelopers.villabuluyorum.adapter.HouseAdapter
 import com.androiddevelopers.villabuluyorum.adapter.MyLocation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHomeBinding
-import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
-import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.androiddevelopers.villabuluyorum.util.Status
+import com.androiddevelopers.villabuluyorum.view.user.review.ReviewDialogFragment
 import com.androiddevelopers.villabuluyorum.viewmodel.user.villa.HomeViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 
 @AndroidEntryPoint
@@ -166,6 +163,21 @@ class HomeFragment : Fragment() {
                 binding.pbHome.visibility = View.GONE
             }
         })
+        viewModel.rateReservations.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                val sharedPref = requireActivity().applicationContext.getSharedPreferences("review", Context.MODE_PRIVATE)
+                val isReviewed = sharedPref.getBoolean("is_reviewed", false)
+                if (!isReviewed){
+                    val reviewDialog = ReviewDialogFragment()
+                    reviewDialog.isCancelable =false
+                    reviewDialog.show(childFragmentManager, "ReviewDialog")
+                    reviewDialog.onClick = {
+                        val action = HomeFragmentDirections.actionNavigationHomeToReviewFragment()
+                        Navigation.findNavController(requireView()).navigate(action)
+                    }
+                }
+            }
+        })
         viewModel.userData.observe(viewLifecycleOwner, Observer { user ->
             if (user != null) {
                 latitude = user.latitude ?: 41.00527
@@ -279,6 +291,7 @@ class HomeFragment : Fragment() {
             println("error : " + fusedLocationClient)
         }
         setPermissionRequestValue(true)
+
     }
 
     private fun setPermissionRequestValue(value: Boolean) {
@@ -292,4 +305,6 @@ class HomeFragment : Fragment() {
         val sharedPrefs: SharedPreferences = requireContext().getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
         return sharedPrefs.getBoolean(KEY_VALUE, false)
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.androiddevelopers.villabuluyorum.view.user.reservation
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -244,6 +245,8 @@ class CreateReservationFragment : Fragment() {
                             type = NotificationTypeForActions.HOST_RESERVATION,
                         )
                     }
+                    val sharedPref = requireActivity().applicationContext.getSharedPreferences("review", Context.MODE_PRIVATE)
+                    sharedPref.edit().putBoolean("is_reviewed", false).apply()
                 }
             }else{
                 Toast.makeText(requireContext(), "Lütfen şartları kabul edin", Toast.LENGTH_SHORT).show()

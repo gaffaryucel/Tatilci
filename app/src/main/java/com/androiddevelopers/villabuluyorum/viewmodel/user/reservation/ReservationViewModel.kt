@@ -55,6 +55,7 @@ constructor(
             }.addOnFailureListener { exception ->
                 // Hata durzumunda işlemleri buraya ekleyebilirsiniz
                 _reservationMessage.value = Resource.error("Belge alınamadı. Hata: $exception", null)
+                println("error : "+exception.localizedMessage)
             }
     }
 }

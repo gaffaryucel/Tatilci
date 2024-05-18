@@ -40,13 +40,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-// TODO: Moda göre değişen sharedPref değerine bakuılarak gerrekli şekilde gerekli aktivite içindeki chat sayfasına atılacak
-
-        val sharedPref = applicationContext.getSharedPreferences("notification", Context.MODE_PRIVATE)
         var intent = Intent(this, BottomNavigationActivity::class.java)
-
         val type = message.data["type"] ?: ""
-        sharedPref.edit().putString("not_type", type).apply()
         when(type){
             NotificationTypeForActions.MESSAGE_RECEIVER_HOST.toString()->{
                 intent = Intent(this, HostBottomNavigationActivity::class.java)

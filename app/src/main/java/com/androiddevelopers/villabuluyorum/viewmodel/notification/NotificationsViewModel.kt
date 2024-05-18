@@ -59,6 +59,7 @@ constructor(
                     "Bildirim alınamadı. Hata: $exception",
                     null
                 )
+                println("exception : "+exception)
             }
     }
 

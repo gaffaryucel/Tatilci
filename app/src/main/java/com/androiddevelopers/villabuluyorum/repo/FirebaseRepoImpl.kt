@@ -117,8 +117,12 @@ class FirebaseRepoImpl @Inject constructor(
         return reservationCollection.document(data.reservationId.toString()).set(data)
     }
     override fun getUserReservations(userId: String): Task<QuerySnapshot> {
-        return reservationCollection.whereEqualTo("userId", userId).get()
+        return reservationCollection
+            .whereEqualTo("userId", userId)
+            .orderBy("startDate", Query.Direction.DESCENDING)
+            .get()
     }
+
     override fun getFinishedReservations(userId: String,today : String): Task<QuerySnapshot> {
         return reservationCollection
             .whereEqualTo("userId", userId)
@@ -174,6 +178,7 @@ class FirebaseRepoImpl @Inject constructor(
     }
 
     //Get
+    //Şimdilik kullanılmıyor
     override fun getNotificationsByType(
         userId: String,
         type: NotificationType,
@@ -185,8 +190,10 @@ class FirebaseRepoImpl @Inject constructor(
             .limit(limit)
             .get()
     }
+
     override fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot> {
         return notificationCollection.whereEqualTo("userId", userId)
+            .orderBy("time", Query.Direction.DESCENDING)
             .limit(limit)
             .get()
     }

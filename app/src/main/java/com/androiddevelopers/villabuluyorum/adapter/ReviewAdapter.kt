@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowReviewBinding
 import com.androiddevelopers.villabuluyorum.model.PropertyType
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
+import com.androiddevelopers.villabuluyorum.view.user.review.ReviewFragmentDirections
 import com.bumptech.glide.Glide
 
 class ReviewAdapter : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
@@ -73,17 +75,13 @@ class ReviewAdapter : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
             //holder.binding.tvPropertyType.text = myReview.propertyType ?: "Apartman"
 
             holder.itemView.setOnClickListener {
-                /*
 
             val directions =
                 ReviewFragmentDirections.actionReviewFragmentToReviewDetailsFragment(
-                    myReview.villaId.toString(),
-                    myReview.hostId.toString(),
-                    myReview.reviewId.toString(),
+                    myReservation.reservationId.toString(),
                 )
                 Navigation.findNavController(it).navigate(directions)
 
-                 */
             }
 
         } catch (e: Exception) {

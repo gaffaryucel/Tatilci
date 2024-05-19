@@ -2,6 +2,7 @@ package com.androiddevelopers.villabuluyorum.repo
 
 import android.net.Uri
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
+import com.androiddevelopers.villabuluyorum.model.ReviewModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.chat.ChatModel
 import com.androiddevelopers.villabuluyorum.model.chat.MessageModel
@@ -50,7 +51,10 @@ interface FirebaseRepoInterFace {
     fun getFinishedReservations(userId: String,today : String): Task<QuerySnapshot>
     fun changeReservationStatus(reservationId: String, status: java.util.HashMap<String, Any?>): Task<Void>
 
-    //Notification
+    //Firestore - Review
+    fun createReview(review: ReviewModel): Task<Void>
+
+    //Firestore - Notification
     //Set
     suspend fun postNotification(notification: PushNotification): Response<ResponseBody>
     fun saveNotification(notification: InAppNotificationModel): Task<Void>
@@ -59,6 +63,18 @@ interface FirebaseRepoInterFace {
     fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot>
 
 
+//Firebase Storage
+    fun addVillaImage(
+        uri: Uri,
+        userId: String,
+        villaId: String,
+    ): UploadTask
+
+    fun uploadUserProfilePhoto(
+        uri: Uri,
+        userId: String,
+        key: String,
+    ): UploadTask
 
 //Realtime Database - Chat
     fun createChatRoomForOwner(currentUserId: String, chat: ChatModel): Task<Void>
@@ -140,18 +156,6 @@ interface FirebaseRepoInterFace {
 
 
 */
-    //Firebase Storage
-    fun addVillaImage(
-        uri: Uri,
-        userId: String,
-        villaId: String,
-    ): UploadTask
-
-   fun uploadUserProfilePhoto(
-        uri: Uri,
-        userId: String,
-        key: String,
-    ): UploadTask
 
     /*
       //Notification

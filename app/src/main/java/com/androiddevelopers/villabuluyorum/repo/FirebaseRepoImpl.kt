@@ -2,6 +2,7 @@ package com.androiddevelopers.villabuluyorum.repo
 
 import android.net.Uri
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
+import com.androiddevelopers.villabuluyorum.model.ReviewModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.chat.ChatModel
 import com.androiddevelopers.villabuluyorum.model.chat.MessageModel
@@ -39,9 +40,9 @@ class FirebaseRepoImpl @Inject constructor(
     //Firestore
     private val userCollection = firestore.collection("users")
     private val notificationCollection = firestore.collection("notifications")
-    private val homeCollection = firestore.collection("homes")
     private val villaCollection = firestore.collection("villas")
     private val reservationCollection = firestore.collection("reservations")
+    private val reviewCollection = firestore.collection("reviews")
 
     //StorageRef
     private val imagesParentRef = storage.reference.child("users")
@@ -140,34 +141,15 @@ class FirebaseRepoImpl @Inject constructor(
         return reservationCollection.document(reservationId).update(status)
     }
 
-    // Storage - Villa
-    override fun addVillaImage(
-        uri: Uri,
-        userId: String,
-        villaId: String,
-    ): UploadTask {
-        return imagesParentRef
-            .child("userId_$userId")
-            .child("images")
-            .child("employerPost")
-            .child("postId_$villaId")
-            .child("${UUID.randomUUID()}.jpg")
-            .putFile(uri)
+    //Firebase - Review
+    override fun createReview(review: ReviewModel): Task<Void> {
+        return reviewCollection.document(review.reviewId.toString()).set(review)
+    }
 
-    }
-    // Storage - User
-    override fun uploadUserProfilePhoto(uri: Uri, userId: String,key : String): UploadTask {
-        return imagesParentRef
-            .child("userId_$userId")
-            .child("images")
-            .child(key)
-            .child("${UUID.randomUUID()}.jpg")
-            .putFile(uri)
-    }
 
 
     //Notification
-//Set
+    //Set
     override suspend fun postNotification(notification: PushNotification): Response<ResponseBody> {
         return notificationAPI.postNotification(notification)
     }
@@ -196,6 +178,31 @@ class FirebaseRepoImpl @Inject constructor(
             .orderBy("time", Query.Direction.DESCENDING)
             .limit(limit)
             .get()
+    }
+
+// Storage - Villa
+    override fun addVillaImage(
+        uri: Uri,
+        userId: String,
+        villaId: String,
+    ): UploadTask {
+        return imagesParentRef
+            .child("userId_$userId")
+            .child("images")
+            .child("employerPost")
+            .child("postId_$villaId")
+            .child("${UUID.randomUUID()}.jpg")
+            .putFile(uri)
+
+    }
+    // Storage - User
+    override fun uploadUserProfilePhoto(uri: Uri, userId: String,key : String): UploadTask {
+        return imagesParentRef
+            .child("userId_$userId")
+            .child("images")
+            .child(key)
+            .child("${UUID.randomUUID()}.jpg")
+            .putFile(uri)
     }
 
 

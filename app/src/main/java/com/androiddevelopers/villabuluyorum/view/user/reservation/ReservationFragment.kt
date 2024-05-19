@@ -30,11 +30,6 @@ class ReservationFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.rvReservations.adapter = reservationAdapter
-    }
-
     override fun onResume() {
         super.onResume()
         observeLiveData()
@@ -64,6 +59,7 @@ class ReservationFragment : Fragment() {
             }
         })
         viewModel.reservations.observe(viewLifecycleOwner, Observer { reservations ->
+            binding.rvReservations.adapter = reservationAdapter
             if (reservations != null && reservations.isNotEmpty()) {
                 reservationAdapter.reservationList = reservations
                 binding.layoutEmptyList.visibility = View.GONE

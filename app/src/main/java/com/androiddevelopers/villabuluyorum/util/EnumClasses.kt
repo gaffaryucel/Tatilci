@@ -10,11 +10,9 @@ enum class NotificationTypeForActions{
     RESERVATION_STATUS_CHANGE,
     HOST_RESERVATION,
     COMMENT,
-    RATING,
 }
 enum class NotificationType{
     RESERVATION_STATUS_CHANGE,
     HOST_RESERVATION,
     COMMENT,
-    RATING
 }

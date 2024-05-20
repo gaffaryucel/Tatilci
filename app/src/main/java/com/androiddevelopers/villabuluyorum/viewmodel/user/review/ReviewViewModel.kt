@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.util.Resource
-import com.androiddevelopers.villabuluyorum.util.getCurrentData
+import com.androiddevelopers.villabuluyorum.util.getCurrentDate
 import com.androiddevelopers.villabuluyorum.util.toReservation
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,12 +32,12 @@ constructor(
         get() =  _reservations
 
     init {
-        getReviews()
+        getNotRatedFinishedReservations()
     }
 
-    private fun getReviews() = viewModelScope.launch {
+    private fun getNotRatedFinishedReservations() = viewModelScope.launch {
         _reviewMessage.value = Resource.loading(true)
-        firebaseRepo.getFinishedReservations(currentUserId, getCurrentData())
+        firebaseRepo.getNotRatedFinishedReservations(currentUserId, getCurrentDate())
             .addOnSuccessListener {
                 val reviewList = mutableListOf<ReservationModel>()
                 for (document in it.documents) {

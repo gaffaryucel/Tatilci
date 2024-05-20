@@ -124,9 +124,10 @@ class FirebaseRepoImpl @Inject constructor(
             .get()
     }
 
-    override fun getFinishedReservations(userId: String,today : String): Task<QuerySnapshot> {
+    override fun getNotRatedFinishedReservations(userId: String,today : String): Task<QuerySnapshot> {
         return reservationCollection
             .whereEqualTo("userId", userId)
+            .whereEqualTo("isRated", null)
             .whereLessThan("endDate", today)
             .get()
     }
@@ -138,6 +139,9 @@ class FirebaseRepoImpl @Inject constructor(
         return reservationCollection.document(reservationId).get()
     }
     override fun changeReservationStatus(reservationId: String, status: HashMap<String, Any?>): Task<Void> {
+        return reservationCollection.document(reservationId).update(status)
+    }
+    override fun changeReservationRateStatus(reservationId: String, status: HashMap<String, Any?>): Task<Void> {
         return reservationCollection.document(reservationId).update(status)
     }
 

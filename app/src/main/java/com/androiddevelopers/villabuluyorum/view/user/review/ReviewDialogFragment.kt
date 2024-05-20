@@ -30,17 +30,16 @@ class ReviewDialogFragment : DialogFragment() {
 
         binding.buttonRateNow.setOnClickListener {
             // Puanlama ve yorum yapma ekranına yönlendirme kodu buraya gelecek
-            onClick?.invoke("click")
-            sharedPref.edit().putBoolean("is_reviewed", true).apply()
+            onClick?.invoke(true)
             dismiss()
         }
 
         binding.buttonRateLater.setOnClickListener {
-            sharedPref.edit().putBoolean("is_reviewed", true).apply()
+            onClick?.invoke(false)
             dismiss()
         }
     }
-    var onClick: ((String) -> Unit)? = null
+    var onClick: ((Boolean) -> Unit)? = null
 
 }
 

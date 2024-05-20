@@ -1,36 +1,23 @@
 package com.androiddevelopers.villabuluyorum.viewmodel.user.villa
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
-import com.androiddevelopers.villabuluyorum.model.UserModel
-import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
-import com.androiddevelopers.villabuluyorum.model.notification.NotificationData
-import com.androiddevelopers.villabuluyorum.model.notification.PushNotification
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.repo.RoomProvinceRepo
-import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.androiddevelopers.villabuluyorum.util.Resource
-import com.androiddevelopers.villabuluyorum.util.getCurrentData
+import com.androiddevelopers.villabuluyorum.util.getCurrentDate
 import com.androiddevelopers.villabuluyorum.util.toReservation
-import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.util.toVilla
 import com.androiddevelopers.villabuluyorum.viewmodel.notification.BaseNotificationViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 
 
@@ -43,6 +30,8 @@ constructor(
 ) : BaseNotificationViewModel(repo,auth) {
 
     var rateReservations = MutableLiveData<Boolean>()
+
+    private var allNotRatedReservations = MutableLiveData<List<ReservationModel>>()
 
     private var _bestVillas = MutableLiveData<List<Villa>>()
     val bestVillas: LiveData<List<Villa>>
@@ -60,22 +49,16 @@ constructor(
     val liveDataProvinceFromRoom: LiveData<List<Province>>
         get() = _liveDataProvinceFromRoom
 
-    private var _userData = MutableLiveData<UserModel>()
-    val userData: LiveData<UserModel>
-        get() = _userData
-
     private var _notifyUser = MutableLiveData<String>()
     val notifyUser: LiveData<String>
         get() = _notifyUser
 
-    private val currentUserId = auth.currentUser?.uid.toString()
 
     init {
-        getUserDataFromFirebase()
         getCloseVillas("İzmir", 20)
         getBestVillas(20)
         getAllProvince()
-        getReservations()
+        getNotRatedFinishedReservations()
     }
 
     fun getCloseVillas(city: String, limit: Long) = viewModelScope.launch {
@@ -118,18 +101,7 @@ constructor(
         }
     }
 
-    private fun getUserDataFromFirebase() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repo.getUserDataByDocumentId(currentUserId)
-                .addOnSuccessListener { documentSnapshot ->
-                    if (documentSnapshot.exists()) {
-                        documentSnapshot.toUserModel()?.let { userModel ->
-                            _userData.value = userModel
-                        }
-                    }
-                }
-        }
-    }
+
 
     fun updateUserLocation(
         latitude: Double?,
@@ -148,8 +120,9 @@ constructor(
                 _notifyUser.value = "Konum Güncellenirken bir hata oluştu"
             }
     }
-    private fun getReservations() = viewModelScope.launch {
-       repo.getFinishedReservations(currentUserId, getCurrentData())
+
+    private fun getNotRatedFinishedReservations() = viewModelScope.launch {
+        repo.getNotRatedFinishedReservations(currentUserId, getCurrentDate())
             .addOnSuccessListener {
                 val set = mutableSetOf<ReservationModel>()
                 for (document in it.documents) {
@@ -158,11 +131,20 @@ constructor(
                     }
                 }
                 rateReservations.value = set.size > 0
+                allNotRatedReservations.value = set.toList()
             }.addOnFailureListener{
                 println("error : "+it.localizedMessage)
             }
     }
-
+    fun notReviewReservations() = viewModelScope.launch{
+        allNotRatedReservations.value?.forEach {
+            val map = HashMap<String,Any?>()
+            map["isRated"] = false
+            if (it.reservationId != null){
+                repo.changeReservationRateStatus(it.reservationId,map)
+            }
+        }
+    }
 
 
     fun resetNotifyMessage() {

@@ -1,21 +1,28 @@
 package com.androiddevelopers.villabuluyorum.viewmodel.user.review
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.androiddevelopers.villabuluyorum.model.PropertyType
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
+import com.androiddevelopers.villabuluyorum.model.ReviewModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
+import com.androiddevelopers.villabuluyorum.util.NotificationType
+import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.androiddevelopers.villabuluyorum.util.Resource
+import com.androiddevelopers.villabuluyorum.util.getCurrentTime
 import com.androiddevelopers.villabuluyorum.util.toReservation
 import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.util.toVilla
-import com.androiddevelopers.villabuluyorum.viewmodel.chat.CreateChatViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.notification.BaseNotificationViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,11 +31,19 @@ class ReviewDetailsViewModel
 constructor(
     private val firebaseRepo: FirebaseRepoInterFace,
     private val auth: FirebaseAuth
-) : ViewModel(){
+) : BaseNotificationViewModel(firebaseRepo,auth){
 
     private var _reservationMessage = MutableLiveData<Resource<Boolean>>()
     val reservationMessage: LiveData<Resource<Boolean>>
         get() = _reservationMessage
+
+  private var _reviewMessage = MutableLiveData<Resource<Boolean>>()
+    val reviewMessage: LiveData<Resource<Boolean>>
+        get() = _reviewMessage
+
+    private var _loadMessage = MutableLiveData<Resource<Boolean>>()
+    val loadMessage: LiveData<Resource<Boolean>>
+        get() = _loadMessage
 
     private var _reservation = MutableLiveData<ReservationModel>()
     val reservation : LiveData<ReservationModel>
@@ -57,7 +72,7 @@ constructor(
                 _reservationMessage.value = Resource.error("Belge alınamadı. Hata: $exception", null)
             }
     }
-    fun getUserDataById(userId : String) = viewModelScope.launch {
+    private fun getUserDataById(userId : String) = viewModelScope.launch {
         firebaseRepo.getUserDataByDocumentId(userId)
             .addOnSuccessListener { document ->
                 document.toUserModel()?.let { user ->
@@ -66,11 +81,62 @@ constructor(
             }
     }
 
-
-    fun getVillaById(villaId: String) {
+    private fun getVillaById(villaId: String) {
         firebaseRepo.getVillaByIdFromFirestore(villaId)
             .addOnSuccessListener { documentSnapshot ->
                 _liveDataFirebaseVilla.value = documentSnapshot.toVilla()
             }
+    }
+
+    fun createReview(comment : String,rating : Int){
+        val review = makeReviewMode(comment,rating)
+        _reviewMessage.value = Resource.loading(null)
+        firebaseRepo.createReview(review).addOnSuccessListener {
+            _reviewMessage.value = Resource.success(null)
+            val map = HashMap<String,Any?>()
+            map["isRated"] = true
+            firebaseRepo.changeReservationRateStatus(reservation.value?.reservationId.toString(),map).addOnSuccessListener {
+                sendReviewNotification()
+            }
+        }.addOnFailureListener {
+            _reviewMessage.value = Resource.error("Hata :", null)
+        }
+    }
+    private fun makeReviewMode(
+        comment: String? = null,
+        rating: Int? = null
+    ) : ReviewModel{
+        return ReviewModel(
+            reviewId = UUID.randomUUID().toString(),
+            rating = rating,
+            comment = comment,
+            userId = currentUserId,
+            userName = currentUserData.value?.userId,
+            userProfilePictureUrl = currentUserData.value?.profileImageUrl,
+            reservationId = reservation.value?.reservationId,
+            hostId = reservation.value?.hostId,
+            time = getCurrentTime()
+        )
+    }
+    private fun sendReviewNotification(){
+        val userName= currentUserData.value?.firstName+" "+currentUserData.value?.lastName
+        InAppNotificationModel(
+            userId = currentUserId,
+            notificationType = NotificationType.COMMENT,
+            notificationId = UUID.randomUUID().toString(),
+            userName =  userName,
+            title =  "Yeni Bir Değerlendirme",
+            message = "$userName isimli kullanıcı mülkünüzü değerlendirdi",
+            userImage = currentUserData.value?.profileImageUrl,
+            imageUrl = reservation.value?.villaImage,
+            userToken = userData.value?.token,
+            time = getCurrentTime()
+        ).also { notification->
+            sendNotification(
+                notification = notification,
+                homeId = reservation.value?.villaId,
+                type = NotificationTypeForActions.COMMENT,
+            )
+        }
     }
 }

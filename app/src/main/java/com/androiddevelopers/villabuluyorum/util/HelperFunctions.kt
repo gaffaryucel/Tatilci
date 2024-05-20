@@ -61,7 +61,7 @@ fun getCurrentTime(): String {
 fun sortListByDate(yourList: List<MessageModel>): List<MessageModel> {
     return yourList.sortedBy { it.timestamp }
 }
-fun getCurrentData(): String {
+fun getCurrentDate(): String {
     val currentDate = Calendar.getInstance().time
     return SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(currentDate)
 }

@@ -19,6 +19,7 @@ data class ReservationModel(
     val title: String? = null,
     val approvalStatus: ApprovalStatus? = null,
     val time: String? = null,
+    val isRated: Boolean? = null,
 )
 enum class PaymentMethod {
     CASH,

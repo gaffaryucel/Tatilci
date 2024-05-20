@@ -2,7 +2,7 @@ package com.androiddevelopers.villabuluyorum.model
 
 data class ReviewModel(
     var reviewId: String? = null,
-    var rating: Float? = null,
+    var rating: Int? = null,
     var comment: String? = null,
     var userId: String ? = null,
     var userName: String ? = null,

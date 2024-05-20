@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import com.androiddevelopers.villabuluyorum.adapter.ReviewAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentReviewBinding
 import com.androiddevelopers.villabuluyorum.util.Status
+import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.user.review.ReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,7 +35,6 @@ class ReviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvReviews.adapter = reviewAdapter
-        observeLiveData()
     }
 
     private fun observeLiveData() {
@@ -67,5 +68,15 @@ class ReviewFragment : Fragment() {
                 binding.layoutEmptyList.visibility = View.VISIBLE
             }
         })
+    }
+    override fun onResume() {
+        super.onResume()
+        hideBottomNavigation(requireActivity())
+        observeLiveData()
+    }
+
+    override fun onPause() {
+        showBottomNavigation(requireActivity())
+        super.onPause()
     }
 }

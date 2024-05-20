@@ -28,7 +28,6 @@ constructor(
     private val firebaseRepo: FirebaseRepoInterFace,
     private val auth: FirebaseAuth
 ) : BaseNotificationViewModel(firebaseRepo,auth) {
-    private val currentUserId =auth.currentUser?.uid
 
     private var _liveDataFirebaseStatus = MutableLiveData<Resource<Boolean>>()
     val liveDataFirebaseStatus: LiveData<Resource<Boolean>>
@@ -43,15 +42,6 @@ constructor(
         get() = _liveDataReserveStatus
 
 
-    private var _currentUserData = MutableLiveData<UserModel>()
-    val currentUserData: LiveData<UserModel>
-        get() = _currentUserData
-
-
-    init {
-        getCurrentUserData()
-    }
-
     fun getVillaByIdFromFirestore(villaId: String) = viewModelScope.launch{
         _liveDataFirebaseStatus.value = Resource.loading(true)
         firebaseRepo.getVillaByIdFromFirestore(villaId)
@@ -65,7 +55,6 @@ constructor(
             }
     }
     fun makeReservation(reservation : ReservationModel) = viewModelScope.launch{
-        // TODO: yapılan rezearvasyonunun bilgisini ev sahibine bildirimle ilet
         _liveDataReserveStatus.value = Resource.loading(null)
         firebaseRepo.createReservationForVilla(reservation).addOnSuccessListener {
             _liveDataReserveStatus.value = Resource.success(null)
@@ -74,14 +63,7 @@ constructor(
         }
     }
 
-    private fun getCurrentUserData() = viewModelScope.launch {
-        firebaseRepo.getUserDataByDocumentId(currentUserId.toString())
-            .addOnSuccessListener { document ->
-                document.toUserModel()?.let { user ->
-                    _currentUserData.value = user
-                }
-            }
-    }
+
 
     fun createReservationInstance(
         reservationId: String,
@@ -118,7 +100,8 @@ constructor(
             bathCount = bathCount,
             title = title,
             approvalStatus = ApprovalStatus.WAITING_FOR_APPROVAL,
-            time = getCurrentTime()
+            time = getCurrentTime(),
+            isRated = false
         )
     }
 }

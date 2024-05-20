@@ -28,9 +28,6 @@ class HostMessageViewModel @Inject constructor(
     auth: FirebaseAuth
 ) : BaseNotificationViewModel(repo,auth) {
 
-    val currentUserId = auth.currentUser?.uid.toString()
-    private val currentUserData = MutableLiveData<UserModel>()
-
 
     private var _messages = MutableLiveData<List<MessageModel>>()
     val messages: LiveData<List<MessageModel>>
@@ -45,9 +42,6 @@ class HostMessageViewModel @Inject constructor(
     val receiverData : LiveData<UserModel>
         get() = _receiverData
 
-    init {
-        getCurrentUserData()
-    }
 
     fun sendMessage(
         messageData: String,
@@ -131,14 +125,8 @@ class HostMessageViewModel @Inject constructor(
             }
     }
 
-    private fun getCurrentUserData() = viewModelScope.launch {
-        repo.getUserDataByDocumentId(currentUserId)
-            .addOnSuccessListener { document ->
-                document.toUserModel()?.let { user ->
-                    currentUserData.value = user
-                }
-            }
-    }
+
+
 
     fun sendNotificationToReceiver(title : String,message : String, notificationType : NotificationTypeForActions){
         if (_receiverData.value?.userId.toString().isEmpty() || currentUserData.value?.userId == null || currentUserData.value?.username == null || currentUserData.value?.profileImageUrl == null){

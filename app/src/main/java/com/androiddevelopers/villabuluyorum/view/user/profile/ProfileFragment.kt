@@ -47,8 +47,12 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         progressDialog = ProgressDialog(requireContext())
-        observeLiveData()
         setButtonActions()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        observeLiveData()
     }
     private fun setButtonActions(){
         binding.ivSettings.setOnClickListener {

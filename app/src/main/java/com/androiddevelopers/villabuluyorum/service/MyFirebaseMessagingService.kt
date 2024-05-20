@@ -67,11 +67,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 val homeId = message.data["homeId"] ?: ""
                 intent.putExtra("home_id",homeId)
             }
-            NotificationTypeForActions.RATING.toString()->{
-                intent = Intent(this, HostBottomNavigationActivity::class.java)
-                val homeId = message.data["homeId"] ?: ""
-                intent.putExtra("home_id",homeId)
-            }
         }
 
 

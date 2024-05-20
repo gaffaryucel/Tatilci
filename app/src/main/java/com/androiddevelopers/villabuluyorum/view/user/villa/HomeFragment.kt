@@ -165,38 +165,38 @@ class HomeFragment : Fragment() {
         })
         viewModel.rateReservations.observe(viewLifecycleOwner, Observer {
             if (it) {
-                val sharedPref = requireActivity().applicationContext.getSharedPreferences("review", Context.MODE_PRIVATE)
-                val isReviewed = sharedPref.getBoolean("is_reviewed", false)
-                if (!isReviewed){
-                    val reviewDialog = ReviewDialogFragment()
-                    reviewDialog.isCancelable =false
-                    reviewDialog.show(childFragmentManager, "ReviewDialog")
-                    reviewDialog.onClick = {
+                val reviewDialog = ReviewDialogFragment()
+                reviewDialog.isCancelable =false
+                reviewDialog.show(childFragmentManager, "ReviewDialog")
+                reviewDialog.onClick = {c->
+                    if (c){
                         val action = HomeFragmentDirections.actionNavigationHomeToReviewFragment()
                         Navigation.findNavController(requireView()).navigate(action)
+                    }else{
+                        viewModel.notReviewReservations()
                     }
                 }
             }
         })
-        viewModel.userData.observe(viewLifecycleOwner, Observer { user ->
+        viewModel.currentUserData.observe(viewLifecycleOwner, Observer { user ->
             if (user != null) {
+                println("currentUserData")
                 latitude = user.latitude ?: 41.00527
                 longitude = user.longitude ?: 28.97696
                 location = MyLocation(latitude!!, longitude!!)
+                val closeVillasAdapter = HouseAdapter(location!!)
                 viewModel.closeVillas.observe(viewLifecycleOwner, Observer { villas ->
                     if (villas.isNotEmpty()) {
-                        val closeVillasAdapter = HouseAdapter(location!!)
                         binding.rvCloseHomes.adapter = closeVillasAdapter
                         closeVillasAdapter.housesList = villas
                         binding.pbHome.visibility = View.GONE
-                        binding.rvCloseHomes.visibility = View.VISIBLE
-                        binding.tvEmptyList.visibility = View.GONE
                     } else {
                         binding.pbHome.visibility = View.GONE
                         binding.rvCloseHomes.visibility = View.GONE
                         binding.tvEmptyList.visibility = View.VISIBLE
                     }
                 })
+
             }
         })
         viewModel.liveDataProvinceFromRoom.observe(viewLifecycleOwner) {
@@ -220,10 +220,12 @@ class HomeFragment : Fragment() {
                 viewModel.resetNotifyMessage()
             }
         })
+
     }
 
     override fun onPause() {
         super.onPause()
+
         bestHouseAdapter.villaList = listOf()
     }
 

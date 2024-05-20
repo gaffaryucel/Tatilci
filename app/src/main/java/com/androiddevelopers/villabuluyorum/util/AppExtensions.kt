@@ -36,7 +36,7 @@ fun DocumentSnapshot.toUserModel(): UserModel? = try {
     UserModel()
 }
 
-fun QueryDocumentSnapshot.toVilla(): Villa? = try {
+fun QueryDocumentSnapshot.toVilla(): Villa = try {
     toObject(Villa::class.java)
 } catch (e: Exception) {
     e.message?.let { Log.e("getVilla", it) }
@@ -49,12 +49,14 @@ fun DocumentSnapshot.toVilla(): Villa? = try {
     e.message?.let { Log.e("getVilla", it) }
     Villa()
 }
+
 fun DocumentSnapshot.toReservation(): ReservationModel? = try {
     toObject(ReservationModel::class.java)
 } catch (e: Exception) {
     e.message?.let { Log.e("getReservation", it) }
     ReservationModel()
 }
+
 fun DocumentSnapshot.toNotification(): InAppNotificationModel? = try {
     toObject(InAppNotificationModel::class.java)
 } catch (e: Exception) {

@@ -41,73 +41,69 @@ interface FirebaseRepoInterFace {
     fun getVillasByStarRatingFromFirestore(limit: Long): Task<QuerySnapshot>
     fun getVillasByCity(city: String, limit: Long): Task<QuerySnapshot>
     fun getVillasByUserId(id: String, limit: Long): Task<QuerySnapshot>
+    fun getVillasByUserId(id: String): Task<QuerySnapshot>
 
     // Firestore - Reservation
     fun createReservationForVilla(data: ReservationModel): Task<Void>
     fun getUserReservations(userId: String): Task<QuerySnapshot>
     fun getReservationsForHost(userId: String): Task<QuerySnapshot>
-    fun getReservationById(reservationId: String):Task<DocumentSnapshot>
-    fun getFinishedReservations(userId: String,today : String): Task<QuerySnapshot>
-    fun changeReservationStatus(reservationId: String, status: java.util.HashMap<String, Any?>): Task<Void>
+    fun getReservationById(reservationId: String): Task<DocumentSnapshot>
+    fun getFinishedReservations(userId: String, today: String): Task<QuerySnapshot>
+    fun changeReservationStatus(
+        reservationId: String,
+        status: java.util.HashMap<String, Any?>
+    ): Task<Void>
 
     //Notification
     //Set
     suspend fun postNotification(notification: PushNotification): Response<ResponseBody>
     fun saveNotification(notification: InAppNotificationModel): Task<Void>
+
     //Get
-    fun getNotificationsByType(userId: String, type : NotificationType, limit: Long): Task<QuerySnapshot>
+    fun getNotificationsByType(
+        userId: String,
+        type: NotificationType,
+        limit: Long
+    ): Task<QuerySnapshot>
+
     fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot>
 
 
-
-//Realtime Database - Chat
+    //Realtime Database - Chat
     fun createChatRoomForOwner(currentUserId: String, chat: ChatModel): Task<Void>
     fun createChatRoomForChatMate(userId: String, chat: ChatModel): Task<Void>
     fun getAllChatRooms(currentUserId: String): DatabaseReference
 
-    fun getChatRoomData(currentUserId: String,receiverId: String): DatabaseReference
+    fun getChatRoomData(currentUserId: String, receiverId: String): DatabaseReference
 
 
     //Message
     fun sendMessageToRealtimeDatabase(
-        userId: String,
-        chatId: String,
-        message: MessageModel
+        userId: String, chatId: String, message: MessageModel
     ): Task<Void>
 
     fun addMessageInChatMatesRoom(
-        chatMateId: String,
-        chatId: String,
-        message: MessageModel
+        chatMateId: String, chatId: String, message: MessageModel
     ): Task<Void>
 
     fun getAllMessagesFromRealtimeDatabase(
-        currentUserId: String,
-        chatId: String
+        currentUserId: String, chatId: String
     ): DatabaseReference
 
     fun changeLastMessage(
-        userId: String,
-        chatId: String,
-        message: String,
-        time: String
+        userId: String, chatId: String, message: String, time: String
     ): Task<Void>
 
     fun changeLastMessageInChatMatesRoom(
-        chatMateId: String,
-        chatId: String,
-        message: String,
-        time: String
+        chatMateId: String, chatId: String, message: String, time: String
     ): Task<Void>
 
     fun seeMessage(
-        userId: String,
-        chatId: String
+        userId: String, chatId: String
     ): Task<Void>
 
     fun changeReceiverSeenStatus(
-        receiverId: String,
-        chatId: String
+        receiverId: String, chatId: String
     ): Task<Void>
 
     fun changeOnlineStatus(userId: String, onlineData: Boolean): Task<Void>
@@ -147,7 +143,7 @@ interface FirebaseRepoInterFace {
         villaId: String,
     ): UploadTask
 
-   fun uploadUserProfilePhoto(
+    fun uploadUserProfilePhoto(
         uri: Uri,
         userId: String,
         key: String,

@@ -5,8 +5,6 @@
 
     <data>
 
-        <import type="androidx.navigation.Navigation" />
-
         <import type="android.view.View" />
 
         <variable

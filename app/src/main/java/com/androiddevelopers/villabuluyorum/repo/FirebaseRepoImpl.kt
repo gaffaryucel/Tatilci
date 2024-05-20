@@ -112,6 +112,9 @@ class FirebaseRepoImpl @Inject constructor(
     override fun getVillasByUserId(id: String, limit: Long): Task<QuerySnapshot> {
         return villaCollection.whereEqualTo("hostId", id).limit(limit).get()
     }
+    override fun getVillasByUserId(id: String): Task<QuerySnapshot> {
+        return villaCollection.whereEqualTo("hostId", id).get()
+    }
 
     // Firestore - Reservation
     override fun createReservationForVilla(data: ReservationModel): Task<Void> {
@@ -184,7 +187,7 @@ class FirebaseRepoImpl @Inject constructor(
             .get()
     }
 
-// Storage - Villa
+    // Storage - Villa
     override fun addVillaImage(
         uri: Uri,
         userId: String,
@@ -210,7 +213,7 @@ class FirebaseRepoImpl @Inject constructor(
     }
 
 
-//Realtime Database - Chat
+    //Realtime Database - Chat
     override fun createChatRoomForOwner(currentUserId: String, chat: ChatModel): Task<Void> {
         return messagesReference.child(currentUserId).child(chat.receiverId.toString()).setValue(chat)
     }

@@ -42,6 +42,7 @@ interface FirebaseRepoInterFace {
     fun getVillasByStarRatingFromFirestore(limit: Long): Task<QuerySnapshot>
     fun getVillasByCity(city: String, limit: Long): Task<QuerySnapshot>
     fun getVillasByUserId(id: String, limit: Long): Task<QuerySnapshot>
+    fun getVillasByUserId(id: String): Task<QuerySnapshot>
 
     // Firestore - Reservation
     fun createReservationForVilla(data: ReservationModel): Task<Void>
@@ -64,7 +65,7 @@ interface FirebaseRepoInterFace {
     fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot>
 
 
-//Firebase Storage
+    //Firebase Storage
     fun addVillaImage(
         uri: Uri,
         userId: String,
@@ -77,7 +78,7 @@ interface FirebaseRepoInterFace {
         key: String,
     ): UploadTask
 
-//Realtime Database - Chat
+    //Realtime Database - Chat
     fun createChatRoomForOwner(currentUserId: String, chat: ChatModel): Task<Void>
     fun createChatRoomForChatMate(userId: String, chat: ChatModel): Task<Void>
     fun getAllChatRooms(currentUserId: String): DatabaseReference

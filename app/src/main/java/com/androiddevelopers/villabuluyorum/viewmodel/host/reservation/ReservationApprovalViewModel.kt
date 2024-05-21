@@ -47,6 +47,7 @@ class ReservationApprovalViewModel @Inject constructor(
 
     fun reservationStatusNotifier(reservationId : String,title : String,status : String,villaImage : String){
         InAppNotificationModel(
+            itemId = reservationId,
             userId = currentUserData.value?.userId,
             notificationType = NotificationType.RESERVATION_STATUS_CHANGE,
             notificationId = UUID.randomUUID().toString(),

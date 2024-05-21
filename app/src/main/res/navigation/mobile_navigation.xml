@@ -44,7 +44,11 @@
         android:id="@+id/notificationsFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.notification.NotificationsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_notifications" >
+        <action
+            android:id="@+id/action_notificationsFragment_to_reservationDetailsFragment"
+            app:destination="@id/reservationDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -169,12 +173,6 @@
         android:name="com.androiddevelopers.villabuluyorum.view.user.reservation.ReservationDetailsFragment"
         android:label="fragment_reservation_details"
         tools:layout="@layout/fragment_reservation_details">
-        <argument
-            android:name="villa_id"
-            app:argType="string" />
-        <argument
-            android:name="user_id"
-            app:argType="string" />
         <argument
             android:name="reservation_id"
             app:argType="string" />

@@ -34,9 +34,7 @@ class ReservationDetailsFragment : Fragment() {
     private var _mergeBinding: MergeItemCoverImageBinding? = null
     private val mergeBinding get() = _mergeBinding!!
 
-    private lateinit var userId: String
     private lateinit var reservationId: String
-    private var userData: UserModel? = null
     private var isChatRoomExists : Boolean = false
 
 
@@ -46,42 +44,38 @@ class ReservationDetailsFragment : Fragment() {
     ): View {
         _binding = FragmentReservationDetailsBinding.inflate(inflater, container, false)
         _mergeBinding = MergeItemCoverImageBinding.bind(binding.root)
-        userId = arguments?.getString("user_id") ?: ""
         reservationId = arguments?.getString("reservation_id") ?: ""
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         if (reservationId.isNotEmpty()) {
             viewModel.getReservationById(reservationId)
         }
-        binding.layoutUser.setOnClickListener {
-            val action = ReservationDetailsFragmentDirections.actionReservationDetailsFragmentToUserProfileFragment(userId)
-            Navigation.findNavController(it).navigate(action)
-        }
-        binding.ivMessage.setOnClickListener {
-            if (userData != null){
-                if (isChatRoomExists){
-                    goToMessagesFragment(userData!!.userId.toString())
-                }else{
-                    viewModel.createChatRoom(userData!!)
-                }
-            }
-        }
-        binding.btnMessageToHomeOwner.setOnClickListener {
-            if (userData != null){
-                if (isChatRoomExists){
-                    goToMessagesFragment(userData!!.userId.toString())
-                }else{
-                    viewModel.createChatRoom(userData!!)
-                }
-            }
-        }
-        observeLiveData()
 
+        observeLiveData()
     }
+    private fun setupBindings(userData : UserModel){
+            binding.layoutUser.setOnClickListener {
+                val action = ReservationDetailsFragmentDirections.actionReservationDetailsFragmentToUserProfileFragment(userData.userId.toString())
+                Navigation.findNavController(it).navigate(action)
+            }
+            binding.ivMessage.setOnClickListener {
+                if (isChatRoomExists){
+                    goToMessagesFragment(userData.userId.toString())
+                }else{
+                    viewModel.createChatRoom(userData)
+                }
+            }
+            binding.btnMessageToHomeOwner.setOnClickListener {
+                if (isChatRoomExists){
+                    goToMessagesFragment(userData.userId.toString())
+                }else{
+                    viewModel.createChatRoom(userData)
+                }
+            }
+      }
 
     private fun observeLiveData() {
         viewModel.reservationMessage.observe(viewLifecycleOwner, Observer {
@@ -102,22 +96,6 @@ class ReservationDetailsFragment : Fragment() {
                     binding.pbReservationDetails.visibility = View.GONE
                     binding.tvErrorReservationDetails.visibility = View.VISIBLE
                     binding.layoutReservationDetails.visibility = View.INVISIBLE
-                }
-            }
-        })
-        viewModel.dataStatus.observe(viewLifecycleOwner, Observer {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    goToMessagesFragment(userData!!.userId.toString())
-                    viewModel._dataStatus.value = Resource.loading(null)
-                }
-
-                Status.LOADING -> {
-
-                }
-
-                Status.ERROR -> {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -172,7 +150,24 @@ class ReservationDetailsFragment : Fragment() {
                 Glide.with(requireContext())
                     .load(myUser.profileImageUrl)
                     .into(binding.ivUserPhoto)
-                userData = myUser
+                setupBindings(myUser)
+                viewModel.dataStatus.observe(viewLifecycleOwner, Observer {
+                    when (it.status) {
+                        Status.SUCCESS -> {
+                            goToMessagesFragment(myUser.userId.toString())
+                            viewModel._dataStatus.value = Resource.loading(null)
+                        }
+
+                        Status.LOADING -> {
+
+                        }
+
+                        Status.ERROR -> {
+                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                })
+
             }
         })
         viewModel.liveDataFirebaseVilla.observe(viewLifecycleOwner, Observer { villa ->

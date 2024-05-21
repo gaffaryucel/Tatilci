@@ -228,6 +228,7 @@ class CreateReservationFragment : Fragment() {
                 ).also {
                     viewModel.makeReservation(it)
                     InAppNotificationModel(
+                        itemId = reservationId,
                         userId = currentUser.userId,
                         notificationType = NotificationType.HOST_RESERVATION,
                         notificationId = UUID.randomUUID().toString(),

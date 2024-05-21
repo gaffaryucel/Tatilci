@@ -4,6 +4,7 @@ import com.androiddevelopers.villabuluyorum.util.NotificationType
 
 
 class InAppNotificationModel(
+    var itemId : String? = null,
     var userId : String? = null,
     var notificationType : NotificationType? = null,
     var notificationId : String? = null,

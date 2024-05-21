@@ -61,7 +61,7 @@ constructor(
                 _reservationMessage.value = Resource.error("Belge alınamadı. Hata: $exception", null)
             }
     }
-    fun getUserDataById(userId : String) = viewModelScope.launch {
+    private fun getUserDataById(userId : String) = viewModelScope.launch {
         firebaseRepo.getUserDataByDocumentId(userId)
             .addOnSuccessListener { document ->
                 document.toUserModel()?.let { user ->

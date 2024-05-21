@@ -121,6 +121,7 @@ constructor(
     private fun sendReviewNotification(){
         val userName= currentUserData.value?.firstName+" "+currentUserData.value?.lastName
         InAppNotificationModel(
+            itemId = reservation.value?.villaId,
             userId = currentUserId,
             notificationType = NotificationType.COMMENT,
             notificationId = UUID.randomUUID().toString(),

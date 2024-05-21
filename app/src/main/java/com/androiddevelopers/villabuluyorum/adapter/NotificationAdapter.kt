@@ -3,12 +3,16 @@ package com.androiddevelopers.villabuluyorum.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowNotificationBinding
 import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
+import com.androiddevelopers.villabuluyorum.util.NotificationType
+import com.androiddevelopers.villabuluyorum.view.notification.NotificationsFragmentDirections
+import com.androiddevelopers.villabuluyorum.view.user.villa.HomeFragmentDirections
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -30,6 +34,7 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
         get() = recyclerListDiffer.currentList
         set(value) = recyclerListDiffer.submitList(value)
 
+    var isHostMode = false
     inner class NotificationViewHolder(val binding: RowNotificationBinding) : RecyclerView.ViewHolder(binding.root){
         fun bindView(notification : InAppNotificationModel) {
             binding.message = notification.title
@@ -63,6 +68,51 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
             holder.bindView(notification)
         } catch (e: Exception) {
             Toast.makeText(holder.itemView.context, e.localizedMessage, Toast.LENGTH_SHORT).show()
+        }
+        holder.itemView.setOnClickListener{
+            val itemId = notification.itemId
+            if (itemId!=null){
+                when(notification.notificationType){
+                    NotificationType.RESERVATION_STATUS_CHANGE ->{
+                        if (isHostMode){
+                            Toast.makeText(
+                                holder.itemView.context,
+                                "Detayları görüntülemek için lütfen Tatilci moduna geçin",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }else{
+                            val action = NotificationsFragmentDirections.actionNotificationsFragmentToReservationDetailsFragment(itemId)
+                            Navigation.findNavController(holder.itemView).navigate(action)
+                        }
+                    }
+                    NotificationType.HOST_RESERVATION ->{
+                        if (isHostMode){
+                            // TODO: Ev sahibi aktivitesinde bildirimler sayfasından rezervasyon isteğine action sağla
+                        }else{
+                            Toast.makeText(
+                                holder.itemView.context,
+                                "Detayları görüntülemek için lütfen Ev Sahibi moduna geçin",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    NotificationType.COMMENT ->{
+                        if (isHostMode){
+                            // TODO: Ev sahibi aktivitesinde bildirimler sayfasından villa yoryumlarına action sağla
+                        }else{
+                            Toast.makeText(
+                                holder.itemView.context,
+                                "Detayları görüntülemek için lütfen Tatilci moduna geçin",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    null ->{
+
+                    }
+                }
+
+            }
         }
     }
 

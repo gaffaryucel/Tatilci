@@ -90,10 +90,7 @@ class ReservationAdapter : RecyclerView.Adapter<ReservationAdapter.ReservationVi
 
 
                 holder.itemView.setOnClickListener {
-                    val directions =
-                        ReservationFragmentDirections.actionReservationFragmentToReservationDetailsFragment(
-                            myReservation.villaId.toString(),
-                            myReservation.hostId.toString(),
+                    val directions = ReservationFragmentDirections.actionReservationFragmentToReservationDetailsFragment(
                             myReservation.reservationId.toString(),
                         )
                     Navigation.findNavController(it).navigate(directions)

@@ -134,7 +134,7 @@ class HomeFragment : Fragment() {
         Navigation.findNavController(requireView()).navigate(action)
     }
     private fun gotoReservation(reservationId : String){
-        val action = HomeFragmentDirections.actionNavigationHomeToReservationDetailsFragment("villa","user",reservationId)
+        val action = HomeFragmentDirections.actionNavigationHomeToReservationDetailsFragment(reservationId)
         Navigation.findNavController(requireView()).navigate(action)
     }
 

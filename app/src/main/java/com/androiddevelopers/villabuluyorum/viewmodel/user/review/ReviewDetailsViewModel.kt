@@ -120,6 +120,7 @@ constructor(
     }
     private fun sendReviewNotification(){
         val userName= currentUserData.value?.firstName+" "+currentUserData.value?.lastName
+        val message = "$userName, ${reservation.value?.startDate} - ${reservation.value?.endDate}  tarihleri arasındaki konaklaması için bir değerlendirme bıraktı"
         InAppNotificationModel(
             itemId = reservation.value?.villaId,
             userId = currentUserId,

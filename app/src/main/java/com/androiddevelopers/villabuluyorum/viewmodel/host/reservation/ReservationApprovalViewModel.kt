@@ -46,14 +46,15 @@ class ReservationApprovalViewModel @Inject constructor(
 
 
     fun reservationStatusNotifier(reservationId : String,title : String,status : String,villaImage : String){
+        val userName = currentUserData.value?.firstName + " " + currentUserData.value?.lastName
         InAppNotificationModel(
             itemId = reservationId,
             userId = currentUserData.value?.userId,
             notificationType = NotificationType.RESERVATION_STATUS_CHANGE,
             notificationId = UUID.randomUUID().toString(),
-            userName =  currentUserData.value?.firstName+" "+ currentUserData.value?.lastName,
+            userName =  userName,
             title =  title,
-            message = "${currentUserData.value?.firstName+" "+ currentUserData.value?.lastName} isimli Ev sahibi, $status",
+            message = "$userName $status",
             userImage = currentUserData.value?.profileImageUrl,
             imageUrl = villaImage,
             userToken = currentUserData.value?.token,

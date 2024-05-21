@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Villa Buluyorum</string>
+    <string name="app_name">Tatilci</string>
     <string name="error_text">Hata : Tekrar deneyin</string>
     <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
     <string name="title_activity_host_bottom_navigation">HostBottomNavigationActivity</string>

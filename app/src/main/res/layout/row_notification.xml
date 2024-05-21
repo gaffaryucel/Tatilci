@@ -14,87 +14,107 @@
             name="name"
             type="String" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_marginVertical="10dp"
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ivNotificationUserPhoto"
-            android:src="@drawable/app_logo"
-            android:layout_margin="15dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="52dp"
-            android:layout_height="52dp"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_marginHorizontal="5dp"
-            android:orientation="vertical"
-            app:layout_constraintStart_toEndOf="@+id/ivNotificationUserPhoto"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/cardNotificationPhoto"
-            app:layout_constraintTop_toTopOf="@+id/ivNotificationUserPhoto"
+            android:orientation="horizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content">
-            <TextView
-                android:text="@{name}"
-                tools:text="Gaffar Yücel"
-                android:textColor="@color/normal_text_color"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginHorizontal="5dp"
+            <de.hdodenhof.circleimageview.CircleImageView
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/ivNotificationUserPhoto"
+                android:src="@drawable/app_logo"
+                android:layout_marginStart="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <LinearLayout
+                android:id="@+id/layoutNotificationData"
+                android:layout_marginHorizontal="10dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toEndOf="@+id/ivNotificationUserPhoto"
+                app:layout_constraintEnd_toStartOf="@+id/cardNotificationPhoto"
+                app:layout_constraintTop_toTopOf="@+id/ivNotificationUserPhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
                 <TextView
-                    android:text="@{message}"
-                    android:id="@+id/tvNotificationMessage"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    tools:text="Rezervasyon isteğinizi kabul etti"
+                    android:text="@{name}"
+                    tools:text="Gaffar Yücel"
+                    android:textColor="@color/normal_text_color"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintVertical_chainStyle="packed"
-                    tools:ignore="MissingConstraints" />
+                    android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:text="@{time}"
-                    android:textStyle="italic"
-                    android:textColor="@color/main_button_gb_color"
-                    android:id="@+id/tvNotificationTime"
-                    tools:text="18:00"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginHorizontal="5dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/tvNotificationMessage"
-                    app:layout_constraintStart_toStartOf="@+id/tvNotificationMessage" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="@{message}"
+                        android:id="@+id/tvNotificationMessage"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        tools:text="Rezervasyon isteğinizi kabul etti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        tools:ignore="MissingConstraints" />
+
+                    <TextView
+                        android:text="@{time}"
+                        android:textStyle="italic"
+                        android:textColor="@color/main_button_gb_color"
+                        android:id="@+id/tvNotificationTime"
+                        tools:text="18:00"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/tvNotificationMessage"
+                        app:layout_constraintStart_toStartOf="@+id/tvNotificationMessage" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="2dp"
+                android:id="@+id/cardNotificationPhoto"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:scaleType="centerCrop"
+                    android:id="@+id/ivNotificationImage"
+                    android:src="@drawable/app_logo"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    tools:ignore="ContentDescription" />
 
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="15dp"
-            android:id="@+id/cardNotificationPhoto"
-            android:layout_marginVertical="20dp"
-            android:layout_margin="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:id="@+id/ivNotificationImage"
-                android:src="@drawable/app_logo"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                tools:ignore="ContentDescription" />
+            </androidx.cardview.widget.CardView>
 
-        </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_marginTop="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#80E3242B" />
+
+    </LinearLayout>
 </layout>

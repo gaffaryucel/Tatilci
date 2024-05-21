@@ -206,6 +206,9 @@ class CreateReservationFragment : Fragment() {
     }
 
     private fun saveAndReserve() {
+        val username = currentUser.firstName+" "+currentUser.lastName
+        val date = startDate+" - "+endDate
+        val notificationMessage = "$username, $date tarihleri arasında sizin mülkünüzü kiralamak istiyor. "
         val reservationId = UUID.randomUUID().toString()
         if (startDate.isNotEmpty() && endDate.isNotEmpty()){
             if (binding.cb1.isChecked && binding.cb2.isChecked){
@@ -233,8 +236,8 @@ class CreateReservationFragment : Fragment() {
                         notificationType = NotificationType.HOST_RESERVATION,
                         notificationId = UUID.randomUUID().toString(),
                         userName =  currentUser.firstName+" "+currentUser.lastName,
-                        title =  "Rezervasyon Talebi Var",
-                        message = "${currentUser.firstName+" "+currentUser.lastName} isimli kullanıcı size rezervasyon talebinde bulundu",
+                        title =  "Yeni Rezervasyon İsteği!",
+                        message = notificationMessage,
                         userImage = currentUser.profileImageUrl,
                         imageUrl = nyVilla.coverImage,
                         userToken = token,
@@ -246,6 +249,7 @@ class CreateReservationFragment : Fragment() {
                             type = NotificationTypeForActions.HOST_RESERVATION,
                         )
                     }
+
                     val sharedPref = requireActivity().applicationContext.getSharedPreferences("review", Context.MODE_PRIVATE)
                     sharedPref.edit().putBoolean("is_reviewed", false).apply()
                 }

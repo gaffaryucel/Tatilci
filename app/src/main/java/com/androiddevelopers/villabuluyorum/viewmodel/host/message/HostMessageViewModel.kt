@@ -135,8 +135,8 @@ class HostMessageViewModel @Inject constructor(
         InAppNotificationModel(
             userId = currentUserData.value?.userId,
             notificationId = UUID.randomUUID().toString(),
-            title =  title,
-            message = "${currentUserData.value?.firstName+" "+currentUserData.value?.lastName}: $message!",
+            title =  currentUserData.value?.firstName+" "+currentUserData.value?.lastName,
+            message = message,
             userImage = currentUserData.value?.profileImageUrl.toString(),
             imageUrl = "",
             userToken = receiverData.value?.token.toString(),

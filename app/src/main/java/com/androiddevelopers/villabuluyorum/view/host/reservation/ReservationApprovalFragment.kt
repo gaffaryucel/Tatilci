@@ -61,7 +61,7 @@ class ReservationApprovalFragment : Fragment() {
                         reservationId,
                         ApprovalStatus.APPROVED
                     )
-                    viewModel.reservationStatusNotifier(reservationId,"Rezervasyon Onaylandı","rezervasyon isteğinizi kabul etti",villaImage)
+                    viewModel.reservationStatusNotifier(reservationId,"Rezervasyon Onaylandı","rezervasyon isteğinizi onayladı",villaImage)
                 }else{
                     Toast.makeText(
                         requireContext(),

@@ -134,11 +134,12 @@ class MessagesViewModel @Inject constructor(
         if (_receiverData.value?.userId.toString().isEmpty() || currentUserData.value?.userId == null || currentUserData.value?.username == null || currentUserData.value?.profileImageUrl == null){
             return
         }
+        val userName = currentUserData.value?.firstName+" "+currentUserData.value?.lastName
         InAppNotificationModel(
             userId = currentUserData.value?.userId,
             notificationId = UUID.randomUUID().toString(),
-            title =  title,
-            message = "${currentUserData.value?.firstName+" "+currentUserData.value?.lastName}: $message!",
+            title =  userName,
+            message = message,
             userImage = currentUserData.value?.profileImageUrl.toString(),
             imageUrl = "",
             userToken = receiverData.value?.token.toString(),

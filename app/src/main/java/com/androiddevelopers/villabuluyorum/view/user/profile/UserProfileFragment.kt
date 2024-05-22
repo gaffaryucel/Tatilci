@@ -130,8 +130,6 @@ class UserProfileFragment : Fragment() {
                     user = userData
                 }
             }
-            Glide.with(requireContext()).load(userData.profileImageUrl).into(binding.ivProfilePhoto)
-            Glide.with(requireContext()).load(userData.profileBannerUrl).into(binding.ivUserBanner)
         })
     }
 

@@ -12,8 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
-import com.androiddevelopers.villabuluyorum.adapter.HouseAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentProfileBinding
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.UserType
@@ -91,16 +89,19 @@ class ProfileFragment : Fragment() {
                 Status.SUCCESS -> {
                     binding.pbProfile.visibility = View.GONE
                     binding.tvErrorProfile.visibility = View.GONE
+                    binding.layoutProfile.visibility = View.VISIBLE
                 }
 
                 Status.LOADING -> {
                     binding.pbProfile.visibility = View.VISIBLE
                     binding.tvErrorProfile.visibility = View.GONE
+                    binding.layoutProfile.visibility = View.GONE
                 }
 
                 Status.ERROR -> {
                     binding.pbProfile.visibility = View.GONE
                     binding.tvErrorProfile.visibility = View.VISIBLE
+                    binding.layoutProfile.visibility = View.GONE
                 }
             }
         })
@@ -130,8 +131,6 @@ class ProfileFragment : Fragment() {
                 }
             }
             userType = userData.userType ?: UserType.NORMAL_USER
-            Glide.with(requireContext()).load(userData.profileImageUrl).into(binding.ivProfilePhoto)
-            Glide.with(requireContext()).load(userData.profileBannerUrl).into(binding.ivProfileBanner)
         })
         viewModel.reservationCount.observe(viewLifecycleOwner, Observer {
             val count = it ?: 0

@@ -15,8 +15,7 @@ fun downloadImage(view: ImageView, url: String?) {
 }
 
 fun ImageView.imageDownload(url: String?, context: Context) {
-    val options =
-        RequestOptions()
+    val options = RequestOptions()
             .placeholder(createPlaceholder(context))
             .error(R.drawable.placeholder)
 

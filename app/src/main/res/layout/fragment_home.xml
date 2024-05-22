@@ -1,317 +1,336 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.user.villa.HomeFragment">
-
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/layoutHome"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutTop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginVertical="10dp">
-
-            <TextView
-                android:id="@+id/guideLine1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/guideLine2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@id/guideLine1"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/guideLine3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@id/guideLine1"
-                app:layout_constraintStart_toStartOf="@id/guideLine2" />
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/guideLine3"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/layoutCity"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:endIconMode="dropdown_menu">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/dropDownCity"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Konum"
-                        android:inputType="none"
-                        android:textSize="16sp"
-                        tools:ignore="HardcodedText" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/ivNotifications"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="5dp"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_notifications_black_24dp"
-                    app:tint="@color/main_button_gb_color" />
-
-                <ImageView
-                    android:id="@+id/ivMessages"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="5dp"
-                    android:padding="5dp"
-                    android:src="@drawable/message_icon"
-                    app:tint="@color/main_button_gb_color" />
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp">
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/sv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/search_view_bg"
-                android:clickable="false"
-                android:focusable="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <ImageView
-                android:id="@+id/searchView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/layoutSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="10dp"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/etMinPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/search_view_bg"
-                    android:hint="En Düşük"
-                    android:inputType="numberDecimal"
-                    android:paddingStart="8dp" />
-
-                <EditText
-                    android:id="@+id/etMaxPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/search_view_bg"
-                    android:hint="En Yüksek"
-                    android:inputType="numberDecimal"
-                    android:paddingStart="8dp" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnSearch"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/rounded_button_background"
-                    android:text="Ara"
-                    android:textColor="@color/white" />
-
-
-            </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnCancel"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/refresh_button_bg"
-                android:text="Sıfırla"
-                android:textColor="@color/white"
-                android:visibility="gone" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/layoutEmptyList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/close" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Bu kriterlere uygun ev bulunamadı"
-                android:textAlignment="center"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layoutHome"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutTop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="10dp">
 
                 <TextView
+                    android:id="@+id/guideLine1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Konumuna en yakın"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
+                    android:id="@+id/guideLine2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    android:text="Tümünü Gör"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="@id/guideLine1"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/guideLine3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/guideLine1"
+                    app:layout_constraintStart_toStartOf="@id/guideLine2" />
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/guideLine3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:endIconMode="dropdown_menu">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/dropDownCity"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Konum"
+                            android:inputType="none"
+                            android:textSize="16sp"
+                            tools:ignore="HardcodedText" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/ivNotifications"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_notifications_black_24dp"
+                        app:tint="@color/main_button_gb_color" />
+
+                    <ImageView
+                        android:id="@+id/ivMessages"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:padding="5dp"
+                        android:src="@drawable/message_icon"
+                        app:tint="@color/main_button_gb_color" />
+                </LinearLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:orientation="horizontal"
-                android:id="@+id/rvCloseHomes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:id="@+id/tvEmptyList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:text="Henüz bu şehirde yeyınlanmış bir ilan yok"
-                android:textAlignment="center"
-                android:textColor="@color/main_button_gb_color"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginHorizontal="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Senin için Özel"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/sv"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
-                    android:text="Tümünü Gör"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    android:background="@drawable/search_view_bg"
+                    android:clickable="false"
+                    android:focusable="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/searchView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvBest"
+            <LinearLayout
+                android:id="@+id/layoutSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etMinPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/search_view_bg"
+                        android:hint="En Düşük"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="8dp" />
+
+                    <EditText
+                        android:id="@+id/etMaxPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/search_view_bg"
+                        android:hint="En Yüksek"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="8dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnSearch"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_button_background"
+                        android:text="Ara"
+                        android:textColor="@color/white" />
+
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnCancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/refresh_button_bg"
+                    android:text="Sıfırla"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/layoutEmptyList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/close" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Bu kriterlere uygun ev bulunamadı"
+                    android:textAlignment="center"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Konumuna en yakın"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:text="Tümünü Gör"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"
+                    android:id="@+id/rvCloseHomes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:id="@+id/tvEmptyList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:text="Henüz bu şehirde yeyınlanmış bir ilan yok"
+                    android:textAlignment="center"
+                    android:textColor="@color/main_button_gb_color"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Senin için Özel"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:text="Tümünü Gör"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvBest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvSearch"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
+    </androidx.core.widget.NestedScrollView>
+    <ProgressBar
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/pbHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
 
-        <ProgressBar
-            android:id="@+id/pbHome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone" />
+    <TextView
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/tvError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/main_button_gb_color"
+        android:text="@string/error_text"
+   />
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/tvError"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Hata : Tekrar deneyin"
-            android:visibility="gone" />
 
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+

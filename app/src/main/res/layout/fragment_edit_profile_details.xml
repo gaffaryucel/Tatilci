@@ -55,6 +55,7 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
+                            downloadImage="@{user.profileBannerUrl}"
                             android:src="@drawable/app_logo"
                             android:scaleType="centerCrop"
                             app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +91,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             />
                         <de.hdodenhof.circleimageview.CircleImageView
+                            downloadImage="@{user.profileImageUrl}"
                             app:layout_constraintBottom_toBottomOf="@+id/ivUserBanner"
                             app:layout_constraintTop_toBottomOf="@+id/ivUserBanner"
                             android:src="@drawable/default_user_icon"

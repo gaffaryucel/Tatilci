@@ -56,10 +56,6 @@ class ReservationAdapter : RecyclerView.Adapter<ReservationAdapter.ReservationVi
         val myReservation = reservationList[position]
 
         try {
-            Glide.with(holder.itemView.context).load(myReservation.villaImage)
-                .placeholder(R.drawable.app_logo)
-                .error(R.drawable.app_logo)
-                .into(holder.ivBestHouse)
             holder.binding.apply {
                 reservation = myReservation
                 if (myReservation.propertyType != null) {

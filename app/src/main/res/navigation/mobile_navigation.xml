@@ -138,15 +138,7 @@
             app:destination="@id/userProfileFragment" />
 
     </fragment>
-    <fragment
-        android:id="@+id/chatsFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.chat.ChatsFragment"
-        android:label="fragment_chats"
-        tools:layout="@layout/fragment_chats">
-        <action
-            android:id="@+id/action_chatsFragment_to_messagesFragment"
-            app:destination="@id/messagesFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/navigation_reservation"
         android:name="com.androiddevelopers.villabuluyorum.view.user.reservation.ReservationFragment"
@@ -245,5 +237,14 @@
         <argument
             android:name="id"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatsFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.chat.ChatsFragment"
+        tools:layout="@layout/fragment_chats"
+        android:label="ChatsFragment" >
+        <action
+            android:id="@+id/action_chatsFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
     </fragment>
 </navigation>

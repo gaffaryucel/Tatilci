@@ -65,6 +65,10 @@ class HostVillaFragment : Fragment() {
             gotoReservation(reservationObject)
             requireActivity().intent.removeExtra("reservation_host")
         }
+        if (homeId.isNotEmpty()) {
+            goToHomeDetails(homeId)
+            requireActivity().intent.removeExtra("home_id")
+        }
     }
 
     private fun setClickItems() {
@@ -121,10 +125,12 @@ class HostVillaFragment : Fragment() {
         val action = HostVillaFragmentDirections.actionNavigationHostVillaToHostChatFragment()
         Navigation.findNavController(requireView()).navigate(action)
     }
+    private fun goToHomeDetails(homeId : String) {
+        // TODO: Yorum bildirimi geldiğinde gerektiği şekilde detaylarına ulaşabilmek için gerekli olan action yapılmalı
+     }
 
     private fun gotoCreateEnterPage() {
-        val directions =
-            HostVillaFragmentDirections.actionNavigationHostVillaToNavigationHostVillaCreateEnter()
+        val directions = HostVillaFragmentDirections.actionNavigationHostVillaToNavigationHostVillaCreateEnter()
         Navigation.findNavController(binding.root).navigate(directions)
     }
 

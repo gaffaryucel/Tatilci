@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.adapter.HostReservationAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostReservationBinding
 import com.androiddevelopers.villabuluyorum.util.Status
@@ -34,6 +36,24 @@ class HostReservationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvReservations.adapter = reservationAdapter
+        val buttons = listOf(binding.tv0, binding.tv1, binding.tv2, binding.tv3)
+
+        buttons.forEach { button ->
+            button.setOnClickListener {
+                selectButton(button, buttons)
+            }
+        }
+    }
+    private fun selectButton(selected: TextView, buttons: List<TextView>) {
+        buttons.forEach { button ->
+            if (button == selected) {
+                button.setBackgroundResource(R.drawable.selected_text_bg)
+                button.setTextColor(R.color.white)
+            } else {
+                button.setBackgroundResource(R.drawable.selectable_text_bg)
+                button.setTextColor(R.color.normal_text_color)
+            }
+        }
     }
 
     override fun onResume() {

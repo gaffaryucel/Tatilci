@@ -30,18 +30,35 @@ class ReservationFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.rvReservations.adapter = reservationAdapter
+    }
     override fun onResume() {
         super.onResume()
         observeLiveData()
     }
 
+    override fun onPause() {
+        super.onPause()
+        reservationAdapter.reservationList = emptyList()
+    }
     private fun observeLiveData() {
+        viewModel.reservations.observe(viewLifecycleOwner, Observer { reservations ->
+            if (reservations != null && reservations.isNotEmpty()) {
+                reservationAdapter.reservationList = reservations
+                binding.layoutEmptyList.visibility = View.GONE
+            } else {
+                binding.layoutEmptyList.visibility = View.VISIBLE
+            }
+        })
         viewModel.reservationMessage.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.pbReservations.visibility = View.GONE
                     if (it.data == true) {
                         binding.layoutEmptyList.visibility = View.GONE
+                        binding.layoutReservations.visibility = View.VISIBLE
                     } else {
                         binding.layoutEmptyList.visibility = View.VISIBLE
                     }
@@ -50,22 +67,18 @@ class ReservationFragment : Fragment() {
                 Status.LOADING -> {
                     binding.pbReservations.visibility = View.VISIBLE
                     binding.layoutEmptyList.visibility = View.GONE
+                    binding.layoutReservations.visibility = View.GONE
                 }
 
                 Status.ERROR -> {
                     binding.pbReservations.visibility = View.GONE
                     binding.layoutEmptyList.visibility = View.VISIBLE
+                    binding.layoutReservations.visibility = View.GONE
                 }
             }
         })
-        viewModel.reservations.observe(viewLifecycleOwner, Observer { reservations ->
-            binding.rvReservations.adapter = reservationAdapter
-            if (reservations != null && reservations.isNotEmpty()) {
-                reservationAdapter.reservationList = reservations
-                binding.layoutEmptyList.visibility = View.GONE
-            } else {
-                binding.layoutEmptyList.visibility = View.VISIBLE
-            }
-        })
     }
+
+
+
 }

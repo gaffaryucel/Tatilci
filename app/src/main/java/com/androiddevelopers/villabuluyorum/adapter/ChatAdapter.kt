@@ -44,8 +44,6 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
         val sharedPref = holder.itemView.context.getSharedPreferences("cht", Context.MODE_PRIVATE)
 
         try {
-            Glide.with(holder.itemView.context).load(chat.receiverUserImage)
-                .into(holder.binding.chatImage)
             val time = chat.chatLastMessageTimestamp
             if (time != null){
                 holder.binding.chatLastMessageTimeStamp.text = time.substringAfter(" ").split(":").take(2).joinToString(separator = ":")

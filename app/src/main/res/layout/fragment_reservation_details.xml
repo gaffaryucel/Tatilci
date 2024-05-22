@@ -234,6 +234,7 @@
                         android:layout_gravity="center"
                         android:padding="1dp"
                         android:src="@drawable/placeholder"
+                        downloadImage="@{user.profileImageUrl}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -249,7 +250,7 @@
                             android:id="@+id/textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{user.username}"
+                            android:text='@{user.firstName+" "+user.lastName}'
                             tools:text="gaffaryucell" />
 
                     <ImageView

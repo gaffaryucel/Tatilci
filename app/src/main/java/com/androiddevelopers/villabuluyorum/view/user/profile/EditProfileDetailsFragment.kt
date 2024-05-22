@@ -31,7 +31,6 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-@Suppress("UNUSED_CHANGED_VALUE")
 @AndroidEntryPoint
 class EditProfileDetailsFragment : Fragment() {
 
@@ -179,11 +178,7 @@ class EditProfileDetailsFragment : Fragment() {
                     binding.etUserLocation.setText(location)
                 }
             }
-
-
-            Glide.with(requireContext()).load(userData.profileImageUrl).into(binding.ivUserProfilePhoto)
-            Glide.with(requireContext()).load(userData.profileBannerUrl).into(binding.ivUserBanner)
-        })
+       })
     }
     private fun setupLaunchers() {
         profilePhotoLauncher =

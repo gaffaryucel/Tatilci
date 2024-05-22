@@ -20,6 +20,7 @@
 
 
         <de.hdodenhof.circleimageview.CircleImageView
+            downloadImage="@{chatItem.receiverUserImage}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:src="@drawable/app_logo"

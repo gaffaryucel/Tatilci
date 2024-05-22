@@ -124,6 +124,7 @@ class FirebaseRepoImpl @Inject constructor(
         return reservationCollection
             .whereEqualTo("userId", userId)
             .orderBy("startDate", Query.Direction.DESCENDING)
+            .limit(10)
             .get()
     }
 

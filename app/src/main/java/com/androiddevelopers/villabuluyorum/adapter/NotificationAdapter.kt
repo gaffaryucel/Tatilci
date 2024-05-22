@@ -1,5 +1,7 @@
 package com.androiddevelopers.villabuluyorum.adapter
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -11,9 +13,15 @@ import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowNotificationBinding
 import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.util.NotificationType
+import com.androiddevelopers.villabuluyorum.view.host.HostBottomNavigationActivity
+import com.androiddevelopers.villabuluyorum.view.host.villa.HostVillaFragment
+import com.androiddevelopers.villabuluyorum.view.host.villa.HostVillaFragmentDirections
 import com.androiddevelopers.villabuluyorum.view.notification.NotificationsFragmentDirections
+import com.androiddevelopers.villabuluyorum.view.user.BottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.view.user.villa.HomeFragmentDirections
+import com.androiddevelopers.villabuluyorum.view.user.villa.VillaDetailFragmentDirections
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -53,6 +61,21 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
                 binding.ivNotificationUserPhoto.setBackgroundResource(R.drawable.app_logo)
             }
         }
+        fun goToHostModeSnackBar(){
+            val snackbar = Snackbar.make(itemView, "Detayları görüntülemek için lütfen Ev Sahibi moduna geçin", Snackbar.LENGTH_LONG)
+            snackbar.setAction("Ev sahibi moduna geç") {
+                gotoHostActivity(itemView.context)
+            }
+            snackbar.show()
+        }
+        fun goToGuestModeSnackBar(){
+            val snackbar = Snackbar.make(itemView, "Detayları görüntülemek için lütfen Tatilci moduna geeing", Snackbar.LENGTH_LONG)
+            snackbar.setAction("Tatilci moduna geç") {
+                gotoUserHome(itemView.context)
+            }
+            snackbar.show()
+        }
+
 
     }
 
@@ -75,11 +98,7 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
                 when(notification.notificationType){
                     NotificationType.RESERVATION_STATUS_CHANGE ->{
                         if (isHostMode){
-                            Toast.makeText(
-                                holder.itemView.context,
-                                "Detayları görüntülemek için lütfen Tatilci moduna geçin",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            holder.goToGuestModeSnackBar()
                         }else{
                             val action = NotificationsFragmentDirections.actionNotificationsFragmentToReservationDetailsFragment(itemId)
                             Navigation.findNavController(holder.itemView).navigate(action)
@@ -87,24 +106,17 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
                     }
                     NotificationType.HOST_RESERVATION ->{
                         if (isHostMode){
-                            // TODO: Ev sahibi aktivitesinde bildirimler sayfasından rezervasyon isteğine action sağla
+                            val action = HostVillaFragmentDirections.actionNavigationHostVillaToHostReservationDetailsFragment(notification.itemId.toString())
+                            Navigation.findNavController(it).navigate(action)
                         }else{
-                            Toast.makeText(
-                                holder.itemView.context,
-                                "Detayları görüntülemek için lütfen Ev Sahibi moduna geçin",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            holder.goToHostModeSnackBar()
                         }
                     }
                     NotificationType.COMMENT ->{
                         if (isHostMode){
                             // TODO: Ev sahibi aktivitesinde bildirimler sayfasından villa yoryumlarına action sağla
                         }else{
-                            Toast.makeText(
-                                holder.itemView.context,
-                                "Detayları görüntülemek için lütfen Tatilci moduna geçin",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            holder.goToHostModeSnackBar()
                         }
                     }
                     null ->{
@@ -125,5 +137,13 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
         val parsedDate = dateFormat.parse(date) // String formatındaki tarihi Date objesine çevir
         val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
         return parsedDate?.let { timeFormat.format(it) }
+    }
+    private fun gotoUserHome(context : Context) {
+        val intent = Intent(context, BottomNavigationActivity::class.java)
+        context.startActivity(intent)
+    }
+    private fun gotoHostActivity(context : Context) {
+        val intent = Intent(context, HostBottomNavigationActivity::class.java)
+        context.startActivity(intent)
     }
 }

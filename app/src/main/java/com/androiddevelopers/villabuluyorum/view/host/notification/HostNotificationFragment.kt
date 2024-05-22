@@ -6,7 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.androiddevelopers.villabuluyorum.adapter.NotificationAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostNotificationBinding
+import com.androiddevelopers.villabuluyorum.util.Status
+import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.host.notification.HostNotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,12 +22,67 @@ class HostNotificationFragment : Fragment() {
     private var _binding: FragmentHostNotificationBinding? = null
     private val binding get() = _binding!!
 
+    private val notificationAdapter: NotificationAdapter = NotificationAdapter()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHostNotificationBinding.inflate(inflater, container, false)
         return binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.rvNotifications.adapter = notificationAdapter
+        notificationAdapter.isHostMode = true
+        observeLiveData()
+    }
+
+    private fun observeLiveData() {
+        viewModel.notificationMessage.observe(viewLifecycleOwner, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    binding.pbNotifications.visibility = View.GONE
+                    if (it.data == true) {
+                        binding.layoutEmptyList.visibility = View.GONE
+                    } else {
+                        binding.layoutEmptyList.visibility = View.VISIBLE
+                    }
+                }
+
+                Status.LOADING -> {
+                    binding.pbNotifications.visibility = View.VISIBLE
+                    binding.layoutEmptyList.visibility = View.GONE
+                }
+
+                Status.ERROR -> {
+                    binding.pbNotifications.visibility = View.GONE
+                    binding.layoutEmptyList.visibility = View.VISIBLE
+                }
+            }
+        })
+        viewModel.notifications.observe(viewLifecycleOwner, Observer { notifications ->
+            if (notifications != null && notifications.isNotEmpty()) {
+                notificationAdapter.notificationList = notifications
+                binding.layoutEmptyList.visibility = View.GONE
+            } else {
+                binding.layoutEmptyList.visibility = View.VISIBLE
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hideBottomNavigation(requireActivity())
+    }
+
+    override fun onPause() {
+        super.onPause()
+        showBottomNavigation(requireActivity())
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onDestroy() {

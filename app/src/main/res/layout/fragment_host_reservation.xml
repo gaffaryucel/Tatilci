@@ -14,19 +14,73 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:layout_marginVertical="10dp"
+                android:layout_marginVertical="15dp"
                 android:textAlignment="center"
                 android:textColor="@color/main_button_gb_color"
                 android:textStyle="bold"
                 android:textSize="24sp"
-                android:text="Rezervasyon istekleri"
+                android:text="Rezervasyonlar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginStart="3dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv0"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="8dp"
+                        android:text="Tümü"
+                        android:background="@drawable/selected_text_bg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_marginStart="5dp"
+                        android:id="@+id/tv1"
+                        android:textSize="16sp"
+                        android:textColor="@color/normal_text_color"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="8dp"
+                        android:text="Onay Bekliyor"
+                        android:background="@drawable/selectable_text_bg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv2"
+                        android:layout_marginStart="5dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/normal_text_color"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="8dp"
+                        android:text="Onaylandı"
+                        android:background="@drawable/selectable_text_bg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv3"
+                        android:layout_marginStart="5dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/normal_text_color"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="8dp"
+                        android:text="Reddedildi"
+                        android:background="@drawable/selectable_text_bg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
 
+            </HorizontalScrollView>
             <androidx.recyclerview.widget.RecyclerView
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:id="@+id/rvReservations"
@@ -45,18 +99,30 @@
         android:id="@+id/pbReservations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/layoutEmptyList"
+    <LinearLayout
         android:visibility="gone"
-        android:textAlignment="center"
-        android:textColor="@color/main_button_gb_color"
-        android:textStyle="bold"
-        android:textSize="24sp"
+        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/layoutEmptyList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Henüz rezervasyonunuz yok" />
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_gravity="center"
+            android:src="@drawable/booking"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:tint="@color/main_button_gb_color" />
+        <TextView
+            android:textAlignment="center"
+            android:textColor="@color/main_button_gb_color"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rezervasyon bulunamadı" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -122,7 +122,11 @@
         android:id="@+id/navigation_host_notification"
         android:name="com.androiddevelopers.villabuluyorum.view.host.notification.HostNotificationFragment"
         android:label="fragment_host_notification"
-        tools:layout="@layout/fragment_host_notification" />
+        tools:layout="@layout/fragment_host_notification" >
+        <action
+            android:id="@+id/action_navigation_host_notification_to_hostReservationDetailsFragment"
+            app:destination="@id/hostReservationDetailsFragment" />
+    </fragment>
     <action
         android:id="@+id/action_global_navigation_host_notification"
         app:destination="@id/navigation_host_notification"

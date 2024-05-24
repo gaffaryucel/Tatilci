@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreateEnterBinding
 import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
+import com.androiddevelopers.villabuluyorum.model.PropertyType
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showHostBottomNavigation
@@ -20,8 +23,7 @@ class HostVillaCreateEnterFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHostVillaCreateEnterBinding.inflate(inflater, container, false)
         return binding.root
@@ -37,9 +39,7 @@ class HostVillaCreateEnterFragment : Fragment() {
             val directions =
                 HostVillaCreateEnterFragmentDirections.actionNavigationHostVillaCreateEnterToHostVillaCreateFragment(
                     CreateVillaPageArguments(
-                        coverImage = null,
-                        otherImages = mutableListOf(),
-                        villa = Villa()
+                        coverImage = null, otherImages = mutableListOf(), villa = Villa()
                     )
                 )
             Navigation.findNavController(it).navigate(directions)
@@ -50,6 +50,44 @@ class HostVillaCreateEnterFragment : Fragment() {
         with(binding) {
             toolbarVillaCreate.setNavigationOnClickListener {
                 Navigation.findNavController(binding.root).popBackStack()
+            }
+
+            val propertyTypes = listOf(
+                cardHouseHostVillaCreateEnter,
+                cardApartmentHostVillaCreateEnter,
+                cardGuestHouseHostVillaCreateEnter,
+                cardHotelHostVillaCreateEnter
+            )
+
+            propertyTypes.forEachIndexed { index, cardView ->
+                cardView.setOnClickListener {
+
+                    propertyTypes.forEach {
+                        it.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(), R.color.host_cardview_background
+                            )
+                        )
+                    }
+//                    // Seçilen elemanın arka planını seçili olarak ayarla
+//                    cardView.setBackgroundResource(R.drawable.main_button_gb)
+//                    // Seçilen elemanın adını ekrana yazdır
+                    cardView.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(), R.color.md_theme_primary
+                        )
+                    )
+
+                    //filter.propertyType =
+                    when (index) {
+                        0    -> PropertyType.HOUSE
+                        1    -> PropertyType.APARTMENT
+                        2    -> PropertyType.GUEST_HOUSE
+                        3    -> PropertyType.HOTEL
+                        else -> PropertyType.HOUSE
+                    }
+                }
+
             }
         }
     }

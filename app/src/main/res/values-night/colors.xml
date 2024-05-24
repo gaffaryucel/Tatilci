@@ -305,5 +305,5 @@
     <color name="indicator_drawable_color">@color/md_theme_onSurface</color>
     <color name="search_view_bg">#2d2d2d</color>
 
-
+    <color name="host_cardview_background">#FF424242</color>
 </resources>

@@ -49,13 +49,6 @@ constructor(
     val userInfoMessage: LiveData<Resource<Boolean>>
         get() = _userInfoMessage
 
-    private var _userVillas = MutableLiveData<List<Villa>>()
-    val userVillas: LiveData<List<Villa>>
-        get() = _userVillas
-
-    private var _villaInfoMessage = MutableLiveData<Resource<Boolean>>()
-    val villaInfoMessage: LiveData<Resource<Boolean>>
-        get() = _villaInfoMessage
 
     private var _exitMessage = MutableLiveData<Resource<Boolean>>()
     val exitMessage: LiveData<Resource<Boolean>>
@@ -63,7 +56,6 @@ constructor(
 
     init {
         getUserData()
-        getUserVillas(20)
         getReservationCount()
     }
 
@@ -82,60 +74,15 @@ constructor(
     }
     private fun getReservationCount() = viewModelScope.launch(Dispatchers.IO) {
         repo.getUserReservations(currentUserId)
-            .addOnSuccessListener { document ->
+            .addOnSuccessListener { documents ->
                 val reservationList = mutableListOf<ReservationModel>()
-                println("size : "+ document.documents.size)
-                for (document in document) {
+                for (document in documents) {
                     document.toReservation()?.let { r -> reservationList.add(r) }
                 }
                 _reservationCount.value = reservationList.size
             }
     }
 
-
-    private fun getUserVillas(limit: Long) = viewModelScope.launch {
-        _villaInfoMessage.value = Resource.loading(null)
-        repo.getVillasByUserId(currentUserId, limit)
-            .addOnSuccessListener {
-                val villaList = mutableListOf<Villa>()
-                for (document in it.documents) {
-                    // Belgeden her bir videoyu çek
-                    document.toVilla()?.let { villa -> villaList.add(villa) }
-                }
-                _userVillas.value = villaList
-                if (villaList.isNotEmpty()) {
-                    _villaInfoMessage.value = Resource.success(true)
-                } else {
-                    _villaInfoMessage.value = Resource.success(false)
-                }
-            }.addOnFailureListener { exception ->
-                // Hata durzumunda işlemleri buraya ekleyebilirsiniz
-                _villaInfoMessage.value = Resource.error("Belge alınamadı. Hata: $exception", null)
-            }
-    }
-
-
-    suspend fun getCityFromCoordinates(
-        context: Context,
-        latitude: Double,
-        longitude: Double
-    ): String? {
-        return withContext(Dispatchers.IO) {
-            val geocoder = Geocoder(context)
-            var city: String? = null
-
-            try {
-                val addresses: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
-                if (!addresses.isNullOrEmpty()) {
-                    val address = addresses[0]
-                    city = address.locality ?: address.subAdminArea
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            city
-        }
-    }
     fun checkAllFieldsValid(): Boolean {
         val user = userData.value
         return !user?.username.isNullOrBlank() &&

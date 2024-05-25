@@ -28,6 +28,7 @@ import com.androiddevelopers.villabuluyorum.adapter.HouseAdapter
 import com.androiddevelopers.villabuluyorum.adapter.MyLocation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHomeBinding
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
+import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.view.user.review.ReviewDialogFragment
 import com.androiddevelopers.villabuluyorum.viewmodel.user.villa.HomeViewModel
@@ -54,6 +55,8 @@ class HomeFragment : Fragment() {
     private var latitude: Double? = null
     private var longitude: Double? = null
 
+    private var isStarted = false
+
     private val PREFS_FILENAME = "permission"
     private val KEY_VALUE = "location"
 
@@ -71,9 +74,23 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val item = requireActivity().intent.getStringExtra("item") ?: ""
+        val type = requireActivity().intent.getStringExtra("type") ?: ""
+
         val chatId = requireActivity().intent.getStringExtra("chatId") ?: ""
         val reservationHost = requireActivity().intent.getStringExtra("reservation_host") ?: ""
 
+        if (item.isNotEmpty()) {
+            when(type){
+                NotificationType.RESERVATION_STATUS_CHANGE.toString()->{
+                    gotoReservation(item)
+                    requireActivity().intent.removeExtra("item")
+                }
+                else->{
+                    Toast.makeText(requireContext(), "Hat oluştu", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
         if (chatId.isNotEmpty()) {
             goToChat(chatId)
             requireActivity().intent.removeExtra("chatId")
@@ -114,16 +131,19 @@ class HomeFragment : Fragment() {
 
         viewModel.rateReservations.observe(viewLifecycleOwner, Observer {
             if (it) {
-                val reviewDialog = ReviewDialogFragment()
-                reviewDialog.isCancelable = false
-                reviewDialog.show(childFragmentManager, "ReviewDialog")
-                reviewDialog.onClick = { c ->
-                    if (c) {
-                        val action = HomeFragmentDirections.actionNavigationHomeToReviewFragment()
-                        Navigation.findNavController(requireView()).navigate(action)
-                    } else {
-                        viewModel.notReviewReservations()
+                if (!isStarted){
+                    val reviewDialog = ReviewDialogFragment()
+                    reviewDialog.isCancelable = false
+                    reviewDialog.show(childFragmentManager, "ReviewDialog")
+                    reviewDialog.onClick = { c ->
+                        if (c) {
+                            val action = HomeFragmentDirections.actionNavigationHomeToReviewFragment()
+                            Navigation.findNavController(requireView()).navigate(action)
+                        } else {
+                            viewModel.notReviewReservations()
+                        }
                     }
+                    isStarted = true
                 }
             }
         })
@@ -145,6 +165,12 @@ class HomeFragment : Fragment() {
                         binding.tvEmptyList.visibility = View.VISIBLE
                     }
                 })
+                if (user.notificationRead == false){
+                    binding.ivNotReadNotification.visibility = View.VISIBLE
+                }else{
+                    binding.ivNotReadNotification.visibility = View.INVISIBLE
+                }
+
             }
         })
 

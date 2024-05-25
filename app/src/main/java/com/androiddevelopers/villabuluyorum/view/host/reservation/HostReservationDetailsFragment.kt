@@ -41,6 +41,8 @@ class HostReservationDetailsFragment : Fragment() {
 
     private lateinit var reservationId: String
     private var villaImage: String? = null
+    private var userId : String? = null
+    private var token : String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -69,7 +71,7 @@ class HostReservationDetailsFragment : Fragment() {
         }
     }
     private fun goToApprovalFragment(id : String){
-        val action = HostReservationDetailsFragmentDirections.actionHostReservationDetailsFragmentToReservationApprovalFragment(id,villaImage.toString())
+        val action = HostReservationDetailsFragmentDirections.actionHostReservationDetailsFragmentToReservationApprovalFragment(id,villaImage.toString(),userId.toString(),token.toString())
         Navigation.findNavController(requireView()).navigate(action)
     }
 
@@ -142,6 +144,8 @@ class HostReservationDetailsFragment : Fragment() {
                 binding.apply {
                     user = myUser
                 }
+                userId = myUser.userId
+                token = myUser.token
             }
         })
         viewModel.liveDataFirebaseVilla.observe(viewLifecycleOwner, Observer { villa ->

@@ -117,6 +117,12 @@
         <argument
             android:name="image"
             app:argType="string" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
+        <argument
+            android:name="token"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/navigation_host_notification"

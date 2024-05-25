@@ -64,10 +64,23 @@ open class BaseNotificationViewModel @Inject constructor(
                 repo.postNotification(it)
                 if ((type != MESSAGE_RECEIVER_HOST) && (type != MESSAGE_RECEIVER_USER)){
                     repo.saveNotification(notification)
+                    changeNotificationReedStatus(notification.userId.toString(),false)
+                }else{
+                    changeChatReedStatus(notification.userId.toString(),false)
                 }
             }
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
         }
+    }
+    private fun changeNotificationReedStatus(userId : String, value : Boolean){
+        val map = HashMap<String,Any?>()
+        map["notificationRead"] = value
+        repo.updateUserData(userId,map)
+    }
+    private fun changeChatReedStatus(userId : String, value : Boolean){
+        val map = HashMap<String,Any?>()
+        map["chatRead"] = value
+        repo.updateUserData(userId,map)
     }
 }

@@ -13,7 +13,10 @@ import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.RowNotificationBinding
 import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.util.NotificationType
+import com.androiddevelopers.villabuluyorum.util.NotificationTypeForActions
 import com.androiddevelopers.villabuluyorum.view.host.HostBottomNavigationActivity
+import com.androiddevelopers.villabuluyorum.view.host.notification.HostNotificationFragment
+import com.androiddevelopers.villabuluyorum.view.host.notification.HostNotificationFragmentDirections
 import com.androiddevelopers.villabuluyorum.view.host.villa.HostVillaFragment
 import com.androiddevelopers.villabuluyorum.view.host.villa.HostVillaFragmentDirections
 import com.androiddevelopers.villabuluyorum.view.notification.NotificationsFragmentDirections
@@ -61,17 +64,17 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
                 binding.ivNotificationUserPhoto.setBackgroundResource(R.drawable.app_logo)
             }
         }
-        fun goToHostModeSnackBar(){
+        fun goToHostModeSnackBar(item : String,type: NotificationType){
             val snackbar = Snackbar.make(itemView, "Detayları görüntülemek için lütfen Ev Sahibi moduna geçin", Snackbar.LENGTH_LONG)
             snackbar.setAction("Ev sahibi moduna geç") {
-                gotoHostActivity(itemView.context)
+                gotoHostActivity(itemView.context,item,type)
             }
             snackbar.show()
         }
-        fun goToGuestModeSnackBar(){
+        fun goToGuestModeSnackBar(item : String,type: NotificationType){
             val snackbar = Snackbar.make(itemView, "Detayları görüntülemek için lütfen Tatilci moduna geeing", Snackbar.LENGTH_LONG)
             snackbar.setAction("Tatilci moduna geç") {
-                gotoUserHome(itemView.context)
+                gotoUserHome(itemView.context,item,type)
             }
             snackbar.show()
         }
@@ -98,7 +101,7 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
                 when(notification.notificationType){
                     NotificationType.RESERVATION_STATUS_CHANGE ->{
                         if (isHostMode){
-                            holder.goToGuestModeSnackBar()
+                            holder.goToGuestModeSnackBar(itemId,NotificationType.RESERVATION_STATUS_CHANGE)
                         }else{
                             val action = NotificationsFragmentDirections.actionNotificationsFragmentToReservationDetailsFragment(itemId)
                             Navigation.findNavController(holder.itemView).navigate(action)
@@ -106,17 +109,18 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
                     }
                     NotificationType.HOST_RESERVATION ->{
                         if (isHostMode){
-                            val action = HostVillaFragmentDirections.actionNavigationHostVillaToHostReservationDetailsFragment(notification.itemId.toString())
+                            val action = HostNotificationFragmentDirections.actionNavigationHostNotificationToHostReservationDetailsFragment(itemId)
                             Navigation.findNavController(it).navigate(action)
                         }else{
-                            holder.goToHostModeSnackBar()
+                            holder.goToHostModeSnackBar(itemId,NotificationType.HOST_RESERVATION)
                         }
                     }
                     NotificationType.COMMENT ->{
                         if (isHostMode){
                             // TODO: Ev sahibi aktivitesinde bildirimler sayfasından villa yoryumlarına action sağla
+                            Toast.makeText(holder.itemView.context, "Bu özellik etkin değil", Toast.LENGTH_SHORT).show()
                         }else{
-                            holder.goToHostModeSnackBar()
+                            holder.goToHostModeSnackBar(itemId,NotificationType.COMMENT)
                         }
                     }
                     null ->{
@@ -138,12 +142,16 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
         val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
         return parsedDate?.let { timeFormat.format(it) }
     }
-    private fun gotoUserHome(context : Context) {
+    private fun gotoUserHome(context : Context, item : String, type : NotificationType) {
         val intent = Intent(context, BottomNavigationActivity::class.java)
+        intent.putExtra("type",type.toString())
+        intent.putExtra("item",item)
         context.startActivity(intent)
     }
-    private fun gotoHostActivity(context : Context) {
+    private fun gotoHostActivity(context : Context, item : String, type : NotificationType) {
         val intent = Intent(context, HostBottomNavigationActivity::class.java)
+        intent.putExtra("type",type.toString())
+        intent.putExtra("item",item)
         context.startActivity(intent)
     }
 }

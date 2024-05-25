@@ -127,15 +127,6 @@ class FirebaseRepoImpl @Inject constructor(
             .limit(10)
             .get()
     }
-
-    override fun getNotRatedFinishedReservations(userId: String,today : String): Task<QuerySnapshot> {
-        return reservationCollection
-            .whereEqualTo("userId", userId)
-            .whereEqualTo("isRated", null)
-            .whereLessThan("endDate", today)
-            .get()
-    }
-
     override fun getReservationsForHost(userId: String): Task<QuerySnapshot> {
         return reservationCollection.whereEqualTo("hostId", userId).get()
     }
@@ -154,6 +145,26 @@ class FirebaseRepoImpl @Inject constructor(
         return reviewCollection.document(review.reviewId.toString()).set(review)
     }
 
+    override fun getReservationsByRateStatus(userId: String,today : String,value : Boolean?): Task<QuerySnapshot> {
+        return reservationCollection
+            .whereEqualTo("userId", userId)
+            .whereEqualTo("rated", value)
+            .whereLessThan("endDate", today)
+            .get()
+    }
+    override fun getAllFinishedReservations(userId: String,today : String): Task<QuerySnapshot> {
+        return reservationCollection
+            .whereEqualTo("userId", userId)
+            .whereLessThan("endDate", today)
+            .get()
+    }
+
+    override fun getAllReviewsByUserId(userId: String): Task<QuerySnapshot> {
+        return reviewCollection
+            .whereEqualTo("hostId", userId)
+            .orderBy("time", Query.Direction.DESCENDING)
+            .get()
+    }
 
 
     //Notification

@@ -101,7 +101,7 @@ constructor(
             title = title,
             approvalStatus = ApprovalStatus.WAITING_FOR_APPROVAL,
             time = getCurrentTime(),
-            isRated = false
+            rated = null
         )
     }
 }

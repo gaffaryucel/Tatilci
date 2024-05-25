@@ -133,7 +133,7 @@ class HostMessageViewModel @Inject constructor(
             return
         }
         InAppNotificationModel(
-            userId = currentUserData.value?.userId,
+            userId = receiverData.value?.userId,
             notificationId = UUID.randomUUID().toString(),
             title =  currentUserData.value?.firstName+" "+currentUserData.value?.lastName,
             message = message,

@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.adapter.HostHouseAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaBinding
+import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.setupDialogs
 import com.androiddevelopers.villabuluyorum.viewmodel.host.villa.HostVillaViewModel
@@ -53,6 +55,7 @@ class HostVillaFragment : Fragment() {
         observeLiveData(viewLifecycleOwner)
         binding.recyclerViewHostHouse.adapter = houseAdapter
 
+
         val chatId = requireActivity().intent.getStringExtra("chatId") ?: ""
         val reservationObject = requireActivity().intent.getStringExtra("reservation_host") ?: ""
         val homeId = requireActivity().intent.getStringExtra("home_id") ?: ""
@@ -68,6 +71,24 @@ class HostVillaFragment : Fragment() {
         if (homeId.isNotEmpty()) {
             goToHomeDetails(homeId)
             requireActivity().intent.removeExtra("home_id")
+        }
+
+        val item = requireActivity().intent.getStringExtra("item") ?: ""
+        val type = requireActivity().intent.getStringExtra("type") ?: ""
+        if (item.isNotEmpty()) {
+            when(type){
+                NotificationType.HOST_RESERVATION.toString()->{
+                    gotoReservation(item)
+                    requireActivity().intent.removeExtra("item")
+                }
+                NotificationType.COMMENT.toString()->{
+                    goToHomeDetails(item)
+                    requireActivity().intent.removeExtra("item")
+                }
+                else->{
+                    Toast.makeText(requireContext(), "Hat oluştu", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

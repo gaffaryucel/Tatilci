@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.androiddevelopers.villabuluyorum.model.ApprovalStatus
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.util.Resource
@@ -31,18 +32,23 @@ constructor(
     val reservations: LiveData<List<ReservationModel>>
         get() =  _reservations
 
+
     init {
         getNotRatedFinishedReservations()
     }
 
     private fun getNotRatedFinishedReservations() = viewModelScope.launch {
         _reviewMessage.value = Resource.loading(true)
-        firebaseRepo.getNotRatedFinishedReservations(currentUserId, getCurrentDate())
+        firebaseRepo.getAllFinishedReservations(currentUserId, getCurrentDate())
             .addOnSuccessListener {
                 val reviewList = mutableListOf<ReservationModel>()
                 for (document in it.documents) {
                     // Belgeden her bir yorumu çek
-                    document.toReservation()?.let { review -> reviewList.add(review) }
+                    document.toReservation()?.let { reservation ->
+                        if (reservation.approvalStatus == ApprovalStatus.APPROVED){
+                            reviewList.add(reservation)
+                        }
+                    }
                 }
                 _reservations.value = reviewList
                 if (reviewList.isNotEmpty()){
@@ -57,3 +63,4 @@ constructor(
             }
     }
 }
+

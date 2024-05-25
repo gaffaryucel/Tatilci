@@ -45,11 +45,11 @@ class ReservationApprovalViewModel @Inject constructor(
     }
 
 
-    fun reservationStatusNotifier(reservationId : String,title : String,status : String,villaImage : String){
+    fun reservationStatusNotifier(reservationId : String,title : String,status : String,villaImage : String,userId : String,token : String){
         val userName = currentUserData.value?.firstName + " " + currentUserData.value?.lastName
         InAppNotificationModel(
             itemId = reservationId,
-            userId = currentUserData.value?.userId,
+            userId = userId,
             notificationType = NotificationType.RESERVATION_STATUS_CHANGE,
             notificationId = UUID.randomUUID().toString(),
             userName =  userName,
@@ -57,7 +57,7 @@ class ReservationApprovalViewModel @Inject constructor(
             message = "$userName $status",
             userImage = currentUserData.value?.profileImageUrl,
             imageUrl = villaImage,
-            userToken = currentUserData.value?.token,
+            userToken = token,
             time = getCurrentTime()
         ).also { notification->
             sendNotification(

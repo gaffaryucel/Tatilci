@@ -162,4 +162,5 @@ class MessagesViewModel @Inject constructor(
             repo.changeOnlineStatus(currentUserId,false)
         }
     }
+
 }

@@ -75,4 +75,5 @@ open class ChatsViewModel  @Inject constructor(
         val list = chatRooms.value
         _chatSearchResult.value = list?.filter { it.receiverUserName!!.contains(query, ignoreCase = true) }
     }
+
 }

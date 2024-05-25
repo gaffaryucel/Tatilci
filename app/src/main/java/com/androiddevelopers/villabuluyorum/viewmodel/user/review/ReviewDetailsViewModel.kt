@@ -94,7 +94,7 @@ constructor(
         firebaseRepo.createReview(review).addOnSuccessListener {
             _reviewMessage.value = Resource.success(null)
             val map = HashMap<String,Any?>()
-            map["isRated"] = true
+            map["rated"] = true
             firebaseRepo.changeReservationRateStatus(reservation.value?.reservationId.toString(),map).addOnSuccessListener {
                 sendReviewNotification()
             }
@@ -111,7 +111,7 @@ constructor(
             rating = rating,
             comment = comment,
             userId = currentUserId,
-            userName = currentUserData.value?.userId,
+            userName = currentUserData.value?.firstName+" "+currentUserData.value?.lastName,
             userProfilePictureUrl = currentUserData.value?.profileImageUrl,
             reservationId = reservation.value?.reservationId,
             hostId = reservation.value?.hostId,
@@ -123,12 +123,12 @@ constructor(
         val message = "$userName, ${reservation.value?.startDate} - ${reservation.value?.endDate}  tarihleri arasındaki konaklaması için bir değerlendirme bıraktı"
         InAppNotificationModel(
             itemId = reservation.value?.villaId,
-            userId = currentUserId,
+            userId = userData.value?.userId,
             notificationType = NotificationType.COMMENT,
             notificationId = UUID.randomUUID().toString(),
             userName =  userName,
             title =  "Yeni Bir Değerlendirme",
-            message = "$userName isimli kullanıcı mülkünüzü değerlendirdi",
+            message = message,
             userImage = currentUserData.value?.profileImageUrl,
             imageUrl = reservation.value?.villaImage,
             userToken = userData.value?.token,

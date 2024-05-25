@@ -53,7 +53,6 @@ class ReservationDetailsFragment : Fragment() {
         if (reservationId.isNotEmpty()) {
             viewModel.getReservationById(reservationId)
         }
-
         observeLiveData()
     }
     private fun setupBindings(userData : UserModel){

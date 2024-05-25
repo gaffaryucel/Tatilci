@@ -36,6 +36,8 @@ class ReservationApprovalFragment : Fragment() {
 
     private lateinit var reservationId: String
     private lateinit var villaImage : String
+    private lateinit var userId : String
+    private lateinit var token : String
 
     private var progressDialog: ProgressDialog? = null
 
@@ -46,6 +48,8 @@ class ReservationApprovalFragment : Fragment() {
         _binding = FragmentReservationApprovalBinding.inflate(inflater, container, false)
         reservationId = arguments?.getString("id") ?: ""
         villaImage = arguments?.getString("image") ?: ""
+        userId = arguments?.getString("userId") ?: ""
+        token = arguments?.getString("token") ?: ""
         return binding.root
     }
 
@@ -61,7 +65,7 @@ class ReservationApprovalFragment : Fragment() {
                         reservationId,
                         ApprovalStatus.APPROVED
                     )
-                    viewModel.reservationStatusNotifier(reservationId,"Rezervasyon Onaylandı","rezervasyon isteğinizi onayladı",villaImage)
+                    viewModel.reservationStatusNotifier(reservationId,"Rezervasyon Onaylandı","rezervasyon isteğinizi onayladı",villaImage,userId,token)
                 }else{
                     Toast.makeText(
                         requireContext(),
@@ -122,7 +126,7 @@ class ReservationApprovalFragment : Fragment() {
         builder.setMessage("Rezervasyonu reddettiğinizde, bu bilgi kullanıcıya iletilir ve rezervasyon iptal edilir. Devam etmek istiyor musunuz?")
         builder.setPositiveButton("Evet") { _, _ ->
             viewModel.changeReservationStatus(reservationId,ApprovalStatus.NOT_APPROVED)
-            viewModel.reservationStatusNotifier(reservationId,"Rezervasyon reddedildi","rezervasyon isteğinizi geri çevirdi",villaImage)
+            viewModel.reservationStatusNotifier(reservationId,"Rezervasyon reddedildi","rezervasyon isteğinizi geri çevirdi",villaImage,userId,token)
         }
         builder.setNegativeButton("İptal") { dialog, _ ->
             dialog.dismiss()

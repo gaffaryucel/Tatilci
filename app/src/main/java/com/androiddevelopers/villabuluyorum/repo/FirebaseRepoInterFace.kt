@@ -49,12 +49,15 @@ interface FirebaseRepoInterFace {
     fun getUserReservations(userId: String): Task<QuerySnapshot>
     fun getReservationsForHost(userId: String): Task<QuerySnapshot>
     fun getReservationById(reservationId: String):Task<DocumentSnapshot>
-    fun getNotRatedFinishedReservations(userId: String,today : String): Task<QuerySnapshot>
     fun changeReservationStatus(reservationId: String, status: java.util.HashMap<String, Any?>): Task<Void>
     fun changeReservationRateStatus(reservationId: String, status: java.util.HashMap<String, Any?>): Task<Void>
 
     //Firestore - Review
     fun createReview(review: ReviewModel): Task<Void>
+    fun getReservationsByRateStatus(userId: String,today : String,value : Boolean?): Task<QuerySnapshot>
+    fun getAllFinishedReservations(userId: String,today : String): Task<QuerySnapshot>
+    fun getAllReviewsByUserId(userId: String): Task<QuerySnapshot>
+
 
     //Firestore - Notification
     //Set

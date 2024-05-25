@@ -53,7 +53,7 @@ class CreateReservationFragment : Fragment() {
     private var nightlyRate = 0
     private var nightCount = 0
     private var price = 0
-    private var nyVilla = Villa()
+    private var myVilla = Villa()
 
     private var startDate : String = ""
     private var endDate : String = ""
@@ -122,7 +122,7 @@ class CreateReservationFragment : Fragment() {
                     }
                 }
                 liveDataFirebaseVilla.observe(viewLifecycleOwner) { villa ->
-                    nyVilla = villa
+                    myVilla = villa
                     mergeBinding.textDetailTitle.text = villa.villaName
                     mergeBinding.textDetailAddress.text = villa.locationAddress
                     mergeBinding.textDetailBedRoom.text = villa.bedroomCount.toString() + " Yatak odası"
@@ -215,7 +215,7 @@ class CreateReservationFragment : Fragment() {
                 viewModel.createReservationInstance(
                     reservationId = reservationId,
                     villaId = villaId ?: "",
-                    hostId = nyVilla.hostId ?: "",
+                    hostId = myVilla.hostId ?: "",
                     startDate = binding.tvSelectedStartDate.text.toString(),
                     endDate = binding.tvSelectedEndDate.text.toString(),
                     nights = nightCount,
@@ -223,23 +223,23 @@ class CreateReservationFragment : Fragment() {
                     guestCount = number,
                     paymentMethod = paymentMethod,
                     nightlyRate,
-                    nyVilla.propertyType ?: PropertyType.HOUSE,
-                    nyVilla.coverImage ?: "",
-                    nyVilla.bedroomCount ?: 0,
-                    nyVilla.bathroomCount ?: 0,
-                    nyVilla.villaName ?: "",
+                    myVilla.propertyType ?: PropertyType.HOUSE,
+                    myVilla.coverImage ?: "",
+                    myVilla.bedroomCount ?: 0,
+                    myVilla.bathroomCount ?: 0,
+                    myVilla.villaName ?: "",
                 ).also {
                     viewModel.makeReservation(it)
                     InAppNotificationModel(
                         itemId = reservationId,
-                        userId = currentUser.userId,
+                        userId = myVilla.hostId,
                         notificationType = NotificationType.HOST_RESERVATION,
                         notificationId = UUID.randomUUID().toString(),
                         userName =  currentUser.firstName+" "+currentUser.lastName,
                         title =  "Yeni Rezervasyon İsteği!",
                         message = notificationMessage,
                         userImage = currentUser.profileImageUrl,
-                        imageUrl = nyVilla.coverImage,
+                        imageUrl = myVilla.coverImage,
                         userToken = token,
                         time = getCurrentTime()
                     ).also { notification->

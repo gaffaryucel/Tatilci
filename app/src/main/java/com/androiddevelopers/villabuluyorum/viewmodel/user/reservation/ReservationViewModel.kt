@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.androiddevelopers.villabuluyorum.model.ApprovalStatus
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
@@ -58,4 +59,5 @@ constructor(
                 println("error : "+exception.localizedMessage)
             }
     }
+
 }

@@ -20,7 +20,9 @@ data class UserModel(
     var longitude: Double? = null,
     var address: UserAddress? = null,
     var userType: UserType? = null,
-    var online: Boolean? = null
+    var online: Boolean? = null,
+    var notificationRead: Boolean? = null,
+    var chatRead: Boolean? = null
 )
 
 data class Host(

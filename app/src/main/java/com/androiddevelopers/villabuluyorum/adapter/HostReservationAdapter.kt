@@ -77,7 +77,7 @@ class HostReservationAdapter : RecyclerView.Adapter<HostReservationAdapter.HostR
                 if (myReservation.approvalStatus != null) {
                     when (myReservation.approvalStatus) {
                         ApprovalStatus.APPROVED -> tvApprovalStatus.text = "Onaylandı"
-                        ApprovalStatus.NOT_APPROVED -> tvApprovalStatus.text = "Onaylanmadı"
+                        ApprovalStatus.NOT_APPROVED -> tvApprovalStatus.text = "Reddedildi"
                         ApprovalStatus.WAITING_FOR_APPROVAL -> tvApprovalStatus.text = "Onay bekliyor"
                         else -> {
 

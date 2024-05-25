@@ -48,7 +48,7 @@
 
         <TextView
             android:layout_marginBottom="5dp"
-            android:text="Doğru yatırımı yapmak için giriş yapın ve Villabuluyorum'un eşsiz seçeneklerini keşfedin"
+            android:text="Lüks villalarda rüya gibi tatiller için giriş yapın ve ayrıcalıkları keşfedin."
             android:textColor="@color/normal_text_color"
             android:textSize="16sp"
             android:layout_width="match_parent"

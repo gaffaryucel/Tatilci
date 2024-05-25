@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
+import com.androiddevelopers.villabuluyorum.model.ReviewModel
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.notification.InAppNotificationModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
@@ -62,4 +63,12 @@ fun DocumentSnapshot.toNotification(): InAppNotificationModel? = try {
 } catch (e: Exception) {
     e.message?.let { Log.e("getNotification", it) }
     InAppNotificationModel()
+}
+
+
+fun DocumentSnapshot.toReview(): ReviewModel? = try {
+    toObject(ReviewModel::class.java)
+} catch (e: Exception) {
+    e.message?.let { Log.e("getVilla", it) }
+    ReviewModel()
 }

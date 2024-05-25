@@ -36,6 +36,7 @@ constructor(
 
     init {
         loadNotifications()
+        changeNotificationReedStatus()
     }
 
     private fun loadNotifications() = viewModelScope.launch {
@@ -61,6 +62,11 @@ constructor(
                 )
                 println("exception : "+exception)
             }
+    }
+    private fun changeNotificationReedStatus(){
+        val map = HashMap<String,Any?>()
+        map["notificationRead"] = true
+        firebaseRepo.updateUserData(currentUserId,map)
     }
 
 }

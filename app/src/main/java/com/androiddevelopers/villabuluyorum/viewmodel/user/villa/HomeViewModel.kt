@@ -3,6 +3,7 @@ package com.androiddevelopers.villabuluyorum.viewmodel.user.villa
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.androiddevelopers.villabuluyorum.model.ApprovalStatus
 import com.androiddevelopers.villabuluyorum.model.ReservationModel
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
@@ -101,8 +102,39 @@ constructor(
         }
     }
 
+    private fun getNotRatedFinishedReservations() = viewModelScope.launch {
+        repo.getReservationsByRateStatus(currentUserId, getCurrentDate(),null)
+            .addOnSuccessListener {
+                val set = mutableSetOf<ReservationModel>()
+                for (document in it.documents) {
+                    document.toReservation()?.let { reservation ->
+                        if (reservation.approvalStatus == ApprovalStatus.APPROVED){
+                            set.add(reservation)
+                        }
+                    }
+                }
+                rateReservations.value = set.size > 0
+                allNotRatedReservations.value = set.toList()
+            }.addOnFailureListener{
+                println("error : "+it.localizedMessage)
+            }
+    }
+    fun notReviewReservations() = viewModelScope.launch{
+        allNotRatedReservations.value?.forEach {
+            val map = HashMap<String,Any?>()
+            map["rated"] = false
+            if (it.reservationId != null){
+                repo.changeReservationRateStatus(it.reservationId,map)
+            }
+        }
+    }
 
 
+    fun resetNotifyMessage() {
+        _notifyUser.value = ""
+    }
+
+    /*
     fun updateUserLocation(
         latitude: Double?,
         longitude: Double?,
@@ -120,35 +152,5 @@ constructor(
                 _notifyUser.value = "Konum Güncellenirken bir hata oluştu"
             }
     }
-
-    private fun getNotRatedFinishedReservations() = viewModelScope.launch {
-        repo.getNotRatedFinishedReservations(currentUserId, getCurrentDate())
-            .addOnSuccessListener {
-                val set = mutableSetOf<ReservationModel>()
-                for (document in it.documents) {
-                    document.toReservation()?.let { reservation ->
-                        set.add(reservation)
-                    }
-                }
-                rateReservations.value = set.size > 0
-                allNotRatedReservations.value = set.toList()
-            }.addOnFailureListener{
-                println("error : "+it.localizedMessage)
-            }
-    }
-    fun notReviewReservations() = viewModelScope.launch{
-        allNotRatedReservations.value?.forEach {
-            val map = HashMap<String,Any?>()
-            map["isRated"] = false
-            if (it.reservationId != null){
-                repo.changeReservationRateStatus(it.reservationId,map)
-            }
-        }
-    }
-
-
-    fun resetNotifyMessage() {
-        _notifyUser.value = ""
-    }
-
+     */
 }

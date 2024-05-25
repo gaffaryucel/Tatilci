@@ -35,9 +35,13 @@ class VillaDetailFragment : Fragment() {
 
     private val viewModel: VillaDetailViewModel by viewModels()
 
-    private lateinit var errorDialog: AlertDialog
+    private val errorDialog: AlertDialog by lazy {
+        AlertDialog.Builder(requireContext()).create()
+    }
 
-    private var viewPagerAdapter = ViewPagerAdapterForVillaDetail()
+    private val viewPagerAdapter: ViewPagerAdapterForVillaDetail by lazy {
+        ViewPagerAdapterForVillaDetail()
+    }
 
     private lateinit var geocoder: Geocoder
 
@@ -57,8 +61,7 @@ class VillaDetailFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentVillaDetailBinding.inflate(inflater, container, false)
 
@@ -71,14 +74,11 @@ class VillaDetailFragment : Fragment() {
             setViewPagerVisibility = false
         }
 
-        errorDialog = AlertDialog.Builder(requireContext()).create()
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupDialogs()
 
         with(binding) {
             //viewpager adapter ve indicatoru set ediyoruz
@@ -93,6 +93,8 @@ class VillaDetailFragment : Fragment() {
                 hostId?.let { id -> goToOwnerProfile(id, it) }
             }
         }
+
+        observeLiveData(viewLifecycleOwner)
     }
 
     private fun getGeocoderLocation(villa: Villa) {
@@ -112,8 +114,7 @@ class VillaDetailFragment : Fragment() {
             } else {
 
                 lifecycleScope.launch {
-                    @Suppress("DEPRECATION")
-                    geocoder.getFromLocationName(address, 1)?.let {
+                    @Suppress("DEPRECATION") geocoder.getFromLocationName(address, 1)?.let {
                         geocoderLocation = it
                     }
                 }
@@ -137,9 +138,11 @@ class VillaDetailFragment : Fragment() {
                             setProgressBarVisibility = state
                         }
 
-                        Status.ERROR -> {
-                            errorDialog.setMessage("Hata mesajı:\n${it.message}")
-                            errorDialog.show()
+                        Status.ERROR   -> {
+                            it.message?.let { message ->
+                                setupDialogs(message)
+                                errorDialog.show()
+                            }
                         }
                     }
                 }
@@ -244,9 +247,10 @@ class VillaDetailFragment : Fragment() {
 
     }
 
-    private fun setupDialogs() {
+    private fun setupDialogs(text: String) {
         with(errorDialog) {
             setTitle("Veriler alınırken hata oluştu.")
+            setMessage("Hata mesajı:\n$text")
             setCancelable(false)
             setButton(
                 AlertDialog.BUTTON_POSITIVE, "Tamam"
@@ -257,21 +261,21 @@ class VillaDetailFragment : Fragment() {
     }
 
     private fun gotoReservation(id: String, view: View) {
-        val action = VillaDetailFragmentDirections.actionVillaDetailFragmentToCreateReservationFragment(
-            id,
-            myUser?.token.toString()
-        )
+        val action =
+            VillaDetailFragmentDirections.actionVillaDetailFragmentToCreateReservationFragment(
+                id, myUser?.token.toString()
+            )
         Navigation.findNavController(view).navigate(action)
     }
 
     private fun goToOwnerProfile(id: String, view: View) {
-        val action = VillaDetailFragmentDirections.actionVillaDetailFragmentToUserProfileFragment(id)
+        val action =
+            VillaDetailFragmentDirections.actionVillaDetailFragmentToUserProfileFragment(id)
         Navigation.findNavController(view).navigate(action)
     }
 
     override fun onResume() {
         super.onResume()
-        observeLiveData(viewLifecycleOwner)
         hideBottomNavigation(requireActivity())
     }
 

@@ -29,8 +29,101 @@
             app:navigationIcon="@drawable/baseline_close_24"
             app:subtitle="Sayfa 1/4"
             app:subtitleTextColor="@color/white"
-            app:title="Villa Oluştur"
+            app:title="İlan Oluştur"
             app:titleTextColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textPropertyStatusHostVillaCreateEnter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:text="İlan tipini seçin"
+            android:textColor="@color/normal_text_color"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbarVillaCreate"
+            tools:ignore="HardcodedText" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardRentHostVillaCreateEnter"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/host_create_enter_page_type_height"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/md_theme_primary"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="20dp"
+            app:layout_constraintEnd_toStartOf="@id/cardSaleHostVillaCreateEnter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textPropertyStatusHostVillaCreateEnter">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/host_villa_create_enter_image"
+                    android:layout_height="@dimen/host_villa_create_enter_image"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/rent_vector"
+                    app:tint="@color/normal_text_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Kiralık"
+                    android:textColor="@color/normal_text_color"
+                    android:textSize="@dimen/host_villa_create_enter_text"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardSaleHostVillaCreateEnter"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/host_create_enter_page_type_height"
+            android:layout_marginHorizontal="10dp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/cardRentHostVillaCreateEnter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cardRentHostVillaCreateEnter"
+            app:layout_constraintTop_toTopOf="@id/cardRentHostVillaCreateEnter">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/host_villa_create_enter_image"
+                    android:layout_height="@dimen/host_villa_create_enter_image"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/sale_vector"
+                    app:tint="@color/normal_text_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center"
+                    android:text="Satılık"
+                    android:textColor="@color/normal_text_color"
+                    android:textSize="@dimen/host_villa_create_enter_text"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/textTitleHostVillaCreateEnter"
@@ -44,7 +137,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbarVillaCreate"
+            app:layout_constraintTop_toBottomOf="@id/cardRentHostVillaCreateEnter"
             tools:ignore="HardcodedText" />
 
         <androidx.cardview.widget.CardView
@@ -53,6 +146,7 @@
             android:layout_height="@dimen/host_create_enter_page_type_height"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/md_theme_primary"
             app:cardCornerRadius="30dp"
             app:cardElevation="20dp"
             app:layout_constraintEnd_toStartOf="@id/cardApartmentHostVillaCreateEnter"
@@ -66,8 +160,8 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/host_villa_create_enter_image"
+                    android:layout_height="@dimen/host_villa_create_enter_image"
                     android:layout_margin="10dp"
                     android:src="@drawable/home"
                     app:tint="@color/normal_text_color" />
@@ -75,11 +169,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:gravity="center"
                     android:text="Ev"
                     android:textColor="@color/normal_text_color"
-                    android:textSize="24sp"
+                    android:textSize="@dimen/host_villa_create_enter_text"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 
@@ -105,8 +198,8 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/host_villa_create_enter_image"
+                    android:layout_height="@dimen/host_villa_create_enter_image"
                     android:layout_margin="10dp"
                     android:src="@drawable/apartment"
                     app:tint="@color/normal_text_color" />
@@ -114,11 +207,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:gravity="center"
                     android:text="Daire"
                     android:textColor="@color/normal_text_color"
-                    android:textSize="24sp"
+                    android:textSize="@dimen/host_villa_create_enter_text"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 
@@ -144,8 +236,8 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/host_villa_create_enter_image"
+                    android:layout_height="@dimen/host_villa_create_enter_image"
                     android:layout_margin="10dp"
                     android:src="@drawable/guest_house"
                     app:tint="@color/normal_text_color" />
@@ -153,11 +245,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:gravity="center"
                     android:text="Misafir Evi"
                     android:textColor="@color/normal_text_color"
-                    android:textSize="24sp"
+                    android:textSize="@dimen/host_villa_create_enter_text"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 
@@ -183,8 +274,8 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/host_villa_create_enter_image"
+                    android:layout_height="@dimen/host_villa_create_enter_image"
                     android:layout_margin="10dp"
                     android:src="@drawable/hotel"
                     app:tint="@color/normal_text_color" />
@@ -192,11 +283,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+
                     android:gravity="center"
                     android:text="Otel"
                     android:textColor="@color/normal_text_color"
-                    android:textSize="24sp"
+                    android:textSize="@dimen/host_villa_create_enter_text"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 

@@ -15,12 +15,16 @@ import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showHostBottomNavigation
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class HostVillaCreateEnterFragment : Fragment() {
     //private val viewModel: HostVillaCreateBaseViewModel by viewModels()
     private var _binding: FragmentHostVillaCreateEnterBinding? = null
     private val binding get() = _binding!!
+
+    private var selectedPropertyStatus = false
+    private var selectedPropertyType = PropertyType.HOUSE
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -52,6 +56,41 @@ class HostVillaCreateEnterFragment : Fragment() {
                 Navigation.findNavController(binding.root).popBackStack()
             }
 
+
+            val propertyStatus = listOf(
+                cardRentHostVillaCreateEnter,
+                cardSaleHostVillaCreateEnter,
+            )
+
+            propertyStatus.forEachIndexed { index, cardView ->
+                cardView.setOnClickListener {
+
+                    // Tüm elemanların arka planını boş olarak ayarla
+                    propertyStatus.forEach {
+                        it.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(), R.color.host_cardview_background
+                            )
+                        )
+                    }
+
+                    // Seçilen elemanın arka planını seçili olarak ayarla
+                    cardView.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(), R.color.md_theme_primary
+                        )
+                    )
+
+                    //Seçilen durumu ana değişkene atıyoruız
+                    selectedPropertyStatus = when (index) {
+                        0    -> false
+                        1    -> true
+                        else -> false
+                    }
+                }
+
+            }
+
             val propertyTypes = listOf(
                 cardHouseHostVillaCreateEnter,
                 cardApartmentHostVillaCreateEnter,
@@ -62,6 +101,7 @@ class HostVillaCreateEnterFragment : Fragment() {
             propertyTypes.forEachIndexed { index, cardView ->
                 cardView.setOnClickListener {
 
+                    // Tüm elemanların arka planını boş olarak ayarla
                     propertyTypes.forEach {
                         it.setCardBackgroundColor(
                             ContextCompat.getColor(
@@ -69,17 +109,15 @@ class HostVillaCreateEnterFragment : Fragment() {
                             )
                         )
                     }
-//                    // Seçilen elemanın arka planını seçili olarak ayarla
-//                    cardView.setBackgroundResource(R.drawable.main_button_gb)
-//                    // Seçilen elemanın adını ekrana yazdır
+                    // Seçilen elemanın arka planını seçili olarak ayarla
                     cardView.setCardBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(), R.color.md_theme_primary
                         )
                     )
 
-                    //filter.propertyType =
-                    when (index) {
+                    //Seçilen tipi ana değişkene atıyoruız
+                    selectedPropertyType = when (index) {
                         0    -> PropertyType.HOUSE
                         1    -> PropertyType.APARTMENT
                         2    -> PropertyType.GUEST_HOUSE
@@ -90,6 +128,19 @@ class HostVillaCreateEnterFragment : Fragment() {
 
             }
         }
+    }
+
+    private fun createVilla(villa: Villa): Villa {
+        if (villa.villaId == null) {
+            villa.villaId = UUID.randomUUID().toString()
+        }
+
+        villa.apply {
+            isForSale = selectedPropertyStatus
+            propertyType = selectedPropertyType
+        }
+
+        return villa
     }
 
     override fun onResume() {

@@ -29,7 +29,7 @@
             app:navigationIcon="@drawable/baseline_close_24"
             app:subtitle="Sayfa 4/4"
             app:subtitleTextColor="@color/white"
-            app:title="Villa Oluştur"
+            app:title="İlan Oluştur"
             app:titleTextColor="@color/white" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator

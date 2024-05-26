@@ -2,5 +2,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="host_create_enter_page_type_height">130dp</dimen>
+    <dimen name="host_create_enter_page_type_height">100dp</dimen>
+    <dimen name="host_villa_create_enter_image">35dp</dimen>
+    <dimen name="host_villa_create_enter_text">20sp</dimen>
 </resources>

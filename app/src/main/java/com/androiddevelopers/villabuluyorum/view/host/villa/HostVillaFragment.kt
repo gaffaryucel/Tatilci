@@ -76,16 +76,18 @@ class HostVillaFragment : Fragment() {
         val item = requireActivity().intent.getStringExtra("item") ?: ""
         val type = requireActivity().intent.getStringExtra("type") ?: ""
         if (item.isNotEmpty()) {
-            when(type){
-                NotificationType.HOST_RESERVATION.toString()->{
+            when (type) {
+                NotificationType.HOST_RESERVATION.toString() -> {
                     gotoReservation(item)
                     requireActivity().intent.removeExtra("item")
                 }
-                NotificationType.COMMENT.toString()->{
+
+                NotificationType.COMMENT.toString()          -> {
                     goToHomeDetails(item)
                     requireActivity().intent.removeExtra("item")
                 }
-                else->{
+
+                else                                         -> {
                     Toast.makeText(requireContext(), "Hat oluştu", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -146,12 +148,14 @@ class HostVillaFragment : Fragment() {
         val action = HostVillaFragmentDirections.actionNavigationHostVillaToHostChatFragment()
         Navigation.findNavController(requireView()).navigate(action)
     }
-    private fun goToHomeDetails(homeId : String) {
+
+    private fun goToHomeDetails(homeId: String) {
         // TODO: Yorum bildirimi geldiğinde gerektiği şekilde detaylarına ulaşabilmek için gerekli olan action yapılmalı
-     }
+    }
 
     private fun gotoCreateEnterPage() {
-        val directions = HostVillaFragmentDirections.actionNavigationHostVillaToNavigationHostVillaCreateEnter()
+        val directions =
+            HostVillaFragmentDirections.actionNavigationHostVillaToNavigationHostVillaCreateEnter()
         Navigation.findNavController(binding.root).navigate(directions)
     }
 

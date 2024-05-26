@@ -20,16 +20,12 @@
         <variable
             name="villa"
             type="com.androiddevelopers.villabuluyorum.model.villa.Villa" />
-
-        <variable
-            name="user"
-            type="com.androiddevelopers.villabuluyorum.model.UserModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.user.villa.VillaDetailFragment">
+        tools:context=".view.user.villa.HostVillaDetailFragment">
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/detailProgressBar"
@@ -44,7 +40,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/layoutBottom"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/detailProgressBar">
@@ -88,11 +84,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
+                            android:src="@drawable/placeholder"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:src="@drawable/placeholder" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -122,9 +118,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
-                            android:paddingHorizontal="2dp"
-                            android:shadowColor="@color/black"
-                            android:shadowRadius="8"
                             android:text="@{villa.villaName}"
                             android:textColor="@color/white"
                             android:textSize="20sp"
@@ -139,9 +132,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLines="1"
-                            android:paddingHorizontal="2dp"
-                            android:shadowColor="@color/black"
-                            android:shadowRadius="8"
                             android:text="@{villa.locationNeighborhoodOrVillage +`, `+ villa.locationDistrict + `, `+ villa.locationProvince}"
                             android:textColor="@color/white"
                             android:textSize="18sp"
@@ -268,7 +258,7 @@
                             app:srcCompat="@drawable/baseline_arrow_back" />
 
                         <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/imageBookmark"
+                            android:id="@+id/imageEdit"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_margin="10dp"
@@ -277,93 +267,10 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:shapeAppearanceOverlay="@style/circle"
-                            app:srcCompat="@drawable/baseline_bookmark_border" />
+                            app:srcCompat="@drawable/baseline_edit_24" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/userInfoLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/cardImageCoverVillaDetail">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/imageProfile"
-                        downloadImage="@{user.profileImageUrl}"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:src="@drawable/app_logo" />
-
-                    <LinearLayout
-                        android:id="@+id/layoutVillaDetailUserName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintBottom_toTopOf="@id/textDetailProfile"
-                        app:layout_constraintStart_toEndOf="@id/imageProfile"
-                        app:layout_constraintTop_toTopOf="@id/imageProfile">
-
-                        <TextView
-                            android:id="@+id/textDetailProfileTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{user.firstName != null ? user.firstName : user.username}"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            tools:ignore="HardcodedText"
-                            tools:text="Adı" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" "
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            tools:ignore="HardcodedText,TextContrastCheck,SpeakableTextPresentCheck" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{user.lastName}"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:visibility="@{user.firstName != null ? View.VISIBLE : View.GONE}"
-                            tools:ignore="HardcodedText"
-                            tools:text="Soyadı" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/textDetailProfile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{user.host.role}"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@id/imageProfile"
-                        app:layout_constraintStart_toStartOf="@id/layoutVillaDetailUserName"
-                        app:layout_constraintTop_toBottomOf="@id/layoutVillaDetailUserName"
-                        tools:ignore="HardcodedText"
-                        tools:text="Villayı kiralayan ünvanı" />
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/buttonDetailChat"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:background="@drawable/rounded_button_background"
-                        android:src="@drawable/baseline_chat_bubble_24"
-                        app:layout_constraintBottom_toBottomOf="@id/imageProfile"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/imageProfile"
-                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/textDetailDescriptionTitle"
@@ -374,7 +281,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@+id/userInfoLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/cardImageCoverVillaDetail"
                     tools:ignore="HardcodedText" />
 
                 <TextView
@@ -665,52 +572,5 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutBottom"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/buttonDetailRent"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginVertical="6dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/rounded_button_background"
-                android:src="@drawable/baseline_call_24"
-                android:text="Kirala"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="HardcodedText" />
-
-            <TextView
-                android:id="@+id/textDetailPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="@{villa.nightlyRate + `₺ /Aylık`}"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/buttonDetailRent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/buttonDetailRent"
-                tools:ignore="HardcodedText"
-                tools:text="5000₺ /Aylık" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

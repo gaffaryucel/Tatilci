@@ -313,4 +313,5 @@
     <color name="reservation_denied_color">#FF0000</color>
     <color name="reservation_waiting_color">#FFFF00</color>
 
+    <color name="host_cardview_background">#FFFFFFFF</color>
 </resources>

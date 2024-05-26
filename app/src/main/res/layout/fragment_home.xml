@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.user.villa.HomeFragment">
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/layoutHome"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="480dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -22,32 +28,18 @@
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="10dp">
 
-                <TextView
-                    android:id="@+id/guideLine1"
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guidelineTitleVertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/guideLine2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="@id/guideLine1"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/guideLine3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="@id/guideLine1"
-                    app:layout_constraintStart_toStartOf="@id/guideLine2" />
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/guideLine3"
+                    app:layout_constraintEnd_toEndOf="@+id/guidelineTitleVertical"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -65,7 +57,7 @@
                             android:hint="Konum"
                             android:inputType="none"
                             android:textSize="16sp"
-                            tools:ignore="HardcodedText" />
+                            tools:ignore="HardcodedText,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -80,40 +72,45 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_margin="5dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <ImageView
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/ivNotifications"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:padding="5dp"
                             android:src="@drawable/ic_notifications_black_24dp"
-                            app:tint="@color/main_button_gb_color" />
-                        <ImageView
-                            android:id="@+id/ivNotReadNotification"
-                            android:layout_margin="6dp"
-                            android:visibility="invisible"
-                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:src="@drawable/circle"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/main_button_gb_color" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivNotReadNotification"
                             android:layout_width="13dp"
-                            android:layout_height="13dp"/>
+                            android:layout_height="13dp"
+                            android:layout_margin="6dp"
+                            android:src="@drawable/circle"
+                            android:visibility="invisible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivMessages"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="5dp"
-                        android:paddingTop="7dp"
                         android:paddingHorizontal="7dp"
+                        android:paddingTop="7dp"
                         android:paddingBottom="6dp"
                         android:src="@drawable/message_icon"
                         app:tint="@color/main_button_gb_color" />
                 </LinearLayout>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -129,10 +126,12 @@
                     android:background="@drawable/search_view_bg"
                     android:clickable="false"
                     android:focusable="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/searchView"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -140,8 +139,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
@@ -167,7 +164,8 @@
                         android:background="@drawable/search_view_bg"
                         android:hint="En Düşük"
                         android:inputType="numberDecimal"
-                        android:paddingStart="8dp" />
+                        android:paddingHorizontal="8dp"
+                        tools:ignore="Autofill,HardcodedText" />
 
                     <EditText
                         android:id="@+id/etMaxPrice"
@@ -178,7 +176,8 @@
                         android:background="@drawable/search_view_bg"
                         android:hint="En Yüksek"
                         android:inputType="numberDecimal"
-                        android:paddingStart="8dp" />
+                        android:paddingHorizontal="8dp"
+                        tools:ignore="Autofill,HardcodedText" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btnSearch"
@@ -186,8 +185,8 @@
                         android:layout_height="40dp"
                         android:background="@drawable/rounded_button_background"
                         android:text="Ara"
-                        android:textColor="@color/white" />
-
+                        android:textColor="@color/white"
+                        tools:ignore="HardcodedText" />
 
                 </LinearLayout>
 
@@ -200,7 +199,8 @@
                     android:background="@drawable/refresh_button_bg"
                     android:text="Sıfırla"
                     android:textColor="@color/white"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:ignore="HardcodedText" />
 
             </LinearLayout>
 
@@ -212,7 +212,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
@@ -226,7 +226,8 @@
                     android:text="Bu kriterlere uygun ev bulunamadı"
                     android:textAlignment="center"
                     android:textSize="25sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
 
 
             </LinearLayout>
@@ -248,7 +249,10 @@
                         android:text="Konumuna en yakın"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -256,16 +260,19 @@
                         android:layout_marginEnd="5dp"
                         android:text="Tümünü Gör"
                         android:textSize="18sp"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="HardcodedText" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:orientation="horizontal"
                     android:id="@+id/rvCloseHomes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <TextView
                     android:id="@+id/tvEmptyList"
@@ -277,7 +284,8 @@
                     android:textColor="@color/main_button_gb_color"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:ignore="HardcodedText" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -291,7 +299,10 @@
                         android:text="Senin için Özel"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -299,7 +310,10 @@
                         android:layout_marginEnd="5dp"
                         android:text="Tümünü Gör"
                         android:textSize="18sp"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="HardcodedText" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -320,32 +334,31 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
     <ProgressBar
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/pbHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        />
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/tvError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="20sp"
-        android:textColor="@color/main_button_gb_color"
         android:text="@string/error_text"
-   />
+        android:textColor="@color/main_button_gb_color"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

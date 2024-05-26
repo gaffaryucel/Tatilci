@@ -86,7 +86,9 @@ class HostHouseAdapter : RecyclerView.Adapter<HostHouseAdapter.HostHouseViewHold
             itemView.setOnClickListener { view ->
                 house.villaId?.let { id ->
                     val directions =
-                        HostVillaFragmentDirections.actionNavigationHostVillaToNavigationHostVillaCreateEnter()
+                        HostVillaFragmentDirections.actionNavigationHostVillaToHostVillaDetailFragment(
+                            id
+                        )
                     Navigation.findNavController(view).navigate(directions)
                 }
             }

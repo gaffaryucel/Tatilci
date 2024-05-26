@@ -1,4 +1,4 @@
-package com.androiddevelopers.villabuluyorum.view.user.villa
+package com.androiddevelopers.villabuluyorum.view.host.villa
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -11,23 +11,20 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.adapter.ViewPagerAdapterForVillaDetail
-import com.androiddevelopers.villabuluyorum.databinding.FragmentVillaDetailBinding
-import com.androiddevelopers.villabuluyorum.model.UserModel
+import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaDetailBinding
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.Status
-import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.setupDialogs
-import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.showHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.user.villa.VillaDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
-class VillaDetailFragment : Fragment() {
-    private var _binding: FragmentVillaDetailBinding? = null
-    private val binding get() = _binding!!
-
+class HostVillaDetailFragment : Fragment() {
     private val viewModel: VillaDetailViewModel by viewModels()
+    private var _binding: FragmentHostVillaDetailBinding? = null
+    private val binding get() = _binding!!
 
     private val errorDialog: AlertDialog by lazy {
         AlertDialog.Builder(requireContext()).create()
@@ -37,18 +34,10 @@ class VillaDetailFragment : Fragment() {
         ViewPagerAdapterForVillaDetail()
     }
 
-    //private lateinit var geocoder: Geocoder
-
-    //private var geocoderLocation: List<Address> = listOf()
-
-    private var villaId: String? = null
-    private var myUser: UserModel? = null
-    private var hostId: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val args: VillaDetailFragmentArgs by navArgs()
+        val args: HostVillaDetailFragmentArgs by navArgs()
         val id = args.villaId
 
         viewModel.getVillaByIdFromFirestore(id)
@@ -57,67 +46,31 @@ class VillaDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentVillaDetailBinding.inflate(inflater, container, false)
-
+        _binding = FragmentHostVillaDetailBinding.inflate(inflater, container, false)
         val view = binding.root
-
-        //geocoder = Geocoder(view.context, Locale.getDefault())
-
-        with(binding) {
-            setProgressBarVisibility = false
-            setViewPagerVisibility = false
-        }
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         with(binding) {
             //viewpager adapter ve indicatoru set ediyoruz
             viewPagerVillaDetail.adapter = viewPagerAdapter
             indicatorVillaDetail.setViewPager(viewPagerVillaDetail)
-
-            buttonDetailRent.setOnClickListener {
-                villaId?.let { id -> gotoReservation(id, it) }
-            }
-
-            userInfoLayout.setOnClickListener {
-                hostId?.let { id -> goToOwnerProfile(id, it) }
-            }
         }
-
+        setClickItems()
         observeLiveData(viewLifecycleOwner)
     }
 
-//    private fun getGeocoderLocation(villa: Villa) {
-//        val address = buildString {
-//            append(villa.locationNeighborhoodOrVillage)
-//            append(",")
-//            append(villa.locationDistrict)
-//            append(",")
-//            append(villa.locationProvince)
-//        }
-//
-//        try {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//                geocoder.getFromLocationName(address, 1) {
-//                    geocoderLocation = it
-//                }
-//            } else {
-//
-//                lifecycleScope.launch {
-//                    @Suppress("DEPRECATION") geocoder.getFromLocationName(address, 1)?.let {
-//                        geocoderLocation = it
-//                    }
-//                }
-//            }
-//
-//        } catch (e: Exception) {
-//            Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
-//        }
-//    }
+    private fun setClickItems() {
+        with(binding) {
+            imageEdit.setOnClickListener {
+                val directions =
+                    HostVillaDetailFragmentDirections.actionHostVillaDetailFragmentToNavigationHostVillaCreateEnter()
+                Navigation.findNavController(binding.root).navigate(directions)
+            }
+        }
+    }
 
     private fun observeLiveData(owner: LifecycleOwner) {
         with(binding) {
@@ -144,16 +97,8 @@ class VillaDetailFragment : Fragment() {
 
                 liveDataFirebaseVilla.observe(owner) {
                     villa = it
-                    villaId = it.villaId
-                    hostId = it.hostId
 
                     setViewsVillaDetail(it)
-
-                    hostId?.let { id ->
-                        getUserByIdFromFirestore(id)
-                    }
-
-                    // getGeocoderLocation(it)
 
                     it.otherImages?.toList()?.let { images ->
                         if (images.isNotEmpty()) {
@@ -168,11 +113,6 @@ class VillaDetailFragment : Fragment() {
                     } ?: run {
                         binding.setViewPagerVisibility = false
                     }
-                }
-
-                liveDataFirebaseUser.observe(owner) {
-                    user = it
-                    myUser = it
                 }
             }
         }
@@ -242,33 +182,18 @@ class VillaDetailFragment : Fragment() {
 
     }
 
-    private fun gotoReservation(id: String, view: View) {
-        val action =
-            VillaDetailFragmentDirections.actionVillaDetailFragmentToCreateReservationFragment(
-                id, myUser?.token.toString()
-            )
-        Navigation.findNavController(view).navigate(action)
-    }
-
-    private fun goToOwnerProfile(id: String, view: View) {
-        val action =
-            VillaDetailFragmentDirections.actionVillaDetailFragmentToUserProfileFragment(id)
-        Navigation.findNavController(view).navigate(action)
-    }
-
     override fun onResume() {
         super.onResume()
-        hideBottomNavigation(requireActivity())
+        hideHostBottomNavigation(requireActivity())
     }
 
     override fun onPause() {
         super.onPause()
-        showBottomNavigation(requireActivity())
+        showHostBottomNavigation(requireActivity())
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
-
 }

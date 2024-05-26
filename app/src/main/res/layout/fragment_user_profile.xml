@@ -204,7 +204,7 @@
 
                     <LinearLayout
                         android:paddingVertical="5dp"
-                        android:paddingHorizontal="10dp"
+                        android:paddingHorizontal="15dp"
                         android:id="@+id/layoutUserRating"
                         android:background="@drawable/rating_bg"
                         app:layout_constraintTop_toBottomOf="@+id/ivProfilePhoto"
@@ -221,8 +221,7 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/star"
-                            app:tint="@color/main_button_gb_color" />
+                            android:src="@drawable/star" />
 
                         <TextView
                             android:layout_marginStart="2dp"
@@ -230,7 +229,7 @@
                             android:layout_height="wrap_content"
                             android:text="@{rating}"
                             tools:text="0.0"
-                            android:textColor="@color/main_button_gb_color"
+                            android:textColor="#FFD700"
                             android:textSize="16sp" />
                     </LinearLayout>
 

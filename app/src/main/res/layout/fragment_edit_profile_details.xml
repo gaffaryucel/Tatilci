@@ -56,7 +56,6 @@
 
                         <ImageView
                             downloadImage="@{user.profileBannerUrl}"
-                            android:src="@drawable/app_logo"
                             android:scaleType="centerCrop"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -94,7 +93,6 @@
                             downloadImage="@{user.profileImageUrl}"
                             app:layout_constraintBottom_toBottomOf="@+id/ivUserBanner"
                             app:layout_constraintTop_toBottomOf="@+id/ivUserBanner"
-                            android:src="@drawable/default_user_icon"
                             android:id="@+id/ivUserProfilePhoto"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"

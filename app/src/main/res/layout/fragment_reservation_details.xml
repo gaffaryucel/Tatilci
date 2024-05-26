@@ -233,7 +233,6 @@
                         android:layout_height="60dp"
                         android:layout_gravity="center"
                         android:padding="1dp"
-                        android:src="@drawable/placeholder"
                         downloadImage="@{user.profileImageUrl}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

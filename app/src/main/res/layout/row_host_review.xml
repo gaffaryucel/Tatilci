@@ -10,6 +10,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        android:backgroundTint="@color/md_theme_surfaceContainer"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -35,7 +36,6 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/app_logo"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     downloadImage="@{review.userProfilePictureUrl}" />

@@ -152,7 +152,8 @@ class UserProfileFragment : Fragment() {
                 binding.rvComments.adapter = reviewAdapter
                 try {
                     val averageRating = calculateAverageRating(reviews)
-                    binding.rating = averageRating.toString()
+                    val formattedNumber = String.format("%.1f", averageRating)
+                    binding.rating = formattedNumber
                 }catch (e : Exception){
                     println("e : "+e.localizedMessage)
                 }

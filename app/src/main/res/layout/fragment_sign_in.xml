@@ -76,6 +76,7 @@
             android:hint="Şifre">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:inputType="textPassword"
                 android:background="@drawable/edit_text_bg"
                 android:textColor="@color/normal_text_color"
                 android:id="@+id/etPassworad"

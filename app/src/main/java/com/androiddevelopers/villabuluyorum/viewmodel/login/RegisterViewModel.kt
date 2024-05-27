@@ -43,9 +43,7 @@ constructor(
     fun signUp(
         email: String,
         password: String,
-        confirmPassword: String,
-        lat: Double,
-        long: Double
+        confirmPassword: String
     ) = viewModelScope.launch {
         _authState.value = Resource.loading(null)
         if (isInputValid(email, password, confirmPassword)) {
@@ -55,9 +53,7 @@ constructor(
                         val userId = firebaseAuth.currentUser?.uid ?: ""
                         createUser(
                             userId = userId,
-                            email = email,
-                            latitude = lat,
-                            longitude = long
+                            email = email
                         )
                         _authState.value = Resource.success(null)
                         verify()
@@ -76,18 +72,14 @@ constructor(
     private fun createUser(
         userId: String,
         email: String,
-        google: Boolean? = false,
-        latitude: Double,
-        longitude: Double
+        google: Boolean? = false
     ) = viewModelScope.launch {
         val tempUsername = email.substringBefore("@")
         val user = makeUser(
             userId,
             tempUsername,
             email,
-            userToken.value?.data.toString(),
-            latitude,
-            longitude
+            userToken.value?.data.toString()
         )
         firebaseRepo.addUserToFirestore(user)
             .addOnSuccessListener {
@@ -97,23 +89,15 @@ constructor(
                     _authState.value = Resource.success(true)
                 }
             }.addOnFailureListener { e ->
-                _authState.value =
-                    Resource.error(e.localizedMessage ?: "error : try again later", null)
+                _authState.value = Resource.error(e.localizedMessage ?: "error : try again later", null)
             }
     }
 
     private fun verify() = viewModelScope.launch {
-        val current = firebaseAuth.currentUser
-        current?.sendEmailVerification()?.addOnCompleteListener {
-            if (it.isSuccessful) {
-                _isVerificationEmailSent.value = Resource.success(it.isSuccessful)
-                firebaseAuth.signOut()
-            } else {
-                _isVerificationEmailSent.value =
-                    Resource.error(it.exception?.localizedMessage ?: "error", null)
-            }
-        }?.addOnFailureListener {
-            _isVerificationEmailSent.value = Resource.error(it.localizedMessage ?: "error", null)
+        val currentUser = firebaseAuth.currentUser
+        currentUser?.sendEmailVerification()?.addOnSuccessListener {
+            _isVerificationEmailSent.value = Resource.success()
+            firebaseAuth.signOut()
         }
     }
 
@@ -122,16 +106,13 @@ constructor(
         userName: String,
         email: String,
         token: String,
-        latitude: Double,
-        longitude: Double
+
     ): UserModel {
         return UserModel(
             userId = userId,
             username = userName,
             email = email,
-            token = token,
-            latitude = latitude,
-            longitude = longitude,
+            token = token
         )
     }
 
@@ -165,7 +146,7 @@ constructor(
         }
     }
 
-    fun signInWithGoogle(idToken: String?, lat: Double, long: Double) {
+    fun signInWithGoogle(idToken: String?) {
         _authState.value = Resource.loading(null)
         val cridential = GoogleAuthProvider.getCredential(idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(cridential).addOnCompleteListener {
@@ -176,9 +157,7 @@ constructor(
                         createUser(
                             userId = user.uid,
                             email = user.email.toString(),
-                            google = true,
-                            latitude = lat,
-                            longitude = long
+                            google = true
                         )
                     } else {
                         _authState.value = Resource.success(true)

@@ -1,14 +1,31 @@
 package com.androiddevelopers.villabuluyorum.view.user.villa
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.PopupWindow
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.androiddevelopers.villabuluyorum.R
@@ -19,11 +36,14 @@ import com.androiddevelopers.villabuluyorum.databinding.FragmentHomeBinding
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.androiddevelopers.villabuluyorum.util.Status
+import com.androiddevelopers.villabuluyorum.view.login.RegisterFragmentDirections
 import com.androiddevelopers.villabuluyorum.view.user.review.ReviewDialogFragment
 import com.androiddevelopers.villabuluyorum.viewmodel.user.villa.HomeViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -138,27 +158,38 @@ class HomeFragment : Fragment() {
 
         viewModel.currentUserData.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                latitude = user.latitude ?: 41.00527
-                longitude = user.longitude ?: 28.97696
-                location = MyLocation(latitude!!, longitude!!)
-                val closeVillasAdapter = HouseAdapter(location!!)
-                viewModel.closeVillas.observe(viewLifecycleOwner) { villas ->
-                    if (villas.isNotEmpty()) {
-                        binding.rvCloseHomes.adapter = closeVillasAdapter
-                        closeVillasAdapter.housesList = villas
-                        binding.pbHome.visibility = View.GONE
-                    } else {
-                        binding.pbHome.visibility = View.GONE
-                        binding.rvCloseHomes.visibility = View.GONE
-                        binding.tvEmptyList.visibility = View.VISIBLE
+                latitude = user.latitude
+                longitude = user.longitude
+                if (latitude != null && longitude != null){
+                    println("if (latitude != null")
+                    binding.tvNoLocation.visibility= View.GONE
+                    location = MyLocation(latitude!!, longitude!!)
+                    val closeVillasAdapter = HouseAdapter(location!!)
+                    viewModel.closeVillas.observe(viewLifecycleOwner) { villas ->
+                        if (villas.isNotEmpty()) {
+                            binding.rvCloseHomes.adapter = closeVillasAdapter
+                            closeVillasAdapter.housesList = villas
+                            binding.pbHome.visibility = View.GONE
+                        } else {
+                            binding.pbHome.visibility = View.GONE
+                            binding.rvCloseHomes.visibility = View.GONE
+                            binding.tvEmptyList.visibility = View.VISIBLE
+                        }
+                    }
+                }else{
+                    lifecycleScope.launch {
+                        binding.tvNoLocation.visibility = View.VISIBLE
+                        println("delay(500)")
+                        delay(500)
+                        showPopup()
                     }
                 }
+
                 if (user.notificationRead == false) {
                     binding.ivNotReadNotification.visibility = View.VISIBLE
                 } else {
                     binding.ivNotReadNotification.visibility = View.INVISIBLE
                 }
-
             }
         }
 
@@ -179,10 +210,22 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.notifyUser.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-                viewModel.resetNotifyMessage()
+            when(it.status){
+                Status.SUCCESS -> {
+                    println("notifyUser SUCCESS")
+                    Toast.makeText(requireContext(), "Konum Güncellendi", Toast.LENGTH_SHORT).show()
+                    viewModel.getCurrentUserData()
+                    viewModel.resetNotifyMessage()
+                }
+                Status.ERROR -> {
+                    println("ERROR")
+                    Toast.makeText(requireContext(), "Bir hata oluştu", Toast.LENGTH_SHORT).show()
+                }
+                Status.LOADING -> {
+
+                }
             }
+
         }
     }
 
@@ -243,16 +286,49 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-}
 
-/*
 
-    private fun requestGPSPermission(context: Context) {
-        //İzin istendiğini belirtiyoruz
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    private fun showPopup() {
+        val inflater = LayoutInflater.from(requireContext())
+        val popupView = inflater.inflate(R.layout.fragment_location_selection, null)
+        val popupWindow = PopupWindow(
+            popupView,
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.popup_anim)
+        popupWindow.animationStyle = android.R.style.Animation_Dialog
+        popupWindow.contentView.startAnimation(animation)
+
+        popupWindow.showAtLocation(
+            requireActivity().findViewById(R.id.nav_host_fragment_activity_bottom_navigation),
+            Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL,
+            0,
+            0
+        )
+        val option1 = popupView.findViewById<Button>(R.id.enableLocationButton)
+        val option2 = popupView.findViewById<TextView>(R.id.noThanks)
+        option1.setOnClickListener {
+            checkAndRequestGPSPermission()
+            popupWindow.dismiss()
+        }
+        option2.setOnClickListener {
+            viewModel.updateUserLocation(41.0369, 28.9858)
+            Toast.makeText(requireContext(), "konumunuz geçici olarak İstanbul olarak ayarlanmıştır", Toast.LENGTH_SHORT).show()
+            popupWindow.dismiss()
+        }
+    }
+
+    private fun checkAndRequestGPSPermission() {
+        println("checkAndRequestGPSPermission")
+        val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
         if (!isGPSEnabled) {
+            println("if (!isGPSEnabled) {")
             val alertDialogBuilder = AlertDialog.Builder(context)
             alertDialogBuilder.setTitle("GPS Ayarları")
             alertDialogBuilder.setMessage("GPS ayarları kapalı. Ayarlara gidip açmak ister misiniz?")
@@ -260,21 +336,22 @@ class HomeFragment : Fragment() {
                 // Kullanıcı Evet'i seçti, GPS ayarlarını açmak için ayarlara yönlendir
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(intent)
+                context?.startActivity(intent)
             }
             alertDialogBuilder.setNegativeButton("Hayır") { dialog, _ ->
                 // Kullanıcı Hayır'ı seçti, işlemi iptal et
                 dialog.dismiss()
-                setPermissionRequestValue(true)
             }
             val dialog = alertDialogBuilder.create()
             dialog.show()
         } else {
+            println("else : getLastKnownLocation")
             getLastKnownLocation()
         }
     }
 
     private fun getLastKnownLocation() = lifecycleScope.launch {
+        println("getLastKnownLocation")
         delay(500)
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -285,6 +362,7 @@ class HomeFragment : Fragment() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            println("if (ActivityCompat.checkSelfPermission(")
             // İzin yoksa izin iste
             ActivityCompat.requestPermissions(
                 requireActivity(),
@@ -293,32 +371,16 @@ class HomeFragment : Fragment() {
             )
             return@launch
         }
-        fusedLocationClient.lastLocation.addOnSuccessListener {
-            it?.let {
-                latitude = it.latitude
-                longitude = it.longitude
-                viewModel.updateUserLocation(
-                    latitude,
-                    longitude
-                )
+        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                latitude = location.latitude
+                longitude = location.longitude
+                viewModel.updateUserLocation(latitude, longitude)
+            } else {
+                Toast.makeText(requireContext(), "Konum bilgisi alınamıyor", Toast.LENGTH_SHORT).show()
             }
         }.addOnFailureListener {
-            println("error : " + fusedLocationClient)
+            Toast.makeText(requireContext(), "Konum bilgisi alınamıyor", Toast.LENGTH_SHORT).show()
         }
-        setPermissionRequestValue(true)
-
     }
-
-    private fun setPermissionRequestValue(value: Boolean) {
-        val sharedPrefs: SharedPreferences = requireContext().getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPrefs.edit()
-        editor.putBoolean(KEY_VALUE, value)
-        editor.apply()
-    }
-
-    private fun isPermissionRequested(): Boolean {
-        val sharedPrefs: SharedPreferences = requireContext().getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
-        return sharedPrefs.getBoolean(KEY_VALUE, false)
-    }
-
- */
+}

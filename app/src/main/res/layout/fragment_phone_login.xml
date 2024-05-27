@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/app_bg_color"
     tools:context=".view.login.PhoneLoginFragment">
 
     <LinearLayout
@@ -15,24 +14,63 @@
         android:layout_marginTop="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/ivNum1"
-            android:layout_margin="10dp"
-            android:src="@drawable/number_1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"/>
-        <ImageView
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:id="@+id/ivNum1"
+           android:layout_margin="10dp"
+           android:layout_width="50dp"
+           android:layout_height="50dp"
+          >
+           <de.hdodenhof.circleimageview.CircleImageView
+               android:src="@color/main_button_gb_color"
+               android:layout_width="50dp"
+               android:layout_height="50dp"/>
+           <TextView
+               android:textAlignment="center"
+               android:gravity="center"
+               android:textColor="@color/white"
+               android:textSize="24sp"
+               android:text="1"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"/>
+       </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ivNum2"
             android:layout_margin="10dp"
-            android:src="@drawable/num_2"
             android:layout_width="50dp"
-            android:layout_height="50dp"/>
-        <ImageView
+            android:layout_height="50dp"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:src="@color/md_theme_surfaceContainer"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <TextView
+                android:textAlignment="center"
+                android:gravity="center"
+                android:textColor="@color/main_button_gb_color"
+                android:textSize="24sp"
+                android:text="2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ivNum3"
             android:layout_margin="10dp"
-            android:src="@drawable/num_3"
             android:layout_width="50dp"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:src="@color/md_theme_surfaceContainer"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <TextView
+                android:textAlignment="center"
+                android:gravity="center"
+                android:textColor="@color/main_button_gb_color"
+                android:textSize="24sp"
+                android:text="3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
     <ImageView
         android:layout_marginBottom="50dp"
@@ -54,7 +92,7 @@
         android:src="@drawable/baseline_arrow_back_ios_24"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:tint="@color/normal_text_color" />
+        app:tint="@color/main_button_gb_color" />
 
     <LinearLayout
         android:id="@+id/layout_phone"
@@ -116,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:text="gönder"
                 style="@style/MainButtonStyle"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:elevation="20sp"
                 android:layout_gravity="center"
                 android:gravity="center"

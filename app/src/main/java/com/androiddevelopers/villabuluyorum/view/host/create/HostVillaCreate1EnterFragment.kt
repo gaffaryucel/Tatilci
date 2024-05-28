@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
-import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreateEnterBinding
+import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreate1EnterBinding
 import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
 import com.androiddevelopers.villabuluyorum.model.PropertyType
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
@@ -23,7 +23,7 @@ import java.util.*
 @AndroidEntryPoint
 class HostVillaCreate1EnterFragment : Fragment() {
     private val viewModel: HostVillaCreateBaseViewModel by viewModels()
-    private var _binding: FragmentHostVillaCreateEnterBinding? = null
+    private var _binding: FragmentHostVillaCreate1EnterBinding? = null
     private val binding get() = _binding!!
 
     private var selectedPropertyStatus = false
@@ -33,7 +33,7 @@ class HostVillaCreate1EnterFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val args: HostVillaCreateEnterFragmentArgs by navArgs()
+        val args: HostVillaCreate1EnterFragmentArgs by navArgs()
         createVillaPageArguments = args.createVillaPageArguments
         viewModel.setCreateVillaPageArguments(createVillaPageArguments)
     }
@@ -41,7 +41,7 @@ class HostVillaCreate1EnterFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHostVillaCreateEnterBinding.inflate(inflater, container, false)
+        _binding = FragmentHostVillaCreate1EnterBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -53,7 +53,7 @@ class HostVillaCreate1EnterFragment : Fragment() {
 
         binding.buttonNextVillaCreatePage1.setOnClickListener {
             val directions =
-                HostVillaCreateEnterFragmentDirections.actionNavigationHostVillaCreateEnterToHostVillaCreateFragment(
+                HostVillaCreate1EnterFragmentDirections.actionNavigationHostVillaCreateEnterToHostVillaCreateFragment(
                     CreateVillaPageArguments(
                         coverImage = null, otherImages = mutableListOf(), villa = Villa()
                     )

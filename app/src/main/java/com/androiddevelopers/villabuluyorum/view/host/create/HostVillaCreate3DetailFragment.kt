@@ -14,7 +14,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
-import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreateDetailBinding
+import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreate3DetailBinding
 import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.Status
@@ -28,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HostVillaCreate3DetailFragment : Fragment() {
     private val viewModel: HostVillaCreateBaseViewModel by viewModels()
-    private var _binding: FragmentHostVillaCreateDetailBinding? = null
+    private var _binding: FragmentHostVillaCreate3DetailBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var errorDialog: AlertDialog
@@ -42,7 +42,7 @@ class HostVillaCreate3DetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val args: HostVillaCreateDetailFragmentArgs by navArgs()
+        val args: HostVillaCreate3DetailFragmentArgs by navArgs()
         createVillaPageArguments = args.createVillaPageArguments
         viewModel.setCreateVillaPageArguments(createVillaPageArguments)
 
@@ -62,7 +62,7 @@ class HostVillaCreate3DetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHostVillaCreateDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentHostVillaCreate3DetailBinding.inflate(inflater, container, false)
 
         setClickItems()
 
@@ -97,7 +97,7 @@ class HostVillaCreate3DetailFragment : Fragment() {
                     when (it.status) {
                         Status.SUCCESS -> {
                             val directions =
-                                HostVillaCreateFragmentDirections.actionGlobalNavigationHostProfile()
+                                HostVillaCreate3DetailFragmentDirections.actionGlobalNavigationHostProfile()
                             Navigation
                                 .findNavController(binding.root)
                                 .navigate(directions)
@@ -134,7 +134,7 @@ class HostVillaCreate3DetailFragment : Fragment() {
             buttonNextVillaCreatePage3.setOnClickListener {
                 createVillaPageArguments.villa = updateVilla(villaFromArgs)
                 val directions =
-                    HostVillaCreateDetailFragmentDirections.actionHostVillaCreateDetailFragmentToHostVillaCreateFacilitiesFragment(
+                    HostVillaCreate3DetailFragmentDirections.actionHostVillaCreateDetailFragmentToHostVillaCreateFacilitiesFragment(
                         createVillaPageArguments
                     )
                 Navigation

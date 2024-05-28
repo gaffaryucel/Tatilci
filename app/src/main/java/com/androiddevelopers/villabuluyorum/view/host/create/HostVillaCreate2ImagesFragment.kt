@@ -27,7 +27,7 @@ import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.adapter.ViewPagerAdapterForVillaCreate
 import com.androiddevelopers.villabuluyorum.adapter.downloadImage
-import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreateBinding
+import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreate2ImagesBinding
 import com.androiddevelopers.villabuluyorum.databinding.MergeItemCoverImageOnlyTitleLocationBinding
 import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
 import com.androiddevelopers.villabuluyorum.model.provinces.District
@@ -48,7 +48,7 @@ import java.util.*
 @AndroidEntryPoint
 class HostVillaCreate2ImagesFragment : Fragment() {
     private val viewModel: HostVillaCreateBaseViewModel by viewModels()
-    private var _binding: FragmentHostVillaCreateBinding? = null
+    private var _binding: FragmentHostVillaCreate2ImagesBinding? = null
     private val binding get() = _binding!!
 
     private var _mergeBinding: MergeItemCoverImageOnlyTitleLocationBinding? = null
@@ -76,7 +76,7 @@ class HostVillaCreate2ImagesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val args: HostVillaCreateFragmentArgs by navArgs()
+        val args: HostVillaCreate2ImagesFragmentArgs by navArgs()
         createVillaPageArguments = args.createVillaPageArguments
         viewModel.setCreateVillaPageArguments(createVillaPageArguments)
     }
@@ -84,7 +84,7 @@ class HostVillaCreate2ImagesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHostVillaCreateBinding.inflate(inflater, container, false)
+        _binding = FragmentHostVillaCreate2ImagesBinding.inflate(inflater, container, false)
         _mergeBinding = MergeItemCoverImageOnlyTitleLocationBinding.bind(binding.root)
 
         setDropdownItems()
@@ -175,7 +175,7 @@ class HostVillaCreate2ImagesFragment : Fragment() {
                     when (it.status) {
                         Status.SUCCESS -> {
                             val directions =
-                                HostVillaCreateFragmentDirections.actionGlobalNavigationHostProfile()
+                                HostVillaCreate2ImagesFragmentDirections.actionGlobalNavigationHostProfile()
                             Navigation
                                 .findNavController(binding.root)
                                 .navigate(directions)
@@ -317,7 +317,7 @@ class HostVillaCreate2ImagesFragment : Fragment() {
                 createVillaPageArguments.villa = createVilla(villaFromArgs)
 
                 val directions =
-                    HostVillaCreateFragmentDirections.actionHostVillaCreateFragmentToHostVillaCreateDetailFragment(
+                    HostVillaCreate2ImagesFragmentDirections.actionHostVillaCreateFragmentToHostVillaCreateDetailFragment(
                         createVillaPageArguments
                     )
                 Navigation

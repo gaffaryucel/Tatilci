@@ -14,7 +14,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
-import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreateFacilitiesBinding
+import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreate4FacilitiesBinding
 import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
 import com.androiddevelopers.villabuluyorum.model.villa.Facilities
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
@@ -29,7 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HostVillaCreate4FacilitiesFragment : Fragment() {
     private val viewModel: HostVillaCreateBaseViewModel by viewModels()
-    private var _binding: FragmentHostVillaCreateFacilitiesBinding? = null
+    private var _binding: FragmentHostVillaCreate4FacilitiesBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var errorDialog: AlertDialog
@@ -42,7 +42,7 @@ class HostVillaCreate4FacilitiesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val args: HostVillaCreateFacilitiesFragmentArgs by navArgs()
+        val args: HostVillaCreate4FacilitiesFragmentArgs by navArgs()
         createVillaPageArguments = args.createVillaPageArguments
         viewModel.setCreateVillaPageArguments(createVillaPageArguments)
 
@@ -61,7 +61,7 @@ class HostVillaCreate4FacilitiesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHostVillaCreateFacilitiesBinding.inflate(inflater, container, false)
+        _binding = FragmentHostVillaCreate4FacilitiesBinding.inflate(inflater, container, false)
 
         setClickItems()
 
@@ -114,40 +114,40 @@ class HostVillaCreate4FacilitiesFragment : Fragment() {
         with(binding) {
             with(resources) {
                 getStringArray(R.array.landscape).forEach {
-                        chipGroupLandscape.addView(setChip(it))
-                    }
+                    chipGroupLandscape.addView(setChip(it))
+                }
 
                 getStringArray(R.array.bath).forEach {
-                        chipGroupBath.addView(setChip(it))
-                    }
+                    chipGroupBath.addView(setChip(it))
+                }
 
                 getStringArray(R.array.bedroom).forEach {
-                        chipGroupBedroom.addView(setChip(it))
-                    }
+                    chipGroupBedroom.addView(setChip(it))
+                }
 
                 getStringArray(R.array.entertainment).forEach {
-                        chipGroupEntertainment.addView(setChip(it))
-                    }
+                    chipGroupEntertainment.addView(setChip(it))
+                }
 
                 getStringArray(R.array.heating_cooling).forEach {
-                        chipGroupHeatingCooling.addView(setChip(it))
-                    }
+                    chipGroupHeatingCooling.addView(setChip(it))
+                }
 
                 getStringArray(R.array.kitchen_food).forEach {
-                        chipGroupKitchenFood.addView(setChip(it))
-                    }
+                    chipGroupKitchenFood.addView(setChip(it))
+                }
 
                 getStringArray(R.array.location_features).forEach {
-                        chipGroupLocationFeatures.addView(setChip(it))
-                    }
+                    chipGroupLocationFeatures.addView(setChip(it))
+                }
 
                 getStringArray(R.array.outdoor).forEach {
-                        chipGroupOutdoor.addView(setChip(it))
-                    }
+                    chipGroupOutdoor.addView(setChip(it))
+                }
 
                 getStringArray(R.array.services).forEach {
-                        chipGroupServices.addView(setChip(it))
-                    }
+                    chipGroupServices.addView(setChip(it))
+                }
             }
         }
     }

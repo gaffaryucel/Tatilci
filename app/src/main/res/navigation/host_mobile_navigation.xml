@@ -185,6 +185,10 @@
         <argument
             android:name="createVillaPageArguments"
             app:argType="com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments" />
+        <argument
+            android:name="villaId"
+            app:argType="string"
+            app:nullable="true" />
         <action
             android:id="@+id/action_hostVillaCreateFragment_to_hostVillaCreateDetailFragment"
             app:destination="@id/hostVillaCreateDetailFragment"
@@ -211,6 +215,10 @@
         <argument
             android:name="createVillaPageArguments"
             app:argType="com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments" />
+        <argument
+            android:name="villaId"
+            app:argType="string"
+            app:nullable="true" />
         <action
             android:id="@+id/action_hostVillaCreateFacilitiesFragment_to_navigation_host_villa_create_enter"
             app:destination="@id/hostVillaCreateEnterFragment"
@@ -236,6 +244,10 @@
         <argument
             android:name="createVillaPageArguments"
             app:argType="com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments" />
+        <argument
+            android:name="villaId"
+            app:argType="string"
+            app:nullable="true" />
         <action
             android:id="@+id/action_hostVillaCreateDetailFragment_to_navigation_host_villa_create_enter"
             app:destination="@id/hostVillaCreateEnterFragment"

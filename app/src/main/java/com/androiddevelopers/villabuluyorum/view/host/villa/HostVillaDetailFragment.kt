@@ -34,13 +34,15 @@ class HostVillaDetailFragment : Fragment() {
         ViewPagerAdapterForVillaDetail()
     }
 
+    private var villaId: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val args: HostVillaDetailFragmentArgs by navArgs()
-        val id = args.villaId
+        villaId = args.villaId
 
-        viewModel.getVillaByIdFromFirestore(id)
+        viewModel.getVillaByIdFromFirestore(villaId!!)
     }
 
     override fun onCreateView(
@@ -65,9 +67,14 @@ class HostVillaDetailFragment : Fragment() {
     private fun setClickItems() {
         with(binding) {
             imageEdit.setOnClickListener {
-                val directions =
-                    HostVillaDetailFragmentDirections.actionHostVillaDetailFragmentToNavigationHostVillaCreateEnter()
-                Navigation.findNavController(binding.root).navigate(directions)
+                villaId?.let { id ->
+                    val directions =
+                        HostVillaDetailFragmentDirections.actionHostVillaDetailFragmentToHostVillaCreateEnterFragment(
+                            id
+                        )
+                    Navigation.findNavController(binding.root).navigate(directions)
+                }
+
             }
         }
     }

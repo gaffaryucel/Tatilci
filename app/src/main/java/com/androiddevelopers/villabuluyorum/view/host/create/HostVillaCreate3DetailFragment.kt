@@ -32,6 +32,8 @@ class HostVillaCreate3DetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var errorDialog: AlertDialog
+
+    private var villaId: String? = null
     private lateinit var villaFromArgs: Villa
     private lateinit var createVillaPageArguments: CreateVillaPageArguments
 
@@ -45,6 +47,8 @@ class HostVillaCreate3DetailFragment : Fragment() {
         val args: HostVillaCreate3DetailFragmentArgs by navArgs()
         createVillaPageArguments = args.createVillaPageArguments
         viewModel.setCreateVillaPageArguments(createVillaPageArguments)
+
+        villaId = args.villaId
 
         //Telefon geri tuşunu dinliyoruz
         requireActivity().onBackPressedDispatcher.addCallback(this) {
@@ -135,7 +139,7 @@ class HostVillaCreate3DetailFragment : Fragment() {
                 createVillaPageArguments.villa = updateVilla(villaFromArgs)
                 val directions =
                     HostVillaCreate3DetailFragmentDirections.actionHostVillaCreateDetailFragmentToHostVillaCreateFacilitiesFragment(
-                        createVillaPageArguments
+                        createVillaPageArguments, villaId
                     )
                 Navigation
                     .findNavController(it)

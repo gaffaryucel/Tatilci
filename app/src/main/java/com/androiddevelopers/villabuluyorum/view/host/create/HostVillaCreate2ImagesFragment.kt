@@ -65,7 +65,11 @@ class HostVillaCreate2ImagesFragment : Fragment() {
     private val selectedOtherImages = mutableListOf<Uri>()
     private lateinit var otherImageLauncher: ActivityResultLauncher<Intent>
 
-    private lateinit var errorDialog: AlertDialog
+    private val errorDialog: AlertDialog by lazy {
+        AlertDialog
+            .Builder(requireContext())
+            .create()
+    }
 
     private var selectedLongitude: Double? = null
     private var selectedLatitude: Double? = null
@@ -91,10 +95,7 @@ class HostVillaCreate2ImagesFragment : Fragment() {
         setClickItems()
         viewModel.getAllProvince()
 
-        errorDialog = AlertDialog
-            .Builder(requireContext())
-            .create()
-        setupDialogs(errorDialog)
+
 
         return binding.root
     }
@@ -173,19 +174,14 @@ class HostVillaCreate2ImagesFragment : Fragment() {
             with(viewModel) {
                 liveDataFirebaseStatus.observe(owner) {
                     when (it.status) {
-                        Status.SUCCESS -> {
-                            val directions =
-                                HostVillaCreate2ImagesFragmentDirections.actionGlobalNavigationHostProfile()
-                            Navigation
-                                .findNavController(binding.root)
-                                .navigate(directions)
-                        }
+                        Status.SUCCESS -> {}
 
                         Status.LOADING -> it.data?.let { status ->
                             setProgressBarVisibility = status
                         }
 
                         Status.ERROR   -> {
+                            setupDialogs(errorDialog)
                             errorDialog.setMessage("Hata mesajı:\n${it.message}")
                             errorDialog.show()
                         }

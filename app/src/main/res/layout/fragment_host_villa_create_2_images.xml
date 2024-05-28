@@ -19,6 +19,9 @@
             name="setViewPagerVisibility"
             type="Boolean" />
 
+        <variable
+            name="villaId"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,8 +41,9 @@
             app:navigationIcon="@drawable/baseline_close_24"
             app:subtitle="Sayfa 2/4"
             app:subtitleTextColor="@color/white"
-            app:title="İlan Oluştur"
-            app:titleTextColor="@color/white" />
+            app:title="@{villaId == null ? `İlan Oluştur` : `İlan Düzenle`}"
+            app:titleTextColor="@color/white"
+            tools:title="İlan Oluştur / Düzenle" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progressBarVillaCreate"

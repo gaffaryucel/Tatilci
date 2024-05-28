@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @Suppress("UNUSED_ANONYMOUS_PARAMETER")
 @AndroidEntryPoint
-class HostVillaCreateDetailFragment : Fragment() {
+class HostVillaCreate3DetailFragment : Fragment() {
     private val viewModel: HostVillaCreateBaseViewModel by viewModels()
     private var _binding: FragmentHostVillaCreateDetailBinding? = null
     private val binding get() = _binding!!
@@ -52,8 +52,7 @@ class HostVillaCreateDetailFragment : Fragment() {
             val navController = findNavController()
             createVillaPageArguments.villa = updateVilla(villaFromArgs)
             navController.previousBackStackEntry?.savedStateHandle?.set(
-                "createVillaPageArgumentsToBack",
-                createVillaPageArguments
+                "createVillaPageArgumentsToBack", createVillaPageArguments
             )
             navController.popBackStack()
         }
@@ -61,14 +60,15 @@ class HostVillaCreateDetailFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHostVillaCreateDetailBinding.inflate(inflater, container, false)
 
         setClickItems()
 
-        errorDialog = AlertDialog.Builder(requireContext()).create()
+        errorDialog = AlertDialog
+            .Builder(requireContext())
+            .create()
         setupDialogs(errorDialog)
 
         return binding.root
@@ -82,9 +82,7 @@ class HostVillaCreateDetailFragment : Fragment() {
 
         //geri tuşuna basıldığında sonraki sayfadan gelen argümanı yakalıyoruz
         val navController = findNavController()
-        navController
-            .currentBackStackEntry
-            ?.savedStateHandle
+        navController.currentBackStackEntry?.savedStateHandle
             ?.getLiveData<CreateVillaPageArguments>("createVillaPageArgumentsToBack")
             ?.observe(viewLifecycleOwner) { data ->
                 createVillaPageArguments = data
@@ -100,14 +98,16 @@ class HostVillaCreateDetailFragment : Fragment() {
                         Status.SUCCESS -> {
                             val directions =
                                 HostVillaCreateFragmentDirections.actionGlobalNavigationHostProfile()
-                            Navigation.findNavController(binding.root).navigate(directions)
+                            Navigation
+                                .findNavController(binding.root)
+                                .navigate(directions)
                         }
 
                         Status.LOADING -> it.data?.let { status ->
                             setProgressBarVisibility = status
                         }
 
-                        Status.ERROR -> {
+                        Status.ERROR   -> {
                             errorDialog.setMessage("Hata mesajı:\n${it.message}")
                             errorDialog.show()
                         }
@@ -125,7 +125,8 @@ class HostVillaCreateDetailFragment : Fragment() {
     private fun setClickItems() {
         with(binding) {
             toolbarVillaCreate.setNavigationOnClickListener {
-                Navigation.findNavController(it)
+                Navigation
+                    .findNavController(it)
                     .navigate(R.id.action_hostVillaCreateDetailFragment_to_navigation_host_villa_create_enter)
                 showHostBottomNavigation(requireActivity())
             }
@@ -136,7 +137,9 @@ class HostVillaCreateDetailFragment : Fragment() {
                     HostVillaCreateDetailFragmentDirections.actionHostVillaCreateDetailFragmentToHostVillaCreateFacilitiesFragment(
                         createVillaPageArguments
                     )
-                Navigation.findNavController(it).navigate(directions)
+                Navigation
+                    .findNavController(it)
+                    .navigate(directions)
             }
         }
     }
@@ -175,18 +178,31 @@ class HostVillaCreateDetailFragment : Fragment() {
     private fun updateVilla(villa: Villa): Villa {
         with(binding) {
             with(villa) {
-                capacity = dropdownCapacityVillaCreate.text.toString().toIntOrNull() ?: 0
-                bedroomCount = dropdownBedroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
-                bedCount = dropdownBedCountVillaCreate.text.toString().toIntOrNull() ?: 0
-                bathroomCount = dropdownBathroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
-                restroom = dropdownRestroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
-                minStayDuration =
-                    dropdownMinStayDurationVillaCreate.text.toString().toIntOrNull() ?: 0
+                capacity = dropdownCapacityVillaCreate.text
+                    .toString()
+                    .toIntOrNull() ?: 0
+                bedroomCount = dropdownBedroomCountVillaCreate.text
+                    .toString()
+                    .toIntOrNull() ?: 0
+                bedCount = dropdownBedCountVillaCreate.text
+                    .toString()
+                    .toIntOrNull() ?: 0
+                bathroomCount = dropdownBathroomCountVillaCreate.text
+                    .toString()
+                    .toIntOrNull() ?: 0
+                restroom = dropdownRestroomCountVillaCreate.text
+                    .toString()
+                    .toIntOrNull() ?: 0
+                minStayDuration = dropdownMinStayDurationVillaCreate.text
+                    .toString()
+                    .toIntOrNull() ?: 0
                 hasWifi = selectedHasWifi
                 hasPool = selectedHasPool
                 isQuietArea = selectedHasQuietArea
                 interiorDesign = editTextInteriorDesignVillaCreate.text.toString()
-                gardenArea = editTextGardenAreaVillaCreate.text.toString().toDoubleOrNull() ?: 0.0
+                gardenArea = editTextGardenAreaVillaCreate.text
+                    .toString()
+                    .toDoubleOrNull() ?: 0.0
             }
         }
 

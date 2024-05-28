@@ -27,7 +27,7 @@ import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HostVillaCreateFacilitiesFragment : Fragment() {
+class HostVillaCreate4FacilitiesFragment : Fragment() {
     private val viewModel: HostVillaCreateBaseViewModel by viewModels()
     private var _binding: FragmentHostVillaCreateFacilitiesBinding? = null
     private val binding get() = _binding!!
@@ -52,22 +52,22 @@ class HostVillaCreateFacilitiesFragment : Fragment() {
             val navController = findNavController()
             createVillaPageArguments.villa = updateVilla(villaFromArgs)
             navController.previousBackStackEntry?.savedStateHandle?.set(
-                "createVillaPageArgumentsToBack",
-                createVillaPageArguments
+                "createVillaPageArgumentsToBack", createVillaPageArguments
             )
             navController.popBackStack()
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHostVillaCreateFacilitiesBinding.inflate(inflater, container, false)
 
         setClickItems()
 
-        errorDialog = AlertDialog.Builder(requireContext()).create()
+        errorDialog = AlertDialog
+            .Builder(requireContext())
+            .create()
         setupDialogs(errorDialog)
 
         return binding.root
@@ -97,16 +97,15 @@ class HostVillaCreateFacilitiesFragment : Fragment() {
 
             buttonSaveVillaCreatePage4.setOnClickListener {
                 viewModel.addImagesAndVillaToFirebase(
-                    selectedCoverImage,
-                    selectedOtherImages,
-                    villaFromArgs
+                    selectedCoverImage, selectedOtherImages, villaFromArgs
                 )
             }
         }
     }
 
     private fun gotoHostHome() {
-        Navigation.findNavController(binding.root)
+        Navigation
+            .findNavController(binding.root)
             .navigate(R.id.action_global_navigation_host_villa)
         showHostBottomNavigation(requireActivity())
     }
@@ -114,48 +113,39 @@ class HostVillaCreateFacilitiesFragment : Fragment() {
     private fun setViewChips() {
         with(binding) {
             with(resources) {
-                getStringArray(R.array.landscape)
-                    .forEach {
+                getStringArray(R.array.landscape).forEach {
                         chipGroupLandscape.addView(setChip(it))
                     }
 
-                getStringArray(R.array.bath)
-                    .forEach {
+                getStringArray(R.array.bath).forEach {
                         chipGroupBath.addView(setChip(it))
                     }
 
-                getStringArray(R.array.bedroom)
-                    .forEach {
+                getStringArray(R.array.bedroom).forEach {
                         chipGroupBedroom.addView(setChip(it))
                     }
 
-                getStringArray(R.array.entertainment)
-                    .forEach {
+                getStringArray(R.array.entertainment).forEach {
                         chipGroupEntertainment.addView(setChip(it))
                     }
 
-                getStringArray(R.array.heating_cooling)
-                    .forEach {
+                getStringArray(R.array.heating_cooling).forEach {
                         chipGroupHeatingCooling.addView(setChip(it))
                     }
 
-                getStringArray(R.array.kitchen_food)
-                    .forEach {
+                getStringArray(R.array.kitchen_food).forEach {
                         chipGroupKitchenFood.addView(setChip(it))
                     }
 
-                getStringArray(R.array.location_features)
-                    .forEach {
+                getStringArray(R.array.location_features).forEach {
                         chipGroupLocationFeatures.addView(setChip(it))
                     }
 
-                getStringArray(R.array.outdoor)
-                    .forEach {
+                getStringArray(R.array.outdoor).forEach {
                         chipGroupOutdoor.addView(setChip(it))
                     }
 
-                getStringArray(R.array.services)
-                    .forEach {
+                getStringArray(R.array.services).forEach {
                         chipGroupServices.addView(setChip(it))
                     }
             }
@@ -254,7 +244,7 @@ class HostVillaCreateFacilitiesFragment : Fragment() {
                             setProgressBarVisibility = status
                         }
 
-                        Status.ERROR -> {
+                        Status.ERROR   -> {
                             errorDialog.setMessage("Hata mesajı:\n${it.message}")
                             errorDialog.show()
                         }

@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreateEnterBinding
 import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
@@ -14,17 +16,27 @@ import com.androiddevelopers.villabuluyorum.model.PropertyType
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.showHostBottomNavigation
+import com.androiddevelopers.villabuluyorum.viewmodel.host.create.HostVillaCreateBaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class HostVillaCreateEnterFragment : Fragment() {
-    //private val viewModel: HostVillaCreateBaseViewModel by viewModels()
+class HostVillaCreate1EnterFragment : Fragment() {
+    private val viewModel: HostVillaCreateBaseViewModel by viewModels()
     private var _binding: FragmentHostVillaCreateEnterBinding? = null
     private val binding get() = _binding!!
 
     private var selectedPropertyStatus = false
     private var selectedPropertyType = PropertyType.HOUSE
+
+    private lateinit var createVillaPageArguments: CreateVillaPageArguments
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val args: HostVillaCreateEnterFragmentArgs by navArgs()
+        createVillaPageArguments = args.createVillaPageArguments
+        viewModel.setCreateVillaPageArguments(createVillaPageArguments)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -46,14 +58,18 @@ class HostVillaCreateEnterFragment : Fragment() {
                         coverImage = null, otherImages = mutableListOf(), villa = Villa()
                     )
                 )
-            Navigation.findNavController(it).navigate(directions)
+            Navigation
+                .findNavController(it)
+                .navigate(directions)
         }
     }
 
     private fun setClickItems() {
         with(binding) {
             toolbarVillaCreate.setNavigationOnClickListener {
-                Navigation.findNavController(binding.root).popBackStack()
+                Navigation
+                    .findNavController(binding.root)
+                    .popBackStack()
             }
 
 
@@ -132,7 +148,9 @@ class HostVillaCreateEnterFragment : Fragment() {
 
     private fun createVilla(villa: Villa): Villa {
         if (villa.villaId == null) {
-            villa.villaId = UUID.randomUUID().toString()
+            villa.villaId = UUID
+                .randomUUID()
+                .toString()
         }
 
         villa.apply {

@@ -46,7 +46,7 @@ import java.util.*
 
 @Suppress("UNUSED_ANONYMOUS_PARAMETER")
 @AndroidEntryPoint
-class HostVillaCreateFragment : Fragment() {
+class HostVillaCreate2ImagesFragment : Fragment() {
     private val viewModel: HostVillaCreateBaseViewModel by viewModels()
     private var _binding: FragmentHostVillaCreateBinding? = null
     private val binding get() = _binding!!
@@ -82,8 +82,7 @@ class HostVillaCreateFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHostVillaCreateBinding.inflate(inflater, container, false)
         _mergeBinding = MergeItemCoverImageOnlyTitleLocationBinding.bind(binding.root)
@@ -92,7 +91,9 @@ class HostVillaCreateFragment : Fragment() {
         setClickItems()
         viewModel.getAllProvince()
 
-        errorDialog = AlertDialog.Builder(requireContext()).create()
+        errorDialog = AlertDialog
+            .Builder(requireContext())
+            .create()
         setupDialogs(errorDialog)
 
         return binding.root
@@ -114,7 +115,8 @@ class HostVillaCreateFragment : Fragment() {
             indicatorVillaCreate.setViewPager(viewPagerVillaCreate)
 
             toolbarVillaCreate.setNavigationOnClickListener {
-                Navigation.findNavController(it)
+                Navigation
+                    .findNavController(it)
                     .navigate(R.id.action_hostVillaCreateFragment_to_navigation_host_villa_create_enter)
             }
         }
@@ -129,9 +131,7 @@ class HostVillaCreateFragment : Fragment() {
 
         //geri tuşuna basıldığında sonraki sayfadan gelen argümanı yakalıyoruz
         val navController = findNavController()
-        navController
-            .currentBackStackEntry
-            ?.savedStateHandle
+        navController.currentBackStackEntry?.savedStateHandle
             ?.getLiveData<CreateVillaPageArguments>("createVillaPageArgumentsToBack")
             ?.observe(viewLifecycleOwner) { data ->
                 createVillaPageArguments = data
@@ -141,7 +141,9 @@ class HostVillaCreateFragment : Fragment() {
 
     private fun createVilla(villa: Villa): Villa {
         if (villa.villaId == null) {
-            villa.villaId = UUID.randomUUID().toString()
+            villa.villaId = UUID
+                .randomUUID()
+                .toString()
             villa.time = getCurrentTime()
         }
 
@@ -155,7 +157,9 @@ class HostVillaCreateFragment : Fragment() {
                 locationNeighborhoodOrVillage =
                     dropdownNeighborhoodAndVillageVillaCreate.text.toString()
                 locationAddress = editTextAddressVillaCreate.text.toString()
-                nightlyRate = editTextNightlyRateVillaCreate.text.toString().toDoubleOrNull() ?: 0.0
+                nightlyRate = editTextNightlyRateVillaCreate.text
+                    .toString()
+                    .toDoubleOrNull() ?: 0.0
                 longitude = selectedLongitude
                 latitude = selectedLatitude
             }
@@ -172,14 +176,16 @@ class HostVillaCreateFragment : Fragment() {
                         Status.SUCCESS -> {
                             val directions =
                                 HostVillaCreateFragmentDirections.actionGlobalNavigationHostProfile()
-                            Navigation.findNavController(binding.root).navigate(directions)
+                            Navigation
+                                .findNavController(binding.root)
+                                .navigate(directions)
                         }
 
                         Status.LOADING -> it.data?.let { status ->
                             setProgressBarVisibility = status
                         }
 
-                        Status.ERROR -> {
+                        Status.ERROR   -> {
                             errorDialog.setMessage("Hata mesajı:\n${it.message}")
                             errorDialog.show()
                         }
@@ -314,7 +320,9 @@ class HostVillaCreateFragment : Fragment() {
                     HostVillaCreateFragmentDirections.actionHostVillaCreateFragmentToHostVillaCreateDetailFragment(
                         createVillaPageArguments
                     )
-                Navigation.findNavController(it).navigate(directions)
+                Navigation
+                    .findNavController(it)
+                    .navigate(directions)
             }
 
             textAddImageCover.setOnClickListener {
@@ -373,11 +381,9 @@ class HostVillaCreateFragment : Fragment() {
     }
 
     private fun openCoverImagePicker() {
-        val imageIntent =
-            Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            )
+        val imageIntent = Intent(
+            Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
         coverImageLauncher.launch(imageIntent)
     }
 
@@ -389,8 +395,7 @@ class HostVillaCreateFragment : Fragment() {
 
         otherImageLauncher.launch(
             Intent.createChooser(
-                imageIntent,
-                "Resimleri seçin"
+                imageIntent, "Resimleri seçin"
             )
         )
     }
@@ -403,10 +408,7 @@ class HostVillaCreateFragment : Fragment() {
         with(binding) {
             editTextTitleVillaCreate.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
+                    s: CharSequence?, start: Int, count: Int, after: Int
                 ) {
 
                 }
@@ -422,10 +424,7 @@ class HostVillaCreateFragment : Fragment() {
 
             dropdownProvinceVillaCreate.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
+                    s: CharSequence?, start: Int, count: Int, after: Int
                 ) {
 
                 }
@@ -445,10 +444,7 @@ class HostVillaCreateFragment : Fragment() {
 
             dropdownDistrictVillaCreate.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
+                    s: CharSequence?, start: Int, count: Int, after: Int
                 ) {
 
                 }
@@ -475,10 +471,7 @@ class HostVillaCreateFragment : Fragment() {
 
             dropdownNeighborhoodAndVillageVillaCreate.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
+                    s: CharSequence?, start: Int, count: Int, after: Int
                 ) {
 
                 }
@@ -523,16 +516,19 @@ class HostVillaCreateFragment : Fragment() {
                 }
             } else {
                 lifecycleScope.launch {
-                    @Suppress("DEPRECATION")
-                    geocoder.getFromLocationName(address, 1)?.let {
-                        val data = it[0]
-                        selectedLatitude = data.latitude
-                        selectedLongitude = data.longitude
-                    }
+                    @Suppress("DEPRECATION") geocoder
+                        .getFromLocationName(address, 1)
+                        ?.let {
+                            val data = it[0]
+                            selectedLatitude = data.latitude
+                            selectedLongitude = data.longitude
+                        }
                 }
             }
         } catch (e: Exception) {
-            Toast.makeText(view.context, e.message, Toast.LENGTH_SHORT).show()
+            Toast
+                .makeText(view.context, e.message, Toast.LENGTH_SHORT)
+                .show()
         }
     }
 

@@ -64,6 +64,7 @@
             android:textAllCaps="true" />
 
         <TextView
+            android:layout_marginBottom="15dp"
             android:id="@+id/noThanks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

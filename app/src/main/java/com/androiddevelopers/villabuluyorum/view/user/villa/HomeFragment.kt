@@ -58,17 +58,16 @@ class HomeFragment : Fragment() {
     private val provinceList = mutableListOf<Province>()
 
     private var location: MyLocation? = null
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var latitude: Double? = null
     private var longitude: Double? = null
 
     private var isStarted = false
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         bestHouseAdapter = BestHouseAdapter()
         return binding.root
     }
@@ -76,6 +75,8 @@ class HomeFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         val item = requireActivity().intent.getStringExtra("item") ?: ""
         val type = requireActivity().intent.getStringExtra("type") ?: ""
@@ -180,7 +181,7 @@ class HomeFragment : Fragment() {
                     lifecycleScope.launch {
                         binding.tvNoLocation.visibility = View.VISIBLE
                         println("delay(500)")
-                        delay(500)
+                        delay(200)
                         showPopup()
                     }
                 }
@@ -316,19 +317,30 @@ class HomeFragment : Fragment() {
             popupWindow.dismiss()
         }
         option2.setOnClickListener {
-            viewModel.updateUserLocation(41.0369, 28.9858)
-            Toast.makeText(requireContext(), "konumunuz geçici olarak İstanbul olarak ayarlanmıştır", Toast.LENGTH_SHORT).show()
+            setDefaultLocation()
             popupWindow.dismiss()
         }
+
     }
 
+
+
+    private fun setDefaultLocation() {
+        viewModel.updateUserLocation(41.0369, 28.9858)
+        val alertDialogBuilder = AlertDialog.Builder(context)
+        alertDialogBuilder.setTitle("Konum bilgisi")
+        alertDialogBuilder.setMessage("Konum verinize ulaşamadık, Konumunuz geçici bir süre için İstanbul olarak ayarlandı.\nİstediğiniz zaman profile sayfanızdan değiştirebilirsiniz.")
+        alertDialogBuilder.setPositiveButton("Kapat") { _, _ ->
+
+        }
+        val dialog = alertDialogBuilder.create()
+        dialog.show()
+    }
     private fun checkAndRequestGPSPermission() {
-        println("checkAndRequestGPSPermission")
         val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
         if (!isGPSEnabled) {
-            println("if (!isGPSEnabled) {")
             val alertDialogBuilder = AlertDialog.Builder(context)
             alertDialogBuilder.setTitle("GPS Ayarları")
             alertDialogBuilder.setMessage("GPS ayarları kapalı. Ayarlara gidip açmak ister misiniz?")
@@ -340,47 +352,42 @@ class HomeFragment : Fragment() {
             }
             alertDialogBuilder.setNegativeButton("Hayır") { dialog, _ ->
                 // Kullanıcı Hayır'ı seçti, işlemi iptal et
+                Toast.makeText(requireContext(), "konum izni verilmedi", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
             val dialog = alertDialogBuilder.create()
             dialog.show()
         } else {
-            println("else : getLastKnownLocation")
-            getLastKnownLocation()
+            lifecycleScope.launch {
+                delay(200)
+                getLastKnownLocation()
+            }
         }
     }
-
-    private fun getLastKnownLocation() = lifecycleScope.launch {
-        println("getLastKnownLocation")
-        delay(500)
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            println("if (ActivityCompat.checkSelfPermission(")
-            // İzin yoksa izin iste
+    private fun getLastKnownLocation() {
+        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
                 100
             )
-            return@launch
+            return
         }
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            if (location != null) {
-                latitude = location.latitude
-                longitude = location.longitude
-                viewModel.updateUserLocation(latitude, longitude)
-            } else {
-                Toast.makeText(requireContext(), "Konum bilgisi alınamıyor", Toast.LENGTH_SHORT).show()
+
+// get latitude and longitude
+        val location = fusedLocationProviderClient.lastLocation
+        location.addOnSuccessListener {
+            if (it != null) {
+                val lat = it.latitude
+                val long = it.longitude
+                viewModel.updateUserLocation(lat,long)
+            }else{
+                setDefaultLocation()
             }
         }.addOnFailureListener {
-            Toast.makeText(requireContext(), "Konum bilgisi alınamıyor", Toast.LENGTH_SHORT).show()
+            setDefaultLocation()
         }
+
     }
 }

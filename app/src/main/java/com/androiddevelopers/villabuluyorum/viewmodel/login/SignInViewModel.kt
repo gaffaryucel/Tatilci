@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.util.Resource
+import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -112,15 +113,12 @@ class SignInViewModel @Inject constructor(
         val cridential = GoogleAuthProvider.getCredential(idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(cridential).addOnCompleteListener {
             if (it.isSuccessful) {
-                _authState.value = Resource.success(true)
                 val user = it.result.user
-                if (user != null){
-                    if (user.displayName == null){
-                        createUser(user.uid,user.email.toString())
-                    }else{
-                        _authState.value = Resource.success(true)
-                    }
-                    updateUserToken(user.uid)
+                if (user != null && user.email != null) {
+                    checkIsUserExist(
+                        user.uid,
+                        user.email!!
+                    )
                 }
             }else{
                 _authState.value = Resource.error("Hata : Tekrar deneyin",null)
@@ -135,7 +133,7 @@ class SignInViewModel @Inject constructor(
         val user = makeUser(userId,tempUsername,email,userToken.value?.data.toString())
         firebaseRepo.addUserToFirestore(user)
             .addOnSuccessListener {
-                updateDisplayName(user.email.toString())
+                updateDisplayName(tempUsername)
             }.addOnFailureListener { e ->
                 _authState.value = Resource.error(e.localizedMessage ?: "error : try again later",null)
             }
@@ -161,8 +159,26 @@ class SignInViewModel @Inject constructor(
             }
         }
     }
-    /*
-    Kullanıcının gösterilen adı güncellendi. Giriş kısmına kullanıcı oluşturmak komuta eklendi.
-    Ve kaydolma kısmında kullanıcının görünen adını güncellemek için. Işlem yapıldı. Aynısı giriş yapma kısmında Yapılmalı.
-     */
+    private fun checkIsUserExist(userId: String,email : String) = viewModelScope.launch {
+        firebaseRepo.getUserDataByDocumentId(userId)
+            .addOnSuccessListener { document ->
+                val user = document.toUserModel()
+                if (user?.userId != null) {
+                    _authState.value = Resource.success(true)
+                } else {
+                    createUser(
+                        userId = userId,
+                        email = email
+                    )
+                }
+            }
+            .addOnFailureListener { exception ->
+                createUser(
+                    userId = userId,
+                    email = email
+                )
+            }
+    }
+
+
 }

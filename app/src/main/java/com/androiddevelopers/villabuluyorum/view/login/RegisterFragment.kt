@@ -1,6 +1,7 @@
 package com.androiddevelopers.villabuluyorum.view.login
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentRegisterBinding
 import com.androiddevelopers.villabuluyorum.util.Status
+import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
 import com.androiddevelopers.villabuluyorum.view.user.BottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.login.RegisterViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -37,8 +39,9 @@ class RegisterFragment : Fragment() {
     val RC_SIGN_IN = 20
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
+    private var progressDialog: ProgressDialog? = null
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,10 +56,12 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressDialog = ProgressDialog(requireContext())
+
+
         errorDialog = AlertDialog.Builder(requireContext()).create()
         verificationDialog = AlertDialog.Builder(requireContext()).create()
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.web_client_id))
@@ -100,14 +105,17 @@ class RegisterFragment : Fragment() {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     binding.pbRegister.visibility = View.INVISIBLE
                     binding.btnRegister.isEnabled = true
+                    progressDialog?.dismiss()
                 }
 
                 Status.LOADING -> {
+                    startLoadingProcess(progressDialog)
                     binding.pbRegister.visibility = View.VISIBLE
                     binding.btnRegister.isEnabled = false
                 }
 
                 Status.SUCCESS -> {
+                    progressDialog?.dismiss()
                     binding.pbRegister.visibility = View.INVISIBLE
                     binding.btnRegister.isEnabled = true
                     if (it.data == true) {

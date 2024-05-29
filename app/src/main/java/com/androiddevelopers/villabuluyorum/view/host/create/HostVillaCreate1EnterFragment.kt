@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,8 +14,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreate1EnterBinding
-import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
 import com.androiddevelopers.villabuluyorum.model.PropertyType
+import com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
@@ -33,21 +34,23 @@ class HostVillaCreate1EnterFragment : Fragment() {
 
     private var selectedPropertyType = PropertyType.HOUSE
     private val errorDialog: AlertDialog by lazy {
-        AlertDialog
-            .Builder(requireContext())
+        AlertDialog.Builder(requireContext())
             .create()
     }
 
     private var villaId: String? = null
-    private lateinit var villaFromArgs: Villa
-    private lateinit var createVillaPageArguments: CreateVillaPageArguments
+    private var villaFromArgs = Villa()
+    private lateinit var villaPageArgumentsModel: VillaPageArgumentsModel
+
+    private lateinit var propertyStatus: List<CardView>
+    private lateinit var propertyTypes: List<CardView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val args: HostVillaCreate1EnterFragmentArgs by navArgs()
-        createVillaPageArguments = args.createVillaPageArguments
-        viewModel.setCreateVillaPageArguments(createVillaPageArguments)
+        villaPageArgumentsModel = args.createVillaPageArguments
+        viewModel.setCreateVillaPageArguments(villaPageArgumentsModel)
 
         villaId = args.villaId
     }
@@ -55,62 +58,66 @@ class HostVillaCreate1EnterFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHostVillaCreate1EnterBinding.inflate(inflater, container, false)
+        _binding = FragmentHostVillaCreate1EnterBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+
+        with(binding) {
+            villaId?.let { id ->
+                setVillaId = id
+                viewModel.getVillaByIdFromFirestore(id)
+            }
+
+            propertyStatus = listOf(
+                cardRentHostVillaCreateEnter,
+                cardSaleHostVillaCreateEnter,
+            )
+
+            propertyTypes = listOf(
+                cardHouseHostVillaCreateEnter,
+                cardApartmentHostVillaCreateEnter,
+                cardGuestHouseHostVillaCreateEnter,
+                cardHotelHostVillaCreateEnter
+            )
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(
+            view,
+            savedInstanceState
+        )
         setClickItems()
         observeLiveData(viewLifecycleOwner)
-
-        //TODO: İlk sayfaya ev tipi ekle
-
-
     }
 
     private fun setClickItems() {
         with(binding) {
             toolbarVillaCreate.setNavigationOnClickListener {
-                Navigation
-                    .findNavController(binding.root)
+                Navigation.findNavController(binding.root)
                     .popBackStack()
             }
 
             buttonNextVillaCreatePage1.setOnClickListener {
+
+                //sayfalar arası taşınacak başlangıç modelini oluşturuyoruz
+                villaPageArgumentsModel = setVillaPageArguments()
+
                 val directions =
                     HostVillaCreate1EnterFragmentDirections.actionNavigationHostVillaCreateEnterToHostVillaCreateFragment(
-                        createVillaPageArguments, villaId
+                        villaPageArgumentsModel
                     )
-                Navigation
-                    .findNavController(it)
+                Navigation.findNavController(it)
                     .navigate(directions)
             }
 
-
-            val propertyStatus = listOf(
-                cardRentHostVillaCreateEnter,
-                cardSaleHostVillaCreateEnter,
-            )
-
             propertyStatus.forEachIndexed { index, cardView ->
                 cardView.setOnClickListener {
-
-                    // Tüm elemanların arka planını boş olarak ayarla
-                    propertyStatus.forEach {
-                        it.setCardBackgroundColor(
-                            ContextCompat.getColor(
-                                requireContext(), R.color.host_cardview_background
-                            )
-                        )
-                    }
-
-                    // Seçilen elemanın arka planını seçili olarak ayarla
-                    cardView.setCardBackgroundColor(
-                        ContextCompat.getColor(
-                            requireContext(), R.color.md_theme_primary
-                        )
-                    )
+                    clearAllCardBackground(propertyStatus)
+                    setCardBackgroundColor(cardView)
 
                     //Seçilen durumu ana değişkene atıyoruız
                     selectedPropertyStatus = when (index) {
@@ -122,30 +129,10 @@ class HostVillaCreate1EnterFragment : Fragment() {
 
             }
 
-            val propertyTypes = listOf(
-                cardHouseHostVillaCreateEnter,
-                cardApartmentHostVillaCreateEnter,
-                cardGuestHouseHostVillaCreateEnter,
-                cardHotelHostVillaCreateEnter
-            )
-
             propertyTypes.forEachIndexed { index, cardView ->
                 cardView.setOnClickListener {
-
-                    // Tüm elemanların arka planını boş olarak ayarla
-                    propertyTypes.forEach {
-                        it.setCardBackgroundColor(
-                            ContextCompat.getColor(
-                                requireContext(), R.color.host_cardview_background
-                            )
-                        )
-                    }
-                    // Seçilen elemanın arka planını seçili olarak ayarla
-                    cardView.setCardBackgroundColor(
-                        ContextCompat.getColor(
-                            requireContext(), R.color.md_theme_primary
-                        )
-                    )
+                    clearAllCardBackground(propertyTypes)
+                    setCardBackgroundColor(cardView)
 
                     //Seçilen tipi ana değişkene atıyoruız
                     selectedPropertyType = when (index) {
@@ -159,6 +146,28 @@ class HostVillaCreate1EnterFragment : Fragment() {
 
             }
         }
+    }
+
+    private fun clearAllCardBackground(cardList: List<CardView>) {
+        // Tüm elemanların arka planını boş olarak ayarla
+        cardList.forEach {
+            it.setCardBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.host_cardview_background
+                )
+            )
+        }
+    }
+
+    private fun setCardBackgroundColor(cardView: CardView) {
+        // Seçilen elemanın arka planını seçili olarak ayarla
+        cardView.setCardBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.md_theme_primary
+            )
+        )
     }
 
     private fun observeLiveData(owner: LifecycleOwner) {
@@ -182,21 +191,50 @@ class HostVillaCreate1EnterFragment : Fragment() {
 
                 liveDataVilla.observe(owner) { villa ->
                     villaFromArgs = villa
+
+                    with(villa) {
+                        isForSale?.let { status ->
+                            selectedPropertyStatus = status
+
+                            clearAllCardBackground(propertyStatus.toList())
+
+                            if (status) {
+                                setCardBackgroundColor(propertyStatus[1])
+                            } else {
+                                setCardBackgroundColor(propertyStatus[0])
+                            }
+                        }
+
+                        propertyType?.let { type ->
+                            selectedPropertyType = type
+
+                            clearAllCardBackground(propertyTypes.toList())
+
+                            when (type) {
+                                PropertyType.HOUSE       -> setCardBackgroundColor(propertyTypes[0])
+                                PropertyType.APARTMENT   -> setCardBackgroundColor(propertyTypes[1])
+                                PropertyType.GUEST_HOUSE -> setCardBackgroundColor(propertyTypes[2])
+                                PropertyType.HOTEL       -> setCardBackgroundColor(propertyTypes[3])
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 
-    private fun createVillaPageArguments(): CreateVillaPageArguments {
-        return CreateVillaPageArguments(
-            coverImage = null, otherImages = mutableListOf(), villa = createVilla(villaFromArgs)
+    private fun setVillaPageArguments(): VillaPageArgumentsModel {
+        return VillaPageArgumentsModel(
+            villaId = villaId,
+            coverImage = null,
+            otherImages = mutableListOf(),
+            villa = createVilla(villaFromArgs)
         )
     }
 
     private fun createVilla(villa: Villa): Villa {
         if (villa.villaId == null) {
-            villa.villaId = UUID
-                .randomUUID()
+            villa.villaId = UUID.randomUUID()
                 .toString()
         }
 

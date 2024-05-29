@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
+import com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel
 import com.androiddevelopers.villabuluyorum.model.provinces.District
 import com.androiddevelopers.villabuluyorum.model.provinces.Neighborhood
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
@@ -13,6 +13,7 @@ import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.repo.RoomProvinceRepo
 import com.androiddevelopers.villabuluyorum.util.Resource
+import com.androiddevelopers.villabuluyorum.util.toVilla
 import com.androiddevelopers.villabuluyorum.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -37,8 +38,7 @@ class HostVillaCreateBaseViewModel
     val imageSize: LiveData<Int> = MutableLiveData()
 
     fun getAllProvince() = viewModelScope.launch {
-        roomProvinceRepo
-            .getAllProvince()
+        roomProvinceRepo.getAllProvince()
             .flowOn(Dispatchers.IO)
             .collect {
                 liveDataProvinceFromRoom.mutable.value = it
@@ -46,8 +46,7 @@ class HostVillaCreateBaseViewModel
     }
 
     fun getAllDistrictById(provinceId: Int) = viewModelScope.launch {
-        roomProvinceRepo
-            .getAllDistrictById(provinceId)
+        roomProvinceRepo.getAllDistrictById(provinceId)
             .flowOn(Dispatchers.IO)
             .collect {
                 liveDataDistrictFromRoom.mutable.value = it
@@ -55,8 +54,7 @@ class HostVillaCreateBaseViewModel
     }
 
     fun getAllNeighborhoodById(districtId: Int) = viewModelScope.launch {
-        roomProvinceRepo
-            .getAllNeighborhoodById(districtId)
+        roomProvinceRepo.getAllNeighborhoodById(districtId)
             .flowOn(Dispatchers.IO)
             .collect {
                 liveDataNeighborhoodFromRoom.mutable.value = it
@@ -64,17 +62,16 @@ class HostVillaCreateBaseViewModel
     }
 
     fun getAllVillageById(districtId: Int) = viewModelScope.launch {
-        roomProvinceRepo
-            .getAllVillageById(districtId)
+        roomProvinceRepo.getAllVillageById(districtId)
             .flowOn(Dispatchers.IO)
             .collect {
                 liveDataVillageFromRoom.mutable.value = it
             }
     }
 
-    fun setCreateVillaPageArguments(createVillaPageArguments: CreateVillaPageArguments) =
+    fun setCreateVillaPageArguments(villaPageArgumentsModel: VillaPageArgumentsModel) =
         viewModelScope.launch {
-            with(createVillaPageArguments) {
+            with(villaPageArgumentsModel) {
                 setVilla(villa)
 
                 coverImage?.let { image ->
@@ -108,8 +105,7 @@ class HostVillaCreateBaseViewModel
     ) {
 
         if (villa.villaId.isNullOrBlank()) {
-            villa.villaId = UUID
-                .randomUUID()
+            villa.villaId = UUID.randomUUID()
                 .toString()
         }
 
@@ -118,21 +114,32 @@ class HostVillaCreateBaseViewModel
 
         coverImage?.let { // kapak resmi varsa önce onu yüklüyoruz
             liveDataFirebaseStatus.mutable.value = Resource.loading(true)
-            if (it
-                    .toString()
+            if (it.toString()
                     .contains("firebasestorage")
             ) { // kapak resmi daha önce yüklendiyse yüklemeden pas geçiyoruz
-                addImagesAndVillaToFirebase(null, images, villa, it.toString(), uploadedOtherImages)
+                addImagesAndVillaToFirebase(
+                    null,
+                    images,
+                    villa,
+                    it.toString(),
+                    uploadedOtherImages
+                )
             } else {
-                firebaseRepo
-                    .addVillaImage(it, userId, villaId) // kapak resmini yüklüyoruz
+                firebaseRepo.addVillaImage(
+                    it,
+                    userId,
+                    villaId
+                ) // kapak resmini yüklüyoruz
                     .addOnSuccessListener { task ->
-                        task.storage.downloadUrl
-                            .addOnSuccessListener { uri ->
-                                addImagesAndVillaToFirebase( // kapak resmi yüklenince kapak resmini null yapıp diğer resimlere geçiyoruz
-                                    null, images, villa, uri.toString(), uploadedOtherImages
-                                )
-                            }
+                        task.storage.downloadUrl.addOnSuccessListener { uri ->
+                            addImagesAndVillaToFirebase( // kapak resmi yüklenince kapak resmini null yapıp diğer resimlere geçiyoruz
+                                null,
+                                images,
+                                villa,
+                                uri.toString(),
+                                uploadedOtherImages
+                            )
+                        }
                             .addOnFailureListener { error ->
                                 error.message?.let { message ->
                                     liveDataFirebaseStatus.mutable.value = Resource.error(message)
@@ -150,28 +157,37 @@ class HostVillaCreateBaseViewModel
         } ?: run {
             if (images.size > 0) {
                 val uri = images[0]
-                if (uri
-                        .toString()
+                if (uri.toString()
                         .contains("firebasestorage")
                 ) {
                     images.removeAt(0)
                     uploadedOtherImages.add(uri.toString())
                     addImagesAndVillaToFirebase(
-                        null, images, villa, uploadedCoverImage, uploadedOtherImages
+                        null,
+                        images,
+                        villa,
+                        uploadedCoverImage,
+                        uploadedOtherImages
                     )
                 } else {
                     liveDataFirebaseStatus.mutable.value = Resource.loading(true)
-                    firebaseRepo
-                        .addVillaImage(uri, userId, villaId) // kapak resmini yüklüyoruz
+                    firebaseRepo.addVillaImage(
+                        uri,
+                        userId,
+                        villaId
+                    ) // kapak resmini yüklüyoruz
                         .addOnSuccessListener { task ->
-                            task.storage.downloadUrl
-                                .addOnSuccessListener { uri ->
-                                    images.removeAt(0)
-                                    uploadedOtherImages.add(uri.toString())
-                                    addImagesAndVillaToFirebase( // kapak resmi yüklenince kapak resmini null yapıp diğer resimlere geçiyoruz
-                                        null, images, villa, uploadedCoverImage, uploadedOtherImages
-                                    )
-                                }
+                            task.storage.downloadUrl.addOnSuccessListener { uri ->
+                                images.removeAt(0)
+                                uploadedOtherImages.add(uri.toString())
+                                addImagesAndVillaToFirebase( // kapak resmi yüklenince kapak resmini null yapıp diğer resimlere geçiyoruz
+                                    null,
+                                    images,
+                                    villa,
+                                    uploadedCoverImage,
+                                    uploadedOtherImages
+                                )
+                            }
                                 .addOnFailureListener { error ->
                                     error.message?.let { message ->
                                         liveDataFirebaseStatus.mutable.value =
@@ -191,7 +207,10 @@ class HostVillaCreateBaseViewModel
             } else {
                 villa.coverImage = uploadedCoverImage
                 villa.otherImages = uploadedOtherImages.toList()
-                addVillaToFirestore(villaId, villa)
+                addVillaToFirestore(
+                    villaId,
+                    villa
+                )
             }
         }
     }
@@ -201,8 +220,10 @@ class HostVillaCreateBaseViewModel
     ) = viewModelScope.launch {
         liveDataFirebaseStatus.mutable.value = Resource.loading(true)
 
-        firebaseRepo
-            .addVillaToFirestore(villaId, villa)
+        firebaseRepo.addVillaToFirestore(
+            villaId,
+            villa
+        )
             .addOnSuccessListener {
                 liveDataFirebaseStatus.mutable.value = Resource.loading(false)
                 liveDataFirebaseStatus.mutable.value = Resource.success(true)
@@ -212,6 +233,25 @@ class HostVillaCreateBaseViewModel
                 it.message?.let { message ->
                     liveDataFirebaseStatus.mutable.value = Resource.error(message)
                 }
+            }
+    }
+
+    fun getVillaByIdFromFirestore(villaId: String) {
+        liveDataFirebaseStatus.mutable.value = Resource.loading(true)
+        firebaseRepo.getVillaByIdFromFirestore(villaId)
+            .addOnSuccessListener { documentSnapshot ->
+                liveDataVilla.mutable.value = documentSnapshot.toVilla()
+                liveDataFirebaseStatus.mutable.value = Resource.success(false)
+                liveDataFirebaseStatus.mutable.value = Resource.loading(false)
+            }
+            .addOnFailureListener {
+                liveDataFirebaseStatus.mutable.value = it.message?.let { message ->
+                    Resource.error(
+                        message,
+                        null
+                    )
+                }
+                liveDataFirebaseStatus.mutable.value = Resource.loading(false)
             }
     }
 }

@@ -20,7 +20,7 @@
             type="android.widget.ArrayAdapter&lt;String>" />
 
         <variable
-            name="villaId"
+            name="setVillaId"
             type="String" />
     </data>
 
@@ -41,7 +41,7 @@
             app:navigationIcon="@drawable/baseline_close_24"
             app:subtitle="Sayfa 3/4"
             app:subtitleTextColor="@color/white"
-            app:title="@{villaId == null ? `İlan Oluştur` : `İlan Düzenle`}"
+            app:title="@{setVillaId == null ? `İlan Oluştur` : `İlan Düzenle`}"
             app:titleTextColor="@color/white"
             tools:title="İlan Oluştur / Düzenle" />
 

@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreate4FacilitiesBinding
-import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
+import com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel
 import com.androiddevelopers.villabuluyorum.model.villa.Facilities
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.Status
@@ -34,7 +34,7 @@ class HostVillaCreate4FacilitiesFragment : Fragment() {
 
     private lateinit var errorDialog: AlertDialog
     private lateinit var villaFromArgs: Villa
-    private lateinit var createVillaPageArguments: CreateVillaPageArguments
+    private lateinit var villaPageArgumentsModel: VillaPageArgumentsModel
 
     private var selectedCoverImage: Uri? = null
     private val selectedOtherImages = mutableListOf<Uri>()
@@ -43,16 +43,16 @@ class HostVillaCreate4FacilitiesFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         val args: HostVillaCreate4FacilitiesFragmentArgs by navArgs()
-        createVillaPageArguments = args.createVillaPageArguments
-        viewModel.setCreateVillaPageArguments(createVillaPageArguments)
+        villaPageArgumentsModel = args.createVillaPageArguments
+        viewModel.setCreateVillaPageArguments(villaPageArgumentsModel)
 
         //Telefon geri tuşunu dinliyoruz
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            //geri tuşuna basıldığında önceki sayfaya villayıda gönderiyoruz
+        requireActivity().onBackPressedDispatcher.addCallback(this) { //geri tuşuna basıldığında önceki sayfaya villayıda gönderiyoruz
             val navController = findNavController()
-            createVillaPageArguments.villa = updateVilla(villaFromArgs)
+            villaPageArgumentsModel.villa = updateVilla(villaFromArgs)
             navController.previousBackStackEntry?.savedStateHandle?.set(
-                "createVillaPageArgumentsToBack", createVillaPageArguments
+                "createVillaPageArgumentsToBack",
+                villaPageArgumentsModel
             )
             navController.popBackStack()
         }
@@ -61,12 +61,15 @@ class HostVillaCreate4FacilitiesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHostVillaCreate4FacilitiesBinding.inflate(inflater, container, false)
+        _binding = FragmentHostVillaCreate4FacilitiesBinding.inflate(
+            inflater,
+            container,
+            false
+        )
 
         setClickItems()
 
-        errorDialog = AlertDialog
-            .Builder(requireContext())
+        errorDialog = AlertDialog.Builder(requireContext())
             .create()
         setupDialogs(errorDialog)
 
@@ -75,7 +78,10 @@ class HostVillaCreate4FacilitiesFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(
+            view,
+            savedInstanceState
+        )
 
         observeLiveData(viewLifecycleOwner)
         setViewChips()
@@ -97,15 +103,16 @@ class HostVillaCreate4FacilitiesFragment : Fragment() {
 
             buttonSaveVillaCreatePage4.setOnClickListener {
                 viewModel.addImagesAndVillaToFirebase(
-                    selectedCoverImage, selectedOtherImages, villaFromArgs
+                    selectedCoverImage,
+                    selectedOtherImages,
+                    villaFromArgs
                 )
             }
         }
     }
 
     private fun gotoHostHome() {
-        Navigation
-            .findNavController(binding.root)
+        Navigation.findNavController(binding.root)
             .navigate(R.id.action_global_navigation_host_villa)
         showHostBottomNavigation(requireActivity())
     }

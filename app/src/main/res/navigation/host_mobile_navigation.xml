@@ -171,7 +171,7 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
             android:name="createVillaPageArguments"
-            app:argType="com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments" />
+            app:argType="com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel" />
         <argument
             android:name="villaId"
             app:argType="string"
@@ -184,11 +184,7 @@
         tools:layout="@layout/fragment_host_villa_create_2_images">
         <argument
             android:name="createVillaPageArguments"
-            app:argType="com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments" />
-        <argument
-            android:name="villaId"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel" />
         <action
             android:id="@+id/action_hostVillaCreateFragment_to_hostVillaCreateDetailFragment"
             app:destination="@id/hostVillaCreateDetailFragment"
@@ -214,11 +210,7 @@
         tools:layout="@layout/fragment_host_villa_create_4_facilities">
         <argument
             android:name="createVillaPageArguments"
-            app:argType="com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments" />
-        <argument
-            android:name="villaId"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel" />
         <action
             android:id="@+id/action_hostVillaCreateFacilitiesFragment_to_navigation_host_villa_create_enter"
             app:destination="@id/hostVillaCreateEnterFragment"
@@ -243,11 +235,7 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
             android:name="createVillaPageArguments"
-            app:argType="com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments" />
-        <argument
-            android:name="villaId"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel" />
         <action
             android:id="@+id/action_hostVillaCreateDetailFragment_to_navigation_host_villa_create_enter"
             app:destination="@id/hostVillaCreateEnterFragment"

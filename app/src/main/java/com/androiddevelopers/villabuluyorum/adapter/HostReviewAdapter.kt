@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,29 +15,34 @@ class HostReviewAdapter : RecyclerView.Adapter<HostReviewAdapter.HostReviewViewH
 
     private val diffUtil = object : DiffUtil.ItemCallback<ReviewModel>() {
         override fun areItemsTheSame(
-            oldItem: ReviewModel,
-            newItem: ReviewModel
+            oldItem: ReviewModel, newItem: ReviewModel
         ): Boolean {
             return oldItem.reviewId == newItem.reviewId
         }
 
         override fun areContentsTheSame(
-            oldItem: ReviewModel,
-            newItem: ReviewModel
+            oldItem: ReviewModel, newItem: ReviewModel
         ): Boolean {
-            return oldItem.reviewId == newItem.reviewId
+            return oldItem == newItem
         }
     }
-    private val recyclerListDiffer = AsyncListDiffer(this, diffUtil)
+    private val recyclerListDiffer = AsyncListDiffer(
+        this,
+        diffUtil
+    )
 
     var reviewList: List<ReviewModel>
         get() = recyclerListDiffer.currentList
         set(value) = recyclerListDiffer.submitList(value)
 
-    inner class HostReviewViewHolder(val binding: RowHostReviewBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    inner class HostReviewViewHolder(val binding: RowHostReviewBinding) : RecyclerView.ViewHolder(binding.root)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HostReviewViewHolder {
-        val binding = RowHostReviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = RowHostReviewBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return HostReviewViewHolder(binding)
     }
 
@@ -56,7 +60,10 @@ class HostReviewAdapter : RecyclerView.Adapter<HostReviewAdapter.HostReviewViewH
             holder.binding.star5
         )
 
-        updateStars(myReview.rating ?: 1, stars)
+        updateStars(
+            myReview.rating ?: 1,
+            stars
+        )
 
     }
 
@@ -64,6 +71,7 @@ class HostReviewAdapter : RecyclerView.Adapter<HostReviewAdapter.HostReviewViewH
         return reviewList.size
     }
 }
+
 private fun updateStars(rating: Int, stars: Array<ImageView>) {
     for (i in stars.indices) {
         if (i < rating) {

@@ -5,4 +5,5 @@
     <dimen name="host_create_enter_page_type_height">100dp</dimen>
     <dimen name="host_villa_create_enter_image">35dp</dimen>
     <dimen name="host_villa_create_enter_text">20sp</dimen>
+    <dimen name="host_villa_detail_top_image_button">40dp</dimen>
 </resources>

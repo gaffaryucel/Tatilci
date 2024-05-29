@@ -240,7 +240,6 @@ class HostVillaDetailFragment : Fragment() {
                 textNoVillaDetail.visibility = View.GONE
             }
 
-            //TODO: Turistik yerler için create sayfasına ekleme yap
             villaModel.attractions?.let {
                 if (it.isNotEmpty()) {
                     textAttractionsListVillaDetail.text = buildString {

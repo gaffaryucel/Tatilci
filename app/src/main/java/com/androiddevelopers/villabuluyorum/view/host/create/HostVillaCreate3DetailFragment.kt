@@ -87,6 +87,7 @@ class HostVillaCreate3DetailFragment : Fragment() {
         observeLiveData(viewLifecycleOwner)
         setDropdownItems()
 
+        //TODO: Turistik yerler için ekleme yap
 
         //geri tuşuna basıldığında sonraki sayfadan gelen argümanı yakalıyoruz
         val navController = findNavController()

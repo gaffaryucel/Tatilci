@@ -28,8 +28,6 @@ class FilterFragment : Fragment() {
     private lateinit var _binding: FragmentFilterBinding
     private val binding get() = _binding
 
-    private var isFavoriteSelected = false
-
     private val provinceList = mutableListOf<Province>()
 
     override fun onCreateView(
@@ -184,15 +182,15 @@ class FilterFragment : Fragment() {
     }
 
     private fun isFavoriteHousesSelected() {
+        filter.isForSale = false
+
         binding.layoutFavoriteHouse.setOnClickListener {
-            if (isFavoriteSelected) {
+            if (filter.isForSale == true) {
                 it.setBackgroundResource(R.drawable.secondary_button_bg)
-                isFavoriteSelected = false
-                filter.isFavorite = false
+                filter.isForSale = false
             } else {
                 it.setBackgroundResource(R.drawable.main_button_gb)
-                isFavoriteSelected = true
-                filter.isFavorite = true
+                filter.isForSale = true
             }
         }
     }
@@ -227,46 +225,30 @@ class FilterFragment : Fragment() {
     //Olanakların seçilmesi
     private fun amenitiesSelection() {
         val layoutWifi = binding.layoutCbWifi
-        val layoutKitchen = binding.layoutCbKitchen
-        val layoutWashingMachine = binding.layoutCbWashingMachine
-        val layoutCbAir = binding.layoutCbAir
-        val list = ArrayList<String>()
+        val layoutKitchen = binding.layoutCbPool
+        val layoutWashingMachine = binding.layoutCbQuite
         layoutWifi.setOnClickListener {
             val cbWifi = binding.cbWifi
             cbWifi.isChecked = !cbWifi.isChecked.also {
-                changeAmenities(list, it, "wifi")
+                filter.hasWifi = !it
+                println("clickc : "+!it)
             }
         }
 
         layoutKitchen.setOnClickListener {
-            val cbKitchen = binding.cbKitchen
-            cbKitchen.isChecked = !cbKitchen.isChecked.also {
-                changeAmenities(list, it, "Mutfak")
+            val cbPool = binding.cbPool
+            cbPool.isChecked = !cbPool.isChecked.also {
+                filter.hasPool = !it
             }
         }
         layoutWashingMachine.setOnClickListener {
-            val cbWashingMachine = binding.cbWashingMachine
+            val cbWashingMachine = binding.cbQuite
             cbWashingMachine.isChecked = !cbWashingMachine.isChecked.also {
-                changeAmenities(list, it, "Çamaşır makinesi")
+                filter.quitePlace = !it
             }
 
         }
-        layoutCbAir.setOnClickListener {
-            val cbAir = binding.cbAir
-            cbAir.isChecked = !cbAir.isChecked.also {
-                changeAmenities(list, it, "Klima")
-            }
-        }
 
-    }
-
-    private fun changeAmenities(list: ArrayList<String>, isChecked: Boolean, amenities: String) {
-        if (!isChecked) {
-            list.add(amenities)
-        } else {
-            list.remove(amenities)
-        }
-        filter.amenities = list
     }
 
     private fun saveAAndExit() {
@@ -282,10 +264,12 @@ class FilterFragment : Fragment() {
             editor.putInt("bedrooms", filter.bedrooms ?: 0)
             editor.putInt("beds", filter.beds ?: 0)
             editor.putInt("bathrooms", filter.bathrooms ?: 0)
-            editor.putBoolean("isFavorite", filter.isFavorite ?: false)
-            // TODO: propertyType değerinin filtreleme sırasında doğru çalıştığından emin olunöalı
             editor.putString("propertyType", filter.propertyType.toString())
-            editor.putStringSet("amenities", filter.amenities?.toSet() ?: setOf())
+            editor.putBoolean("wifi", filter.hasWifi ?: false)
+            editor.putBoolean("pool", filter.hasPool ?: false)
+            editor.putBoolean("quite", filter.quitePlace ?: false)
+            editor.putBoolean("sale", filter.isForSale ?: false)
+
             editor.apply().also {
                 findNavController().popBackStack()
             }

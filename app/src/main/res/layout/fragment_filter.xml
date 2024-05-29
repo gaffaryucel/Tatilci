@@ -136,6 +136,10 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -493,7 +497,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Favori Villalar"
+                android:text="Satılık"
                 android:textColor="@color/normal_text_color"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -502,7 +506,7 @@
                 android:id="@+id/layout_favorite_house"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/secondary_button_bg"
                 android:orientation="vertical">
@@ -512,14 +516,14 @@
                     android:layout_height="50dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
-                    android:src="@drawable/baseline_favorite_24"
-                    android:tint="@color/normal_text_color" />
+                    android:src="@drawable/sell"
+                    app:tint="@color/normal_text_color" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="Favori Villalar"
+                    android:text="Satılık Villalar"
                     android:textColor="@color/normal_text_color"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -529,7 +533,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="25dp"
-                    android:text="Misafirlerin en sevdikleri villalar"
+                    android:text="Satışta olan villalara göz at"
                     android:textColor="@color/normal_text_color"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -546,7 +550,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
+                android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
@@ -739,7 +743,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_cb_kitchen"
+                    android:id="@+id/layout_cb_pool"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -748,14 +752,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mutfak"
+                        android:text="Yüzme havuzu"
                         android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <CheckBox
-                        android:id="@+id/cb_kitchen"
+                        android:id="@+id/cb_pool"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -764,7 +768,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_cb_washing_machine"
+                    android:id="@+id/layout_cb_quite"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -773,14 +777,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Çamaşır makinesi"
+                        android:text="Sessiz alan"
                         android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <CheckBox
-                        android:id="@+id/cb_washing_machine"
+                        android:id="@+id/cb_quite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -788,30 +792,6 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_cb_air"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:paddingHorizontal="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Klima"
-                        android:textSize="20sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <CheckBox
-                        android:id="@+id/cb_air"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -823,10 +803,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
-        android:background="@drawable/main_button_gb"
+        android:background="@drawable/rectangle_button_bg"
         android:elevation="20sp"
         android:gravity="center"
         android:text="Ara"
-        android:textColor="@color/normal_text_color"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

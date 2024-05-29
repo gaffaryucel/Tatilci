@@ -38,5 +38,6 @@ data class Villa(
     var longitude: Double? = 32.8597,
     var hasWifi: Boolean? = null, // wifi hizmeti
     var propertyType: PropertyType? = null,
-    var time : String? = null
+    var time : String? = null,
+    var forSale : Boolean? = null
 ) : Serializable

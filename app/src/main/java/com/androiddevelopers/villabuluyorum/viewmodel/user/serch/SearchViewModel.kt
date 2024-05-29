@@ -87,16 +87,35 @@ constructor(
 
     private fun filterVillas(villaList: List<Villa>, filters: FilterModel) = viewModelScope.launch {
         try {
-            println("filterVillas")
             val villas = ArrayList<Villa>()
             if (villaList.isNotEmpty()) {
                 for (villa in villaList) {
                     if (villa.nightlyRate!!.toInt() in filters.minPrice!!.toInt()..filters.maxPrice!!.toInt() &&
                         (filters.bathrooms == 99 || filters.bathrooms == villa.bathroomCount) &&
                         (filters.bedrooms == 99 || filters.bedrooms == villa.bedroomCount) &&
-                        (filters.beds == 99 || filters.beds == villa.bedCount)
-                    ) {
-                        villas.add(villa)
+                        (filters.beds == 99 || filters.beds == villa.bedCount))
+                    {
+                        var addVilla = true
+
+                        if (filters.hasWifi == true && villa.hasWifi != true) {
+                            addVilla = false
+                        }
+
+                        if (filters.hasPool == true && villa.hasPool != true) {
+                            addVilla = false
+                        }
+
+                        if (filters.quitePlace == true && villa.isQuietArea != true) {
+                            addVilla = false
+                        }
+
+                        if (filters.isForSale !=  villa.forSale) {
+                            addVilla = false
+                        }
+
+                        if (addVilla) {
+                            villas.add(villa)
+                        }
                     }
                 }
             }

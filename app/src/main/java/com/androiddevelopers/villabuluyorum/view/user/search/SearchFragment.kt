@@ -20,6 +20,7 @@ import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.viewmodel.user.serch.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
@@ -77,8 +78,7 @@ class SearchFragment : Fragment() {
     private fun getSharedPref() {
 
         try {
-            val sharedPreferences =
-                requireContext().getSharedPreferences("FilterPref", Context.MODE_PRIVATE)
+            val sharedPreferences = requireContext().getSharedPreferences("FilterPref", Context.MODE_PRIVATE)
 
             // Verileri alın
             val city = sharedPreferences.getString("city", "")
@@ -87,11 +87,23 @@ class SearchFragment : Fragment() {
             val bedrooms = sharedPreferences.getInt("bedrooms", 0)
             val beds = sharedPreferences.getInt("beds", 0)
             val bathrooms = sharedPreferences.getInt("bathrooms", 0)
-            val isFavorite = sharedPreferences.getBoolean("isFavorite", false)
             val propertyType = sharedPreferences.getString("propertyType", "")
-            val amenities = sharedPreferences.getStringSet("amenities", setOf())
-// TODO: PropertyType sınıfının oluşturulmasından doğan hatalar giderilmeli SharedPref vs için yeni taktikler kullanılmalı
+            val hasWifi = sharedPreferences.getBoolean("wifi", false)
+            val hasPool = sharedPreferences.getBoolean("pool",false)
+            val isQuitePlace = sharedPreferences.getBoolean("quite", false)
+            val isForSale = sharedPreferences.getBoolean("sale", false)
 
+            println("S : "+isForSale)
+
+            val pType = when (propertyType) {
+                "HOUSE" -> PropertyType.HOUSE
+                "APARTMENT" -> PropertyType.APARTMENT
+                "GUEST_HOUSE" -> PropertyType.GUEST_HOUSE
+                "HOTEL" -> PropertyType.HOTEL
+                else -> {
+                    PropertyType.HOUSE
+                }
+            }
             val filter = createFilter(
                 city,
                 minPrice,
@@ -99,19 +111,13 @@ class SearchFragment : Fragment() {
                 bedrooms,
                 beds,
                 bathrooms,
-                isFavorite,
-                PropertyType.HOUSE,
-                amenities?.toList(),
+                pType,
+                hasWifi,
+                hasPool,
+                isQuitePlace,
+                isForSale
             )
-            println(city)
-            println(minPrice)
-            println(maxPrice)
-            println(bedrooms)
-            println(beds)
-            println(bathrooms)
-            println(isFavorite)
-            println(propertyType)
-            println(amenities?.toList())
+
             if (filter.city.isNullOrEmpty()) {
                 return
             } else {
@@ -131,9 +137,11 @@ class SearchFragment : Fragment() {
         bedrooms: Int?,
         beds: Int?,
         bathrooms: Int?,
-        isFavorite: Boolean?,
         propertyType: PropertyType?,
-        amenities: List<String>?
+        hasWifi: Boolean?,
+        hasPool: Boolean?,
+        isQuitePlace: Boolean?,
+        isForSale: Boolean?
     ): FilterModel {
         return FilterModel(
             city ?: "İzmir",
@@ -142,9 +150,11 @@ class SearchFragment : Fragment() {
             bedrooms ?: 4,
             beds ?: 4,
             bathrooms ?: 2,
-            isFavorite ?: false,
             propertyType ?: PropertyType.HOUSE,
-            null
+            hasWifi,
+            hasPool,
+            isQuitePlace,
+            isForSale
         )
     }
 
@@ -183,6 +193,9 @@ class SearchFragment : Fragment() {
                 searchAdapter.villaList = villas
                 binding.pbSearch.visibility = View.GONE
                 binding.layoutRefresh.visibility = View.VISIBLE
+                villas.forEach{
+                    println("S : "+it.forSale)
+                }
             }
         })
 

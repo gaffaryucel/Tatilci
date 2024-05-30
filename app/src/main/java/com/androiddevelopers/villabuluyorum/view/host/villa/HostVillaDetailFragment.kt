@@ -41,7 +41,6 @@ class HostVillaDetailFragment : Fragment() {
     }
 
 
-
     private val viewPagerAdapter: ViewPagerAdapterForVillaDetail by lazy {
         ViewPagerAdapterForVillaDetail()
     }
@@ -51,7 +50,7 @@ class HostVillaDetailFragment : Fragment() {
     }
 
     private var villaId: String? = null
-    private var villaFromDB:Villa? =null
+    private var villaFromDB: Villa? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,8 +134,11 @@ class HostVillaDetailFragment : Fragment() {
             with(viewModel) {
                 liveDataFirebaseStatus.observe(owner) {
                     when (it.status) {
-                        Status.SUCCESS -> {
-
+                        Status.SUCCESS -> it.data?.let{state ->
+                            if(state) {
+                                Navigation.findNavController(binding.root)
+                                    .popBackStack()
+                            }
                         }
 
                         Status.LOADING -> it.data?.let { state ->

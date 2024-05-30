@@ -27,6 +27,8 @@ import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
 import com.androiddevelopers.villabuluyorum.viewmodel.user.reservation.CreateReservationViewModel
 import com.bumptech.glide.Glide
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -175,8 +177,17 @@ class CreateReservationFragment : Fragment() {
 
     private fun showDatePickerDialog() {
         // dateRangePicker oluştur ve tarih seçimini dinle
+
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -1) // Bir gün çıkararak dünü hesaplıyoruz
+        val yesterday = calendar.timeInMillis
+
+        val constraintsBuilder = CalendarConstraints.Builder()
+            .setValidator(DateValidatorPointForward.from(yesterday))
+
         val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
             .setTitleText("Rezervasyon süresini belirleyin")
+            .setCalendarConstraints(constraintsBuilder.build()) // Tarih kısıtlamalarını burada ekliyoruz
             .build()
 
         dateRangePicker.addOnPositiveButtonClickListener { dateRange ->
@@ -199,10 +210,12 @@ class CreateReservationFragment : Fragment() {
             price = nightCount * nightlyRate
             // Gece sayısını kullanabiliriz
             binding.tvMainPrice.text = "${nightCount} gece x ₺${nightlyRate}"
-            binding.tvMainPriceTotal.text = "₺${nightCount*nightlyRate}"
+            binding.tvMainPriceTotal.text = "₺${nightCount * nightlyRate}"
             binding.btnReserve.text = "${nightCount} gecelik Rezervasyon yap"
         }
+
         dateRangePicker.show(parentFragmentManager, "DATE_RANGE_PICKER_TAG")
+
     }
 
     private fun saveAndReserve() {
@@ -210,66 +223,64 @@ class CreateReservationFragment : Fragment() {
         val date = startDate+" - "+endDate
         val notificationMessage = "$username, $date tarihleri arasında sizin mülkünüzü kiralamak istiyor. "
         val reservationId = UUID.randomUUID().toString()
-        if (startDate.isNotEmpty() && endDate.isNotEmpty()){
-            if (binding.cb1.isChecked && binding.cb2.isChecked){
-                viewModel.createReservationInstance(
-                    reservationId = reservationId,
-                    villaId = villaId ?: "",
-                    hostId = myVilla.hostId ?: "",
-                    startDate = binding.tvSelectedStartDate.text.toString(),
-                    endDate = binding.tvSelectedEndDate.text.toString(),
-                    nights = nightCount,
-                    totalPrice = price,
-                    guestCount = number,
-                    paymentMethod = paymentMethod,
-                    nightlyRate,
-                    myVilla.propertyType ?: PropertyType.HOUSE,
-                    myVilla.coverImage ?: "",
-                    myVilla.bedroomCount ?: 0,
-                    myVilla.bathroomCount ?: 0,
-                    myVilla.villaName ?: "",
-                ).also {
-                    viewModel.makeReservation(it)
-                    InAppNotificationModel(
-                        itemId = reservationId,
-                        userId = myVilla.hostId,
-                        notificationType = NotificationType.HOST_RESERVATION,
-                        notificationId = UUID.randomUUID().toString(),
-                        userName =  currentUser.firstName+" "+currentUser.lastName,
-                        title =  "Yeni Rezervasyon İsteği!",
-                        message = notificationMessage,
-                        userImage = currentUser.profileImageUrl,
-                        imageUrl = myVilla.coverImage,
-                        userToken = token,
-                        time = getCurrentTime()
-                    ).also { notification->
-                        viewModel.sendNotification(
-                            notification = notification,
-                            reservationId = reservationId,
-                            type = NotificationTypeForActions.HOST_RESERVATION,
-                        )
-                    }
+        if (viewModel.currentUserId != myVilla.hostId){
+            if (startDate.isNotEmpty() && endDate.isNotEmpty()){
+                if (binding.cb1.isChecked && binding.cb2.isChecked){
+                    viewModel.createReservationInstance(
+                        reservationId = reservationId,
+                        villaId = villaId ?: "",
+                        hostId = myVilla.hostId ?: "",
+                        startDate = binding.tvSelectedStartDate.text.toString(),
+                        endDate = binding.tvSelectedEndDate.text.toString(),
+                        nights = nightCount,
+                        totalPrice = price,
+                        guestCount = number,
+                        paymentMethod = paymentMethod,
+                        nightlyRate,
+                        myVilla.propertyType ?: PropertyType.HOUSE,
+                        myVilla.coverImage ?: "",
+                        myVilla.bedroomCount ?: 0,
+                        myVilla.bathroomCount ?: 0,
+                        myVilla.villaName ?: "",
+                    ).also {
+                        viewModel.makeReservation(it)
+                        InAppNotificationModel(
+                            itemId = reservationId,
+                            userId = myVilla.hostId,
+                            notificationType = NotificationType.HOST_RESERVATION,
+                            notificationId = UUID.randomUUID().toString(),
+                            userName =  currentUser.firstName+" "+currentUser.lastName,
+                            title =  "Yeni Rezervasyon İsteği!",
+                            message = notificationMessage,
+                            userImage = currentUser.profileImageUrl,
+                            imageUrl = myVilla.coverImage,
+                            userToken = token,
+                            time = getCurrentTime()
+                        ).also { notification->
+                            viewModel.sendNotification(
+                                notification = notification,
+                                reservationId = reservationId,
+                                type = NotificationTypeForActions.HOST_RESERVATION,
+                            )
+                        }
 
-                    val sharedPref = requireActivity().applicationContext.getSharedPreferences("review", Context.MODE_PRIVATE)
-                    sharedPref.edit().putBoolean("is_reviewed", false).apply()
+                        val sharedPref = requireActivity().applicationContext.getSharedPreferences("review", Context.MODE_PRIVATE)
+                        sharedPref.edit().putBoolean("is_reviewed", false).apply()
+                    }
+                }else{
+                    Toast.makeText(requireContext(), "Lütfen şartları kabul edin", Toast.LENGTH_SHORT).show()
                 }
             }else{
-                Toast.makeText(requireContext(), "Lütfen şartları kabul edin", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Lütfen rezervasyon süresini belirtin", Toast.LENGTH_SHORT).show()
             }
-        }else{
-            Toast.makeText(requireContext(), "Lütfen rezervasyon süresini belirtin", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun setRadioButtonClickListener() {
         binding.radioCash.setOnClickListener {
-            paymentMethod = PaymentMethod.CASH
-        }
-        binding.radioBankTransfer.setOnClickListener{
-            paymentMethod = PaymentMethod.BANK_TRANSFER
-
-        }
-        binding.radioCreditCard.setOnClickListener{
             paymentMethod = PaymentMethod.CREDIT_OR_DEBIT_CARD
         }
     }

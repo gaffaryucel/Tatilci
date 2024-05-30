@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
@@ -15,11 +16,14 @@ import com.androiddevelopers.villabuluyorum.adapter.ViewPagerAdapterForVillaDeta
 import com.androiddevelopers.villabuluyorum.databinding.FragmentVillaDetailBinding
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
+import com.androiddevelopers.villabuluyorum.util.Resource
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
 import com.androiddevelopers.villabuluyorum.util.setupDialogs
 import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.user.villa.VillaDetailViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -46,6 +50,9 @@ class VillaDetailFragment : Fragment() {
     private var villaId: String? = null
     private var myUser: UserModel? = null
     private var hostId: String? = null
+    private var isChatRoomExists: Boolean? = null
+    private var isForSale: Boolean? = null
+    private var currentUser: Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,12 +98,33 @@ class VillaDetailFragment : Fragment() {
             viewPagerVillaDetail.adapter = viewPagerAdapter
             indicatorVillaDetail.setViewPager(viewPagerVillaDetail)
 
-            buttonDetailRent.setOnClickListener {
-                villaId?.let { id ->
-                    gotoReservation(
-                        id,
-                        it
-                    )
+            if (currentUser != true){
+                buttonDetailRent.setOnClickListener {
+                    if (isForSale == true){
+                        if (isChatRoomExists == true){
+                            goToMessagesFragment(hostId.toString())
+                        }else{
+                            if (myUser != null){
+                                viewModel.createChatRoom(myUser!!)
+                            }
+                        }
+                    }else{
+                        villaId?.let { id ->
+                            gotoReservation(
+                                id,
+                                it
+                            )
+                        }
+                    }
+                }
+                buttonDetailChat.setOnClickListener {
+                    if (isChatRoomExists == true){
+                        goToMessagesFragment(hostId.toString())
+                    }else{
+                        if (myUser != null){
+                            viewModel.createChatRoom(myUser!!)
+                        }
+                    }
                 }
             }
 
@@ -110,8 +138,8 @@ class VillaDetailFragment : Fragment() {
             }
         }
 
-        observeLiveData(viewLifecycleOwner)
     }
+
 
 //    private fun getGeocoderLocation(villa: Villa) {
 //        val address = buildString {
@@ -144,6 +172,26 @@ class VillaDetailFragment : Fragment() {
     private fun observeLiveData(owner: LifecycleOwner) {
         with(binding) {
             with(viewModel) {
+                dataStatus.observe(viewLifecycleOwner) {
+                    when (it.status) {
+                        Status.SUCCESS -> {
+                            if(viewModel.currentUserId != myUser?.userId){
+                                println("c : "+viewModel)
+                                println("myUser : "+myUser?.userId)
+                                goToMessagesFragment(myUser?.userId.toString())
+                                viewModel._dataStatus.value = Resource.loading(null)
+                            }
+                        }
+
+                        Status.LOADING -> {
+
+                        }
+
+                        Status.ERROR -> {
+                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
                 liveDataFirebaseStatus.observe(owner) {
                     when (it.status) {
                         Status.SUCCESS -> {
@@ -167,6 +215,16 @@ class VillaDetailFragment : Fragment() {
                 liveDataFirebaseVilla.observe(owner) {
                     villa = it
                     hostId = it.hostId
+                    isForSale = it.forSale
+                    val id = FirebaseAuth.getInstance().currentUser?.uid.toString()
+                    currentUser = it.hostId.equals(id)
+                    if (isForSale == true){
+                        binding.buttonDetailRent.text = "Satın Al"
+                        isForSale = true
+                    }else{
+                        isForSale = false
+                        binding.time = "Aylık"
+                    }
 
                     setViewsVillaDetail(it)
 
@@ -196,6 +254,9 @@ class VillaDetailFragment : Fragment() {
                     user = it
                     myUser = it
                 }
+                _isChatRoomExists.observe(owner) {
+                    isChatRoomExists = it
+                }
 
                 liveDataFirebaseUserReviews.observe(owner) { reviewList ->
                     recyclerViewComments.adapter = reviewAdapter
@@ -212,6 +273,10 @@ class VillaDetailFragment : Fragment() {
         }
     }
 
+    private fun goToMessagesFragment(id : String){
+        val action = VillaDetailFragmentDirections.actionVillaDetailFragmentToMessagesFragment(id)
+        Navigation.findNavController(requireView()).navigate(action)
+    }
     private fun setViewsVillaDetail(villaModel: Villa) {
         with(binding) {
             textMinStayDurationVillaDetail.visibility = View.GONE
@@ -277,13 +342,11 @@ class VillaDetailFragment : Fragment() {
     }
 
     private fun gotoReservation(id: String, view: View) {
-        val action =
-            VillaDetailFragmentDirections.actionVillaDetailFragmentToCreateReservationFragment(
+        val action = VillaDetailFragmentDirections.actionVillaDetailFragmentToCreateReservationFragment(
                 id,
                 myUser?.token.toString()
             )
-        Navigation.findNavController(view)
-            .navigate(action)
+        Navigation.findNavController(view).navigate(action)
     }
 
     private fun goToOwnerProfile(id: String, view: View) {
@@ -295,6 +358,7 @@ class VillaDetailFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        observeLiveData(viewLifecycleOwner)
         hideBottomNavigation(requireActivity())
     }
 

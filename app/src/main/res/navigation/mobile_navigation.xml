@@ -127,6 +127,9 @@
         <action
             android:id="@+id/action_villaDetailFragment_to_createReservationFragment"
             app:destination="@id/createReservationFragment" />
+        <action
+            android:id="@+id/action_villaDetailFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
     </fragment>
     <fragment
         android:id="@+id/messagesFragment"

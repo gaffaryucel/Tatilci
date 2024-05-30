@@ -39,5 +39,5 @@ data class Villa(
     var hasWifi: Boolean? = null, // wifi hizmeti
     var propertyType: PropertyType? = null,
     var time: String? = null,
-    var isForSale: Boolean? = null
+    var forSale: Boolean? = null
 ) : Serializable

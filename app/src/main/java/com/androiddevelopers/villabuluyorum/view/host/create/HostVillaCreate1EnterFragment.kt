@@ -193,7 +193,7 @@ class HostVillaCreate1EnterFragment : Fragment() {
                     villaFromArgs = villa
 
                     with(villa) {
-                        isForSale?.let { status ->
+                        forSale?.let { status ->
                             selectedPropertyStatus = status
 
                             clearAllCardBackground(propertyStatus.toList())
@@ -239,7 +239,7 @@ class HostVillaCreate1EnterFragment : Fragment() {
         }
 
         villa.apply {
-            isForSale = selectedPropertyStatus
+            forSale = selectedPropertyStatus
             propertyType = selectedPropertyType
         }
 

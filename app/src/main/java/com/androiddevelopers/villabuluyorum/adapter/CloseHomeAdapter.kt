@@ -54,6 +54,9 @@ class HouseAdapter(val myLocation: MyLocation? = null) :
             (house.locationNeighborhoodOrVillage + ", " + house.locationDistrict + ", " + house.locationProvince).also { address ->
                 binding.textAddress.text = address
             }
+            if (house.forSale == true){
+                binding.layoutISForSale.visibility = ViewGroup.VISIBLE
+            }
 
             if (myLocation != null) {
                 val distanceInKm = calculateDistance(

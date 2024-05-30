@@ -90,7 +90,7 @@ class HostHouseAdapter : RecyclerView.Adapter<HostHouseAdapter.HostHouseViewHold
                     textType.visibility = View.GONE
                 }
 
-                house.isForSale?.let { status ->
+                house.forSale?.let { status ->
                     if (status) {
                         textStatus.text = buildString {
                             append("Satılık")

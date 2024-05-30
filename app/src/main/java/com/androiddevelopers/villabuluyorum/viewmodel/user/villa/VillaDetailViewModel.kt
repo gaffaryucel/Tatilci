@@ -12,6 +12,8 @@ import com.androiddevelopers.villabuluyorum.util.toReview
 import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.androiddevelopers.villabuluyorum.util.toVilla
 import com.androiddevelopers.villabuluyorum.viewmodel.BaseViewModel
+import com.androiddevelopers.villabuluyorum.viewmodel.chat.CreateChatViewModel
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,12 +21,14 @@ import javax.inject.Inject
 @HiltViewModel
 class VillaDetailViewModel
 @Inject constructor(
-    private val firebaseRepo: FirebaseRepoInterFace
-) : BaseViewModel() {
+    private val firebaseRepo: FirebaseRepoInterFace,
+    private val auth: FirebaseAuth
+) : CreateChatViewModel(firebaseRepo,auth) {
     val liveDataFirebaseStatus: LiveData<Resource<Boolean>> = MutableLiveData()
     val liveDataFirebaseVilla: LiveData<Villa> = MutableLiveData()
     val liveDataFirebaseUser: LiveData<UserModel> = MutableLiveData()
     val liveDataFirebaseUserReviews: LiveData<List<ReviewModel>> = MutableLiveData()
+
 
     fun getVillaByIdFromFirestore(villaId: String) {
         liveDataFirebaseStatus.mutable.value = Resource.loading(true)
@@ -139,4 +143,5 @@ class VillaDetailViewModel
         }
 
     }
+
 }

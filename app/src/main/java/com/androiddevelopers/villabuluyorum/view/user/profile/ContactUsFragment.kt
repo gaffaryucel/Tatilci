@@ -11,6 +11,8 @@ import android.webkit.WebViewClient
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentContactUsBinding
 import com.androiddevelopers.villabuluyorum.databinding.FragmentProfileBinding
+import com.androiddevelopers.villabuluyorum.util.hideBottomNavigation
+import com.androiddevelopers.villabuluyorum.util.showBottomNavigation
 
 class ContactUsFragment : Fragment() {
     private var _binding: FragmentContactUsBinding? = null
@@ -36,5 +38,14 @@ class ContactUsFragment : Fragment() {
         webSettings.useWideViewPort = true
 
         webView.loadUrl("https://soomasgrubu.com/") // Buraya istediğiniz URL'yi ekleyin
+    }
+    override fun onResume() {
+        super.onResume()
+        hideBottomNavigation(requireActivity())
+    }
+
+    override fun onPause() {
+        super.onPause()
+        showBottomNavigation(requireActivity())
     }
 }

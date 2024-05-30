@@ -398,22 +398,6 @@
                                 android:layout_width="30dp"
                                 android:layout_height="0dp">
 
-                                <ImageView
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/lira"
-                                    android:layout_width="30dp"
-                                    android:layout_weight="1"
-                                    android:layout_height="match_parent"
-                                    app:tint="@color/main_button_gb_color"
-                                    tools:ignore="ContentDescription" />
-                                <ImageView
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/money_transfer"
-                                    android:layout_width="30dp"
-                                    android:layout_weight="1"
-                                    android:layout_height="match_parent"
-                                    app:tint="@color/main_button_gb_color"
-                                    tools:ignore="ContentDescription" />
 
                                 <ImageView
                                     android:layout_gravity="center"
@@ -423,6 +407,8 @@
                                     android:layout_height="match_parent"
                                     app:tint="@color/main_button_gb_color"
                                     tools:ignore="ContentDescription" />
+
+
 
                             </LinearLayout>
                             <LinearLayout
@@ -438,28 +424,15 @@
                                     android:layout_height="wrap_content"
                                     tools:ignore="UselessParent">
 
-                                    <RadioButton
+                                    <TextView
                                         android:checked="true"
                                         android:buttonTint="@color/main_button_gb_color"
                                         android:id="@+id/radioCash"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Nakit"
-                                        tools:ignore="HardcodedText" />
-                                    <RadioButton
-                                        android:buttonTint="@color/main_button_gb_color"
-                                        android:id="@+id/radioBankTransfer"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="EFT/Havale"
-                                        tools:ignore="HardcodedText" />
-                                    <RadioButton
-                                        android:buttonTint="@color/main_button_gb_color"
-                                        android:id="@+id/radioCreditCard"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
                                         android:text="Kredi/Banka Kartı"
                                         tools:ignore="HardcodedText" />
+
                                 </RadioGroup>
 
                             </LinearLayout>

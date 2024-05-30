@@ -9,6 +9,7 @@ import com.androiddevelopers.villabuluyorum.model.chat.ChatModel
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.util.Resource
 import com.androiddevelopers.villabuluyorum.util.toUserModel
+import com.androiddevelopers.villabuluyorum.viewmodel.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,7 +22,7 @@ import javax.inject.Inject
 open class CreateChatViewModel  @Inject constructor(
     private val repo : FirebaseRepoInterFace,
     private val auth : FirebaseAuth
-): ViewModel() {
+): BaseViewModel() {
     val currentUserId = auth.currentUser?.uid.toString()
 
     var _dataStatus = MutableLiveData<Resource<Boolean>>()
@@ -45,34 +46,37 @@ open class CreateChatViewModel  @Inject constructor(
     }
     fun createChatRoom(user: UserModel) = viewModelScope.launch{
         _dataStatus.value = Resource.loading(null)
-        if (!currentUserData.value?.userId.isNullOrEmpty() && currentUserId != user.userId) {
-            try {
-                val newChat = createChatForChatMate(user.userId.toString())
-                val chat = ChatModel(
-                    user.userId,
-                    user.username,
-                    user.profileImageUrl,
-                    user.userId,
-                    "",
-                    ""
-                )
-                repo.createChatRoomForOwner(currentUserId,chat)
-                    .addOnSuccessListener {
-                        repo.createChatRoomForChatMate(chat.receiverId.toString(),newChat).addOnSuccessListener {
-                            _dataStatus.value = Resource.success()
-                        }.addOnFailureListener {
-                            _dataStatus.value = Resource.error(it.localizedMessage)
+        if (currentUserId != user.userId){
+            if (!currentUserData.value?.userId.isNullOrEmpty() && currentUserId != user.userId) {
+                try {
+                    val newChat = createChatForChatMate(user.userId.toString())
+                    val chat = ChatModel(
+                        user.userId,
+                        user.username,
+                        user.profileImageUrl,
+                        user.userId,
+                        "",
+                        ""
+                    )
+                    repo.createChatRoomForOwner(currentUserId,chat)
+                        .addOnSuccessListener {
+                            repo.createChatRoomForChatMate(chat.receiverId.toString(),newChat).addOnSuccessListener {
+                                _dataStatus.value = Resource.success()
+                            }.addOnFailureListener {
+                                _dataStatus.value = Resource.error(it.localizedMessage)
+                            }
                         }
-                    }
-                    .addOnFailureListener { error ->
-                        _dataStatus.value = Resource.error(error.localizedMessage)
-                    }
-            }catch (e : Exception){
-                _dataStatus.value = Resource.error(e.localizedMessage)
+                        .addOnFailureListener { error ->
+                            _dataStatus.value = Resource.error(error.localizedMessage)
+                        }
+                }catch (e : Exception){
+                    _dataStatus.value = Resource.error(e.localizedMessage)
+                }
+            }else{
+                _dataStatus.value = Resource.error("Hata, tekrar deneyyin")
             }
-        }else{
-            _dataStatus.value = Resource.error("Hata, tekrar deneyyin")
         }
+
     }
     private fun createChatForChatMate(hostId : String) : ChatModel {
         return ChatModel(

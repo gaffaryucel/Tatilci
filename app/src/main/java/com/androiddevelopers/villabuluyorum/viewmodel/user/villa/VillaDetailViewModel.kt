@@ -37,8 +37,7 @@ class VillaDetailViewModel
             .addOnFailureListener {
                 liveDataFirebaseStatus.mutable.value = it.message?.let { message ->
                     Resource.error(
-                        message,
-                        null
+                        message, null
                     )
                 }
                 liveDataFirebaseStatus.mutable.value = Resource.loading(false)
@@ -80,5 +79,64 @@ class VillaDetailViewModel
                 }
                 liveDataFirebaseStatus.mutable.value = Resource.loading(false)
             }
+    }
+
+    fun deleteVillaAndImages(villa: Villa){
+        val images = mutableListOf<String>()
+        villa.otherImages?.let {imageList->
+            images.addAll(imageList)
+        }
+        villa.coverImage?.let {image->
+            images.add(image)
+        }
+
+        villa.villaId?.let {id->
+            deleteImageFromFirebaseStorage(id,images)
+        }
+    }
+
+    private fun deleteVillaFromFirestore(villaId: String){
+        firebaseRepo.deleteVillaFromFirestore(villaId)
+            .addOnSuccessListener {
+                liveDataFirebaseStatus.mutable.value = Resource.loading(false)
+                liveDataFirebaseStatus.mutable.value = Resource.success(false)
+            }
+            .addOnFailureListener {
+                liveDataFirebaseStatus.mutable.value = it.message?.let { message ->
+                    Resource.error(
+                        message
+                    )
+                }
+                liveDataFirebaseStatus.mutable.value = Resource.loading(false)
+            }
+    }
+
+    private fun deleteImageFromFirebaseStorage(villaId: String, images: MutableList<String>) {
+        liveDataFirebaseStatus.mutable.value = Resource.loading(true)
+
+        if (images.isNotEmpty()){
+            firebaseRepo.deleteImageFromFirebaseStorage(images[0])
+                .addOnSuccessListener {
+                    liveDataFirebaseStatus.mutable.value = Resource.loading(false)
+                    liveDataFirebaseStatus.mutable.value = Resource.success(false)
+
+                    //silinen resmi listeden kaldırıyoruz
+                    images.removeAt(0)
+
+                    //listenin son halini tekrar işleme alıyoruz, liste bitene kadar
+                    deleteImageFromFirebaseStorage(villaId, images)
+                }
+                .addOnFailureListener {
+                    liveDataFirebaseStatus.mutable.value = it.message?.let { message ->
+                        Resource.error(
+                            message
+                        )
+                    }
+                    liveDataFirebaseStatus.mutable.value = Resource.loading(false)
+                }
+        }else{
+            deleteVillaFromFirestore(villaId)
+        }
+
     }
 }

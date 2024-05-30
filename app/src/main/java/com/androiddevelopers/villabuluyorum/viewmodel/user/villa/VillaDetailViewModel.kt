@@ -31,7 +31,7 @@ class VillaDetailViewModel
         firebaseRepo.getVillaByIdFromFirestore(villaId)
             .addOnSuccessListener { documentSnapshot ->
                 liveDataFirebaseVilla.mutable.value = documentSnapshot.toVilla()
-                liveDataFirebaseStatus.mutable.value = Resource.success(true)
+                liveDataFirebaseStatus.mutable.value = Resource.success(false)
                 liveDataFirebaseStatus.mutable.value = Resource.loading(false)
             }
             .addOnFailureListener {
@@ -49,7 +49,7 @@ class VillaDetailViewModel
         firebaseRepo.getUserDataByDocumentId(userId)
             .addOnSuccessListener { documentSnapshot ->
                 liveDataFirebaseUser.mutable.value = documentSnapshot.toUserModel()
-                liveDataFirebaseStatus.mutable.value = Resource.success(true)
+                liveDataFirebaseStatus.mutable.value = Resource.success(false)
                 liveDataFirebaseStatus.mutable.value = Resource.loading(false)
             }
             .addOnFailureListener {
@@ -99,7 +99,7 @@ class VillaDetailViewModel
         firebaseRepo.deleteVillaFromFirestore(villaId)
             .addOnSuccessListener {
                 liveDataFirebaseStatus.mutable.value = Resource.loading(false)
-                liveDataFirebaseStatus.mutable.value = Resource.success(false)
+                liveDataFirebaseStatus.mutable.value = Resource.success(true)
             }
             .addOnFailureListener {
                 liveDataFirebaseStatus.mutable.value = it.message?.let { message ->

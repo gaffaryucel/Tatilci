@@ -24,7 +24,7 @@ fun showBottomNavigation(act: FragmentActivity?) {
 }
 
 fun startLoadingProcess(progressDialog: ProgressDialog?) {
-    progressDialog?.setMessage("Bilgiler güncelleniyor...")
+    progressDialog?.setMessage("Lütfen bekleyin...")
     progressDialog?.setCancelable(false)
     progressDialog?.show()
 }

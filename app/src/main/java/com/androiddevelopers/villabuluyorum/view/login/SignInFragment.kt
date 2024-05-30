@@ -1,6 +1,7 @@
 package com.androiddevelopers.villabuluyorum.view.login
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentSignInBinding
 import com.androiddevelopers.villabuluyorum.util.Status
+import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
 import com.androiddevelopers.villabuluyorum.view.user.BottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.login.SignInViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -28,6 +30,8 @@ class SignInFragment : Fragment() {
 
     private var _binding: FragmentSignInBinding? = null
     private val binding get() = _binding!!
+
+    private var progressDialog: ProgressDialog? = null
 
     private lateinit var errorDialog: AlertDialog
     private lateinit var verifiedEmailDialog: AlertDialog
@@ -53,6 +57,8 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressDialog = ProgressDialog(requireContext())
 
         errorDialog = AlertDialog.Builder(context).create()
         verifiedEmailDialog = AlertDialog.Builder(context).create()
@@ -151,12 +157,17 @@ class SignInFragment : Fragment() {
         with(viewModel) {
             authState.observe(owner) {
                 when (it.status) {
-                    Status.LOADING -> it.data?.let { state -> setProgressBar(state) }
+                    Status.LOADING -> it.data?.let {
+                        state -> setProgressBar(state)
+                        startLoadingProcess(progressDialog)
+                    }
                     Status.SUCCESS -> {
                         verifyEmail()
+                        progressDialog?.dismiss()
                     }
 
                     Status.ERROR -> {
+                        progressDialog?.dismiss()
                         errorDialog.setMessage("Giriş hatası oluştu.\n${it.message}")
                         errorDialog.show()
                     }

@@ -1,27 +1,22 @@
 package com.androiddevelopers.villabuluyorum.view.login
 
-import android.Manifest
 import android.app.AlertDialog
-import android.content.Context
+import android.app.ProgressDialog
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.databinding.FragmentRegisterBinding
 import com.androiddevelopers.villabuluyorum.util.Status
+import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
 import com.androiddevelopers.villabuluyorum.view.user.BottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.viewmodel.login.RegisterViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -30,8 +25,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
@@ -46,11 +39,10 @@ class RegisterFragment : Fragment() {
     val RC_SIGN_IN = 20
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
+    private var progressDialog: ProgressDialog? = null
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    private var latitude = 41.00527
-    private var longitude = 28.97696
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -64,10 +56,12 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressDialog = ProgressDialog(requireContext())
+
+
         errorDialog = AlertDialog.Builder(requireContext()).create()
         verificationDialog = AlertDialog.Builder(requireContext()).create()
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.web_client_id))
@@ -89,7 +83,7 @@ class RegisterFragment : Fragment() {
             val password = binding.etPassworad.text.toString()
             val confirmPassword = binding.etConfirmPassword.text.toString()
 
-            viewModel.signUp(email, password, confirmPassword, latitude, longitude)
+            viewModel.signUp(email, password, confirmPassword)
         }
 
         binding.ivBack.setOnClickListener {
@@ -101,7 +95,6 @@ class RegisterFragment : Fragment() {
         }
         setupDialogs()
         observeLiveData()
-        checkAndRequestGPSPermission(requireContext())
     }
 
 
@@ -112,14 +105,17 @@ class RegisterFragment : Fragment() {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     binding.pbRegister.visibility = View.INVISIBLE
                     binding.btnRegister.isEnabled = true
+                    progressDialog?.dismiss()
                 }
 
                 Status.LOADING -> {
+                    startLoadingProcess(progressDialog)
                     binding.pbRegister.visibility = View.VISIBLE
                     binding.btnRegister.isEnabled = false
                 }
 
                 Status.SUCCESS -> {
+                    progressDialog?.dismiss()
                     binding.pbRegister.visibility = View.INVISIBLE
                     binding.btnRegister.isEnabled = true
                     if (it.data == true) {
@@ -206,7 +202,7 @@ class RegisterFragment : Fragment() {
             try {
                 task.addOnSuccessListener {
                     val account = it.requestExtraScopes()
-                    viewModel.signInWithGoogle(account.idToken, latitude, longitude)
+                    viewModel.signInWithGoogle(account.idToken)
                 }.addOnFailureListener {
                     Toast.makeText(
                         requireContext(),
@@ -224,53 +220,4 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun checkAndRequestGPSPermission(context: Context) {
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-
-        if (!isGPSEnabled) {
-            val alertDialogBuilder = AlertDialog.Builder(context)
-            alertDialogBuilder.setTitle("GPS Ayarları")
-            alertDialogBuilder.setMessage("GPS ayarları kapalı. Ayarlara gidip açmak ister misiniz?")
-            alertDialogBuilder.setPositiveButton("Evet") { _, _ ->
-                // Kullanıcı Evet'i seçti, GPS ayarlarını açmak için ayarlara yönlendir
-                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(intent)
-            }
-            alertDialogBuilder.setNegativeButton("Hayır") { dialog, _ ->
-                // Kullanıcı Hayır'ı seçti, işlemi iptal et
-                dialog.dismiss()
-            }
-            val dialog = alertDialogBuilder.create()
-            dialog.show()
-        } else {
-            getLastKnownLocation()
-        }
-    }
-
-    private fun getLastKnownLocation() = lifecycleScope.launch {
-        delay(500)
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // İzin yoksa izin iste
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                100
-            )
-            return@launch
-        }
-        fusedLocationClient.lastLocation.addOnSuccessListener {
-            latitude = it?.latitude ?: 41.00527
-            longitude = it?.longitude ?: 28.97696
-        }
-    }
 }

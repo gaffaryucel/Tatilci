@@ -50,8 +50,8 @@ constructor(
     val liveDataProvinceFromRoom: LiveData<List<Province>>
         get() = _liveDataProvinceFromRoom
 
-    private var _notifyUser = MutableLiveData<String>()
-    val notifyUser: LiveData<String>
+    private var _notifyUser =  MutableLiveData<Resource<Boolean>>()
+    val notifyUser: LiveData<Resource<Boolean>>
         get() = _notifyUser
 
 
@@ -131,14 +131,15 @@ constructor(
 
 
     fun resetNotifyMessage() {
-        _notifyUser.value = ""
+        _notifyUser.value = Resource.loading()
     }
 
-    /*
+
     fun updateUserLocation(
         latitude: Double?,
         longitude: Double?,
     ) = viewModelScope.launch {
+        println("updateUserLocation")
         if (latitude == null || longitude == null) {
             return@launch
         }
@@ -147,10 +148,13 @@ constructor(
         updateMap["longitude"] = longitude
         repo.updateUserData(currentUserId, updateMap)
             .addOnSuccessListener {
-                _notifyUser.value = "Konum Güncellendi"
+                println("s")
+                _notifyUser.value = Resource.success()
             }.addOnFailureListener {
-                _notifyUser.value = "Konum Güncellenirken bir hata oluştu"
+                println("ee")
+
+                _notifyUser.value = it.localizedMessage?.let { it1 -> Resource.error(it1,null) }
             }
     }
-     */
+
 }

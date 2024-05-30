@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.androiddevelopers.villabuluyorum.model.UserModel
 import com.androiddevelopers.villabuluyorum.repo.FirebaseRepoInterFace
 import com.androiddevelopers.villabuluyorum.util.Resource
+import com.androiddevelopers.villabuluyorum.util.toUserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.messaging.FirebaseMessaging
@@ -43,9 +44,7 @@ constructor(
     fun signUp(
         email: String,
         password: String,
-        confirmPassword: String,
-        lat: Double,
-        long: Double
+        confirmPassword: String
     ) = viewModelScope.launch {
         _authState.value = Resource.loading(null)
         if (isInputValid(email, password, confirmPassword)) {
@@ -55,9 +54,7 @@ constructor(
                         val userId = firebaseAuth.currentUser?.uid ?: ""
                         createUser(
                             userId = userId,
-                            email = email,
-                            latitude = lat,
-                            longitude = long
+                            email = email
                         )
                         _authState.value = Resource.success(null)
                         verify()
@@ -76,44 +73,35 @@ constructor(
     private fun createUser(
         userId: String,
         email: String,
-        google: Boolean? = false,
-        latitude: Double,
-        longitude: Double
+        google: Boolean? = false
     ) = viewModelScope.launch {
         val tempUsername = email.substringBefore("@")
+        println("createUser")
         val user = makeUser(
             userId,
             tempUsername,
             email,
-            userToken.value?.data.toString(),
-            latitude,
-            longitude
+            userToken.value?.data.toString()
         )
+
         firebaseRepo.addUserToFirestore(user)
             .addOnSuccessListener {
                 if (google == false) {
                     verify()
                 } else {
+                    println("else success")
                     _authState.value = Resource.success(true)
                 }
             }.addOnFailureListener { e ->
-                _authState.value =
-                    Resource.error(e.localizedMessage ?: "error : try again later", null)
+                _authState.value = Resource.error(e.localizedMessage ?: "error : try again later", null)
             }
     }
 
     private fun verify() = viewModelScope.launch {
-        val current = firebaseAuth.currentUser
-        current?.sendEmailVerification()?.addOnCompleteListener {
-            if (it.isSuccessful) {
-                _isVerificationEmailSent.value = Resource.success(it.isSuccessful)
-                firebaseAuth.signOut()
-            } else {
-                _isVerificationEmailSent.value =
-                    Resource.error(it.exception?.localizedMessage ?: "error", null)
-            }
-        }?.addOnFailureListener {
-            _isVerificationEmailSent.value = Resource.error(it.localizedMessage ?: "error", null)
+        val currentUser = firebaseAuth.currentUser
+        currentUser?.sendEmailVerification()?.addOnSuccessListener {
+            _isVerificationEmailSent.value = Resource.success()
+            firebaseAuth.signOut()
         }
     }
 
@@ -122,16 +110,13 @@ constructor(
         userName: String,
         email: String,
         token: String,
-        latitude: Double,
-        longitude: Double
     ): UserModel {
+        println("make user")
         return UserModel(
             userId = userId,
             username = userName,
             email = email,
-            token = token,
-            latitude = latitude,
-            longitude = longitude,
+            token = token
         )
     }
 
@@ -165,29 +150,50 @@ constructor(
         }
     }
 
-    fun signInWithGoogle(idToken: String?, lat: Double, long: Double) {
+    fun signInWithGoogle(idToken: String?) {
+        println("signInWithGoogle")
         _authState.value = Resource.loading(null)
         val cridential = GoogleAuthProvider.getCredential(idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(cridential).addOnCompleteListener {
             if (it.isSuccessful) {
                 val user = it.result.user
-                if (user != null) {
-                    if (user.displayName == null) {
-                        createUser(
-                            userId = user.uid,
-                            email = user.email.toString(),
-                            google = true,
-                            latitude = lat,
-                            longitude = long
-                        )
-                    } else {
-                        _authState.value = Resource.success(true)
-                    }
+                if (user != null && user.email != null) {
+                    println("user != null")
+                    checkIsUserExist(
+                        user.uid,
+                        user.email!!
+                    )
                 }
             } else {
                 _authState.value = Resource.error("Hata : Tekrar deneyin", null)
             }
         }
     }
+    private fun checkIsUserExist(userId: String,email : String) = viewModelScope.launch {
+        firebaseRepo.getUserDataByDocumentId(userId)
+            .addOnSuccessListener { document ->
+                val user = document.toUserModel()
+                if (user?.userId != null) {
+                    println("User exists: ${user.userId}")
+                    _authState.value = Resource.success(true)
+                } else {
+                    println("User does not exist, creating new user")
+                    createUser(
+                        userId = userId,
+                        email = email,
+                        google = true
+                    )
+                }
+            }
+            .addOnFailureListener { exception ->
+                println("Failed to get user data, creating new user: ${exception.message}")
+                createUser(
+                    userId = userId,
+                    email = email,
+                    google = true
+                )
+            }
+    }
+
 
 }

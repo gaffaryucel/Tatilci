@@ -25,6 +25,8 @@
 
     <string name="reservation_approved_host">Rezervasyon Onaylandı,\n\nSize, yapılan rezervasyonun başarıyla onaylandığını bildirmekten mutluluk duyuyoruz! Tatil yerinizde konaklamalarını sağlayacak olmanızı umuyoruz.\n\nDetaylar için lütfen bizimle iletişime geçin.\n\nSaygılarımızla.</string>
     <string name="reservation_rejected_host">Bu rezervasyon maalesef reddedilmiştir.\nDetaylar için lütfen bizimle iletişime geçin.\nSaygılarımızla</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 

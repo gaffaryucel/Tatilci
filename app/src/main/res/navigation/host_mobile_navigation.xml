@@ -18,13 +18,6 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_navigation_host_villa_to_navigation_host_villa_create_enter"
-            app:destination="@id/navigation_host_villa_create_enter"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
             android:id="@+id/action_navigation_host_villa_to_navigation_host_message"
             app:destination="@id/navigation_host_message"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -41,6 +34,13 @@
         <action
             android:id="@+id/action_navigation_host_villa_to_hostVillaDetailFragment"
             app:destination="@id/hostVillaDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_navigation_host_villa_to_hostVillaCreateEnterFragment"
+            app:destination="@id/hostVillaCreateEnterFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -157,93 +157,96 @@
         app:popExitAnim="@anim/nav_default_pop_exit_anim"
         app:popUpTo="@id/navigation_host_notification"
         app:popUpToInclusive="true" />
-    <navigation
-        android:id="@+id/navigation_host_villa_create_enter"
-        app:startDestination="@id/hostVillaCreateEnterFragment">
-        <fragment
-            android:id="@+id/hostVillaCreateEnterFragment"
-            android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreateEnterFragment"
-            android:label="fragment_host_villa_create_enter"
-            tools:layout="@layout/fragment_host_villa_create_enter">
-            <action
-                android:id="@+id/action_navigation_host_villa_create_enter_to_hostVillaCreateFragment"
-                app:destination="@id/hostVillaCreateFragment"
-                app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        </fragment>
-        <fragment
-            android:id="@+id/hostVillaCreateFragment"
-            android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreateFragment"
-            android:label="@string/title_home"
-            tools:layout="@layout/fragment_host_villa_create">
-            <argument
-                android:name="createVillaPageArguments"
-                app:argType="com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments" />
-            <action
-                android:id="@+id/action_hostVillaCreateFragment_to_hostVillaCreateDetailFragment"
-                app:destination="@id/hostVillaCreateDetailFragment"
-                app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-            <action
-                android:id="@+id/action_hostVillaCreateFragment_to_navigation_host_villa_create_enter"
-                app:destination="@id/hostVillaCreateEnterFragment"
-                app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim"
-                app:popUpTo="@id/hostVillaCreateEnterFragment"
-                app:popUpToInclusive="true" />
-        </fragment>
+    <fragment
+        android:id="@+id/hostVillaCreateEnterFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreate1EnterFragment"
+        android:label="fragment_host_villa_create_enter"
+        tools:layout="@layout/fragment_host_villa_create_1_enter">
+        <action
+            android:id="@+id/action_navigation_host_villa_create_enter_to_hostVillaCreateFragment"
+            app:destination="@id/hostVillaCreateFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="createVillaPageArguments"
+            app:argType="com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel" />
+        <argument
+            android:name="villaId"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/hostVillaCreateFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreate2ImagesFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_host_villa_create_2_images">
+        <argument
+            android:name="createVillaPageArguments"
+            app:argType="com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel" />
+        <action
+            android:id="@+id/action_hostVillaCreateFragment_to_hostVillaCreateDetailFragment"
+            app:destination="@id/hostVillaCreateDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_hostVillaCreateFragment_to_navigation_host_villa_create_enter"
+            app:destination="@id/hostVillaCreateEnterFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/hostVillaCreateEnterFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
-        <fragment
-            android:id="@+id/hostVillaCreateFacilitiesFragment"
-            android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreateFacilitiesFragment"
-            android:label="fragment_host_villa_create_facilities"
-            tools:layout="@layout/fragment_host_villa_create_facilities">
-            <argument
-                android:name="createVillaPageArguments"
-                app:argType="com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments" />
-            <action
-                android:id="@+id/action_hostVillaCreateFacilitiesFragment_to_navigation_host_villa_create_enter"
-                app:destination="@id/hostVillaCreateEnterFragment"
-                app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim"
-                app:popUpTo="@id/hostVillaCreateEnterFragment"
-                app:popUpToInclusive="true" />
-        </fragment>
-        <fragment
-            android:id="@+id/hostVillaCreateDetailFragment"
-            android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreateDetailFragment"
-            android:label="fragment_host_villa_create_detail"
-            tools:layout="@layout/fragment_host_villa_create_detail">
-            <action
-                android:id="@+id/action_hostVillaCreateDetailFragment_to_hostVillaCreateFacilitiesFragment"
-                app:destination="@id/hostVillaCreateFacilitiesFragment"
-                app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-            <argument
-                android:name="createVillaPageArguments"
-                app:argType="com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments" />
-            <action
-                android:id="@+id/action_hostVillaCreateDetailFragment_to_navigation_host_villa_create_enter"
-                app:destination="@id/hostVillaCreateEnterFragment"
-                app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim"
-                app:popUpTo="@id/hostVillaCreateEnterFragment"
-                app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/hostVillaCreateFacilitiesFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreate4FacilitiesFragment"
+        android:label="fragment_host_villa_create_facilities"
+        tools:layout="@layout/fragment_host_villa_create_4_facilities">
+        <argument
+            android:name="createVillaPageArguments"
+            app:argType="com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel" />
+        <action
+            android:id="@+id/action_hostVillaCreateFacilitiesFragment_to_navigation_host_villa_create_enter"
+            app:destination="@id/hostVillaCreateEnterFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/hostVillaCreateEnterFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/hostVillaCreateDetailFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreate3DetailFragment"
+        android:label="fragment_host_villa_create_detail"
+        tools:layout="@layout/fragment_host_villa_create_3_detail">
+        <action
+            android:id="@+id/action_hostVillaCreateDetailFragment_to_hostVillaCreateFacilitiesFragment"
+            app:destination="@id/hostVillaCreateFacilitiesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="createVillaPageArguments"
+            app:argType="com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel" />
+        <action
+            android:id="@+id/action_hostVillaCreateDetailFragment_to_navigation_host_villa_create_enter"
+            app:destination="@id/hostVillaCreateEnterFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/hostVillaCreateEnterFragment"
+            app:popUpToInclusive="true" />
 
-        </fragment>
-    </navigation>
+    </fragment>
     <fragment
         android:id="@+id/hostChatFragment"
         android:name="com.androiddevelopers.villabuluyorum.view.host.chat.HostChatFragment"
@@ -262,16 +265,16 @@
         android:name="com.androiddevelopers.villabuluyorum.view.host.villa.HostVillaDetailFragment"
         android:label="fragment_host_villa_detail"
         tools:layout="@layout/fragment_host_villa_detail">
+        <argument
+            android:name="villaId"
+            app:argType="string" />
         <action
-            android:id="@+id/action_hostVillaDetailFragment_to_navigation_host_villa_create_enter"
-            app:destination="@id/navigation_host_villa_create_enter"
+            android:id="@+id/action_hostVillaDetailFragment_to_hostVillaCreateEnterFragment"
+            app:destination="@id/hostVillaCreateEnterFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <argument
-            android:name="villaId"
-            app:argType="string" />
     </fragment>
 
 

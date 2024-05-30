@@ -14,8 +14,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
-import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreateDetailBinding
-import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
+import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreate3DetailBinding
+import com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
@@ -26,14 +26,16 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @Suppress("UNUSED_ANONYMOUS_PARAMETER")
 @AndroidEntryPoint
-class HostVillaCreateDetailFragment : Fragment() {
+class HostVillaCreate3DetailFragment : Fragment() {
     private val viewModel: HostVillaCreateBaseViewModel by viewModels()
-    private var _binding: FragmentHostVillaCreateDetailBinding? = null
+    private var _binding: FragmentHostVillaCreate3DetailBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var errorDialog: AlertDialog
+
+    private var villaId: String? = null
     private lateinit var villaFromArgs: Villa
-    private lateinit var createVillaPageArguments: CreateVillaPageArguments
+    private lateinit var villaPageArgumentsModel: VillaPageArgumentsModel
 
     private var selectedHasPool: Boolean? = null
     private var selectedHasWifi: Boolean? = null
@@ -42,18 +44,17 @@ class HostVillaCreateDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val args: HostVillaCreateDetailFragmentArgs by navArgs()
-        createVillaPageArguments = args.createVillaPageArguments
-        viewModel.setCreateVillaPageArguments(createVillaPageArguments)
+        val args: HostVillaCreate3DetailFragmentArgs by navArgs()
+        villaPageArgumentsModel = args.createVillaPageArguments
+        viewModel.setCreateVillaPageArguments(villaPageArgumentsModel)
 
         //Telefon geri tuşunu dinliyoruz
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            //geri tuşuna basıldığında önceki sayfaya villayıda gönderiyoruz
+        requireActivity().onBackPressedDispatcher.addCallback(this) { //geri tuşuna basıldığında önceki sayfaya villayıda gönderiyoruz
             val navController = findNavController()
-            createVillaPageArguments.villa = updateVilla(villaFromArgs)
+            villaPageArgumentsModel.villa = updateVilla(villaFromArgs)
             navController.previousBackStackEntry?.savedStateHandle?.set(
                 "createVillaPageArgumentsToBack",
-                createVillaPageArguments
+                villaPageArgumentsModel
             )
             navController.popBackStack()
         }
@@ -61,34 +62,39 @@ class HostVillaCreateDetailFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHostVillaCreateDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentHostVillaCreate3DetailBinding.inflate(
+            inflater,
+            container,
+            false
+        )
 
         setClickItems()
 
-        errorDialog = AlertDialog.Builder(requireContext()).create()
+        errorDialog = AlertDialog.Builder(requireContext())
+            .create()
         setupDialogs(errorDialog)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(
+            view,
+            savedInstanceState
+        )
         observeLiveData(viewLifecycleOwner)
         setDropdownItems()
 
+        //TODO: Turistik yerler için ekleme yap
 
         //geri tuşuna basıldığında sonraki sayfadan gelen argümanı yakalıyoruz
         val navController = findNavController()
-        navController
-            .currentBackStackEntry
-            ?.savedStateHandle
-            ?.getLiveData<CreateVillaPageArguments>("createVillaPageArgumentsToBack")
+        navController.currentBackStackEntry?.savedStateHandle?.getLiveData<VillaPageArgumentsModel>("createVillaPageArgumentsToBack")
             ?.observe(viewLifecycleOwner) { data ->
-                createVillaPageArguments = data
-                viewModel.setCreateVillaPageArguments(createVillaPageArguments)
+                villaPageArgumentsModel = data
+                viewModel.setCreateVillaPageArguments(villaPageArgumentsModel)
             }
     }
 
@@ -99,15 +105,16 @@ class HostVillaCreateDetailFragment : Fragment() {
                     when (it.status) {
                         Status.SUCCESS -> {
                             val directions =
-                                HostVillaCreateFragmentDirections.actionGlobalNavigationHostProfile()
-                            Navigation.findNavController(binding.root).navigate(directions)
+                                HostVillaCreate3DetailFragmentDirections.actionGlobalNavigationHostProfile()
+                            Navigation.findNavController(binding.root)
+                                .navigate(directions)
                         }
 
                         Status.LOADING -> it.data?.let { status ->
                             setProgressBarVisibility = status
                         }
 
-                        Status.ERROR -> {
+                        Status.ERROR   -> {
                             errorDialog.setMessage("Hata mesajı:\n${it.message}")
                             errorDialog.show()
                         }
@@ -131,19 +138,19 @@ class HostVillaCreateDetailFragment : Fragment() {
             }
 
             buttonNextVillaCreatePage3.setOnClickListener {
-                createVillaPageArguments.villa = updateVilla(villaFromArgs)
+                villaPageArgumentsModel.villa = updateVilla(villaFromArgs)
                 val directions =
-                    HostVillaCreateDetailFragmentDirections.actionHostVillaCreateDetailFragmentToHostVillaCreateFacilitiesFragment(
-                        createVillaPageArguments
+                    HostVillaCreate3DetailFragmentDirections.actionHostVillaCreateDetailFragmentToHostVillaCreateFacilitiesFragment(
+                        villaPageArgumentsModel
                     )
-                Navigation.findNavController(it).navigate(directions)
+                Navigation.findNavController(it)
+                    .navigate(directions)
             }
         }
     }
 
     private fun setDropdownItems() {
-        with(binding) {
-            // string-array olarak belirleridğimiz numara listesini databinding ile görünüme gönderiyoruz
+        with(binding) { // string-array olarak belirleridğimiz numara listesini databinding ile görünüme gönderiyoruz
             numberAdapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_list_item_1,
@@ -175,18 +182,24 @@ class HostVillaCreateDetailFragment : Fragment() {
     private fun updateVilla(villa: Villa): Villa {
         with(binding) {
             with(villa) {
-                capacity = dropdownCapacityVillaCreate.text.toString().toIntOrNull() ?: 0
-                bedroomCount = dropdownBedroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
-                bedCount = dropdownBedCountVillaCreate.text.toString().toIntOrNull() ?: 0
-                bathroomCount = dropdownBathroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
-                restroom = dropdownRestroomCountVillaCreate.text.toString().toIntOrNull() ?: 0
-                minStayDuration =
-                    dropdownMinStayDurationVillaCreate.text.toString().toIntOrNull() ?: 0
+                capacity = dropdownCapacityVillaCreate.text.toString()
+                    .toIntOrNull() ?: 0
+                bedroomCount = dropdownBedroomCountVillaCreate.text.toString()
+                    .toIntOrNull() ?: 0
+                bedCount = dropdownBedCountVillaCreate.text.toString()
+                    .toIntOrNull() ?: 0
+                bathroomCount = dropdownBathroomCountVillaCreate.text.toString()
+                    .toIntOrNull() ?: 0
+                restroom = dropdownRestroomCountVillaCreate.text.toString()
+                    .toIntOrNull() ?: 0
+                minStayDuration = dropdownMinStayDurationVillaCreate.text.toString()
+                    .toIntOrNull() ?: 0
                 hasWifi = selectedHasWifi
                 hasPool = selectedHasPool
                 isQuietArea = selectedHasQuietArea
                 interiorDesign = editTextInteriorDesignVillaCreate.text.toString()
-                gardenArea = editTextGardenAreaVillaCreate.text.toString().toDoubleOrNull() ?: 0.0
+                gardenArea = editTextGardenAreaVillaCreate.text.toString()
+                    .toDoubleOrNull() ?: 0.0
             }
         }
 

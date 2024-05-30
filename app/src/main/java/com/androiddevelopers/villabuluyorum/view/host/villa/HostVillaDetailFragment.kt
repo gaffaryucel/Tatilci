@@ -10,8 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
+import com.androiddevelopers.villabuluyorum.adapter.HostReviewAdapter
 import com.androiddevelopers.villabuluyorum.adapter.ViewPagerAdapterForVillaDetail
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaDetailBinding
+import com.androiddevelopers.villabuluyorum.model.PropertyType
+import com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.hideHostBottomNavigation
@@ -27,37 +30,56 @@ class HostVillaDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val errorDialog: AlertDialog by lazy {
-        AlertDialog.Builder(requireContext()).create()
+        AlertDialog.Builder(requireContext())
+            .create()
     }
 
     private val viewPagerAdapter: ViewPagerAdapterForVillaDetail by lazy {
         ViewPagerAdapterForVillaDetail()
     }
 
+    private val reviewAdapter: HostReviewAdapter by lazy {
+        HostReviewAdapter()
+    }
+
+    private var villaId: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val args: HostVillaDetailFragmentArgs by navArgs()
-        val id = args.villaId
+        villaId = args.villaId
 
-        viewModel.getVillaByIdFromFirestore(id)
+        villaId?.let { id ->
+            viewModel.getVillaByIdFromFirestore(id)
+            viewModel.getAllReviewsByVillaId(id)
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHostVillaDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentHostVillaDetailBinding.inflate(
+            inflater,
+            container,
+            false
+        )
         val view = binding.root
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(
+            view,
+            savedInstanceState
+        )
         with(binding) {
             //viewpager adapter ve indicatoru set ediyoruz
             viewPagerVillaDetail.adapter = viewPagerAdapter
             indicatorVillaDetail.setViewPager(viewPagerVillaDetail)
         }
+
+        //TODO: ilan silmek için butonu aktif et
         setClickItems()
         observeLiveData(viewLifecycleOwner)
     }
@@ -65,9 +87,20 @@ class HostVillaDetailFragment : Fragment() {
     private fun setClickItems() {
         with(binding) {
             imageEdit.setOnClickListener {
-                val directions =
-                    HostVillaDetailFragmentDirections.actionHostVillaDetailFragmentToNavigationHostVillaCreateEnter()
-                Navigation.findNavController(binding.root).navigate(directions)
+                villaId?.let { id ->
+                    val directions =
+                        HostVillaDetailFragmentDirections.actionHostVillaDetailFragmentToHostVillaCreateEnterFragment(
+                            createVillaPageArguments = VillaPageArgumentsModel(
+                                villa = Villa(
+                                    villaId = id
+                                )
+                            ),
+                            id
+                        )
+                    Navigation.findNavController(binding.root)
+                        .navigate(directions)
+                }
+
             }
         }
     }
@@ -98,20 +131,64 @@ class HostVillaDetailFragment : Fragment() {
                 liveDataFirebaseVilla.observe(owner) {
                     villa = it
 
-                    setViewsVillaDetail(it)
+                    it.propertyType?.let { type ->
+                        textPropertyType.visibility = View.VISIBLE
+                        when (type) {
+                            PropertyType.HOUSE       -> {
+                                textPropertyType.text = buildString {
+                                    append("Villa")
+                                }
+                            }
 
-                    it.otherImages?.toList()?.let { images ->
-                        if (images.isNotEmpty()) {
-                            viewPagerAdapter.refreshList(images)
-                            //indicatoru viewpager yeni liste ile set ediyoruz
-                            binding.indicatorVillaDetail.setViewPager(binding.viewPagerVillaDetail)
+                            PropertyType.APARTMENT   -> {
+                                textPropertyType.text = buildString {
+                                    append("Apartman")
+                                }
+                            }
 
-                            binding.setViewPagerVisibility = true
-                        } else {
-                            binding.setViewPagerVisibility = false
+                            PropertyType.GUEST_HOUSE -> {
+                                textPropertyType.text = buildString {
+                                    append("Misafir Evi")
+                                }
+                            }
+
+                            PropertyType.HOTEL       -> {
+                                textPropertyType.text = buildString {
+                                    append("Otel")
+                                }
+                            }
                         }
                     } ?: run {
+                        textPropertyType.visibility = View.GONE
+                    }
+
+                    setViewsVillaDetail(it)
+
+                    it.otherImages?.toList()
+                        ?.let { images ->
+                            if (images.isNotEmpty()) {
+                                viewPagerAdapter.refreshList(images)
+                                //indicatoru viewpager yeni liste ile set ediyoruz
+                                binding.indicatorVillaDetail.setViewPager(binding.viewPagerVillaDetail)
+
+                                binding.setViewPagerVisibility = true
+                            } else {
+                                binding.setViewPagerVisibility = false
+                            }
+                        } ?: run {
                         binding.setViewPagerVisibility = false
+                    }
+                }
+
+                liveDataFirebaseUserReviews.observe(owner) { reviewList ->
+                    recyclerViewComments.adapter = reviewAdapter
+                    reviewAdapter.reviewList = reviewList.toList()
+
+                    progressBarComments.visibility = View.GONE
+                    if (reviewList.isEmpty()) {
+                        textNoComments.visibility = View.VISIBLE
+                    } else {
+                        recyclerViewComments.visibility = View.VISIBLE
                     }
                 }
             }
@@ -165,7 +242,6 @@ class HostVillaDetailFragment : Fragment() {
                 textNoVillaDetail.visibility = View.GONE
             }
 
-            //TODO: Turistik yerler için create sayfasına ekleme yap
             villaModel.attractions?.let {
                 if (it.isNotEmpty()) {
                     textAttractionsListVillaDetail.text = buildString {

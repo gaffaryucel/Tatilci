@@ -24,18 +24,23 @@ class HostHouseAdapter : RecyclerView.Adapter<HostHouseAdapter.HostHouseViewHold
         }
     }
 
-    private val asyncListDiffer = AsyncListDiffer(this, diffUtil)
+    private val asyncListDiffer = AsyncListDiffer(
+        this,
+        diffUtil
+    )
 
     var housesList: List<Villa>
         get() = asyncListDiffer.currentList
         set(value) = asyncListDiffer.submitList(value)
 
-    inner class HostHouseViewHolder(val binding: RowHostHouseBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    inner class HostHouseViewHolder(val binding: RowHostHouseBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HostHouseViewHolder {
-        val binding =
-            RowHostHouseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = RowHostHouseBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return HostHouseViewHolder(binding)
     }
 
@@ -43,7 +48,10 @@ class HostHouseAdapter : RecyclerView.Adapter<HostHouseAdapter.HostHouseViewHold
         val house = housesList[position]
         with(holder) {
             with(binding) {
-                downloadImage(imageHouse, house.coverImage)
+                downloadImage(
+                    imageHouse,
+                    house.coverImage
+                )
 
                 textTitle.text = house.villaName
 
@@ -81,6 +89,19 @@ class HostHouseAdapter : RecyclerView.Adapter<HostHouseAdapter.HostHouseViewHold
                 } ?: run {
                     textType.visibility = View.GONE
                 }
+
+                house.isForSale?.let { status ->
+                    if (status) {
+                        textStatus.text = buildString {
+                            append("Satılık")
+                        }
+                    } else {
+                        textStatus.text = buildString {
+                            append("Kiralık")
+                        }
+                    }
+
+                }
             }
 
             itemView.setOnClickListener { view ->
@@ -89,7 +110,8 @@ class HostHouseAdapter : RecyclerView.Adapter<HostHouseAdapter.HostHouseViewHold
                         HostVillaFragmentDirections.actionNavigationHostVillaToHostVillaDetailFragment(
                             id
                         )
-                    Navigation.findNavController(view).navigate(directions)
+                    Navigation.findNavController(view)
+                        .navigate(directions)
                 }
             }
         }

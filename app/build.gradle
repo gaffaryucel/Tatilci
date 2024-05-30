@@ -107,4 +107,13 @@ dependencies {
 }
 kapt {
     correctErrorTypes true
+
+    arguments {
+        arg("kapt.kotlin.generated", "true")
+    }
+
+    //daha hızlı derleme süreçleri için eklendi
+    javacOptions {
+        option("-Adagger.fastInit=enabled")
+    }
 }

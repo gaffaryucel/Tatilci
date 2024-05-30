@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 
 class ReviewAdapter : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
 
+    var isReviewed = false
     private val diffUtil = object : DiffUtil.ItemCallback<ReservationModel>() {
         override fun areItemsTheSame(
             oldItem: ReservationModel,
@@ -71,12 +72,14 @@ class ReviewAdapter : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
             //holder.binding.tvPropertyType.text = myReview.propertyType ?: "Apartman"
 
             holder.itemView.setOnClickListener {
-
-            val directions =
-                ReviewFragmentDirections.actionReviewFragmentToReviewDetailsFragment(
-                    myReservation.reservationId.toString(),
-                )
-                Navigation.findNavController(it).navigate(directions)
+                if (isReviewed){
+                    val directions = ReviewFragmentDirections.actionReviewFragmentToReviewDetailsFragment(
+                        myReservation.reservationId.toString(),
+                    )
+                    Navigation.findNavController(it).navigate(directions)
+                }else{
+                    Toast.makeText(holder.itemView.context, "İnceleme yapıldı", Toast.LENGTH_SHORT).show()
+                }
 
             }
 

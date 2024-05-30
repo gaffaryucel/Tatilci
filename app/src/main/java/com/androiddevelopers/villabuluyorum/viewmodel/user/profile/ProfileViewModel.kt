@@ -41,6 +41,10 @@ constructor(
     val reservationCount: LiveData<Int>
         get() = _reservationCount
 
+    private var _resetPasswordMessage = MutableLiveData<Resource<Boolean>>()
+    val resetPasswordMessage: LiveData<Resource<Boolean>>
+        get() = _resetPasswordMessage
+
     private var _userData = MutableLiveData<UserModel>()
     val userData: LiveData<UserModel>
         get() = _userData
@@ -114,4 +118,6 @@ constructor(
         updateMap["userType"] = UserType.HOMEOWNER
         repo.updateUserData(currentUserId, updateMap)
     }
+
+
 }

@@ -165,6 +165,9 @@ class FirebaseRepoImpl @Inject constructor(
             .orderBy("time", Query.Direction.DESCENDING)
             .get()
     }
+    override fun getReviewByReservationId(reservationId: String): Task<QuerySnapshot> {
+        return reviewCollection.whereEqualTo("reservationId", reservationId).get()
+    }
 
 
     //Notification

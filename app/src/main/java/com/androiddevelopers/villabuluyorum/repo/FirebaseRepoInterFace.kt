@@ -57,7 +57,7 @@ interface FirebaseRepoInterFace {
     fun getReservationsByRateStatus(userId: String,today : String,value : Boolean?): Task<QuerySnapshot>
     fun getAllFinishedReservations(userId: String,today : String): Task<QuerySnapshot>
     fun getAllReviewsByUserId(userId: String): Task<QuerySnapshot>
-
+    fun getReviewByReservationId(reservationId: String): Task<QuerySnapshot>
 
     //Firestore - Notification
     //Set

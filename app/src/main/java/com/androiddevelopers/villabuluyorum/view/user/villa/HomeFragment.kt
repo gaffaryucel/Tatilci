@@ -36,7 +36,9 @@ import com.androiddevelopers.villabuluyorum.databinding.FragmentHomeBinding
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.androiddevelopers.villabuluyorum.util.Status
+import com.androiddevelopers.villabuluyorum.view.host.profile.HostProfileFragmentDirections
 import com.androiddevelopers.villabuluyorum.view.login.RegisterFragmentDirections
+import com.androiddevelopers.villabuluyorum.view.user.profile.ProfileFragmentDirections
 import com.androiddevelopers.villabuluyorum.view.user.review.ReviewDialogFragment
 import com.androiddevelopers.villabuluyorum.viewmodel.user.villa.HomeViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -104,6 +106,7 @@ class HomeFragment : Fragment() {
             gotoReservation(reservationHost)
             requireActivity().intent.removeExtra("reservation_host")
         }
+
         setupBindingItems()
     }
 

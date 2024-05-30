@@ -73,7 +73,11 @@
         android:id="@+id/navigation_host_profile"
         android:name="com.androiddevelopers.villabuluyorum.view.host.profile.HostProfileFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_host_profile" />
+        tools:layout="@layout/fragment_host_profile" >
+        <action
+            android:id="@+id/action_navigation_host_profile_to_contactUsFragment2"
+            app:destination="@id/contactUsFragment2" />
+    </fragment>
     <action
         android:id="@+id/action_global_navigation_host_villa"
         app:destination="@id/navigation_host_villa"
@@ -273,6 +277,11 @@
             android:name="villaId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/contactUsFragment2"
+        android:name="com.androiddevelopers.villabuluyorum.view.user.profile.ContactUsFragment"
+        android:label="fragment_contact_us"
+        tools:layout="@layout/fragment_contact_us" />
 
 
 </navigation>

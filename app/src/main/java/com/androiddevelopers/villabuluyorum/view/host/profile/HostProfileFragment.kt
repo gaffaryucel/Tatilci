@@ -10,13 +10,16 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostProfileBinding
+import com.androiddevelopers.villabuluyorum.model.ReviewModel
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.UserType
 import com.androiddevelopers.villabuluyorum.util.startLoadingProcess
 import com.androiddevelopers.villabuluyorum.view.MainActivity
 import com.androiddevelopers.villabuluyorum.view.host.HostBottomNavigationActivity
 import com.androiddevelopers.villabuluyorum.view.user.BottomNavigationActivity
+import com.androiddevelopers.villabuluyorum.view.user.profile.ResetPasswordFragment
 import com.androiddevelopers.villabuluyorum.viewmodel.host.profile.HostProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,8 +50,18 @@ class HostProfileFragment : Fragment() {
         binding.cardViewExit.setOnClickListener{
             viewModel.signOutAndExit(requireContext())
         }
-
-
+        binding.cardViewSecurity.setOnClickListener{
+            val dialog = ResetPasswordFragment()
+            dialog.show(parentFragmentManager,"dialog")
+        }
+        binding.cardViewAppOptions.setOnClickListener{
+            val action = HostProfileFragmentDirections.actionNavigationHostProfileToContactUsFragment2()
+            Navigation.findNavController(it).navigate(action)
+        }
+        binding.cardViewAppTheme.setOnClickListener{
+            val action = HostProfileFragmentDirections.actionNavigationHostProfileToContactUsFragment2()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     override fun onResume() {
@@ -113,14 +126,33 @@ class HostProfileFragment : Fragment() {
                 }
             }
         })
-        viewModel.userReviews.observe(viewLifecycleOwner, Observer {
-            val count = it ?: 0
-            binding.tvReservationCount.text = count.toString()
-        })
         viewModel.userVillas.observe(viewLifecycleOwner, Observer {
             val count = it ?: 0
-            binding.tvReservationCount.text = count.toString()
+            binding.postCount = count.toString()
         })
+        viewModel.userReviews.observe(viewLifecycleOwner, Observer { reviews ->
+            if (reviews != null && reviews.isNotEmpty()) {
+                binding.reviewCount = reviews.size.toString()
+                try {
+                    val averageRating = calculateAverageRating(reviews)
+                    val formattedNumber = String.format("%.1f", averageRating)
+                    binding.rating = formattedNumber
+                }catch (e : Exception){
+                    println("e : "+e.localizedMessage)
+                }
+            } else{
+                binding.reviewCount = "0"
+                binding.rating = "0.0"
+            }
+        })
+    }
+    private fun calculateAverageRating(reviews: List<ReviewModel>): Double {
+        val total = reviews.sumBy { it.rating ?: 0 }
+        return if (reviews.isNotEmpty()) {
+            total.toDouble() / reviews.size
+        } else {
+            0.0
+        }
     }
 
 

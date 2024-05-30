@@ -104,8 +104,14 @@ class ReviewFragment : Fragment() {
                 button.setBackgroundResource(R.drawable.selected_text_bg)
                 button.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                 when(selected){
-                    binding.tv0-> changeReservationList(unRatedReservations)
-                    binding.tv1-> changeReservationList(ratedReservations)
+                    binding.tv0-> {
+                        changeReservationList(unRatedReservations)
+                        reviewAdapter.isReviewed = true
+                    }
+                    binding.tv1-> {
+                        changeReservationList(ratedReservations)
+                        reviewAdapter.isReviewed = false
+                    }
                 }
             } else {
                 button.setBackgroundResource(R.drawable.selectable_text_bg)

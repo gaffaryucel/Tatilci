@@ -64,6 +64,9 @@
         <action
             android:id="@+id/action_navigation_profile_to_reviewFragment"
             app:destination="@id/reviewFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_contactUsFragment"
+            app:destination="@id/contactUsFragment" />
     </fragment>
 
     <action
@@ -247,4 +250,9 @@
             android:id="@+id/action_chatsFragment_to_messagesFragment"
             app:destination="@id/messagesFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/contactUsFragment"
+        android:name="com.androiddevelopers.villabuluyorum.view.user.profile.ContactUsFragment"
+        android:label="fragment_contact_us"
+        tools:layout="@layout/fragment_contact_us" />
 </navigation>

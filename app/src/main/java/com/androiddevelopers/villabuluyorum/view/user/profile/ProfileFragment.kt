@@ -1,6 +1,7 @@
 package com.androiddevelopers.villabuluyorum.view.user.profile
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
@@ -80,7 +81,18 @@ class ProfileFragment : Fragment() {
             val action = ProfileFragmentDirections.actionNavigationProfileToReviewFragment()
             Navigation.findNavController(it).navigate(action)
         }
-
+        binding.cardViewSecurity.setOnClickListener{
+            val dialog = ResetPasswordFragment()
+            dialog.show(parentFragmentManager,"dialog")
+        }
+        binding.cardViewAppOptions.setOnClickListener{
+            val action = ProfileFragmentDirections.actionNavigationProfileToContactUsFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
+        binding.cardViewAppTheme.setOnClickListener{
+            val action = ProfileFragmentDirections.actionNavigationProfileToContactUsFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     private fun observeLiveData() {

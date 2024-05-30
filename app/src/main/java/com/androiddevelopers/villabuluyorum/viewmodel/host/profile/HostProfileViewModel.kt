@@ -37,8 +37,8 @@ constructor(
         get() = _userVillas
 
     //Review
-    private var _userReviews = MutableLiveData<Int>()
-    val userReviews: LiveData<Int>
+    private var _userReviews = MutableLiveData<List<ReviewModel>>()
+    val userReviews: LiveData<List<ReviewModel>>
         get() = _userReviews
 
     //User
@@ -83,8 +83,9 @@ constructor(
                         reviewList.add(review)
                     }
                 }
-                _userReviews.value = reviewList.size
+                _userReviews.value = reviewList
             }
+
     }
 
     private fun getUserData() = viewModelScope.launch {

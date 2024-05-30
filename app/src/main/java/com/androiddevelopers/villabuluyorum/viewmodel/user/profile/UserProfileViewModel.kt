@@ -34,6 +34,7 @@ constructor(
     private var _userReviews = MutableLiveData<List<ReviewModel>>()
     val userReviews: LiveData<List<ReviewModel>>
         get() = _userReviews
+
     private var _reviewMessage =  MutableLiveData<Resource<Boolean>>()
     val reviewMessage: LiveData<Resource<Boolean>>
         get() = _reviewMessage

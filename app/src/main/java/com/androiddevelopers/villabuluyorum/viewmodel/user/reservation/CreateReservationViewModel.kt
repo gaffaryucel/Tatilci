@@ -55,11 +55,13 @@ constructor(
             }
     }
     fun makeReservation(reservation : ReservationModel) = viewModelScope.launch{
-        _liveDataReserveStatus.value = Resource.loading(null)
-        firebaseRepo.createReservationForVilla(reservation).addOnSuccessListener {
-            _liveDataReserveStatus.value = Resource.success(null)
-        }.addOnFailureListener {
-            _liveDataReserveStatus.value = Resource.error("Hata :", null)
+        if (currentUserId != reservation.hostId){
+            _liveDataReserveStatus.value = Resource.loading(null)
+            firebaseRepo.createReservationForVilla(reservation).addOnSuccessListener {
+                _liveDataReserveStatus.value = Resource.success(null)
+            }.addOnFailureListener {
+                _liveDataReserveStatus.value = Resource.error("Hata :", null)
+            }
         }
     }
 

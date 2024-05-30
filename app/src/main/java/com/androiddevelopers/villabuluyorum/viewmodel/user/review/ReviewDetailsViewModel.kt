@@ -89,17 +89,19 @@ constructor(
     }
 
     fun createReview(comment : String,rating : Int){
-        val review = makeReviewMode(comment,rating)
-        _reviewMessage.value = Resource.loading(null)
-        firebaseRepo.createReview(review).addOnSuccessListener {
-            _reviewMessage.value = Resource.success(null)
-            val map = HashMap<String,Any?>()
-            map["rated"] = true
-            firebaseRepo.changeReservationRateStatus(reservation.value?.reservationId.toString(),map).addOnSuccessListener {
-                sendReviewNotification()
+        if (currentUserId != reservation.value?.hostId){
+            val review = makeReviewMode(comment,rating)
+            _reviewMessage.value = Resource.loading(null)
+            firebaseRepo.createReview(review).addOnSuccessListener {
+                _reviewMessage.value = Resource.success(null)
+                val map = HashMap<String,Any?>()
+                map["rated"] = true
+                firebaseRepo.changeReservationRateStatus(reservation.value?.reservationId.toString(),map).addOnSuccessListener {
+                    sendReviewNotification()
+                }
+            }.addOnFailureListener {
+                _reviewMessage.value = Resource.error("Hata :", null)
             }
-        }.addOnFailureListener {
-            _reviewMessage.value = Resource.error("Hata :", null)
         }
     }
     private fun makeReviewMode(

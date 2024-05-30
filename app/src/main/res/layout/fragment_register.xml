@@ -41,7 +41,7 @@
 
         <TextView
             android:layout_marginBottom="5dp"
-            android:text="Lüks villalarda unutulmaz tatiller ve özel fırsatlar sizi bekliyor. Hemen kaydolun ve tatilinizi planlamaya başlayın!"
+            android:text="Lüks villalarda kazançlı yatırım fırsatları sizi bekliyor. Hemen kaydolun ve geleceğe güvenle bakın."
             android:textColor="@color/normal_text_color"
             android:textSize="16sp"
             android:layout_width="match_parent"

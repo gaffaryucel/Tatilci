@@ -438,14 +438,14 @@
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/settings"
+                                    android:src="@drawable/info"
                                     app:tint="@color/normal_text_color" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:padding="10dp"
-                                    android:text="Uygulama Ayarları"
+                                    android:text="Hakkımızda"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
@@ -489,14 +489,14 @@
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/theme_vector"
+                                    android:src="@drawable/contact"
                                     app:tint="@color/normal_text_color" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:padding="10dp"
-                                    android:text="Tema"
+                                    android:text="Bize Ulaşın"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
                             </LinearLayout>

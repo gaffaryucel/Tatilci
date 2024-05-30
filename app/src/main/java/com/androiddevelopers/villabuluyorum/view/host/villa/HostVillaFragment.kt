@@ -12,6 +12,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
 import com.androiddevelopers.villabuluyorum.adapter.HostHouseAdapter
 import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaBinding
+import com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel
+import com.androiddevelopers.villabuluyorum.model.villa.Villa
 import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.androiddevelopers.villabuluyorum.util.Status
 import com.androiddevelopers.villabuluyorum.util.setupDialogs
@@ -26,16 +28,27 @@ class HostVillaFragment : Fragment() {
     private var _binding: FragmentHostVillaBinding? = null
     private val binding get() = _binding!!
 
-    private val userId = Firebase.auth.currentUser?.uid
+    private val userId: String? by lazy {
+        Firebase.auth.currentUser?.uid
+    }
 
-    private lateinit var errorDialog: AlertDialog
+    private val errorDialog: AlertDialog by lazy {
+        AlertDialog.Builder(requireContext())
+            .create()
+    }
 
-    private val houseAdapter = HostHouseAdapter()
+    private val houseAdapter: HostHouseAdapter by lazy {
+        HostHouseAdapter()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHostVillaBinding.inflate(inflater, container, false)
+        _binding = FragmentHostVillaBinding.inflate(
+            inflater,
+            container,
+            false
+        )
         val view = binding.root
 
         userId?.let {
@@ -43,14 +56,14 @@ class HostVillaFragment : Fragment() {
             viewModel.getUserDataByDocumentId(it)
         }
 
-        errorDialog = AlertDialog.Builder(requireContext()).create()
-        setupDialogs(errorDialog)
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(
+            view,
+            savedInstanceState
+        )
         setClickItems()
         observeLiveData(viewLifecycleOwner)
         binding.recyclerViewHostHouse.adapter = houseAdapter
@@ -88,7 +101,12 @@ class HostVillaFragment : Fragment() {
                 }
 
                 else                                         -> {
-                    Toast.makeText(requireContext(), "Hat oluştu", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                            requireContext(),
+                            "Hat oluştu",
+                            Toast.LENGTH_SHORT
+                        )
+                        .show()
                 }
             }
         }
@@ -118,6 +136,7 @@ class HostVillaFragment : Fragment() {
                     }
 
                     Status.ERROR   -> {
+                        setupDialogs(errorDialog)
                         errorDialog.setMessage("Hata mesajı:\n${it.message}")
                         errorDialog.show()
                     }
@@ -141,22 +160,27 @@ class HostVillaFragment : Fragment() {
     private fun goToMessage(chatId: String) {
         val action =
             HostVillaFragmentDirections.actionNavigationHostVillaToNavigationHostMessage(chatId)
-        Navigation.findNavController(requireView()).navigate(action)
+        Navigation.findNavController(requireView())
+            .navigate(action)
     }
 
     private fun goToChat() {
         val action = HostVillaFragmentDirections.actionNavigationHostVillaToHostChatFragment()
-        Navigation.findNavController(requireView()).navigate(action)
+        Navigation.findNavController(requireView())
+            .navigate(action)
     }
 
-    private fun goToHomeDetails(homeId: String) {
-        // TODO: Yorum bildirimi geldiğinde gerektiği şekilde detaylarına ulaşabilmek için gerekli olan action yapılmalı
+    private fun goToHomeDetails(homeId: String) { // TODO: Yorum bildirimi geldiğinde gerektiği şekilde detaylarına ulaşabilmek için gerekli olan action yapılmalı
     }
 
     private fun gotoCreateEnterPage() {
         val directions =
-            HostVillaFragmentDirections.actionNavigationHostVillaToNavigationHostVillaCreateEnter()
-        Navigation.findNavController(binding.root).navigate(directions)
+            HostVillaFragmentDirections.actionNavigationHostVillaToHostVillaCreateEnterFragment(
+                VillaPageArgumentsModel(villa = Villa()),
+                null
+            )
+        Navigation.findNavController(binding.root)
+            .navigate(directions)
     }
 
 
@@ -165,7 +189,8 @@ class HostVillaFragment : Fragment() {
             HostVillaFragmentDirections.actionNavigationHostVillaToHostReservationDetailsFragment(
                 reservationId
             )
-        Navigation.findNavController(requireView()).navigate(action)
+        Navigation.findNavController(requireView())
+            .navigate(action)
     }
 
     override fun onDestroy() {

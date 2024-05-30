@@ -48,23 +48,42 @@ interface FirebaseRepoInterFace {
     fun createReservationForVilla(data: ReservationModel): Task<Void>
     fun getUserReservations(userId: String): Task<QuerySnapshot>
     fun getReservationsForHost(userId: String): Task<QuerySnapshot>
-    fun getReservationById(reservationId: String):Task<DocumentSnapshot>
-    fun changeReservationStatus(reservationId: String, status: java.util.HashMap<String, Any?>): Task<Void>
-    fun changeReservationRateStatus(reservationId: String, status: java.util.HashMap<String, Any?>): Task<Void>
+    fun getReservationById(reservationId: String): Task<DocumentSnapshot>
+    fun changeReservationStatus(
+        reservationId: String,
+        status: java.util.HashMap<String, Any?>
+    ): Task<Void>
+
+    fun changeReservationRateStatus(
+        reservationId: String,
+        status: java.util.HashMap<String, Any?>
+    ): Task<Void>
 
     //Firestore - Review
     fun createReview(review: ReviewModel): Task<Void>
-    fun getReservationsByRateStatus(userId: String,today : String,value : Boolean?): Task<QuerySnapshot>
-    fun getAllFinishedReservations(userId: String,today : String): Task<QuerySnapshot>
+    fun getReservationsByRateStatus(
+        userId: String,
+        today: String,
+        value: Boolean?
+    ): Task<QuerySnapshot>
+
+    fun getAllFinishedReservations(userId: String, today: String): Task<QuerySnapshot>
     fun getAllReviewsByUserId(userId: String): Task<QuerySnapshot>
+    fun getAllReviewsByVillaId(villaId: String): Task<QuerySnapshot>
 
 
     //Firestore - Notification
     //Set
     suspend fun postNotification(notification: PushNotification): Response<ResponseBody>
     fun saveNotification(notification: InAppNotificationModel): Task<Void>
+
     //Get
-    fun getNotificationsByType(userId: String, type : NotificationType, limit: Long): Task<QuerySnapshot>
+    fun getNotificationsByType(
+        userId: String,
+        type: NotificationType,
+        limit: Long
+    ): Task<QuerySnapshot>
+
     fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot>
 
 
@@ -81,54 +100,43 @@ interface FirebaseRepoInterFace {
         key: String,
     ): UploadTask
 
+    fun deleteImageFromFirebaseStorage(url: String): Task<Void>
+
     //Realtime Database - Chat
     fun createChatRoomForOwner(currentUserId: String, chat: ChatModel): Task<Void>
     fun createChatRoomForChatMate(userId: String, chat: ChatModel): Task<Void>
     fun getAllChatRooms(currentUserId: String): DatabaseReference
 
-    fun getChatRoomData(currentUserId: String,receiverId: String): DatabaseReference
+    fun getChatRoomData(currentUserId: String, receiverId: String): DatabaseReference
 
 
     //Message
     fun sendMessageToRealtimeDatabase(
-        userId: String,
-        chatId: String,
-        message: MessageModel
+        userId: String, chatId: String, message: MessageModel
     ): Task<Void>
 
     fun addMessageInChatMatesRoom(
-        chatMateId: String,
-        chatId: String,
-        message: MessageModel
+        chatMateId: String, chatId: String, message: MessageModel
     ): Task<Void>
 
     fun getAllMessagesFromRealtimeDatabase(
-        currentUserId: String,
-        chatId: String
+        currentUserId: String, chatId: String
     ): DatabaseReference
 
     fun changeLastMessage(
-        userId: String,
-        chatId: String,
-        message: String,
-        time: String
+        userId: String, chatId: String, message: String, time: String
     ): Task<Void>
 
     fun changeLastMessageInChatMatesRoom(
-        chatMateId: String,
-        chatId: String,
-        message: String,
-        time: String
+        chatMateId: String, chatId: String, message: String, time: String
     ): Task<Void>
 
     fun seeMessage(
-        userId: String,
-        chatId: String
+        userId: String, chatId: String
     ): Task<Void>
 
     fun changeReceiverSeenStatus(
-        receiverId: String,
-        chatId: String
+        receiverId: String, chatId: String
     ): Task<Void>
 
     fun changeOnlineStatus(userId: String, onlineData: Boolean): Task<Void>

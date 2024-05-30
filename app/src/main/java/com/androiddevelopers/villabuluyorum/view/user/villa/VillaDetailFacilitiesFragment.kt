@@ -20,14 +20,17 @@ class VillaDetailFacilitiesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // TODO: Use the ViewModel
+        // TODO: Detay sayfasından olanaklara yönlendir
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentVillaDetailFacilitiesBinding.inflate(inflater, container, false)
+        _binding = FragmentVillaDetailFacilitiesBinding.inflate(
+            inflater,
+            container,
+            false
+        )
         return binding.root
     }
 

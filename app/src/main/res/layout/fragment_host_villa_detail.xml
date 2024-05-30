@@ -43,36 +43,22 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detailProgressBar">
+            app:layout_constraintTop_toBottomOf="@id/detailProgressBar"
+            app:layout_constraintWidth_max="480dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelineStart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="20dp" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelineEnd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_end="20dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardImageCoverVillaDetail"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_marginVertical="20dp"
                     app:cardCornerRadius="30dp"
-                    app:cardElevation="20dp"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:cardElevation="20dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -93,18 +79,12 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
+                            android:layout_marginTop="-8dp"
                             android:background="@drawable/home_row_text_bg"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/guideLineCenterHorizontal" />
-
-                        <androidx.constraintlayout.widget.Guideline
-                            android:id="@+id/guideLineCenterHorizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            app:layout_constraintGuide_percent="0.6" />
+                            app:layout_constraintTop_toTopOf="@id/textDetailTitle" />
 
                         <androidx.constraintlayout.widget.Guideline
                             android:id="@+id/guideLineCenterVertical"
@@ -118,37 +98,54 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
+                            android:layout_marginBottom="4dp"
+                            android:shadowColor="@color/black"
+                            android:shadowRadius="8"
                             android:text="@{villa.villaName}"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toTopOf="@id/textDetailAddress"
+                            app:layout_constraintBottom_toTopOf="@id/textPropertyType"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/guideLineCenterHorizontal"
                             tools:text="Başlık" />
+
+                        <TextView
+                            android:id="@+id/textPropertyType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:shadowColor="@color/black"
+                            android:shadowRadius="8"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toTopOf="@id/textDetailAddress"
+                            app:layout_constraintStart_toStartOf="@+id/textDetailTitle"
+                            tools:text="Ev Tipi" />
 
                         <TextView
                             android:id="@+id/textDetailAddress"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
                             android:maxLines="1"
+                            android:shadowColor="@color/black"
+                            android:shadowRadius="8"
                             android:text="@{villa.locationNeighborhoodOrVillage +`, `+ villa.locationDistrict + `, `+ villa.locationProvince}"
                             android:textColor="@color/white"
                             android:textSize="18sp"
                             app:layout_constraintBottom_toTopOf="@id/imageCapacity"
                             app:layout_constraintStart_toStartOf="@+id/textDetailTitle"
-                            app:layout_constraintTop_toBottomOf="@id/textDetailTitle"
                             tools:text="Adres" />
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/imageCapacity"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:layout_marginBottom="4dp"
                             android:background="@color/detail_page_transparent_icon"
                             android:scaleType="centerInside"
                             app:layout_constraintBottom_toTopOf="@id/imageBedRoom"
                             app:layout_constraintStart_toStartOf="@+id/textDetailTitle"
-                            app:layout_constraintTop_toBottomOf="@+id/textDetailAddress"
                             app:shapeAppearanceOverlay="@style/circle"
                             app:srcCompat="@drawable/users" />
 
@@ -170,11 +167,11 @@
                             android:id="@+id/imageBedRoom"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:layout_marginBottom="8dp"
                             android:background="@color/detail_page_transparent_icon"
                             android:scaleType="centerInside"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="@+id/textDetailTitle"
-                            app:layout_constraintTop_toBottomOf="@+id/imageCapacity"
                             app:shapeAppearanceOverlay="@style/circle"
                             app:srcCompat="@drawable/bed_vector" />
 
@@ -246,8 +243,8 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/imageBackNavigation"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="@dimen/host_villa_detail_top_image_button"
+                            android:layout_height="@dimen/host_villa_detail_top_image_button"
                             android:layout_margin="10dp"
                             android:background="@color/detail_page_transparent_icon"
                             android:onClick="@{() -> Navigation.findNavController(imageBackNavigation).popBackStack()}"
@@ -257,10 +254,31 @@
                             app:shapeAppearanceOverlay="@style/circle"
                             app:srcCompat="@drawable/baseline_arrow_back" />
 
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:backgroundTint="@color/detail_page_transparent_icon"
+                            app:cardCornerRadius="30dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="16sp"
+                                android:layout_marginVertical="4sp"
+                                android:text="@{villa.isForSale() == false ? `Kiralık` : `Satılık`}"
+                                android:textColor="@color/white"
+                                android:textSize="20sp"
+                                tools:text="Kiralık/Satılık" />
+                        </androidx.cardview.widget.CardView>
+
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/imageEdit"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="@dimen/host_villa_detail_top_image_button"
+                            android:layout_height="@dimen/host_villa_detail_top_image_button"
                             android:layout_margin="10dp"
                             android:background="@color/detail_page_transparent_icon"
                             android:scaleType="centerInside"
@@ -268,6 +286,18 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:shapeAppearanceOverlay="@style/circle"
                             app:srcCompat="@drawable/baseline_edit_24" />
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/imageDelete"
+                            android:layout_width="@dimen/host_villa_detail_top_image_button"
+                            android:layout_height="@dimen/host_villa_detail_top_image_button"
+                            android:layout_margin="10dp"
+                            android:background="@color/detail_page_transparent_icon"
+                            android:scaleType="centerInside"
+                            app:layout_constraintEnd_toStartOf="@id/imageEdit"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shapeAppearanceOverlay="@style/circle"
+                            app:srcCompat="@drawable/baseline_delete_forever_24" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
@@ -280,32 +310,65 @@
                     android:text="Açıklama"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@+id/cardImageCoverVillaDetail"
                     tools:ignore="HardcodedText" />
 
                 <TextView
                     android:id="@+id/textDetailDescription"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@{villa.description}"
                     android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/textDetailDescriptionTitle"
                     tools:ignore="HardcodedText"
                     tools:text="Açıklama" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Bu ilan için yapılan yorumlar"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewComments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBarComments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/textNoComments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Yorum yapılmamış"
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layoutImageViewsVillaDetail"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_marginVertical="16dp"
-                    android:visibility="@{setViewPagerVisibility == true ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/textDetailDescription">
+                    android:visibility="@{setViewPagerVisibility == true ? View.VISIBLE : View.GONE}">
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/viewPagerVillaDetail"
@@ -339,18 +402,13 @@
                     android:text="İlan Detayları"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/layoutImageViewsVillaDetail"
                     tools:ignore="HardcodedText" />
 
                 <LinearLayout
                     android:id="@+id/textMinStayDurationVillaDetail"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/textVillaMoreDetailTitle">
+                    android:padding="4dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -371,12 +429,9 @@
 
                 <LinearLayout
                     android:id="@+id/textWifiVillaDetail"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/textMinStayDurationVillaDetail">
+                    android:padding="4dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -396,12 +451,9 @@
 
                 <LinearLayout
                     android:id="@+id/textPoolVillaDetail"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/textWifiVillaDetail">
+                    android:padding="4dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -421,12 +473,9 @@
 
                 <LinearLayout
                     android:id="@+id/textQuietAreaVillaDetail"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/textPoolVillaDetail">
+                    android:padding="4dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -446,12 +495,9 @@
 
                 <LinearLayout
                     android:id="@+id/textInteriorDesignVillaDetail"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/textQuietAreaVillaDetail">
+                    android:padding="4dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -472,12 +518,9 @@
 
                 <LinearLayout
                     android:id="@+id/textGardenAreaDesignVillaDetail"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/textInteriorDesignVillaDetail">
+                    android:padding="4dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -498,12 +541,9 @@
 
                 <LinearLayout
                     android:id="@+id/textAttractionsVillaDetail"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/textGardenAreaDesignVillaDetail">
+                    android:padding="4dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -524,14 +564,11 @@
 
                 <TextView
                     android:id="@+id/textNoVillaDetail"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Villa için detay belirtilmemiş"
                     android:textSize="18sp"
                     android:textStyle="italic"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/textAttractionsVillaDetail"
                     tools:ignore="HardcodedText" />
 
                 <!--
@@ -560,17 +597,13 @@
                 -->
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_marginVertical="16dp"
                     android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/textNoVillaDetail"
                     app:srcCompat="@drawable/maps" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

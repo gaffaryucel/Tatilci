@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -27,9 +28,9 @@ import androidx.navigation.fragment.navArgs
 import com.androiddevelopers.villabuluyorum.R
 import com.androiddevelopers.villabuluyorum.adapter.ViewPagerAdapterForVillaCreate
 import com.androiddevelopers.villabuluyorum.adapter.downloadImage
-import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreateBinding
+import com.androiddevelopers.villabuluyorum.databinding.FragmentHostVillaCreate2ImagesBinding
 import com.androiddevelopers.villabuluyorum.databinding.MergeItemCoverImageOnlyTitleLocationBinding
-import com.androiddevelopers.villabuluyorum.model.CreateVillaPageArguments
+import com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel
 import com.androiddevelopers.villabuluyorum.model.provinces.District
 import com.androiddevelopers.villabuluyorum.model.provinces.Province
 import com.androiddevelopers.villabuluyorum.model.villa.Villa
@@ -46,9 +47,9 @@ import java.util.*
 
 @Suppress("UNUSED_ANONYMOUS_PARAMETER")
 @AndroidEntryPoint
-class HostVillaCreateFragment : Fragment() {
+class HostVillaCreate2ImagesFragment : Fragment() {
     private val viewModel: HostVillaCreateBaseViewModel by viewModels()
-    private var _binding: FragmentHostVillaCreateBinding? = null
+    private var _binding: FragmentHostVillaCreate2ImagesBinding? = null
     private val binding get() = _binding!!
 
     private var _mergeBinding: MergeItemCoverImageOnlyTitleLocationBinding? = null
@@ -65,41 +66,68 @@ class HostVillaCreateFragment : Fragment() {
     private val selectedOtherImages = mutableListOf<Uri>()
     private lateinit var otherImageLauncher: ActivityResultLauncher<Intent>
 
-    private lateinit var errorDialog: AlertDialog
+    private val errorDialog: AlertDialog by lazy {
+        AlertDialog.Builder(requireContext())
+            .create()
+    }
 
     private var selectedLongitude: Double? = null
     private var selectedLatitude: Double? = null
 
+    private var villaId: String? = null
     private lateinit var villaFromArgs: Villa
-    private lateinit var createVillaPageArguments: CreateVillaPageArguments
+    private lateinit var villaPageArgumentsModel: VillaPageArgumentsModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val args: HostVillaCreateFragmentArgs by navArgs()
-        createVillaPageArguments = args.createVillaPageArguments
-        viewModel.setCreateVillaPageArguments(createVillaPageArguments)
+        val args: HostVillaCreate2ImagesFragmentArgs by navArgs()
+        villaPageArgumentsModel = args.createVillaPageArguments
+        viewModel.setCreateVillaPageArguments(villaPageArgumentsModel)
+
+        //Telefon geri tuşunu dinliyoruz
+        requireActivity().onBackPressedDispatcher.addCallback(this) { //geri tuşuna basıldığında önceki sayfaya villayıda gönderiyoruz
+            val navController = findNavController()
+            villaPageArgumentsModel.apply {
+                villa = createVilla(villaFromArgs)
+                coverImage = selectedCoverImage
+                otherImages = selectedOtherImages.toList()
+            }
+
+            navController.previousBackStackEntry?.savedStateHandle?.set(
+                "createVillaPageArgumentsToBack",
+                villaPageArgumentsModel
+            )
+            navController.popBackStack()
+        }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHostVillaCreateBinding.inflate(inflater, container, false)
+        _binding = FragmentHostVillaCreate2ImagesBinding.inflate(
+            inflater,
+            container,
+            false
+        )
         _mergeBinding = MergeItemCoverImageOnlyTitleLocationBinding.bind(binding.root)
 
         setDropdownItems()
         setClickItems()
         viewModel.getAllProvince()
 
-        errorDialog = AlertDialog.Builder(requireContext()).create()
-        setupDialogs(errorDialog)
+
 
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(
+        view: View, savedInstanceState: Bundle?
+    ) {
+        super.onViewCreated(
+            view,
+            savedInstanceState
+        )
 
         setEdittextListener()
         observeLiveData(viewLifecycleOwner)
@@ -129,19 +157,19 @@ class HostVillaCreateFragment : Fragment() {
 
         //geri tuşuna basıldığında sonraki sayfadan gelen argümanı yakalıyoruz
         val navController = findNavController()
-        navController
-            .currentBackStackEntry
-            ?.savedStateHandle
-            ?.getLiveData<CreateVillaPageArguments>("createVillaPageArgumentsToBack")
+        navController.currentBackStackEntry?.savedStateHandle?.getLiveData<VillaPageArgumentsModel>(
+            "createVillaPageArgumentsToBack"
+        )
             ?.observe(viewLifecycleOwner) { data ->
-                createVillaPageArguments = data
-                viewModel.setCreateVillaPageArguments(createVillaPageArguments)
+                villaPageArgumentsModel = data
+                viewModel.setCreateVillaPageArguments(villaPageArgumentsModel)
             }
     }
 
     private fun createVilla(villa: Villa): Villa {
         if (villa.villaId == null) {
-            villa.villaId = UUID.randomUUID().toString()
+            villa.villaId = UUID.randomUUID()
+                .toString()
             villa.time = getCurrentTime()
         }
 
@@ -155,7 +183,8 @@ class HostVillaCreateFragment : Fragment() {
                 locationNeighborhoodOrVillage =
                     dropdownNeighborhoodAndVillageVillaCreate.text.toString()
                 locationAddress = editTextAddressVillaCreate.text.toString()
-                nightlyRate = editTextNightlyRateVillaCreate.text.toString().toDoubleOrNull() ?: 0.0
+                nightlyRate = editTextNightlyRateVillaCreate.text.toString()
+                    .toDoubleOrNull() ?: 0.0
                 longitude = selectedLongitude
                 latitude = selectedLatitude
             }
@@ -169,17 +198,14 @@ class HostVillaCreateFragment : Fragment() {
             with(viewModel) {
                 liveDataFirebaseStatus.observe(owner) {
                     when (it.status) {
-                        Status.SUCCESS -> {
-                            val directions =
-                                HostVillaCreateFragmentDirections.actionGlobalNavigationHostProfile()
-                            Navigation.findNavController(binding.root).navigate(directions)
-                        }
+                        Status.SUCCESS -> {}
 
                         Status.LOADING -> it.data?.let { status ->
                             setProgressBarVisibility = status
                         }
 
-                        Status.ERROR -> {
+                        Status.ERROR   -> {
+                            setupDialogs(errorDialog)
                             errorDialog.setMessage("Hata mesajı:\n${it.message}")
                             errorDialog.show()
                         }
@@ -251,14 +277,12 @@ class HostVillaCreateFragment : Fragment() {
                     selectedOtherImages.clear()
                     selectedOtherImages.addAll(images.toList())
                     viewPagerAdapter.refreshList(images.toList())
-                    with(binding) {
-                        //indicatoru viewpager yeni liste ile set ediyoruz
+                    with(binding) { //indicatoru viewpager yeni liste ile set ediyoruz
                         indicatorVillaCreate.setViewPager(viewPagerVillaCreate)
                     }
                 }
 
-                imageSize.observe(owner) {
-                    //seçilen resim olmadığında viewpager 'ı gizleyip boş bir resim gösteriyoruz
+                imageSize.observe(owner) { //seçilen resim olmadığında viewpager 'ı gizleyip boş bir resim gösteriyoruz
                     //resim seçildiğinde işlemi tersine alıyoruz
                     with(binding) {
                         setViewPagerVisibility = !(it == 0 || it == null)
@@ -270,10 +294,8 @@ class HostVillaCreateFragment : Fragment() {
     }
 
     private fun setDropdownItems() {
-        with(binding) {
-            // seçtiğimiz illeri yakalıyoruz
-            dropdownProvinceVillaCreate.setOnItemClickListener { parent, view, position, id ->
-                // il değiştiğinde ilçe ve mahalle/köy içeriğini temizliyoruz
+        with(binding) { // seçtiğimiz illeri yakalıyoruz
+            dropdownProvinceVillaCreate.setOnItemClickListener { parent, view, position, id -> // il değiştiğinde ilçe ve mahalle/köy içeriğini temizliyoruz
                 dropdownDistrictVillaCreate.text = null
                 dropdownNeighborhoodAndVillageVillaCreate.text = null
 
@@ -286,8 +308,7 @@ class HostVillaCreateFragment : Fragment() {
             }
 
             // seçtiğimiz ilçeleri yakalıyoruz
-            dropdownDistrictVillaCreate.setOnItemClickListener { parent, view, position, id ->
-                // ilçe değiştiğinde mahalle/köy içeriğini temizliyoruz
+            dropdownDistrictVillaCreate.setOnItemClickListener { parent, view, position, id -> // ilçe değiştiğinde mahalle/köy içeriğini temizliyoruz
                 dropdownNeighborhoodAndVillageVillaCreate.text = null
 
                 // seçtiğimiz ilçenmin id si ile mahalle/köy leri getiriyoruz
@@ -306,37 +327,54 @@ class HostVillaCreateFragment : Fragment() {
     private fun setClickItems() {
         with(binding) {
             buttonNextVillaCreatePage2.setOnClickListener {
-                createVillaPageArguments.coverImage = selectedCoverImage
-                createVillaPageArguments.otherImages = selectedOtherImages.toList()
-                createVillaPageArguments.villa = createVilla(villaFromArgs)
+                villaPageArgumentsModel.coverImage = selectedCoverImage
+                villaPageArgumentsModel.otherImages = selectedOtherImages.toList()
+                villaPageArgumentsModel.villa = createVilla(villaFromArgs)
 
                 val directions =
-                    HostVillaCreateFragmentDirections.actionHostVillaCreateFragmentToHostVillaCreateDetailFragment(
-                        createVillaPageArguments
+                    HostVillaCreate2ImagesFragmentDirections.actionHostVillaCreateFragmentToHostVillaCreateDetailFragment(
+                        villaPageArgumentsModel
                     )
-                Navigation.findNavController(it).navigate(directions)
+                Navigation.findNavController(it)
+                    .navigate(directions)
             }
 
             textAddImageCover.setOnClickListener {
-                if (checkPermissionImageGallery(requireActivity(), 800)) {
+                if (checkPermissionImageGallery(
+                        requireActivity(),
+                        800
+                    )
+                ) {
                     openCoverImagePicker()
                 }
             }
 
             buttonImageCoverEditVillaCreate.setOnClickListener {
-                if (checkPermissionImageGallery(requireActivity(), 800)) {
+                if (checkPermissionImageGallery(
+                        requireActivity(),
+                        800
+                    )
+                ) {
                     openCoverImagePicker()
                 }
             }
 
             textAddMoreImage.setOnClickListener {
-                if (checkPermissionImageGallery(requireActivity(), 800)) {
+                if (checkPermissionImageGallery(
+                        requireActivity(),
+                        800
+                    )
+                ) {
                     openOtherImagePicker()
                 }
             }
 
             fabButtonMoreAddImageVillaCreate.setOnClickListener {
-                if (checkPermissionImageGallery(requireActivity(), 800)) {
+                if (checkPermissionImageGallery(
+                        requireActivity(),
+                        800
+                    )
+                ) {
                     openOtherImagePicker()
                 }
             }
@@ -351,7 +389,10 @@ class HostVillaCreateFragment : Fragment() {
                         selectedCoverImage = image
                         selectedCoverImage?.let {
                             binding.setImageCoverVisibility = true
-                            downloadImage(mergeBinding.imageTitle, image.toString())
+                            downloadImage(
+                                mergeBinding.imageTitle,
+                                image.toString()
+                            )
                         }
                     }
                 }
@@ -373,18 +414,20 @@ class HostVillaCreateFragment : Fragment() {
     }
 
     private fun openCoverImagePicker() {
-        val imageIntent =
-            Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            )
+        val imageIntent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
         coverImageLauncher.launch(imageIntent)
     }
 
     private fun openOtherImagePicker() {
         val imageIntent = Intent()
         imageIntent.setType("image/*")
-        imageIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        imageIntent.putExtra(
+            Intent.EXTRA_ALLOW_MULTIPLE,
+            true
+        )
         imageIntent.setAction(Intent.ACTION_GET_CONTENT)
 
         otherImageLauncher.launch(
@@ -403,15 +446,14 @@ class HostVillaCreateFragment : Fragment() {
         with(binding) {
             editTextTitleVillaCreate.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
+                    s: CharSequence?, start: Int, count: Int, after: Int
                 ) {
 
                 }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                override fun onTextChanged(
+                    s: CharSequence?, start: Int, before: Int, count: Int
+                ) {
                     mergeBinding.textDetailTitle.text = s
                 }
 
@@ -422,18 +464,20 @@ class HostVillaCreateFragment : Fragment() {
 
             dropdownProvinceVillaCreate.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
+                    s: CharSequence?, start: Int, count: Int, after: Int
                 ) {
 
                 }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                override fun onTextChanged(
+                    s: CharSequence?, start: Int, before: Int, count: Int
+                ) {
                     province = s.toString()
 
-                    getGeocoderLocation(province, binding.root)
+                    getGeocoderLocation(
+                        province,
+                        binding.root
+                    )
 
                     mergeBinding.textDetailAddress.text = s
                 }
@@ -445,15 +489,14 @@ class HostVillaCreateFragment : Fragment() {
 
             dropdownDistrictVillaCreate.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
+                    s: CharSequence?, start: Int, count: Int, after: Int
                 ) {
 
                 }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                override fun onTextChanged(
+                    s: CharSequence?, start: Int, before: Int, count: Int
+                ) {
                     district = s.toString()
                     if (!s.isNullOrBlank()) {
                         val address = buildString {
@@ -464,7 +507,10 @@ class HostVillaCreateFragment : Fragment() {
 
                         mergeBinding.textDetailAddress.text = address
 
-                        getGeocoderLocation(address, binding.root)
+                        getGeocoderLocation(
+                            address,
+                            binding.root
+                        )
                     }
                 }
 
@@ -475,15 +521,14 @@ class HostVillaCreateFragment : Fragment() {
 
             dropdownNeighborhoodAndVillageVillaCreate.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
+                    s: CharSequence?, start: Int, count: Int, after: Int
                 ) {
 
                 }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                override fun onTextChanged(
+                    s: CharSequence?, start: Int, before: Int, count: Int
+                ) {
                     neighborhoodOrVillage = s.toString()
                     if (!s.isNullOrBlank()) {
                         val address = buildString {
@@ -496,7 +541,10 @@ class HostVillaCreateFragment : Fragment() {
 
                         mergeBinding.textDetailAddress.text = address
 
-                        getGeocoderLocation(address, binding.root)
+                        getGeocoderLocation(
+                            address,
+                            binding.root
+                        )
                     }
                 }
 
@@ -512,27 +560,41 @@ class HostVillaCreateFragment : Fragment() {
         address: String,
         view: View,
     ) {
-        val geocoder = Geocoder(view.context, Locale.getDefault())
+        val geocoder = Geocoder(
+            view.context,
+            Locale.getDefault()
+        )
 
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                geocoder.getFromLocationName(address, 1) {
+                geocoder.getFromLocationName(
+                    address,
+                    1
+                ) {
                     val data = it[0]
                     selectedLatitude = data.latitude
                     selectedLongitude = data.longitude
                 }
             } else {
                 lifecycleScope.launch {
-                    @Suppress("DEPRECATION")
-                    geocoder.getFromLocationName(address, 1)?.let {
-                        val data = it[0]
-                        selectedLatitude = data.latitude
-                        selectedLongitude = data.longitude
-                    }
+                    @Suppress("DEPRECATION") geocoder.getFromLocationName(
+                        address,
+                        1
+                    )
+                        ?.let {
+                            val data = it[0]
+                            selectedLatitude = data.latitude
+                            selectedLongitude = data.longitude
+                        }
                 }
             }
         } catch (e: Exception) {
-            Toast.makeText(view.context, e.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                view.context,
+                e.message,
+                Toast.LENGTH_SHORT
+            )
+                .show()
         }
     }
 

@@ -14,7 +14,6 @@ import com.androiddevelopers.villabuluyorum.util.NotificationType
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.DocumentSnapshot
@@ -25,15 +24,14 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import okhttp3.ResponseBody
 import retrofit2.Response
-import java.text.SimpleDateFormat
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 class FirebaseRepoImpl @Inject constructor(
     private val auth: FirebaseAuth,
     firestore: FirebaseFirestore,
     database: FirebaseDatabase,
-    storage: FirebaseStorage,
+    private val storage: FirebaseStorage,
     private val notificationAPI: NotificationAPI
 ) : FirebaseRepoInterFace {
 
@@ -52,7 +50,10 @@ class FirebaseRepoImpl @Inject constructor(
 
     //Auth
     override fun login(email: String, password: String): Task<AuthResult> {
-        return auth.signInWithEmailAndPassword(email, password)
+        return auth.signInWithEmailAndPassword(
+            email,
+            password
+        )
     }
 
     override fun forgotPassword(email: String): Task<Void> {
@@ -60,21 +61,27 @@ class FirebaseRepoImpl @Inject constructor(
     }
 
     override fun register(email: String, password: String): Task<AuthResult> {
-        return auth.createUserWithEmailAndPassword(email, password)
+        return auth.createUserWithEmailAndPassword(
+            email,
+            password
+        )
     }
 
 
     // Firestore - User
     override fun addUserToFirestore(data: UserModel): Task<Void> {
-        return userCollection.document(data.userId.toString()).set(data)
+        return userCollection.document(data.userId.toString())
+            .set(data)
     }
 
     override fun deleteUserFromFirestore(documentId: String): Task<Void> {
-        return userCollection.document(documentId).delete()
+        return userCollection.document(documentId)
+            .delete()
     }
 
     override fun getUserDataByDocumentId(documentId: String): Task<DocumentSnapshot> {
-        return userCollection.document(documentId).get()
+        return userCollection.document(documentId)
+            .get()
     }
 
     override fun getUsersFromFirestore(): Task<QuerySnapshot> {
@@ -82,93 +89,178 @@ class FirebaseRepoImpl @Inject constructor(
     }
 
     override fun updateUserData(userId: String, updateData: HashMap<String, Any?>): Task<Void> {
-        return userCollection.document(userId).update(updateData)
+        return userCollection.document(userId)
+            .update(updateData)
     }
 
     // Firestore - Vila
     override fun addVillaToFirestore(villaId: String, villa: Villa): Task<Void> {
-        return villaCollection.document(villaId).set(villa)
+        return villaCollection.document(villaId)
+            .set(villa)
     }
 
     override fun deleteVillaFromFirestore(villaId: String): Task<Void> {
-        return villaCollection.document(villaId).delete()
+        return villaCollection.document(villaId)
+            .delete()
     }
 
     override fun getAllVillasFromFirestore(limit: Long): Task<QuerySnapshot> {
-        return villaCollection.limit(limit).get()
+        return villaCollection.limit(limit)
+            .get()
     }
 
     override fun getVillaByIdFromFirestore(villaId: String): Task<DocumentSnapshot> {
-        return villaCollection.document(villaId).get()
+        return villaCollection.document(villaId)
+            .get()
     }
 
     override fun getVillasByStarRatingFromFirestore(limit: Long): Task<QuerySnapshot> {
-        return villaCollection.orderBy("star", Query.Direction.DESCENDING).limit(limit).get()
+        return villaCollection.orderBy(
+            "star",
+            Query.Direction.DESCENDING
+        )
+            .limit(limit)
+            .get()
     }
 
     override fun getVillasByCity(city: String, limit: Long): Task<QuerySnapshot> {
-        return villaCollection.whereEqualTo("locationProvince", city).limit(limit).get()
+        return villaCollection.whereEqualTo(
+            "locationProvince",
+            city
+        )
+            .limit(limit)
+            .get()
     }
+
     override fun getVillasByUserId(id: String, limit: Long): Task<QuerySnapshot> {
-        return villaCollection.whereEqualTo("hostId", id).limit(limit).get()
+        return villaCollection.whereEqualTo(
+            "hostId",
+            id
+        )
+            .limit(limit)
+            .get()
     }
+
     override fun getVillasByUserId(id: String): Task<QuerySnapshot> {
-        return villaCollection.whereEqualTo("hostId", id).get()
+        return villaCollection.whereEqualTo(
+            "hostId",
+            id
+        )
+            .get()
     }
 
     // Firestore - Reservation
     override fun createReservationForVilla(data: ReservationModel): Task<Void> {
-        return reservationCollection.document(data.reservationId.toString()).set(data)
+        return reservationCollection.document(data.reservationId.toString())
+            .set(data)
     }
+
     override fun getUserReservations(userId: String): Task<QuerySnapshot> {
-        return reservationCollection
-            .whereEqualTo("userId", userId)
-            .orderBy("startDate", Query.Direction.DESCENDING)
+        return reservationCollection.whereEqualTo(
+                "userId",
+                userId
+            )
+            .orderBy(
+                "startDate",
+                Query.Direction.DESCENDING
+            )
             .limit(10)
             .get()
     }
+
     override fun getReservationsForHost(userId: String): Task<QuerySnapshot> {
-        return reservationCollection.whereEqualTo("hostId", userId).get()
+        return reservationCollection.whereEqualTo(
+            "hostId",
+            userId
+        )
+            .get()
     }
-    override fun getReservationById(reservationId: String):Task<DocumentSnapshot>{
-        return reservationCollection.document(reservationId).get()
+
+    override fun getReservationById(reservationId: String): Task<DocumentSnapshot> {
+        return reservationCollection.document(reservationId)
+            .get()
     }
-    override fun changeReservationStatus(reservationId: String, status: HashMap<String, Any?>): Task<Void> {
-        return reservationCollection.document(reservationId).update(status)
+
+    override fun changeReservationStatus(
+        reservationId: String,
+        status: HashMap<String, Any?>
+    ): Task<Void> {
+        return reservationCollection.document(reservationId)
+            .update(status)
     }
-    override fun changeReservationRateStatus(reservationId: String, status: HashMap<String, Any?>): Task<Void> {
-        return reservationCollection.document(reservationId).update(status)
+
+    override fun changeReservationRateStatus(
+        reservationId: String,
+        status: HashMap<String, Any?>
+    ): Task<Void> {
+        return reservationCollection.document(reservationId)
+            .update(status)
     }
 
     //Firebase - Review
     override fun createReview(review: ReviewModel): Task<Void> {
-        return reviewCollection.document(review.reviewId.toString()).set(review)
+        return reviewCollection.document(review.reviewId.toString())
+            .set(review)
     }
 
-    override fun getReservationsByRateStatus(userId: String,today : String,value : Boolean?): Task<QuerySnapshot> {
-        return reservationCollection
-            .whereEqualTo("userId", userId)
-            .whereEqualTo("rated", value)
-            .whereLessThan("endDate", today)
+    override fun getReservationsByRateStatus(
+        userId: String,
+        today: String,
+        value: Boolean?
+    ): Task<QuerySnapshot> {
+        return reservationCollection.whereEqualTo(
+                "userId",
+                userId
+            )
+            .whereEqualTo(
+                "rated",
+                value
+            )
+            .whereLessThan(
+                "endDate",
+                today
+            )
             .get()
     }
-    override fun getAllFinishedReservations(userId: String,today : String): Task<QuerySnapshot> {
-        return reservationCollection
-            .whereEqualTo("userId", userId)
-            .whereLessThan("endDate", today)
+
+    override fun getAllFinishedReservations(userId: String, today: String): Task<QuerySnapshot> {
+        return reservationCollection.whereEqualTo(
+                "userId",
+                userId
+            )
+            .whereLessThan(
+                "endDate",
+                today
+            )
             .get()
     }
 
     override fun getAllReviewsByUserId(userId: String): Task<QuerySnapshot> {
-        return reviewCollection
-            .whereEqualTo("hostId", userId)
-            .orderBy("time", Query.Direction.DESCENDING)
+        return reviewCollection.whereEqualTo(
+                "hostId",
+                userId
+            )
+            .orderBy(
+                "time",
+                Query.Direction.DESCENDING
+            )
             .get()
     }
     override fun getReviewByReservationId(reservationId: String): Task<QuerySnapshot> {
         return reviewCollection.whereEqualTo("reservationId", reservationId).get()
     }
 
+    override fun getAllReviewsByVillaId(villaId: String): Task<QuerySnapshot> {
+        return reviewCollection.whereEqualTo(
+                "villaId",
+                villaId
+            )
+            .orderBy(
+                "time",
+                Query.Direction.DESCENDING
+            )
+            .get()
+    }
 
     //Notification
     //Set
@@ -184,20 +276,33 @@ class FirebaseRepoImpl @Inject constructor(
     //Get
     //Şimdilik kullanılmıyor
     override fun getNotificationsByType(
-        userId: String,
-        type: NotificationType,
-        limit: Long
+        userId: String, type: NotificationType, limit: Long
     ): Task<QuerySnapshot> {
-        return notificationCollection.whereEqualTo("userId", userId)
-            .whereEqualTo("notificationType", type)
-            .orderBy("time", Query.Direction.ASCENDING) // createdAt alanına göre azalan sıralama
+        return notificationCollection.whereEqualTo(
+            "userId",
+            userId
+        )
+            .whereEqualTo(
+                "notificationType",
+                type
+            )
+            .orderBy(
+                "time",
+                Query.Direction.ASCENDING
+            ) // createdAt alanına göre azalan sıralama
             .limit(limit)
             .get()
     }
 
     override fun getAllNotifications(userId: String, limit: Long): Task<QuerySnapshot> {
-        return notificationCollection.whereEqualTo("userId", userId)
-            .orderBy("time", Query.Direction.DESCENDING)
+        return notificationCollection.whereEqualTo(
+            "userId",
+            userId
+        )
+            .orderBy(
+                "time",
+                Query.Direction.DESCENDING
+            )
             .limit(limit)
             .get()
     }
@@ -208,8 +313,7 @@ class FirebaseRepoImpl @Inject constructor(
         userId: String,
         villaId: String,
     ): UploadTask {
-        return imagesParentRef
-            .child("userId_$userId")
+        return imagesParentRef.child("userId_$userId")
             .child("images")
             .child("employerPost")
             .child("postId_$villaId")
@@ -217,10 +321,14 @@ class FirebaseRepoImpl @Inject constructor(
             .putFile(uri)
 
     }
+
+    override fun deleteImageFromFirebaseStorage(url: String): Task<Void> {
+        return storage.getReferenceFromUrl(url).delete()
+    }
+
     // Storage - User
-    override fun uploadUserProfilePhoto(uri: Uri, userId: String,key : String): UploadTask {
-        return imagesParentRef
-            .child("userId_$userId")
+    override fun uploadUserProfilePhoto(uri: Uri, userId: String, key: String): UploadTask {
+        return imagesParentRef.child("userId_$userId")
             .child("images")
             .child(key)
             .child("${UUID.randomUUID()}.jpg")
@@ -230,52 +338,60 @@ class FirebaseRepoImpl @Inject constructor(
 
     //Realtime Database - Chat
     override fun createChatRoomForOwner(currentUserId: String, chat: ChatModel): Task<Void> {
-        return messagesReference.child(currentUserId).child(chat.receiverId.toString()).setValue(chat)
+        return messagesReference.child(currentUserId)
+            .child(chat.receiverId.toString())
+            .setValue(chat)
     }
+
     override fun createChatRoomForChatMate(userId: String, chat: ChatModel): Task<Void> {
-        return messagesReference.child(userId).child(chat.receiverId.toString()).setValue(chat)
+        return messagesReference.child(userId)
+            .child(chat.receiverId.toString())
+            .setValue(chat)
     }
 
     override fun getAllChatRooms(currentUserId: String): DatabaseReference {
         return messagesReference.child(currentUserId)
     }
-    override fun getChatRoomData(currentUserId: String,receiverId: String): DatabaseReference {
-        return messagesReference.child(currentUserId).child(receiverId)
+
+    override fun getChatRoomData(currentUserId: String, receiverId: String): DatabaseReference {
+        return messagesReference.child(currentUserId)
+            .child(receiverId)
     }
 
     //Message
     override fun sendMessageToRealtimeDatabase(
-        userId: String,
-        chatId: String,
-        message: MessageModel
+        userId: String, chatId: String, message: MessageModel
     ): Task<Void> {
-        return messagesReference.child(userId).child(chatId).child("messages")
-            .child(message.messageId.toString()).setValue(message)
+        return messagesReference.child(userId)
+            .child(chatId)
+            .child("messages")
+            .child(message.messageId.toString())
+            .setValue(message)
     }
 
     override fun addMessageInChatMatesRoom(
-        chatMateId: String,
-        chatId: String,
-        message: MessageModel
+        chatMateId: String, chatId: String, message: MessageModel
     ): Task<Void> {
-        return messagesReference.child(chatMateId).child(chatId).child("messages")
-            .child(message.messageId.toString()).setValue(message)
+        return messagesReference.child(chatMateId)
+            .child(chatId)
+            .child("messages")
+            .child(message.messageId.toString())
+            .setValue(message)
     }
 
     override fun getAllMessagesFromRealtimeDatabase(
-        currentUserId: String,
-        chatId: String
+        currentUserId: String, chatId: String
     ): DatabaseReference {
-        return messagesReference.child(currentUserId).child(chatId).child("messages")
+        return messagesReference.child(currentUserId)
+            .child(chatId)
+            .child("messages")
     }
 
     override fun changeLastMessage(
-        userId: String,
-        chatId: String,
-        message: String,
-        time: String
+        userId: String, chatId: String, message: String, time: String
     ): Task<Void> {
-        val reference = messagesReference.child(userId).child(chatId)
+        val reference = messagesReference.child(userId)
+            .child(chatId)
         val updates = hashMapOf<String, Any>(
             "chatLastMessage" to message,
             "chatLastMessageTimestamp" to time
@@ -284,12 +400,10 @@ class FirebaseRepoImpl @Inject constructor(
     }
 
     override fun changeLastMessageInChatMatesRoom(
-        chatMateId: String,
-        chatId: String,
-        message: String,
-        time: String
+        chatMateId: String, chatId: String, message: String, time: String
     ): Task<Void> {
-        val reference = messagesReference.child(chatMateId).child(chatId)
+        val reference = messagesReference.child(chatMateId)
+            .child(chatId)
         val updates = hashMapOf<String, Any>(
             "chatLastMessage" to message,
             "chatLastMessageTimestamp" to time
@@ -301,7 +415,8 @@ class FirebaseRepoImpl @Inject constructor(
         val seen = hashMapOf<String, Any>(
             "seen" to true,
         )
-        val userChatReference = messagesReference.child(userId).child(chatId)
+        val userChatReference = messagesReference.child(userId)
+            .child(chatId)
         return userChatReference.updateChildren(seen)
     }
 
@@ -309,7 +424,8 @@ class FirebaseRepoImpl @Inject constructor(
         val unSeen = hashMapOf<String, Any>(
             "seen" to false,
         )
-        val receiverChatReference = messagesReference.child(receiverId).child(chatId)
+        val receiverChatReference = messagesReference.child(receiverId)
+            .child(chatId)
         return receiverChatReference.updateChildren(unSeen)
     }
 
@@ -317,6 +433,7 @@ class FirebaseRepoImpl @Inject constructor(
         val map = hashMapOf<String, Any?>(
             "online" to onlineData,
         )
-        return userCollection.document(userId).update(map)
+        return userCollection.document(userId)
+            .update(map)
     }
 }

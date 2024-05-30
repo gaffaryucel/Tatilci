@@ -327,13 +327,13 @@
                         android:id="@+id/textDetailProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{user.host.role}"
+                        android:text="Villa Sahibi"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="@id/imageProfile"
                         app:layout_constraintStart_toStartOf="@id/layoutVillaDetailUserName"
                         app:layout_constraintTop_toBottomOf="@id/layoutVillaDetailUserName"
                         tools:ignore="HardcodedText"
-                        tools:text="Villayı kiralayan ünvanı" />
+                        tools:text="@{user.host.role}" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/buttonDetailChat"

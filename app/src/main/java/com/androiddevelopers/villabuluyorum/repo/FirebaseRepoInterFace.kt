@@ -58,6 +58,7 @@ interface FirebaseRepoInterFace {
     fun getAllFinishedReservations(userId: String,today : String): Task<QuerySnapshot>
     fun getAllReviewsByUserId(userId: String): Task<QuerySnapshot>
     fun getReviewByReservationId(reservationId: String): Task<QuerySnapshot>
+    fun getAllReviewsByVillaId(villaId: String): Task<QuerySnapshot>
 
     //Firestore - Notification
     //Set
@@ -74,6 +75,8 @@ interface FirebaseRepoInterFace {
         userId: String,
         villaId: String,
     ): UploadTask
+
+    fun deleteImageFromFirebaseStorage(url: String): Task<Void>
 
     fun uploadUserProfilePhoto(
         uri: Uri,

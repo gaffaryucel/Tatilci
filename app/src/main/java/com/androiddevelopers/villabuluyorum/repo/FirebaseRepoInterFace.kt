@@ -100,6 +100,8 @@ interface FirebaseRepoInterFace {
         key: String,
     ): UploadTask
 
+    fun deleteImageFromFirebaseStorage(url: String): Task<Void>
+
     //Realtime Database - Chat
     fun createChatRoomForOwner(currentUserId: String, chat: ChatModel): Task<Void>
     fun createChatRoomForChatMate(userId: String, chat: ChatModel): Task<Void>

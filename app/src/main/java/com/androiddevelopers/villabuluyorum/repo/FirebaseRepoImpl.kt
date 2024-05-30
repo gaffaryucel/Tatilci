@@ -24,14 +24,14 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import okhttp3.ResponseBody
 import retrofit2.Response
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 class FirebaseRepoImpl @Inject constructor(
     private val auth: FirebaseAuth,
     firestore: FirebaseFirestore,
     database: FirebaseDatabase,
-    storage: FirebaseStorage,
+    private val storage: FirebaseStorage,
     private val notificationAPI: NotificationAPI
 ) : FirebaseRepoInterFace {
 
@@ -317,6 +317,10 @@ class FirebaseRepoImpl @Inject constructor(
             .child("${UUID.randomUUID()}.jpg")
             .putFile(uri)
 
+    }
+
+    override fun deleteImageFromFirebaseStorage(url: String): Task<Void> {
+        return storage.getReferenceFromUrl(url).delete()
     }
 
     // Storage - User

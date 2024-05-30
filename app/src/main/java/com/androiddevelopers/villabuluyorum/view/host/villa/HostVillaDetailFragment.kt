@@ -23,6 +23,7 @@ import com.androiddevelopers.villabuluyorum.util.showHostBottomNavigation
 import com.androiddevelopers.villabuluyorum.viewmodel.user.villa.VillaDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+@Suppress("UNUSED_ANONYMOUS_PARAMETER")
 @AndroidEntryPoint
 class HostVillaDetailFragment : Fragment() {
     private val viewModel: VillaDetailViewModel by viewModels()
@@ -34,6 +35,13 @@ class HostVillaDetailFragment : Fragment() {
             .create()
     }
 
+    private val alertDialog: AlertDialog by lazy {
+        AlertDialog.Builder(requireContext())
+            .create()
+    }
+
+
+
     private val viewPagerAdapter: ViewPagerAdapterForVillaDetail by lazy {
         ViewPagerAdapterForVillaDetail()
     }
@@ -43,6 +51,7 @@ class HostVillaDetailFragment : Fragment() {
     }
 
     private var villaId: String? = null
+    private var villaFromDB:Villa? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,9 +69,7 @@ class HostVillaDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHostVillaDetailBinding.inflate(
-            inflater,
-            container,
-            false
+            inflater, container, false
         )
         val view = binding.root
         return view
@@ -70,11 +77,9 @@ class HostVillaDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(
-            view,
-            savedInstanceState
+            view, savedInstanceState
         )
-        with(binding) {
-            //viewpager adapter ve indicatoru set ediyoruz
+        with(binding) { //viewpager adapter ve indicatoru set ediyoruz
             viewPagerVillaDetail.adapter = viewPagerAdapter
             indicatorVillaDetail.setViewPager(viewPagerVillaDetail)
         }
@@ -94,13 +99,33 @@ class HostVillaDetailFragment : Fragment() {
                                 villa = Villa(
                                     villaId = id
                                 )
-                            ),
-                            id
+                            ), id
                         )
                     Navigation.findNavController(binding.root)
                         .navigate(directions)
                 }
 
+            }
+
+            imageDelete.setOnClickListener {
+                with(alertDialog) {
+                    setTitle("Uyarı!")
+                    setMessage("Sistemde kayıtlı ilan bilgileri ve ilana ait resimler silinecek.\nBu işlem geri alınamaz silmek istediğinize emin misiniz?")
+                    setCancelable(false)
+                    setButton(
+                        AlertDialog.BUTTON_POSITIVE, "Evet"
+                    ) { dialog, which ->
+                        villaFromDB?.let { villa ->
+                            viewModel.deleteVillaAndImages(villa)
+                        }
+                    }
+                    setButton(
+                        AlertDialog.BUTTON_NEGATIVE, "Hayır"
+                    ) { dialog, which ->
+                        dialog.cancel()
+                    }
+                    show()
+                }
             }
         }
     }
@@ -130,6 +155,7 @@ class HostVillaDetailFragment : Fragment() {
 
                 liveDataFirebaseVilla.observe(owner) {
                     villa = it
+                    villaFromDB = it
 
                     it.propertyType?.let { type ->
                         textPropertyType.visibility = View.VISIBLE
@@ -167,8 +193,7 @@ class HostVillaDetailFragment : Fragment() {
                     it.otherImages?.toList()
                         ?.let { images ->
                             if (images.isNotEmpty()) {
-                                viewPagerAdapter.refreshList(images)
-                                //indicatoru viewpager yeni liste ile set ediyoruz
+                                viewPagerAdapter.refreshList(images) //indicatoru viewpager yeni liste ile set ediyoruz
                                 binding.indicatorVillaDetail.setViewPager(binding.viewPagerVillaDetail)
 
                                 binding.setViewPagerVisibility = true

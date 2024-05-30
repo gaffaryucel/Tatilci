@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
+import com.androiddevelopers.villabuluyorum.adapter.HostReviewAdapter
 import com.androiddevelopers.villabuluyorum.adapter.ViewPagerAdapterForVillaDetail
 import com.androiddevelopers.villabuluyorum.databinding.FragmentVillaDetailBinding
 import com.androiddevelopers.villabuluyorum.model.UserModel
@@ -30,16 +31,17 @@ class VillaDetailFragment : Fragment() {
     private val viewModel: VillaDetailViewModel by viewModels()
 
     private val errorDialog: AlertDialog by lazy {
-        AlertDialog.Builder(requireContext()).create()
+        AlertDialog.Builder(requireContext())
+            .create()
     }
 
     private val viewPagerAdapter: ViewPagerAdapterForVillaDetail by lazy {
         ViewPagerAdapterForVillaDetail()
     }
 
-    //private lateinit var geocoder: Geocoder
-
-    //private var geocoderLocation: List<Address> = listOf()
+    private val reviewAdapter: HostReviewAdapter by lazy {
+        HostReviewAdapter()
+    }
 
     private var villaId: String? = null
     private var myUser: UserModel? = null
@@ -49,15 +51,22 @@ class VillaDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         val args: VillaDetailFragmentArgs by navArgs()
-        val id = args.villaId
+        villaId = args.villaId
 
-        viewModel.getVillaByIdFromFirestore(id)
+        villaId?.let { id ->
+            viewModel.getVillaByIdFromFirestore(id)
+            viewModel.getAllReviewsByVillaId(id)
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentVillaDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentVillaDetailBinding.inflate(
+            inflater,
+            container,
+            false
+        )
 
         val view = binding.root
 
@@ -72,7 +81,10 @@ class VillaDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(
+            view,
+            savedInstanceState
+        )
 
         with(binding) {
             //viewpager adapter ve indicatoru set ediyoruz
@@ -80,11 +92,21 @@ class VillaDetailFragment : Fragment() {
             indicatorVillaDetail.setViewPager(viewPagerVillaDetail)
 
             buttonDetailRent.setOnClickListener {
-                villaId?.let { id -> gotoReservation(id, it) }
+                villaId?.let { id ->
+                    gotoReservation(
+                        id,
+                        it
+                    )
+                }
             }
 
             userInfoLayout.setOnClickListener {
-                hostId?.let { id -> goToOwnerProfile(id, it) }
+                hostId?.let { id ->
+                    goToOwnerProfile(
+                        id,
+                        it
+                    )
+                }
             }
         }
 
@@ -144,7 +166,6 @@ class VillaDetailFragment : Fragment() {
 
                 liveDataFirebaseVilla.observe(owner) {
                     villa = it
-                    villaId = it.villaId
                     hostId = it.hostId
 
                     setViewsVillaDetail(it)
@@ -155,17 +176,18 @@ class VillaDetailFragment : Fragment() {
 
                     // getGeocoderLocation(it)
 
-                    it.otherImages?.toList()?.let { images ->
-                        if (images.isNotEmpty()) {
-                            viewPagerAdapter.refreshList(images)
-                            //indicatoru viewpager yeni liste ile set ediyoruz
-                            binding.indicatorVillaDetail.setViewPager(binding.viewPagerVillaDetail)
+                    it.otherImages?.toList()
+                        ?.let { images ->
+                            if (images.isNotEmpty()) {
+                                viewPagerAdapter.refreshList(images)
+                                //indicatoru viewpager yeni liste ile set ediyoruz
+                                binding.indicatorVillaDetail.setViewPager(binding.viewPagerVillaDetail)
 
-                            binding.setViewPagerVisibility = true
-                        } else {
-                            binding.setViewPagerVisibility = false
-                        }
-                    } ?: run {
+                                binding.setViewPagerVisibility = true
+                            } else {
+                                binding.setViewPagerVisibility = false
+                            }
+                        } ?: run {
                         binding.setViewPagerVisibility = false
                     }
                 }
@@ -173,6 +195,18 @@ class VillaDetailFragment : Fragment() {
                 liveDataFirebaseUser.observe(owner) {
                     user = it
                     myUser = it
+                }
+
+                liveDataFirebaseUserReviews.observe(owner) { reviewList ->
+                    recyclerViewComments.adapter = reviewAdapter
+                    reviewAdapter.reviewList = reviewList.toList()
+
+                    progressBarComments.visibility = View.GONE
+                    if (reviewList.isEmpty()) {
+                        textNoComments.visibility = View.VISIBLE
+                    } else {
+                        recyclerViewComments.visibility = View.VISIBLE
+                    }
                 }
             }
         }
@@ -245,15 +279,18 @@ class VillaDetailFragment : Fragment() {
     private fun gotoReservation(id: String, view: View) {
         val action =
             VillaDetailFragmentDirections.actionVillaDetailFragmentToCreateReservationFragment(
-                id, myUser?.token.toString()
+                id,
+                myUser?.token.toString()
             )
-        Navigation.findNavController(view).navigate(action)
+        Navigation.findNavController(view)
+            .navigate(action)
     }
 
     private fun goToOwnerProfile(id: String, view: View) {
         val action =
             VillaDetailFragmentDirections.actionVillaDetailFragmentToUserProfileFragment(id)
-        Navigation.findNavController(view).navigate(action)
+        Navigation.findNavController(view)
+            .navigate(action)
     }
 
     override fun onResume() {

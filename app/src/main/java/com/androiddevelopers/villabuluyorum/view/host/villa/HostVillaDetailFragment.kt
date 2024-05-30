@@ -78,6 +78,8 @@ class HostVillaDetailFragment : Fragment() {
             viewPagerVillaDetail.adapter = viewPagerAdapter
             indicatorVillaDetail.setViewPager(viewPagerVillaDetail)
         }
+
+        //TODO: ilan silmek için butonu aktif et
         setClickItems()
         observeLiveData(viewLifecycleOwner)
     }

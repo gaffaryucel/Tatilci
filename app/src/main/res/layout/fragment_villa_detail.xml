@@ -339,7 +339,7 @@
                         app:layout_constraintStart_toStartOf="@id/layoutVillaDetailUserName"
                         app:layout_constraintTop_toBottomOf="@id/layoutVillaDetailUserName"
                         tools:ignore="HardcodedText"
-                        tools:text="Villayı kiralayan ünvanı" />
+                        tools:text="@{user.host.role}" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/buttonDetailChat"

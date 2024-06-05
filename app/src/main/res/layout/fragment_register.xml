@@ -40,13 +40,12 @@
 
 
         <TextView
-            android:layout_marginBottom="5dp"
-            android:text="Lüks villalarda kazançlı yatırım fırsatları sizi bekliyor. Hemen kaydolun ve geleceğe güvenle bakın."
-            android:textColor="@color/normal_text_color"
-            android:textSize="16sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Tatil fırsatlarını keşfetmek ve planlarınızı kişiselleştirmek için hemen kayıt olun!"
+            android:textColor="@color/normal_text_color"
+            android:textSize="16sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_marginHorizontal="5dp"

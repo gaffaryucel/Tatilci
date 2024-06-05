@@ -11,7 +11,7 @@
         android:id="@+id/ivEntry"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/entry"
+        android:src="@drawable/a"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/layout_auth_select"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,7 +20,7 @@
 
     <ImageView
         style="@style/TranslucentBackgroundStyle"
-        app:layout_constraintTop_toBottomOf="@+id/gl2"
+        app:layout_constraintTop_toBottomOf="@+id/gl3"
         app:layout_constraintBottom_toTopOf="@id/layout_auth_select"
         android:layout_width="match_parent"
         android:layout_height="0dp"/>

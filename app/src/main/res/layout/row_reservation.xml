@@ -5,7 +5,7 @@
     <data>
         <variable
             name="reservation"
-            type="com.androiddevelopers.villabuluyorum.model.ReservationModel" />
+            type="com.izmirsoftware.tatilci.model.ReservationModel" />
 
     </data>
     <androidx.cardview.widget.CardView

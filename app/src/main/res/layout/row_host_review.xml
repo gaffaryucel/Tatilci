@@ -6,7 +6,7 @@
     <data>
         <variable
             name="review"
-            type="com.androiddevelopers.villabuluyorum.model.ReviewModel" />
+            type="com.izmirsoftware.tatilci.model.ReviewModel" />
     </data>
 
     <androidx.cardview.widget.CardView

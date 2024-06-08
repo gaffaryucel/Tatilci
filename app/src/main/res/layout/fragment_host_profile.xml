@@ -14,7 +14,7 @@
             type="String" />
         <variable
             name="user"
-            type="com.androiddevelopers.villabuluyorum.model.UserModel" />
+            type="com.izmirsoftware.tatilci.model.UserModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         tools:context=".view.user.profile.ProfileFragment"

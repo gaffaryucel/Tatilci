@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_host_villa"
-        android:name="com.androiddevelopers.villabuluyorum.view.host.villa.HostVillaFragment"
+        android:name="com.izmirsoftware.tatilci.view.host.villa.HostVillaFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_host_villa">
         <action
@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/navigation_host_reservation"
-        android:name="com.androiddevelopers.villabuluyorum.view.host.reservation.HostReservationFragment"
+        android:name="com.izmirsoftware.tatilci.view.host.reservation.HostReservationFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_host_reservation">
         <action
@@ -62,7 +62,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_host_message"
-        android:name="com.androiddevelopers.villabuluyorum.view.host.message.HostMessageFragment"
+        android:name="com.izmirsoftware.tatilci.view.host.message.HostMessageFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_host_message">
         <argument
@@ -71,7 +71,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_host_profile"
-        android:name="com.androiddevelopers.villabuluyorum.view.host.profile.HostProfileFragment"
+        android:name="com.izmirsoftware.tatilci.view.host.profile.HostProfileFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_host_profile" >
         <action
@@ -108,7 +108,7 @@
 
     <fragment
         android:id="@+id/hostReservationDetailsFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.host.reservation.HostReservationDetailsFragment"
+        android:name="com.izmirsoftware.tatilci.view.host.reservation.HostReservationDetailsFragment"
         tools:layout="@layout/fragment_host_reservation_details">
         <argument
             android:name="reservation_id"
@@ -123,7 +123,7 @@
     </fragment>
     <fragment
         android:id="@+id/reservationApprovalFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.host.reservation.ReservationApprovalFragment"
+        android:name="com.izmirsoftware.tatilci.view.host.reservation.ReservationApprovalFragment"
         android:label="fragment_reservation_approval"
         tools:layout="@layout/fragment_reservation_approval">
         <argument
@@ -141,7 +141,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_host_notification"
-        android:name="com.androiddevelopers.villabuluyorum.view.host.notification.HostNotificationFragment"
+        android:name="com.izmirsoftware.tatilci.view.host.notification.HostNotificationFragment"
         android:label="fragment_host_notification"
         tools:layout="@layout/fragment_host_notification">
         <action
@@ -163,7 +163,7 @@
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/hostVillaCreateEnterFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreate1EnterFragment"
+        android:name="com.izmirsoftware.tatilci.view.host.create.HostVillaCreate1EnterFragment"
         android:label="fragment_host_villa_create_enter"
         tools:layout="@layout/fragment_host_villa_create_1_enter">
         <action
@@ -175,7 +175,7 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
             android:name="createVillaPageArguments"
-            app:argType="com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel" />
+            app:argType="com.izmirsoftware.tatilci.model.VillaPageArgumentsModel" />
         <argument
             android:name="villaId"
             app:argType="string"
@@ -183,12 +183,12 @@
     </fragment>
     <fragment
         android:id="@+id/hostVillaCreateFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreate2ImagesFragment"
+        android:name="com.izmirsoftware.tatilci.view.host.create.HostVillaCreate2ImagesFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_host_villa_create_2_images">
         <argument
             android:name="createVillaPageArguments"
-            app:argType="com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel" />
+            app:argType="com.izmirsoftware.tatilci.model.VillaPageArgumentsModel" />
         <action
             android:id="@+id/action_hostVillaCreateFragment_to_hostVillaCreateDetailFragment"
             app:destination="@id/hostVillaCreateDetailFragment"
@@ -209,12 +209,12 @@
 
     <fragment
         android:id="@+id/hostVillaCreateFacilitiesFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreate4FacilitiesFragment"
+        android:name="com.izmirsoftware.tatilci.view.host.create.HostVillaCreate4FacilitiesFragment"
         android:label="fragment_host_villa_create_facilities"
         tools:layout="@layout/fragment_host_villa_create_4_facilities">
         <argument
             android:name="createVillaPageArguments"
-            app:argType="com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel" />
+            app:argType="com.izmirsoftware.tatilci.model.VillaPageArgumentsModel" />
         <action
             android:id="@+id/action_hostVillaCreateFacilitiesFragment_to_navigation_host_villa_create_enter"
             app:destination="@id/hostVillaCreateEnterFragment"
@@ -227,7 +227,7 @@
     </fragment>
     <fragment
         android:id="@+id/hostVillaCreateDetailFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.host.create.HostVillaCreate3DetailFragment"
+        android:name="com.izmirsoftware.tatilci.view.host.create.HostVillaCreate3DetailFragment"
         android:label="fragment_host_villa_create_detail"
         tools:layout="@layout/fragment_host_villa_create_3_detail">
         <action
@@ -239,7 +239,7 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
             android:name="createVillaPageArguments"
-            app:argType="com.androiddevelopers.villabuluyorum.model.VillaPageArgumentsModel" />
+            app:argType="com.izmirsoftware.tatilci.model.VillaPageArgumentsModel" />
         <action
             android:id="@+id/action_hostVillaCreateDetailFragment_to_navigation_host_villa_create_enter"
             app:destination="@id/hostVillaCreateEnterFragment"
@@ -253,7 +253,7 @@
     </fragment>
     <fragment
         android:id="@+id/hostChatFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.host.chat.HostChatFragment"
+        android:name="com.izmirsoftware.tatilci.view.host.chat.HostChatFragment"
         android:label="fragment_host_chat"
         tools:layout="@layout/fragment_host_chat">
         <action
@@ -266,7 +266,7 @@
     </fragment>
     <fragment
         android:id="@+id/hostVillaDetailFragment"
-        android:name="com.androiddevelopers.villabuluyorum.view.host.villa.HostVillaDetailFragment"
+        android:name="com.izmirsoftware.tatilci.view.host.villa.HostVillaDetailFragment"
         android:label="fragment_host_villa_detail"
         tools:layout="@layout/fragment_host_villa_detail">
         <argument
@@ -282,7 +282,7 @@
     </fragment>
     <fragment
         android:id="@+id/contactUsFragment2"
-        android:name="com.androiddevelopers.villabuluyorum.view.user.profile.ContactUsFragment"
+        android:name="com.izmirsoftware.tatilci.view.user.profile.ContactUsFragment"
         android:label="fragment_contact_us"
         tools:layout="@layout/fragment_contact_us" />
 

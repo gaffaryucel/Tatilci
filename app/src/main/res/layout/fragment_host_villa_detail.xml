@@ -19,7 +19,7 @@
 
         <variable
             name="villa"
-            type="com.androiddevelopers.villabuluyorum.model.villa.Villa" />
+            type="com.izmirsoftware.tatilci.model.villa.Villa" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

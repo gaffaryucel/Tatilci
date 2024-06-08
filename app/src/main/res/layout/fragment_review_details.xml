@@ -6,10 +6,10 @@
     <data>
         <variable
             name="reservation"
-            type="com.androiddevelopers.villabuluyorum.model.ReservationModel" />
+            type="com.izmirsoftware.tatilci.model.ReservationModel" />
         <variable
             name="user"
-            type="com.androiddevelopers.villabuluyorum.model.UserModel" />
+            type="com.izmirsoftware.tatilci.model.UserModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

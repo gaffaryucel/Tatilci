@@ -100,40 +100,35 @@ Tatilci, tatil planlamanızı kolay ve etkili bir şekilde yapmanıza yardımcı
 ## Uygulama Dizaynı
 
 <p float="left">
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/ef37c571-803a-44cc-bc72-235c287151fb" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/16afc317-bf94-4232-b2bd-522bf5305e01" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/b1c43975-419d-4517-a1a9-5198f634ff7f" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/cca936f2-eac7-451c-ad46-c9ab1db3823b" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/a7a091f0-44a5-44d3-bb80-109a98005338" width="200" />
+ <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/d4c5d997-bcf3-4794-ae00-5df962137a82" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/14c2bdb3-6c5b-463a-9151-a0845cbc273b" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/b1c43975-419d-4517-a1a9-5198f634ff7f" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/cca936f2-eac7-451c-ad46-c9ab1db3823b" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/a7a091f0-44a5-44d3-bb80-109a98005338" width="160" />
 </p>
 
 <p float="left">
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/1fc435b2-eeef-406a-8ade-6cc852763c57" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/c81f8279-ee4f-4c9a-9622-aa39fca2693a" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/56d958b6-6df7-4e9c-bb04-3ad4a4d2599f" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/df6fcaf4-479c-4d3e-968a-100dfe7c0547" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/ccda30ee-d906-4486-a719-c92ddee196e8" width="200" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/f71e0fbe-ce4f-48d4-8b4e-b90373e4c613" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/df6fcaf4-479c-4d3e-968a-100dfe7c0547" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/1fc435b2-eeef-406a-8ade-6cc852763c57" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/c81f8279-ee4f-4c9a-9622-aa39fca2693a" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/56d958b6-6df7-4e9c-bb04-3ad4a4d2599f" width="160" />
 </p>
 
 <p float="left">
-  
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/f71e0fbe-ce4f-48d4-8b4e-b90373e4c613" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/7dfee80f-8d4d-4121-b82b-8e401a361e5b" width="200" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/3cd0c2b3-7335-4f83-8c88-e7efb844d77b" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/7dfee80f-8d4d-4121-b82b-8e401a361e5b" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/704c35e4-1263-4cb8-9cca-2a32c15fec97" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/9f45be1d-b317-47e1-b7b2-fe2e8f9064d4" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/d752f7b1-8876-4212-b6ee-e5134e1f4128" width="160" />
 </p>
 
 <p float="left">
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/3cd0c2b3-7335-4f83-8c88-e7efb844d77b" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/9f45be1d-b317-47e1-b7b2-fe2e8f9064d4" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/d752f7b1-8876-4212-b6ee-e5134e1f4128" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/1c838e9a-0ee7-46ff-b11c-291740dda1fe" width="200" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/d62cdeb8-e093-4a3e-8321-f60948f771a1" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/1c838e9a-0ee7-46ff-b11c-291740dda1fe" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/05e7860b-16f5-4e7a-bafa-807a874f18b1" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/11cf04bf-b28b-4905-a335-6862fe0e2ca2" width="160" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/b764b9c2-079b-4771-a62e-0b1fb4242d05" width="160" />  
 </p>
-
-<p float="left">
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/fd926762-1ce4-4f66-9168-1d0c6637e1b7" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/b764b9c2-079b-4771-a62e-0b1fb4242d05" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/05e7860b-16f5-4e7a-bafa-807a874f18b1" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/9875501e-addc-47f7-9bf7-d344cb797a3b" width="200" />
-</p>
-
 
 

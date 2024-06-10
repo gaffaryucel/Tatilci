@@ -97,6 +97,32 @@ Tatilci, tatil planlamanızı kolay ve etkili bir şekilde yapmanıza yardımcı
 - **Mockito**: Birim testlerinde mocking framework.
 - **Gson**: JSON parsing.
 
+![IMG-20240607-WA0004](https://github.com/gaffaryucel/Tatilci/assets/101498366/ef37c571-803a-44cc-bc72-235c287151fb)
+![IMG-20240607-WA0014](https://github.com/gaffaryucel/Tatilci/assets/101498366/16afc317-bf94-4232-b2bd-522bf5305e01)
+![IMG-20240607-WA0001](https://github.com/gaffaryucel/Tatilci/assets/101498366/b1c43975-419d-4517-a1a9-5198f634ff7f)
+![WhatsApp Görsel 2024-06-07 saat 13 02 12_60597340](https://github.com/gaffaryucel/Tatilci/assets/101498366/cca936f2-eac7-451c-ad46-c9ab1db3823b)
+![WhatsApp Görsel 2024-06-07 saat 13 02 12_8160a877](https://github.com/gaffaryucel/Tatilci/assets/101498366/a7a091f0-44a5-44d3-bb80-109a98005338)
+![IMG-20240607-WA0006](https://github.com/gaffaryucel/Tatilci/assets/101498366/1fc435b2-eeef-406a-8ade-6cc852763c57)
+![IMG-20240607-WA0005](https://github.com/gaffaryucel/Tatilci/assets/101498366/c81f8279-ee4f-4c9a-9622-aa39fca2693a)
+![IMG-20240607-WA0002](https://github.com/gaffaryucel/Tatilci/assets/101498366/56d958b6-6df7-4e9c-bb04-3ad4a4d2599f)
+![IMG-20240607-WA0003](https://github.com/gaffaryucel/Tatilci/assets/101498366/df6fcaf4-479c-4d3e-968a-100dfe7c0547)
+![IMG-20240607-WA0008](https://github.com/gaffaryucel/Tatilci/assets/101498366/ccda30ee-d906-4486-a719-c92ddee196e8)
+![IMG-20240607-WA0016](https://github.com/gaffaryucel/Tatilci/assets/101498366/f71e0fbe-ce4f-48d4-8b4e-b90373e4c613)
+![IMG-20240607-WA0009](https://github.com/gaffaryucel/Tatilci/assets/101498366/7dfee80f-8d4d-4121-b82b-8e401a361e5b)
+![IMG-20240607-WA0015](https://github.com/gaffaryucel/Tatilci/assets/101498366/3cd0c2b3-7335-4f83-8c88-e7efb844d77b)
+![IMG-20240607-WA0012](https://github.com/gaffaryucel/Tatilci/assets/101498366/9f45be1d-b317-47e1-b7b2-fe2e8f9064d4)
+![IMG-20240607-WA0013](https://github.com/gaffaryucel/Tatilci/assets/101498366/d752f7b1-8876-4212-b6ee-e5134e1f4128)
+![IMG-20240607-WA0020](https://github.com/gaffaryucel/Tatilci/assets/101498366/1c838e9a-0ee7-46ff-b11c-291740dda1fe)
+![IMG-20240607-WA0019](https://github.com/gaffaryucel/Tatilci/assets/101498366/fd926762-1ce4-4f66-9168-1d0c6637e1b7)
+![IMG-20240607-WA0017](https://github.com/gaffaryucel/Tatilci/assets/101498366/b764b9c2-079b-4771-a62e-0b1fb4242d05)
+![IMG-20240607-WA0018](https://github.com/gaffaryucel/Tatilci/assets/101498366/05e7860b-16f5-4e7a-bafa-807a874f18b1)
+![IMG-20240607-WA0021](https://github.com/gaffaryucel/Tatilci/assets/101498366/9875501e-addc-47f7-9bf7-d344cb797a3b)
 
-![WhatsApp Görsel 2024-06-07 saat 13 02 12_60597340](https://github.com/gaffaryucel/Tatilci/assets/101498366/1a445afb-0976-4c9c-b183-a70bb238c881)
-![WhatsApp Görsel 2024-06-07 saat 13 02 12_8160a877](https://github.com/gaffaryucel/Tatilci/assets/101498366/0becd7d1-9949-4605-8897-8e5dcd0d522c)
+
+
+
+
+
+
+
+

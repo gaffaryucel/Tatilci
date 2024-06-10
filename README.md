@@ -104,18 +104,19 @@ Tatilci, tatil planlamanızı kolay ve etkili bir şekilde yapmanıza yardımcı
   <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/16afc317-bf94-4232-b2bd-522bf5305e01" width="200" />
   <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/b1c43975-419d-4517-a1a9-5198f634ff7f" width="200" />
   <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/cca936f2-eac7-451c-ad46-c9ab1db3823b" width="200" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/a7a091f0-44a5-44d3-bb80-109a98005338" width="200" />
 </p>
 
 <p float="left">
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/a7a091f0-44a5-44d3-bb80-109a98005338" width="200" />
   <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/1fc435b2-eeef-406a-8ade-6cc852763c57" width="200" />
   <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/c81f8279-ee4f-4c9a-9622-aa39fca2693a" width="200" />
   <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/56d958b6-6df7-4e9c-bb04-3ad4a4d2599f" width="200" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/df6fcaf4-479c-4d3e-968a-100dfe7c0547" width="200" />
+  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/ccda30ee-d906-4486-a719-c92ddee196e8" width="200" />
 </p>
 
 <p float="left">
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/df6fcaf4-479c-4d3e-968a-100dfe7c0547" width="200" />
-  <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/ccda30ee-d906-4486-a719-c92ddee196e8" width="200" />
+  
   <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/f71e0fbe-ce4f-48d4-8b4e-b90373e4c613" width="200" />
   <img src="https://github.com/gaffaryucel/Tatilci/assets/101498366/7dfee80f-8d4d-4121-b82b-8e401a361e5b" width="200" />
 </p>

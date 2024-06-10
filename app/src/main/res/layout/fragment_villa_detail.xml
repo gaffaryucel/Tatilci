@@ -23,11 +23,11 @@
 
         <variable
             name="villa"
-            type="com.androiddevelopers.villabuluyorum.model.villa.Villa" />
+            type="com.izmirsoftware.tatilci.model.villa.Villa" />
 
         <variable
             name="user"
-            type="com.androiddevelopers.villabuluyorum.model.UserModel" />
+            type="com.izmirsoftware.tatilci.model.UserModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

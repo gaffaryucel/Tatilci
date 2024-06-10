@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace 'com.androiddevelopers.villabuluyorum'
+    namespace 'com.izmirsoftware.tatilci'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.androiddevelopers.villabuluyorum"
+        applicationId "com.izmirsoftware.tatilci"
         minSdk 24
         targetSdk 34
         versionCode 1

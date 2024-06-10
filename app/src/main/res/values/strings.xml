@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">Villabuluyorum</string>
+    <string name="app_name">Tatilci</string>
     <string name="error_text">Hata : Tekrar deneyin</string>
     <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
     <string name="title_activity_host_bottom_navigation">HostBottomNavigationActivity</string>
     <string name="title_home">Home</string>
-    <string name="become_homeowner">Ev sahibi olmanın keyfini yaşayın ve evinizi Villabuluyorum uygulamasında kiraya vererek ek gelir elde edin! Tatilciler için unutulmaz bir konaklama deneyimi sunun ve kazancınızı artırın. Haydi, evinizi Villabuluyoruma ekleyin ve mülkünüzü değerlendirin!</string>
+    <string name="become_homeowner">Ev sahibi olmanın keyfini yaşayın ve evinizi Tatilci uygulamasında kiraya vererek ek gelir elde edin! Tatilciler için unutulmaz bir konaklama deneyimi sunun ve kazancınızı artırın. Haydi, evinizi Tatilci ekleyin ve mülkünüzü değerlendirin!</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_notifications">Notifications</string>
     <string name="entry_description">Uygun fiyatlarla mükemmel bir villa satın alın veya kiralayın, hayalinizdeki tatilin yanı sıra kazançlı bir yatırım fırsatının keyfini çıkarın!</string>
-    <string name="i_accept_reservation">Rezervasyon Yap butonuna basarak, ev sahibinin ev kurallarını, misafirler için temel kuralları, Villabuluyorum uygulamasının yeniden rezervasyon ve iade politikasını kabul ediyorum. Ayrıca, eğer bir hasar olursa Villabuluyorum uygulamasının ödeme tahsil edebileceğini kabul ediyorum</string>
+    <string name="i_accept_reservation">Rezervasyon Yap butonuna basarak, ev sahibinin ev kurallarını, misafirler için temel kuralları, Tatilci uygulamasının yeniden rezervasyon ve iade politikasını kabul ediyorum. Ayrıca, eğer bir hasar olursa Tatilci uygulamasının ödeme tahsil edebileceğini kabul ediyorum</string>
     <string name="i_accept_privacy_policy">Güncellenmiş Hizmet Şartları ve Ödeme Hizmetleri Şartlarına da onay veriyorum ve Gizlilik Politikasını kabul ediyorum</string>
     <string name="payment_details">Villbuluyorum uygulamasında kiralama işlemleri sırasında herhangi bir ek ücret alınmamaktadır. Tüm ödemeniz, sadece tatiliniz için kullanılmaktadır ve ek hizmet bedeli ödemezsiniz. Ödeme işlemleri, mülk sahibinin belirlediği güvenli ve doğrulanmış yöntemlerle gerçekleştirilmektedir, bu da ödeme sürecinin güvenli ve kolay olmasını sağlar. Vill Buluyorum olarak, müşterilerimizin tatil deneyimlerini en iyi şekilde yaşamalarını sağlamak için ödeme güvenliğini en yüksek seviyede tutuyoruz.</string>
     <string name="accept_reservation_rules">Rezervasyonu onayladığınızda, belirtilen tarihler arasında bu mülk için bir rezervasyon oluşturulacaktır. İptal edilene veya rezervasyon süresi dolana kadar bu mülk için başka bir rezervasyon oluşturulmayacağını onaylıyor musunuz?</string>
